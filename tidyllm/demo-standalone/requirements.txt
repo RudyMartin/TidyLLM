@@ -1,0 +1,29 @@
+# Minimal dependencies for TidyLLM Enhanced Demo Systems
+# Standalone package - no external dependencies
+
+# Core Python packages (usually available)
+# No external packages required - all systems are self-contained
+
+# Optional: For enhanced system monitoring (if available)
+# psutil>=5.8.0  # Uncomment if psutil is available for system capacity monitoring
+
+# Optional: For YAML configuration (if available)
+# pyyaml>=6.0    # Uncomment if pyyaml is available for config.yaml support
+
+# Visual Layer Dependencies (for web interface)
+streamlit>=1.28.0
+plotly>=5.15.0
+pandas>=1.5.0
+
+# Optional: For enhanced system monitoring (if available)
+# psutil>=5.8.0  # Uncomment if psutil is available for system capacity monitoring
+
+# Optional: For YAML configuration (if available)
+# pyyaml>=6.0    # Uncomment if pyyaml is available for config.yaml support
+
+# Note: This demo package is designed to be completely self-contained
+# All enhanced demo systems are implemented as standalone Python modules
+# The visual layer adds a beautiful web interface using Streamlit
+
+# Optional: Database support (for PostgreSQL connection)
+# psycopg2-binary>=2.9.0  # Uncomment if PostgreSQL database connection is desired

@@ -1,0 +1,2792 @@
+{
+  "by_date": {
+    "2025-09-05": [
+      {
+        "source": "C:\\Users\\marti\\github\\AWS_CREDENTIALS_SETUP.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\AWS_CREDENTIALS_SETUP.md",
+        "size": 2626,
+        "created": "2025-09-05T01:03:11.652453",
+        "modified": "2025-09-05T01:03:11.652453"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\CLEANUP_ACTION_PLAN.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\CLEANUP_ACTION_PLAN.md",
+        "size": 16604,
+        "created": "2025-09-05T06:59:27.490502",
+        "modified": "2025-09-05T06:59:27.490502"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\CLEANUP_COMPLETED.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\CLEANUP_COMPLETED.md",
+        "size": 9379,
+        "created": "2025-09-05T01:48:23.643821",
+        "modified": "2025-09-05T01:48:23.643821"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\CRITICAL_DESIGN_DECISIONS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\CRITICAL_DESIGN_DECISIONS.md",
+        "size": 10562,
+        "created": "2025-09-05T07:08:36.030352",
+        "modified": "2025-09-05T07:08:36.030352"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DROP_ZONE_TRACKING_DOCUMENTATION.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\DROP_ZONE_TRACKING_DOCUMENTATION.md",
+        "size": 15641,
+        "created": "2025-09-05T00:49:20.936146",
+        "modified": "2025-09-05T00:49:20.936146"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+        "size": 21427,
+        "created": "2025-09-05T01:09:57.853981",
+        "modified": "2025-09-05T01:09:57.853981"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\MASTER_AUDIT_SUMMARY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\MASTER_AUDIT_SUMMARY.md",
+        "size": 8280,
+        "created": "2025-09-05T06:56:38.504672",
+        "modified": "2025-09-05T06:56:38.504672"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\RUDY_EMBEDDING_USAGE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\RUDY_EMBEDDING_USAGE.md",
+        "size": 3244,
+        "created": "2025-09-05T00:39:25.470896",
+        "modified": "2025-09-05T00:39:25.470896"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\Guidance-on-AWS-Sessions.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\Guidance-on-AWS-Sessions.md",
+        "size": 14167,
+        "created": "2025-09-05T01:11:35.040787",
+        "modified": "2025-09-05T01:11:35.040787"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\Session-Management-Migration-Map.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\Session-Management-Migration-Map.md",
+        "size": 9289,
+        "created": "2025-09-05T01:26:31.052462",
+        "modified": "2025-09-05T01:26:31.052462"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\drop_zones\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\README.md",
+        "size": 6639,
+        "created": "2025-09-05T01:46:04.994082",
+        "modified": "2025-09-05T01:46:04.994082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\README.md",
+        "size": 10854,
+        "created": "2025-09-05T00:16:09.165026",
+        "modified": "2025-09-05T00:16:09.165026"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+        "size": 10178,
+        "created": "2025-09-05T00:50:51.833040",
+        "modified": "2025-09-05T00:50:51.834045"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+        "size": 10217,
+        "created": "2025-09-05T00:50:54.581882",
+        "modified": "2025-09-05T00:50:54.581882"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+        "size": 10188,
+        "created": "2025-09-05T00:51:01.568285",
+        "modified": "2025-09-05T00:51:01.568285"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_report_real_test_016_1757051464.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_report_real_test_016_1757051464.md",
+        "size": 10162,
+        "created": "2025-09-05T00:51:04.018395",
+        "modified": "2025-09-05T00:51:04.018395"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\doc_organization_report.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\doc_organization_report.txt",
+        "size": 5942,
+        "created": "2025-09-05T07:09:51.440472",
+        "modified": "2025-09-05T07:10:07.042751"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\python_audit_report_20250905_020153.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\python_audit_report_20250905_020153.txt",
+        "size": 2774,
+        "created": "2025-09-05T02:01:53.820199",
+        "modified": "2025-09-05T02:01:53.820199"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\submodule_report_20250905_065401.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\submodule_report_20250905_065401.txt",
+        "size": 3875,
+        "created": "2025-09-05T06:54:01.060692",
+        "modified": "2025-09-05T06:54:01.060692"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\uncertain_investigation_report_20250905_065531.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\uncertain_investigation_report_20250905_065531.txt",
+        "size": 9753,
+        "created": "2025-09-05T06:55:31.390549",
+        "modified": "2025-09-05T06:55:31.390549"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\admin\\mlruns\\34\\1b0042555ed64ed086d7f6dbff48bf15\\artifacts\\temp_test_artifact.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\temp_test_artifact.txt",
+        "size": 20,
+        "created": "2025-09-05T01:00:06.028991",
+        "modified": "2025-09-05T01:00:05.714019"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\BOSS_DEMO_README.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\BOSS_DEMO_README.txt",
+        "size": 915,
+        "created": "2025-09-05T00:50:24.519887",
+        "modified": "2025-09-05T01:42:31.175496"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_summary_2019-02-26-Model-Validation_1757051451.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_summary_2019-02-26-Model-Validation_1757051451.txt",
+        "size": 843,
+        "created": "2025-09-05T00:50:51.834045",
+        "modified": "2025-09-05T00:50:51.834045"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_summary_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_summary_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.txt",
+        "size": 920,
+        "created": "2025-09-05T00:50:54.581882",
+        "modified": "2025-09-05T00:50:54.588408"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_summary_ModelRiskManagementPracticeNote_May2019_1757051461.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_summary_ModelRiskManagementPracticeNote_May2019_1757051461.txt",
+        "size": 867,
+        "created": "2025-09-05T00:51:01.577257",
+        "modified": "2025-09-05T00:51:01.588233"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\boss_demo_evidence\\results\\boss_demo_summary_real_test_016_1757051464.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-05\\boss_demo_summary_real_test_016_1757051464.txt",
+        "size": 815,
+        "created": "2025-09-05T00:51:04.018395",
+        "modified": "2025-09-05T00:51:04.028739"
+      }
+    ],
+    "2025-09-03": [
+      {
+        "source": "C:\\Users\\marti\\github\\CLI_COMMAND_CHAINING_ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\CLI_COMMAND_CHAINING_ARCHITECTURE.md",
+        "size": 35540,
+        "created": "2025-09-03T10:27:12.090158",
+        "modified": "2025-09-03T10:27:12.090158"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\CONTRIBUTING.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\CONTRIBUTING.md",
+        "size": 14508,
+        "created": "2025-09-03T11:42:44.356573",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\Current_Issues.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Current_Issues.md",
+        "size": 7165,
+        "created": "2025-09-03T10:31:38.584606",
+        "modified": "2025-09-03T10:31:38.584606"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DD-007_third_gateway_integration_analysis.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\DD-007_third_gateway_integration_analysis.md",
+        "size": 11160,
+        "created": "2025-09-03T09:26:05.804606",
+        "modified": "2025-09-03T09:25:52.700548"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DSPY_BUG_FIX_CHECKLIST.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\DSPY_BUG_FIX_CHECKLIST.md",
+        "size": 14782,
+        "created": "2025-09-03T08:37:49.068518",
+        "modified": "2025-09-03T08:37:49.074491"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DSPY_COMPETING_PATTERNS_ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\DSPY_COMPETING_PATTERNS_ANALYSIS.md",
+        "size": 11352,
+        "created": "2025-09-03T10:34:18.276141",
+        "modified": "2025-09-03T10:34:18.276141"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DSPY_DESIGN_QUESTIONS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\DSPY_DESIGN_QUESTIONS.md",
+        "size": 11167,
+        "created": "2025-09-03T08:55:23.843681",
+        "modified": "2025-09-03T08:55:23.843681"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\dspy_team_approach_to_competing_patterns.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\dspy_team_approach_to_competing_patterns.md",
+        "size": 10755,
+        "created": "2025-09-03T10:43:16.479775",
+        "modified": "2025-09-03T10:41:27.954209"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\dspy_team_Current_Issues.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\dspy_team_Current_Issues.md",
+        "size": 6138,
+        "created": "2025-09-03T10:43:16.474476",
+        "modified": "2025-09-03T10:42:04.254490"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\DSPY_TEAM_SYNC_ANALYSIS_AND_IMPLEMENTATION_PLAN.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\DSPY_TEAM_SYNC_ANALYSIS_AND_IMPLEMENTATION_PLAN.md",
+        "size": 17221,
+        "created": "2025-09-03T10:49:21.531840",
+        "modified": "2025-09-03T10:49:21.531840"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\gateway_architecture_diagram.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\gateway_architecture_diagram.md",
+        "size": 1238,
+        "created": "2025-09-03T11:42:32.734548",
+        "modified": "2025-09-03T11:42:32.734548"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\PRECISE_FIX_GUIDE_FOR_BASICS_TEAM.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\PRECISE_FIX_GUIDE_FOR_BASICS_TEAM.md",
+        "size": 14183,
+        "created": "2025-09-03T09:13:23.654509",
+        "modified": "2025-09-03T09:12:22.066413"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.md",
+        "size": 12642,
+        "created": "2025-09-03T11:48:33.614289",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\REPO_INITIALIZATION_GUIDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\REPO_INITIALIZATION_GUIDE.md",
+        "size": 14706,
+        "created": "2025-09-03T11:42:44.359447",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\RESEARCH_REPORT_TEMPLATE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\RESEARCH_REPORT_TEMPLATE.md",
+        "size": 10584,
+        "created": "2025-09-03T15:13:17.284031",
+        "modified": "2025-09-03T15:13:17.284031"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\SIMPLE_ARCHITECTURE_DIAGRAMS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\SIMPLE_ARCHITECTURE_DIAGRAMS.md",
+        "size": 5059,
+        "created": "2025-09-03T11:47:59.695537",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TIDYDSPY_ARCHITECTURE_CLEAN.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\TIDYDSPY_ARCHITECTURE_CLEAN.md",
+        "size": 6886,
+        "created": "2025-09-03T11:42:32.734548",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TIDYDSPY_ARCHITECTURE_DIAGRAMS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\TIDYDSPY_ARCHITECTURE_DIAGRAMS.md",
+        "size": 24627,
+        "created": "2025-09-03T11:37:27.731058",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TRIPLE_GATEWAY_ARCHITECTURE_PROPOSAL.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\TRIPLE_GATEWAY_ARCHITECTURE_PROPOSAL.md",
+        "size": 23897,
+        "created": "2025-09-03T09:10:57.154896",
+        "modified": "2025-09-03T09:10:57.154896"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\api-patterns.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\api-patterns.md",
+        "size": 4856,
+        "created": "2025-09-03T07:44:35.885192",
+        "modified": "2025-09-03T07:44:35.885192"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\CRITICAL-ARCHITECTURAL-ISSUES.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\CRITICAL-ARCHITECTURAL-ISSUES.md",
+        "size": 8505,
+        "created": "2025-09-03T07:55:09.274867",
+        "modified": "2025-09-03T07:55:09.274867"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\INDEX.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\INDEX.md",
+        "size": 2983,
+        "created": "2025-09-03T08:15:54.254777",
+        "modified": "2025-09-03T08:15:54.254777"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\model-providers.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\model-providers.md",
+        "size": 3515,
+        "created": "2025-09-03T07:44:16.824681",
+        "modified": "2025-09-03T07:44:16.824681"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.md",
+        "size": 1803,
+        "created": "2025-09-03T07:45:34.184509",
+        "modified": "2025-09-03T07:45:34.184509"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\TEMPLATE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\TEMPLATE.md",
+        "size": 1116,
+        "created": "2025-09-03T07:43:47.414448",
+        "modified": "2025-09-03T07:43:47.414448"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\TEST-CONSISTENCY-ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\TEST-CONSISTENCY-ANALYSIS.md",
+        "size": 5982,
+        "created": "2025-09-03T08:15:41.495546",
+        "modified": "2025-09-03T08:15:41.495546"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\design-decisions\\testing-assumptions.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\testing-assumptions.md",
+        "size": 6384,
+        "created": "2025-09-03T07:44:59.674524",
+        "modified": "2025-09-03T07:44:59.674524"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\COMPREHENSIVE_TEST_STATUS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\COMPREHENSIVE_TEST_STATUS.md",
+        "size": 4841,
+        "created": "2025-09-03T17:03:44.603793",
+        "modified": "2025-09-03T17:03:44.603793"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\PHASE_3_EVIDENCE_SUMMARY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\PHASE_3_EVIDENCE_SUMMARY.md",
+        "size": 7593,
+        "created": "2025-09-03T17:03:44.630173",
+        "modified": "2025-09-03T17:03:44.630173"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\VALIDATION_SUMMARY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\VALIDATION_SUMMARY.md",
+        "size": 4665,
+        "created": "2025-09-03T17:03:44.633968",
+        "modified": "2025-09-03T17:03:44.633968"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.md",
+        "size": 8052,
+        "created": "2025-09-03T11:42:32.745261",
+        "modified": "2025-09-03T11:42:32.745261"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\tests\\EVIDENCE\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.md",
+        "size": 3745,
+        "created": "2025-09-03T11:31:20.264477",
+        "modified": "2025-09-03T11:42:32.894598"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-docs\\ARCHITECTURE_INDEX.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ARCHITECTURE_INDEX.md",
+        "size": 6895,
+        "created": "2025-09-03T11:42:44.359447",
+        "modified": "2025-09-03T17:03:44.573880"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-docs\\CLI_COMMANDS_REFERENCE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\CLI_COMMANDS_REFERENCE.md",
+        "size": 14975,
+        "created": "2025-09-03T11:42:44.360452",
+        "modified": "2025-09-03T17:03:44.582876"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-docs\\ORCHESTRATOR_DEEP_DIVE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ORCHESTRATOR_DEEP_DIVE.md",
+        "size": 17516,
+        "created": "2025-09-03T11:42:44.360452",
+        "modified": "2025-09-03T17:03:44.583884"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_integration\\tidyllm\\INTEGRATION_WORKFLOW.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\INTEGRATION_WORKFLOW.md",
+        "size": 14994,
+        "created": "2025-09-03T11:42:44.360452",
+        "modified": "2025-09-03T17:03:44.585924"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-docs\\architecture\\COMPLETE_ARCHITECTURE_DIAGRAMS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\COMPLETE_ARCHITECTURE_DIAGRAMS.md",
+        "size": 5568,
+        "created": "2025-09-03T11:52:26.856416",
+        "modified": "2025-09-03T17:03:44.583884"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\.github\\ISSUE_TEMPLATE\\team_coordination.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\team_coordination.md",
+        "size": 1641,
+        "created": "2025-09-03T11:42:44.356573",
+        "modified": "2025-09-03T11:42:44.356573"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\test_research_paper.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\test_research_paper.txt",
+        "size": 2147,
+        "created": "2025-09-03T13:15:52.454565",
+        "modified": "2025-09-03T13:15:52.454565"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\requirements.txt",
+        "size": 1228,
+        "created": "2025-09-03T11:42:32.884362",
+        "modified": "2025-09-03T11:42:32.884362"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\test.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\test.txt",
+        "size": 0,
+        "created": "2025-09-03T11:42:32.874398",
+        "modified": "2025-09-03T11:42:32.874398"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\my_config\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\requirements.txt",
+        "size": 49,
+        "created": "2025-09-03T11:42:32.808477",
+        "modified": "2025-09-03T11:42:32.808477"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\temp_research\\ml_research_paper.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ml_research_paper.txt",
+        "size": 77,
+        "created": "2025-09-03T17:03:44.660131",
+        "modified": "2025-09-03T17:03:44.660131"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\temp_research\\sample_whitepaper.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\sample_whitepaper.txt",
+        "size": 85,
+        "created": "2025-09-03T17:03:44.660131",
+        "modified": "2025-09-03T17:03:44.660131"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tests\\temp_research\\tidyllm_methodology.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\tidyllm_methodology.txt",
+        "size": 91,
+        "created": "2025-09-03T17:03:44.660131",
+        "modified": "2025-09-03T17:03:44.661132"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\BOSS_STATUS_REPORT.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\BOSS_STATUS_REPORT.txt",
+        "size": 2160,
+        "created": "2025-09-03T17:38:44.764098",
+        "modified": "2025-09-03T17:38:44.764098"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\business_docs\\README.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.txt",
+        "size": 328,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\data_files\\README.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.txt",
+        "size": 326,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\reports\\README.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.txt",
+        "size": 321,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\research_papers\\README.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\README.txt",
+        "size": 333,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\016.pdf",
+        "size": 349352,
+        "created": "2025-09-03T12:43:46.454559",
+        "modified": "2025-09-03T12:43:24.556743"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\2019-02-26-Model-Validation.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\2019-02-26-Model-Validation.pdf",
+        "size": 1749376,
+        "created": "2025-09-03T12:43:46.474507",
+        "modified": "2025-09-03T12:43:24.907485"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\252994.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\252994.pdf",
+        "size": 2243920,
+        "created": "2025-09-03T12:43:46.484368",
+        "modified": "2025-09-03T12:43:24.574338"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\835920.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\835920.pdf",
+        "size": 861389,
+        "created": "2025-09-03T12:43:46.494996",
+        "modified": "2025-09-03T12:43:24.586087"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\abench_2506.11440v1.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\abench_2506.11440v1.pdf",
+        "size": 6108117,
+        "created": "2025-09-03T12:43:46.497580",
+        "modified": "2025-09-03T12:43:24.834450"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+        "size": 1738748,
+        "created": "2025-09-03T12:43:46.518105",
+        "modified": "2025-09-03T12:43:25.054385"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\bcbs_wp14.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\bcbs_wp14.pdf",
+        "size": 503262,
+        "created": "2025-09-03T12:43:46.524127",
+        "modified": "2025-09-03T12:43:24.604376"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+        "size": 2478172,
+        "created": "2025-09-03T12:43:46.524127",
+        "modified": "2025-09-03T12:43:25.074256"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Bookshelf_NBK543636.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Bookshelf_NBK543636.pdf",
+        "size": 189789,
+        "created": "2025-09-03T12:43:46.529100",
+        "modified": "2025-09-03T12:43:24.784523"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Canaries_BrynjolfssonChandarChen.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Canaries_BrynjolfssonChandarChen.pdf",
+        "size": 1678165,
+        "created": "2025-09-03T12:43:46.544359",
+        "modified": "2025-09-03T12:43:24.944248"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\distract_2302.00093v3.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\distract_2302.00093v3.pdf",
+        "size": 1369518,
+        "created": "2025-09-03T12:43:46.554250",
+        "modified": "2025-09-03T12:43:24.877950"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\finalSCORpaper.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\finalSCORpaper.pdf",
+        "size": 510147,
+        "created": "2025-09-03T12:43:46.558308",
+        "modified": "2025-09-03T12:43:24.604376"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\gem15_2403.05530v5.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\gem15_2403.05530v5.pdf",
+        "size": 7184542,
+        "created": "2025-09-03T12:43:46.584257",
+        "modified": "2025-09-03T12:43:24.764434"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\instructions_validation_reporting_credit_risk.en.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\instructions_validation_reporting_credit_risk.en.pdf",
+        "size": 1452271,
+        "created": "2025-09-03T12:43:46.592109",
+        "modified": "2025-09-03T12:43:25.036470"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\investment-model-validation.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\investment-model-validation.pdf",
+        "size": 1567533,
+        "created": "2025-09-03T12:43:46.607845",
+        "modified": "2025-09-03T12:43:24.924176"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\longmem_2410.10813v2.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\longmem_2410.10813v2.pdf",
+        "size": 749169,
+        "created": "2025-09-03T12:43:46.624450",
+        "modified": "2025-09-03T12:43:24.864537"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\MH0026-tool-for-model-validation.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\MH0026-tool-for-model-validation.pdf",
+        "size": 624655,
+        "created": "2025-09-03T12:43:46.639646",
+        "modified": "2025-09-03T12:43:24.963237"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\mich_2409.12640v2.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\mich_2409.12640v2.pdf",
+        "size": 1225209,
+        "created": "2025-09-03T12:43:46.644176",
+        "modified": "2025-09-03T12:43:24.624346"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ml-model-validation-best-practice.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ml-model-validation-best-practice.pdf",
+        "size": 4128794,
+        "created": "2025-09-03T12:43:46.655544",
+        "modified": "2025-09-03T12:43:24.994342"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ModelRiskManagementPracticeNote_May2019.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ModelRiskManagementPracticeNote_May2019.pdf",
+        "size": 266337,
+        "created": "2025-09-03T12:43:46.664389",
+        "modified": "2025-09-03T12:43:24.994342"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Model_Governance_PN_042017.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Model_Governance_PN_042017.pdf",
+        "size": 287483,
+        "created": "2025-09-03T12:43:46.674213",
+        "modified": "2025-09-03T12:43:24.884495"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\nolima_2502.05167v3.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\nolima_2502.05167v3.pdf",
+        "size": 755027,
+        "created": "2025-09-03T12:43:46.674213",
+        "modified": "2025-09-03T12:43:24.844152"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6 (1).pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\OASIcs.SCOR.2016.6 (1).pdf",
+        "size": 418922,
+        "created": "2025-09-03T12:43:46.674213",
+        "modified": "2025-09-03T12:43:24.884495"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\OASIcs.SCOR.2016.6.pdf",
+        "size": 417562,
+        "created": "2025-09-03T12:43:46.687273",
+        "modified": "2025-09-03T12:43:24.704420"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\paper114.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\paper114.pdf",
+        "size": 787946,
+        "created": "2025-09-03T12:43:46.687273",
+        "modified": "2025-09-03T12:43:24.594232"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pdf-model-validation-Validation-Workshop-2018.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\pdf-model-validation-Validation-Workshop-2018.pdf",
+        "size": 1018009,
+        "created": "2025-09-03T12:43:46.697434",
+        "modified": "2025-09-03T12:43:25.018649"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pub-ch-model-risk.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\pub-ch-model-risk.pdf",
+        "size": 2127485,
+        "created": "2025-09-03T12:43:46.704515",
+        "modified": "2025-09-03T12:43:24.644421"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\research-2014-model-valid-ins.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\research-2014-model-valid-ins.pdf",
+        "size": 1073033,
+        "created": "2025-09-03T12:43:46.707556",
+        "modified": "2025-09-03T12:43:24.934437"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\reviewing-validating-auditing-act-models.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\reviewing-validating-auditing-act-models.pdf",
+        "size": 238555,
+        "created": "2025-09-03T12:43:46.711572",
+        "modified": "2025-09-03T12:43:25.004166"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\s10479-022-04574-x.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\s10479-022-04574-x.pdf",
+        "size": 1412923,
+        "created": "2025-09-03T12:43:46.714590",
+        "modified": "2025-09-03T12:43:24.780377"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\siwinter05-article1.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\siwinter05-article1.pdf",
+        "size": 997582,
+        "created": "2025-09-03T12:43:46.728433",
+        "modified": "2025-09-03T12:43:24.859813"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\umap_1802.03426v3.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\umap_1802.03426v3.pdf",
+        "size": 7880321,
+        "created": "2025-09-03T12:43:46.734459",
+        "modified": "2025-09-03T12:43:24.704420"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+        "size": 457282,
+        "created": "2025-09-03T12:43:46.754336",
+        "modified": "2025-09-03T12:43:25.054385"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+        "size": 363192,
+        "created": "2025-09-03T12:43:46.764373",
+        "modified": "2025-09-03T12:43:25.006399"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\whitepaper_1994.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\whitepaper_1994.pdf",
+        "size": 212357,
+        "created": "2025-09-03T12:43:46.770135",
+        "modified": "2025-09-03T12:43:24.614586"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\research_papers\\ai_research_paper.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\ai_research_paper.pdf",
+        "size": 260,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\business_docs\\quarterly_report.docx",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\quarterly_report.docx",
+        "size": 258,
+        "created": "2025-09-03T17:38:15.824001",
+        "modified": "2025-09-03T17:38:15.824001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_gauge.html",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\access_control_gauge.html",
+        "size": 4775769,
+        "created": "2025-09-03T11:42:32.774500",
+        "modified": "2025-09-03T11:42:32.776765"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_matrix.html",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\access_control_matrix.html",
+        "size": 4776049,
+        "created": "2025-09-03T11:42:32.794182",
+        "modified": "2025-09-03T11:42:32.804278"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\performance_metrics.html",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\performance_metrics.html",
+        "size": 4780798,
+        "created": "2025-09-03T11:42:32.838015",
+        "modified": "2025-09-03T11:42:32.840526"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\risk_assessment_chart.html",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-03\\risk_assessment_chart.html",
+        "size": 4775877,
+        "created": "2025-09-03T11:42:32.871892",
+        "modified": "2025-09-03T11:42:32.871892"
+      }
+    ],
+    "2025-09-04": [
+      {
+        "source": "C:\\Users\\marti\\github\\CODE_IMPROVEMENT_SUGGESTIONS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\CODE_IMPROVEMENT_SUGGESTIONS.md",
+        "size": 14808,
+        "created": "2025-09-04T19:55:59.428974",
+        "modified": "2025-09-04T19:55:59.428974"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\GATEWAY_ARCHITECTURE_OVERVIEW.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\GATEWAY_ARCHITECTURE_OVERVIEW.md",
+        "size": 8579,
+        "created": "2025-09-04T23:39:19.936964",
+        "modified": "2025-09-04T23:39:19.936964"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\GATEWAY_DEPENDENCIES_ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\GATEWAY_DEPENDENCIES_ANALYSIS.md",
+        "size": 1768,
+        "created": "2025-09-04T06:05:30.735244",
+        "modified": "2025-09-04T06:05:30.735244"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\GATEWAY_DEPENDENCIES_COMPLETE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\GATEWAY_DEPENDENCIES_COMPLETE.md",
+        "size": 6173,
+        "created": "2025-09-04T06:10:39.804901",
+        "modified": "2025-09-04T06:10:39.804901"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\GATEWAY_REORGANIZATION_COMPLETE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\GATEWAY_REORGANIZATION_COMPLETE.md",
+        "size": 5662,
+        "created": "2025-09-04T05:49:51.247244",
+        "modified": "2025-09-04T05:49:51.247244"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\RAG2DAG_DOCUMENTATION.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\RAG2DAG_DOCUMENTATION.md",
+        "size": 12714,
+        "created": "2025-09-04T06:51:29.385109",
+        "modified": "2025-09-04T06:51:29.385109"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\RAG2DAG_INTERFACES.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\RAG2DAG_INTERFACES.md",
+        "size": 17989,
+        "created": "2025-09-04T06:54:15.534972",
+        "modified": "2025-09-04T06:54:15.534972"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TESTS_ADDED_TO_STANDARD_FOLDER.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\TESTS_ADDED_TO_STANDARD_FOLDER.md",
+        "size": 5873,
+        "created": "2025-09-04T06:20:31.695099",
+        "modified": "2025-09-04T06:20:31.695099"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TIDYLLM_VISITOR_EXPERIENCE_DESIGN.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\TIDYLLM_VISITOR_EXPERIENCE_DESIGN.md",
+        "size": 10738,
+        "created": "2025-09-04T05:58:02.690207",
+        "modified": "2025-09-04T05:58:02.690207"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\UNIFIED_GATEWAY_ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\UNIFIED_GATEWAY_ARCHITECTURE.md",
+        "size": 9166,
+        "created": "2025-09-04T05:39:19.110527",
+        "modified": "2025-09-04T05:39:19.110527"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\chain_integration_strategy.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\chain_integration_strategy.md",
+        "size": 9446,
+        "created": "2025-09-04T20:48:03.808932",
+        "modified": "2025-09-04T20:48:03.808932"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\compliance_module_organization_plan.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\compliance_module_organization_plan.md",
+        "size": 10462,
+        "created": "2025-09-04T21:50:12.188642",
+        "modified": "2025-09-04T21:50:12.188642"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\demo_analysis_and_user_personas.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\demo_analysis_and_user_personas.md",
+        "size": 11348,
+        "created": "2025-09-04T21:30:47.528885",
+        "modified": "2025-09-04T21:30:47.528885"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\DIRECTORY_INDEX.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\DIRECTORY_INDEX.md",
+        "size": 5135,
+        "created": "2025-09-04T21:14:10.138692",
+        "modified": "2025-09-04T21:14:10.138692"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\DOCUMENT_COLLECTIONS_SYSTEM.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\DOCUMENT_COLLECTIONS_SYSTEM.md",
+        "size": 15946,
+        "created": "2025-09-04T22:29:07.128914",
+        "modified": "2025-09-04T22:29:07.128914"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\DROP_ZONES_ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\DROP_ZONES_ARCHITECTURE.md",
+        "size": 9437,
+        "created": "2025-09-04T22:01:30.298848",
+        "modified": "2025-09-04T22:01:30.298848"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\Guidance-on-Using-MCP.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\Guidance-on-Using-MCP.md",
+        "size": 30936,
+        "created": "2025-09-04T23:51:32.690593",
+        "modified": "2025-09-04T23:51:32.690593"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\GUIDANCE_ON_MODEL_SELECTION.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\GUIDANCE_ON_MODEL_SELECTION.md",
+        "size": 9647,
+        "created": "2025-09-04T23:25:58.719432",
+        "modified": "2025-09-04T23:25:58.719432"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\mvr_analysis_core_purpose.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\mvr_analysis_core_purpose.md",
+        "size": 7657,
+        "created": "2025-09-04T21:35:02.288959",
+        "modified": "2025-09-04T21:35:02.288959"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\S3_FIRST_ARCHITECTURE_GUIDANCE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\S3_FIRST_ARCHITECTURE_GUIDANCE.md",
+        "size": 2397,
+        "created": "2025-09-04T23:17:41.616678",
+        "modified": "2025-09-04T23:17:41.616678"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\sop_chat_integration_requirements.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\sop_chat_integration_requirements.md",
+        "size": 7175,
+        "created": "2025-09-04T21:45:55.656004",
+        "modified": "2025-09-04T21:45:55.656004"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\streamlit_demo_consolidation.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\streamlit_demo_consolidation.md",
+        "size": 9340,
+        "created": "2025-09-04T21:25:44.099001",
+        "modified": "2025-09-04T21:25:44.099001"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\docs\\universal_bracket_flows_implementation_plan.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\universal_bracket_flows_implementation_plan.md",
+        "size": 12215,
+        "created": "2025-09-04T21:07:58.641988",
+        "modified": "2025-09-04T21:07:58.641988"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\README.md",
+        "size": 2552,
+        "created": "2025-09-04T10:13:11.473906",
+        "modified": "2025-09-04T10:13:11.473906"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\PARSING_CAPABILITIES_ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\PARSING_CAPABILITIES_ANALYSIS.md",
+        "size": 4474,
+        "created": "2025-09-04T08:49:20.195153",
+        "modified": "2025-09-04T08:49:20.195153"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\S3_DOMAIN_RAG_SUCCESS_SUMMARY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\S3_DOMAIN_RAG_SUCCESS_SUMMARY.md",
+        "size": 6192,
+        "created": "2025-09-04T08:32:56.313181",
+        "modified": "2025-09-04T08:32:56.313181"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\data_governance.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\data_governance.txt",
+        "size": 1253,
+        "created": "2025-09-04T11:00:01.537282",
+        "modified": "2025-09-04T11:00:01.538314"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\model_validation.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\model_validation.txt",
+        "size": 945,
+        "created": "2025-09-04T11:00:01.528080",
+        "modified": "2025-09-04T11:00:01.537282"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\risk_management.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\risk_management.txt",
+        "size": 1093,
+        "created": "2025-09-04T11:00:01.537282",
+        "modified": "2025-09-04T11:00:01.537282"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_MVR_Analysis.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\REV12345_MVR_Analysis.txt",
+        "size": 486,
+        "created": "2025-09-04T22:15:17.545525",
+        "modified": "2025-09-04T22:33:34.578803"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_Peer_Review.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\REV12345_Peer_Review.txt",
+        "size": 511,
+        "created": "2025-09-04T22:33:34.578803",
+        "modified": "2025-09-04T22:33:34.578803"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_VST_Template.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\REV12345_VST_Template.txt",
+        "size": 427,
+        "created": "2025-09-04T22:33:34.578803",
+        "modified": "2025-09-04T22:33:34.578803"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12346_VST_Template.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-04\\REV12346_VST_Template.txt",
+        "size": 427,
+        "created": "2025-09-04T22:15:17.547525",
+        "modified": "2025-09-04T22:15:17.547525"
+      }
+    ],
+    "2025-09-01": [
+      {
+        "source": "C:\\Users\\marti\\github\\LAUNCHER_SPEC.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\LAUNCHER_SPEC.md",
+        "size": 1919,
+        "created": "2025-09-01T06:08:23.101271",
+        "modified": "2025-09-01T06:08:23.101271"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\MASTER_DEMOS_LIST.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\MASTER_DEMOS_LIST.md",
+        "size": 8039,
+        "created": "2025-09-01T06:37:51.437409",
+        "modified": "2025-09-01T06:37:51.437409"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\MLFLOW_INTEGRATION_ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\MLFLOW_INTEGRATION_ARCHITECTURE.md",
+        "size": 16606,
+        "created": "2025-09-01T03:30:16.925635",
+        "modified": "2025-09-01T03:30:16.925635"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\README_HEIROS_SQL_QUERIES.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\README_HEIROS_SQL_QUERIES.md",
+        "size": 6329,
+        "created": "2025-09-01T05:52:00.115852",
+        "modified": "2025-09-01T05:52:00.115852"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\README_HEIROS_STREAMLIT.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\README_HEIROS_STREAMLIT.md",
+        "size": 8651,
+        "created": "2025-09-01T05:59:08.449527",
+        "modified": "2025-09-01T05:59:08.449527"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TidyLLM-HeirOS-Workflow-Guide.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TidyLLM-HeirOS-Workflow-Guide.md",
+        "size": 33372,
+        "created": "2025-09-01T05:43:50.786479",
+        "modified": "2025-09-01T05:43:50.786479"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TidyLLM-System-Analysis.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TidyLLM-System-Analysis.md",
+        "size": 12334,
+        "created": "2025-09-01T05:24:47.196136",
+        "modified": "2025-09-01T05:24:47.196136"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TIDYLLM_ECOSYSTEM_ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TIDYLLM_ECOSYSTEM_ARCHITECTURE.md",
+        "size": 7297,
+        "created": "2025-09-01T13:59:10.308800",
+        "modified": "2025-09-01T13:59:10.308800"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\TIDYLLM_GATEWAY_ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TIDYLLM_GATEWAY_ANALYSIS.md",
+        "size": 12332,
+        "created": "2025-09-01T03:28:32.698208",
+        "modified": "2025-09-01T03:28:32.698208"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-enterprise\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\README.md",
+        "size": 12656,
+        "created": "2025-09-01T03:56:27.291777",
+        "modified": "2025-09-01T03:56:27.291777"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-x-template\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\README.md",
+        "size": 5282,
+        "created": "2025-09-01T13:59:49.513856",
+        "modified": "2025-09-01T13:59:49.513856"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidymart-integration\\INTEGRATION_ROADMAP.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\INTEGRATION_ROADMAP.md",
+        "size": 15802,
+        "created": "2025-09-01T08:05:42",
+        "modified": "2025-09-01T03:07:59.447013"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidymart-integration\\TECHNICAL_IMPLEMENTATION_GUIDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TECHNICAL_IMPLEMENTATION_GUIDE.md",
+        "size": 43896,
+        "created": "2025-09-01T08:05:42",
+        "modified": "2025-09-01T03:07:59.447013"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidymart-integration\\TIDYMART_ENTERPRISE_INTEGRATION_SPEC.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TIDYMART_ENTERPRISE_INTEGRATION_SPEC.md",
+        "size": 23267,
+        "created": "2025-09-01T08:05:42",
+        "modified": "2025-09-01T03:07:59.455797"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidymart-integration\\TIDYMART_IMPLEMENTATION_STATUS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TIDYMART_IMPLEMENTATION_STATUS.md",
+        "size": 4897,
+        "created": "2025-09-01T08:05:42",
+        "modified": "2025-09-01T03:07:59.455797"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\mathematical_formulations_extracted.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\mathematical_formulations_extracted.md",
+        "size": 8934,
+        "created": "2025-09-01T00:43:50.010564",
+        "modified": "2025-09-01T00:43:50.017495"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\REPOSITORY_ANALYSIS_20250901.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\REPOSITORY_ANALYSIS_20250901.md",
+        "size": 8068,
+        "created": "2025-09-01T01:45:24.645705",
+        "modified": "2025-09-01T01:45:24.645705"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\VPF_FRAMEWORK_ANALYSIS_20250901.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\VPF_FRAMEWORK_ANALYSIS_20250901.md",
+        "size": 5411,
+        "created": "2025-09-01T01:50:57.430323",
+        "modified": "2025-09-01T01:50:57.430323"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\.github\\pull_request_template.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\pull_request_template.md",
+        "size": 2065,
+        "created": "2025-08-30T00:56:44.669045",
+        "modified": "2025-09-01T02:11:00.466774"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\bug_report.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\bug_report.md",
+        "size": 1595,
+        "created": "2025-08-30T00:56:44.669045",
+        "modified": "2025-09-01T02:11:00.466774"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\feature_request.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\feature_request.md",
+        "size": 1879,
+        "created": "2025-08-30T00:56:44.669045",
+        "modified": "2025-09-01T02:11:00.466774"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\2-TidyLLM Ecosystem Strategy & Integr.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2-TidyLLM Ecosystem Strategy & Integr.md",
+        "size": 24362,
+        "created": "2025-09-01T14:08:30.298439",
+        "modified": "2025-09-01T14:08:30.437396"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_archives\\analysis_reports\\DEMO_STATUS_FINAL.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\DEMO_STATUS_FINAL.md",
+        "size": 6822,
+        "created": "2025-09-01T04:59:49.059270",
+        "modified": "2025-09-01T04:59:49.059270"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_archives\\analysis_reports\\TIDYLLM_ENTERPRISE_MERGER_COMPLETE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\TIDYLLM_ENTERPRISE_MERGER_COMPLETE.md",
+        "size": 11482,
+        "created": "2025-09-01T04:07:45.738049",
+        "modified": "2025-09-01T04:07:45.738049"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\heiros_requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\heiros_requirements.txt",
+        "size": 289,
+        "created": "2025-09-01T06:05:52.276426",
+        "modified": "2025-09-01T06:05:52.276426"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\advanced_analysis\\links_quality_results.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\links_quality_results.txt",
+        "size": 26801,
+        "created": "2025-09-01T12:27:21.038810",
+        "modified": "2025-09-01T12:27:21.038810"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\advanced_analysis\\section_analysis_results.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\section_analysis_results.txt",
+        "size": 50357,
+        "created": "2025-09-01T08:35:20.139697",
+        "modified": "2025-09-01T08:35:20.139697"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\advanced_analysis\\signal_noise_results.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\signal_noise_results.txt",
+        "size": 25724,
+        "created": "2025-09-01T08:38:40.119038",
+        "modified": "2025-09-01T08:38:40.119038"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\advanced_analysis\\toc_analysis_results.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\toc_analysis_results.txt",
+        "size": 6568,
+        "created": "2025-09-01T08:26:59.455981",
+        "modified": "2025-09-01T08:27:47.198148"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\Architecture Pattern.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\Architecture Pattern.txt",
+        "size": 7850,
+        "created": "2025-09-01T13:56:35.588251",
+        "modified": "2025-09-01T13:56:35.735796"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\doc analysis paln.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\doc analysis paln.txt",
+        "size": 1917,
+        "created": "2025-09-01T08:34:59.450382",
+        "modified": "2025-09-01T08:34:59.591970"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\Heiros Learns.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\Heiros Learns.txt",
+        "size": 3520,
+        "created": "2025-09-01T05:54:48.400207",
+        "modified": "2025-09-01T05:54:48.536604"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\Workflow Node Types Available.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\Workflow Node Types Available.txt",
+        "size": 698,
+        "created": "2025-09-01T05:38:10.925362",
+        "modified": "2025-09-01T05:38:11.107135"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\\u25cf Summary TidyLLM Gateway & MLFlow.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\\u25cf Summary TidyLLM Gateway & MLFlow.txt",
+        "size": 2868,
+        "created": "2025-09-01T04:28:07.450857",
+        "modified": "2025-09-01T04:28:07.587071"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\\u25cf \u2705 Comprehensive Demo Testing & Fi.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\\u25cf \u2705 Comprehensive Demo Testing & Fi.txt",
+        "size": 3531,
+        "created": "2025-09-01T04:27:57.530830",
+        "modified": "2025-09-01T04:27:57.722653"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua.pdf",
+        "size": 744396,
+        "created": "2025-09-01T01:14:02.448155",
+        "modified": "2025-09-01T01:14:02.559030"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr.pdf",
+        "size": 5136730,
+        "created": "2025-09-01T00:29:47.995560",
+        "modified": "2025-09-01T00:29:48.895585"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse.pdf",
+        "size": 475165,
+        "created": "2025-09-01T00:40:38.055611",
+        "modified": "2025-09-01T00:40:38.165708"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi.pdf",
+        "size": 4520433,
+        "created": "2025-09-01T01:33:25.865614",
+        "modified": "2025-09-01T01:33:26.285686"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2308.03077_Gabor-based_learnable_sparse_representation_for_se.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2308.03077_Gabor-based_learnable_sparse_representation_for_se.pdf",
+        "size": 2980188,
+        "created": "2025-09-01T00:24:53.715807",
+        "modified": "2025-09-01T00:24:53.975526"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2404.04870_Signal-noise_separation_using_unsupervised_reservo.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2404.04870_Signal-noise_separation_using_unsupervised_reservo.pdf",
+        "size": 7434787,
+        "created": "2025-09-01T00:12:11.585516",
+        "modified": "2025-09-01T00:12:12.115582"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2405.18274_Signal-Plus-Noise_Decomposition_of_Nonlinear_Spike.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2405.18274_Signal-Plus-Noise_Decomposition_of_Nonlinear_Spike.pdf",
+        "size": 2266794,
+        "created": "2025-09-01T00:12:38.815495",
+        "modified": "2025-09-01T00:12:39.005567"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2408.08073_Extracting_Sentence_Embeddings_from_Pretrained_Tra.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2408.08073_Extracting_Sentence_Embeddings_from_Pretrained_Tra.pdf",
+        "size": 1623589,
+        "created": "2025-09-01T00:52:39.285746",
+        "modified": "2025-09-01T00:52:39.401554"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2409.19550_Tailored_Low-Rank_Matrix_Factorization_for_Similar.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2409.19550_Tailored_Low-Rank_Matrix_Factorization_for_Similar.pdf",
+        "size": 728281,
+        "created": "2025-09-01T00:26:27.955553",
+        "modified": "2025-09-01T00:26:28.059905"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2410.11842_MoH_Multi-Head_Attention_as_Mixture-of-Head_Atten.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2410.11842_MoH_Multi-Head_Attention_as_Mixture-of-Head_Atten.pdf",
+        "size": 2633876,
+        "created": "2025-09-01T01:29:43.155683",
+        "modified": "2025-09-01T01:29:43.385679"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2410.23534_Empirical_Wavelet_Transform.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2410.23534_Empirical_Wavelet_Transform.pdf",
+        "size": 2598086,
+        "created": "2025-09-01T00:22:43.045556",
+        "modified": "2025-09-01T00:22:43.445563"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2412.00553_A_novel_algorithm_for_the_decomposition_of_non-sta.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2412.00553_A_novel_algorithm_for_the_decomposition_of_non-sta.pdf",
+        "size": 823031,
+        "created": "2025-09-01T00:11:57.043555",
+        "modified": "2025-09-01T00:11:57.157316"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2501.09174_Short-time_Variational_Mode_Decomposition.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2501.09174_Short-time_Variational_Mode_Decomposition.pdf",
+        "size": 16502424,
+        "created": "2025-09-01T00:16:26.465579",
+        "modified": "2025-09-01T00:16:27.090482"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity.pdf",
+        "size": 726963,
+        "created": "2025-09-01T00:54:42.805686",
+        "modified": "2025-09-01T00:54:42.930216"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise.pdf",
+        "size": 197812,
+        "created": "2025-09-01T00:50:12.615636",
+        "modified": "2025-09-01T00:50:12.685545"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2504.19124_Blind_Source_Separation_Based_on_Sparsity.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\2504.19124_Blind_Source_Separation_Based_on_Sparsity.pdf",
+        "size": 4847247,
+        "created": "2025-09-01T00:28:32.605726",
+        "modified": "2025-09-01T00:28:32.805217"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\MasterDemos.html",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-01\\MasterDemos.html",
+        "size": 18460,
+        "created": "2025-09-01T12:45:24.391142",
+        "modified": "2025-09-01T12:45:24.569096"
+      }
+    ],
+    "2025-08-29": [
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-compliance\\CLAUDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\CLAUDE.md",
+        "size": 2674,
+        "created": "2025-08-29T01:25:59.195300",
+        "modified": "2025-08-29T01:25:59.195300"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-compliance\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\README.md",
+        "size": 3050,
+        "created": "2025-08-29T00:56:54.763039",
+        "modified": "2025-08-29T00:56:54.763039"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-documents\\CLAUDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\CLAUDE.md",
+        "size": 3968,
+        "created": "2025-08-29T01:33:08.935111",
+        "modified": "2025-08-29T01:33:08.935111"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-documents\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\README.md",
+        "size": 3946,
+        "created": "2025-08-29T01:11:08.115232",
+        "modified": "2025-08-29T01:11:08.115232"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\ARCHITECTURE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\ARCHITECTURE.md",
+        "size": 14926,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\ENTERPRISE_BENEFITS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\ENTERPRISE_BENEFITS.md",
+        "size": 12911,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\LITELLM_ARCHITECTURE_ANALYSIS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\LITELLM_ARCHITECTURE_ANALYSIS.md",
+        "size": 7625,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\LITELLM_MIGRATION_GUIDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\LITELLM_MIGRATION_GUIDE.md",
+        "size": 17626,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\MLFLOW_INTEGRATION_EXAMPLE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\MLFLOW_INTEGRATION_EXAMPLE.md",
+        "size": 14258,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\MVR_INTEGRATION_GUIDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\MVR_INTEGRATION_GUIDE.md",
+        "size": 16790,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\MVR_MACRO_FLOW_EXAMPLE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\MVR_MACRO_FLOW_EXAMPLE.md",
+        "size": 28782,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-gateway\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\README.md",
+        "size": 8143,
+        "created": "2025-08-29T02:56:44.722082",
+        "modified": "2025-08-29T02:56:44.722082"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\PROFESSOR_QUICKSTART.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\PROFESSOR_QUICKSTART.md",
+        "size": 5659,
+        "created": "2025-08-29T00:04:49.062932",
+        "modified": "2025-08-29T00:04:49.062932"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\README.md",
+        "size": 7078,
+        "created": "2025-08-29T00:05:51.596574",
+        "modified": "2025-08-29T00:05:51.596574"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-whitepapers\\tidyllm-whitepapers\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\README.md",
+        "size": 9071,
+        "created": "2025-08-28T10:42:50",
+        "modified": "2025-08-29T15:20:21.543040"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-whitepapers\\__MACOSX\\tidyllm-whitepapers\\._README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\._README.md",
+        "size": 178,
+        "created": "2025-08-28T10:42:50",
+        "modified": "2025-08-29T15:20:21.624744"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_archives\\analysis_reports\\MATH_LIBRARIES_ANALYSIS_AND_ACTION_PLAN.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\MATH_LIBRARIES_ANALYSIS_AND_ACTION_PLAN.md",
+        "size": 16963,
+        "created": "2025-08-29T19:07:31.064383",
+        "modified": "2025-08-29T19:07:31.064383"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old_archives\\analysis_reports\\MATH_LIBRARIES_BUG_REPORT_AND_FIXES.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\MATH_LIBRARIES_BUG_REPORT_AND_FIXES.md",
+        "size": 7212,
+        "created": "2025-08-29T19:12:43.569970",
+        "modified": "2025-08-29T19:12:43.569970"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-compliance\\tidyllm_compliance.egg-info\\requires.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\requires.txt",
+        "size": 78,
+        "created": "2025-08-29T15:44:12.866254",
+        "modified": "2025-08-29T15:44:13.699625"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-compliance\\tidyllm_compliance.egg-info\\SOURCES.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\SOURCES.txt",
+        "size": 1089,
+        "created": "2025-08-29T15:44:12.867758",
+        "modified": "2025-08-29T15:44:13.782400"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-compliance\\tidyllm_compliance.egg-info\\top_level.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-29\\top_level.txt",
+        "size": 19,
+        "created": "2025-08-29T15:44:12.866254",
+        "modified": "2025-08-29T15:44:13.700626"
+      }
+    ],
+    "2025-08-30": [
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-demos\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 3978,
+        "created": "2025-08-31T20:00:51.795877",
+        "modified": "2025-08-30T19:37:12"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 9940,
+        "created": "2025-08-30T10:53:13.397348",
+        "modified": "2025-08-30T10:53:13.397348"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\Elysia_vs_TidyLLM-HeirOS_Comparison.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\Elysia_vs_TidyLLM-HeirOS_Comparison.md",
+        "size": 7864,
+        "created": "2025-08-30T11:48:35.147289",
+        "modified": "2025-08-30T11:48:35.147289"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\Quick_Start_Electrical_System.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\Quick_Start_Electrical_System.md",
+        "size": 11474,
+        "created": "2025-08-30T14:02:35.806866",
+        "modified": "2025-08-30T14:02:35.806866"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\research\\context_engineering_paper_outline.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\context_engineering_paper_outline.md",
+        "size": 19324,
+        "created": "2025-08-30T14:11:31.888730",
+        "modified": "2025-08-30T14:11:31.888730"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 4106,
+        "created": "2025-08-30T14:16:17.417991",
+        "modified": "2025-08-30T14:16:17.417991"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\src\\research-pipeline\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 9804,
+        "created": "2025-08-30T15:03:42.846870",
+        "modified": "2025-08-30T15:03:42.846870"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\research\\mathematical_decomposition_residual_risk.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\mathematical_decomposition_residual_risk.md",
+        "size": 10704,
+        "created": "2025-08-30T14:41:16.491471",
+        "modified": "2025-08-30T14:41:16.491471"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\research\\research_extraction_planning.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\research_extraction_planning.md",
+        "size": 5060,
+        "created": "2025-08-30T15:05:09.596901",
+        "modified": "2025-08-30T15:05:09.596901"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\technical\\dspy_context_definition_analysis.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\dspy_context_definition_analysis.md",
+        "size": 11700,
+        "created": "2025-08-30T14:20:53.696792",
+        "modified": "2025-08-30T14:20:53.696792"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\theoretical\\context_collapse_electrical_analysis.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\context_collapse_electrical_analysis.md",
+        "size": 17808,
+        "created": "2025-08-30T14:29:54.626891",
+        "modified": "2025-08-30T14:29:54.626891"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\research\\papers\\hierarchical_control_research_notes.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\hierarchical_control_research_notes.md",
+        "size": 9101,
+        "created": "2025-08-30T10:50:28.067478",
+        "modified": "2025-08-30T10:50:28.067478"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\architecture\\Electrical_System_Documentation.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\Electrical_System_Documentation.md",
+        "size": 16358,
+        "created": "2025-08-30T14:00:35.086859",
+        "modified": "2025-08-30T14:00:35.086859"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\architecture\\TidyLLM-HeirOS_Complete_System_Documentation.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\TidyLLM-HeirOS_Complete_System_Documentation.md",
+        "size": 15038,
+        "created": "2025-08-30T11:45:07.767362",
+        "modified": "2025-08-30T11:45:07.767362"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-demos\\docs\\installation.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\installation.md",
+        "size": 5800,
+        "created": "2025-08-31T20:00:51.807689",
+        "modified": "2025-08-30T19:37:13"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\CREATE_ISSUES.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\CREATE_ISSUES.md",
+        "size": 2801,
+        "created": "2025-08-30T01:35:20.523504",
+        "modified": "2025-08-30T01:35:20.523504"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\FINAL_UPLOAD_GUIDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\FINAL_UPLOAD_GUIDE.md",
+        "size": 5519,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 7181,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\UPLOAD_INSTRUCTIONS.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\UPLOAD_INSTRUCTIONS.md",
+        "size": 2532,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\docs\\development_workflow.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\development_workflow.md",
+        "size": 5095,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\docs\\TidyLLM_Integration_Mapping.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\TidyLLM_Integration_Mapping.md",
+        "size": 9384,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\docs\\VerbPageFormat_Specification.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VerbPageFormat_Specification.md",
+        "size": 5831,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\docs\\VPF_Status_Dashboard.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_Status_Dashboard.md",
+        "size": 4505,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\README.md",
+        "size": 4738,
+        "created": "2025-08-30T21:25:10.596130",
+        "modified": "2025-08-30T21:25:10.596130"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\templates\\vpf_template.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\vpf_template.md",
+        "size": 4553,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_classify.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_classify.md",
+        "size": 6044,
+        "created": "2025-08-30T01:31:30.009051",
+        "modified": "2025-08-30T01:31:30.009051"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_compare.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_compare.md",
+        "size": 6671,
+        "created": "2025-08-30T01:31:30.009051",
+        "modified": "2025-08-30T01:31:30.009051"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_dspy_analyze.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_dspy_analyze.md",
+        "size": 8531,
+        "created": "2025-08-30T01:39:19.139018",
+        "modified": "2025-08-30T01:39:19.139018"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_process_batch.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_process_batch.md",
+        "size": 6743,
+        "created": "2025-08-30T01:37:28.678972",
+        "modified": "2025-08-30T01:37:28.678972"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_process_pdf.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_process_pdf.md",
+        "size": 7609,
+        "created": "2025-08-30T01:38:04.149025",
+        "modified": "2025-08-30T01:38:04.149025"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\verbs\\VPF_tidyllm_rag_query.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\VPF_tidyllm_rag_query.md",
+        "size": 8166,
+        "created": "2025-08-30T01:38:41.388859",
+        "modified": "2025-08-30T01:38:41.388859"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\.github\\ISSUE_TEMPLATE\\vpf-implementation.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\vpf-implementation.md",
+        "size": 512,
+        "created": "2025-08-30T01:31:41.582031",
+        "modified": "2025-08-30T01:32:47.109008"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\.github\\ISSUE_TEMPLATE\\vpf-submission.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\vpf-submission.md",
+        "size": 2852,
+        "created": "2025-08-30T01:31:41.582031",
+        "modified": "2025-08-30T01:31:41.582031"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-demos\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\requirements.txt",
+        "size": 355,
+        "created": "2025-08-31T20:00:51.793869",
+        "modified": "2025-08-30T19:37:12"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-heiros\\src\\research-pipeline\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\requirements.txt",
+        "size": 542,
+        "created": "2025-08-30T15:00:24.617060",
+        "modified": "2025-08-30T15:00:24.617060"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\issue_templates.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\issue_templates.txt",
+        "size": 7747,
+        "created": "2025-08-30T01:42:09.809098",
+        "modified": "2025-08-30T01:42:09.809098"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\validation\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-30\\requirements.txt",
+        "size": 100,
+        "created": "2025-08-30T01:31:29.998943",
+        "modified": "2025-08-30T01:31:29.998943"
+      }
+    ],
+    "2025-08-28": [
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\EXHIBIT_1_ACADEMIC_BENCHMARK.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\EXHIBIT_1_ACADEMIC_BENCHMARK.md",
+        "size": 9938,
+        "created": "2025-08-28T23:49:14.747651",
+        "modified": "2025-08-28T23:49:14.747651"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\FINAL_RABBIT_SUMMARY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\FINAL_RABBIT_SUMMARY.md",
+        "size": 7608,
+        "created": "2025-08-28T23:57:31.361019",
+        "modified": "2025-08-28T23:57:31.361019"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\TLM_TEAM_STRATEGY.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\TLM_TEAM_STRATEGY.md",
+        "size": 7877,
+        "created": "2025-08-28T23:55:17.675350",
+        "modified": "2025-08-28T23:55:17.675350"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\CLAUDE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\CLAUDE.md",
+        "size": 4415,
+        "created": "2025-08-28T17:57:20.888833",
+        "modified": "2025-08-28T17:57:20.888833"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\CODEBREAKERS_COMPLIANCE.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\CODEBREAKERS_COMPLIANCE.md",
+        "size": 10595,
+        "created": "2025-08-28T17:58:32.630886",
+        "modified": "2025-08-28T17:58:32.630886"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\.pytest_cache\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-28\\README.md",
+        "size": 310,
+        "created": "2025-08-28T17:05:00.752785",
+        "modified": "2025-08-28T17:05:00.757296"
+      }
+    ],
+    "2025-08-31": [
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\README.md",
+        "size": 5677,
+        "created": "2025-08-31T15:00:33.065946",
+        "modified": "2025-08-31T15:00:33.065946"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-whitepapers\\streamlit_demo\\README.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\README.md",
+        "size": 6218,
+        "created": "2025-08-31T13:09:14.144711",
+        "modified": "2025-08-31T13:09:14.144711"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\dependency_links.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\dependency_links.txt",
+        "size": 1,
+        "created": "2025-08-29T17:04:52.821604",
+        "modified": "2025-08-31T22:57:27.867119"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\SOURCES.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\SOURCES.txt",
+        "size": 966,
+        "created": "2025-08-29T17:04:52.823114",
+        "modified": "2025-08-31T22:57:27.887369"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\top_level.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\top_level.txt",
+        "size": 4,
+        "created": "2025-08-29T17:04:52.821604",
+        "modified": "2025-08-31T22:57:27.867119"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-whitepapers\\streamlit_demo\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\requirements.txt",
+        "size": 750,
+        "created": "2025-08-31T12:59:36.446609",
+        "modified": "2025-08-31T12:59:36.446609"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\requirements.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\requirements.txt",
+        "size": 757,
+        "created": "2025-08-31T14:39:09.084606",
+        "modified": "2025-08-31T21:42:02.149862"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\tidyllm_sentence.egg-info\\SOURCES.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\SOURCES.txt",
+        "size": 934,
+        "created": "2025-08-29T17:04:59.924802",
+        "modified": "2025-08-31T22:57:15.696503"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-sentence\\tidyllm_sentence.egg-info\\top_level.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\top_level.txt",
+        "size": 17,
+        "created": "2025-08-29T17:04:59.924158",
+        "modified": "2025-08-31T22:57:15.681321"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-documents\\tidyllm_documents.egg-info\\requires.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\requires.txt",
+        "size": 203,
+        "created": "2025-08-29T17:05:07.302060",
+        "modified": "2025-08-31T14:29:13.071485"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-documents\\tidyllm_documents.egg-info\\SOURCES.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\SOURCES.txt",
+        "size": 596,
+        "created": "2025-08-29T17:05:07.302823",
+        "modified": "2025-08-31T14:29:13.184680"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-documents\\tidyllm_documents.egg-info\\top_level.txt",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\top_level.txt",
+        "size": 18,
+        "created": "2025-08-29T17:05:07.302060",
+        "modified": "2025-08-31T14:29:13.071485"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati.pdf",
+        "size": 7718089,
+        "created": "2025-08-31T19:07:00.712389",
+        "modified": "2025-08-31T19:07:01.117140"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2308.02381_Non-Ideal_Measurement_Heat_Engines.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-08-31\\2308.02381_Non-Ideal_Measurement_Heat_Engines.pdf",
+        "size": 615976,
+        "created": "2025-08-31T19:05:33.319764",
+        "modified": "2025-08-31T19:05:33.414671"
+      }
+    ],
+    "2025-09-02": [
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\3-ARCHITECTURE CONFIRMED.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-02\\3-ARCHITECTURE CONFIRMED.md",
+        "size": 1620,
+        "created": "2025-09-02T05:34:58.644957",
+        "modified": "2025-09-02T05:34:58.794791"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\3a-TidyLLM Ecosystem Strategy & Integr.md",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-02\\3a-TidyLLM Ecosystem Strategy & Integr.md",
+        "size": 6827,
+        "created": "2025-09-02T05:36:21.654803",
+        "modified": "2025-09-02T05:36:21.799696"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\Master Demos.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-09-02\\Master Demos.pdf",
+        "size": 2251790,
+        "created": "2025-09-02T05:41:13.195122",
+        "modified": "2025-09-02T05:41:16.537623"
+      }
+    ],
+    "2025-05-12": [
+      {
+        "source": "C:\\Users\\marti\\github\\robots\\multi_functional_servo_bracket_.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-05-12\\multi_functional_servo_bracket_.pdf",
+        "size": 57842,
+        "created": "2025-09-04T11:09:48.690095",
+        "modified": "2025-05-12T08:46:08.610948"
+      },
+      {
+        "source": "C:\\Users\\marti\\github\\robots\\robotic_arm_6dof_asmdrw.pdf",
+        "target": "C:\\Users\\marti\\github\\docs\\2025-05-12\\robotic_arm_6dof_asmdrw.pdf",
+        "size": 4497103,
+        "created": "2025-09-04T11:09:48.677096",
+        "modified": "2025-05-12T08:46:31.070194"
+      }
+    ]
+  },
+  "duplicates": [
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-whitepapers\\streamlit_demo\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-sentence\\.pytest_cache\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\.pytest_cache\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\.pytest_cache\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\.pytest_cache\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\my_config\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\3b-ARCHITECTURE CONFIRMED.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\3-ARCHITECTURE CONFIRMED.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\docs\\Quick_Start_Electrical_System.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\Quick_Start_Electrical_System.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\research\\context_engineering_paper_outline.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\research\\context_engineering_paper_outline.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\research\\hierarchical_control_research_notes.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\research\\papers\\hierarchical_control_research_notes.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\side-discussions\\research\\mathematical_decomposition_residual_risk.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\research\\mathematical_decomposition_residual_risk.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\side-discussions\\research\\research_extraction_planning.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\research\\research_extraction_planning.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\side-discussions\\technical\\dspy_context_definition_analysis.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\technical\\dspy_context_definition_analysis.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\side-discussions\\theoretical\\context_collapse_electrical_analysis.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\side-discussions\\theoretical\\context_collapse_electrical_analysis.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\docs\\architecture\\Electrical_System_Documentation.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\architecture\\Electrical_System_Documentation.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old-tidyllm-docs\\hieros\\docs\\architecture\\TidyLLM-HeirOS_Complete_System_Documentation.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-heiros\\docs\\architecture\\TidyLLM-HeirOS_Complete_System_Documentation.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-sentence\\tidyllm_sentence.egg-info\\dependency_links.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\dependency_links.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-documents\\tidyllm_documents.egg-info\\dependency_links.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\dependency_links.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-compliance\\tidyllm_compliance.egg-info\\dependency_links.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\tlm.egg-info\\dependency_links.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\requirements.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\requirements.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\DEMO_SUMMARY.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\test.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\archive\\old_boss_demo_evidence\\input_zone\\BOSS_DEMO_README.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\BOSS_DEMO_README.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\demo_s3_bucket\\papers\\2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\demo_s3_bucket\\papers\\2308.02381_Non-Ideal_Measurement_Heat_Engines.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2308.02381_Non-Ideal_Measurement_Heat_Engines.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\workflows\\inputs\\domain_rag\\multi_functional_servo_bracket_.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\multi_functional_servo_bracket_.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\workflows\\inputs\\domain_rag\\robotic_arm_6dof_asmdrw.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\robotic_arm_6dof_asmdrw.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\robotic_arm_6dof_asmdrw.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\robotic_arm_6dof_asmdrw.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\016.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\2019-02-26-Model-Validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\2019-02-26-Model-Validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\252994.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\252994.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\835920.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\835920.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\abench_2506.11440v1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\abench_2506.11440v1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\bcbs_wp14.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\bcbs_wp14.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Bookshelf_NBK543636.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Bookshelf_NBK543636.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Canaries_BrynjolfssonChandarChen.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Canaries_BrynjolfssonChandarChen.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\distract_2302.00093v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\distract_2302.00093v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\finalSCORpaper.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\finalSCORpaper.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\gem15_2403.05530v5.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\gem15_2403.05530v5.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\instructions_validation_reporting_credit_risk.en.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\instructions_validation_reporting_credit_risk.en.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\investment-model-validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\investment-model-validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\longmem_2410.10813v2.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\longmem_2410.10813v2.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Master Demos.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\Master Demos.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\MH0026-tool-for-model-validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\MH0026-tool-for-model-validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\mich_2409.12640v2.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\mich_2409.12640v2.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\ml-model-validation-best-practice.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ml-model-validation-best-practice.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Model_Governance_PN_042017.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Model_Governance_PN_042017.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\nolima_2502.05167v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\nolima_2502.05167v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\OASIcs.SCOR.2016.6 (1).pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6 (1).pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\OASIcs.SCOR.2016.6.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\paper114.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\paper114.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\pdf-model-validation-Validation-Workshop-2018.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pdf-model-validation-Validation-Workshop-2018.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\pub-ch-model-risk.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pub-ch-model-risk.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\research-2014-model-valid-ins.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\research-2014-model-valid-ins.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\reviewing-validating-auditing-act-models.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\reviewing-validating-auditing-act-models.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\s10479-022-04574-x.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\s10479-022-04574-x.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\siwinter05-article1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\siwinter05-article1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\umap_1802.03426v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\umap_1802.03426v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\pdfs\\whitepaper_1994.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\whitepaper_1994.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\knowledge_base\\processed\\test_cleanup_016_20250903_152916.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\2019-02-26-Model-Validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\2019-02-26-Model-Validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\Master Demos.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\Master Demos.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\boss_demo_evidence\\input_zone\\real_test_016.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\MASTER_DEMOS_LIST.html",
+      "duplicate_of": "C:\\Users\\marti\\github\\MASTER_DEMOS_LIST.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\chain_integration_strategy.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\chain_integration_strategy.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\compliance_module_organization_plan.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\compliance_module_organization_plan.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\demo_analysis_and_user_personas.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\demo_analysis_and_user_personas.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\DIRECTORY_INDEX.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\DIRECTORY_INDEX.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\DOCUMENT_COLLECTIONS_SYSTEM.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\DOCUMENT_COLLECTIONS_SYSTEM.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\DROP_ZONES_ARCHITECTURE.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\DROP_ZONES_ARCHITECTURE.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\Guidance-on-AWS-Sessions.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\Guidance-on-AWS-Sessions.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\Guidance-on-Using-MCP.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\Guidance-on-Using-MCP.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\GUIDANCE_ON_MODEL_SELECTION.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\GUIDANCE_ON_MODEL_SELECTION.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\mvr_analysis_core_purpose.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\mvr_analysis_core_purpose.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\S3_FIRST_ARCHITECTURE_GUIDANCE.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\S3_FIRST_ARCHITECTURE_GUIDANCE.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\Session-Management-Migration-Map.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\Session-Management-Migration-Map.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\sop_chat_integration_requirements.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\sop_chat_integration_requirements.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\streamlit_demo_consolidation.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\streamlit_demo_consolidation.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\docs\\universal_bracket_flows_implementation_plan.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\docs\\universal_bracket_flows_implementation_plan.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\.github\\pull_request_template.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\.github\\pull_request_template.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\.pytest_cache\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tlm\\.pytest_cache\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\PARSING_CAPABILITIES_ANALYSIS.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\PARSING_CAPABILITIES_ANALYSIS.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\S3_DOMAIN_RAG_SUCCESS_SUMMARY.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_systems\\S3_DOMAIN_RAG_SUCCESS_SUMMARY.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\tests\\EVIDENCE\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\tests\\EVIDENCE\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\my_config\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\bug_report.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\bug_report.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\feature_request.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\.github\\ISSUE_TEMPLATE\\feature_request.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\requirements.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\requirements.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\requirements.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\requirements.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\test.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\test.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\data_governance.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\data_governance.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\model_validation.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\model_validation.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\risk_management.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\test_knowledge_base\\risk_management.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\my_config\\requirements.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\my_config\\requirements.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\admin\\mlruns\\34\\1b0042555ed64ed086d7f6dbff48bf15\\artifacts\\temp_test_artifact.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\admin\\mlruns\\34\\1b0042555ed64ed086d7f6dbff48bf15\\artifacts\\temp_test_artifact.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\016.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\2019-02-26-Model-Validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\2019-02-26-Model-Validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\252994.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\252994.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\835920.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\835920.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\abench_2506.11440v1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\abench_2506.11440v1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\bcbs_wp14.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\bcbs_wp14.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Bookshelf_NBK543636.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Bookshelf_NBK543636.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Canaries_BrynjolfssonChandarChen.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Canaries_BrynjolfssonChandarChen.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\distract_2302.00093v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\distract_2302.00093v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\finalSCORpaper.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\finalSCORpaper.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\gem15_2403.05530v5.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\gem15_2403.05530v5.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\instructions_validation_reporting_credit_risk.en.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\instructions_validation_reporting_credit_risk.en.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\investment-model-validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\investment-model-validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\longmem_2410.10813v2.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\longmem_2410.10813v2.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\MH0026-tool-for-model-validation.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\MH0026-tool-for-model-validation.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\mich_2409.12640v2.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\mich_2409.12640v2.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ml-model-validation-best-practice.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ml-model-validation-best-practice.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\ModelRiskManagementPracticeNote_May2019.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Model_Governance_PN_042017.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Model_Governance_PN_042017.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\nolima_2502.05167v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\nolima_2502.05167v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6 (1).pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6 (1).pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\OASIcs.SCOR.2016.6.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\paper114.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\paper114.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pdf-model-validation-Validation-Workshop-2018.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pdf-model-validation-Validation-Workshop-2018.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pub-ch-model-risk.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\pub-ch-model-risk.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\research-2014-model-valid-ins.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\research-2014-model-valid-ins.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\reviewing-validating-auditing-act-models.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\reviewing-validating-auditing-act-models.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\s10479-022-04574-x.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\s10479-022-04574-x.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\siwinter05-article1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\siwinter05-article1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\umap_1802.03426v3.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\umap_1802.03426v3.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\Whitepaper-Model-Validation-Best-Practices-1.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\whitepaper_1994.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\knowledge_base\\whitepaper_1994.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\workflows\\inputs\\domain_rag\\multi_functional_servo_bracket_.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\multi_functional_servo_bracket_.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\workflows\\inputs\\domain_rag\\robotic_arm_6dof_asmdrw.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\robotic_arm_6dof_asmdrw.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_gauge.html",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_gauge.html",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_matrix.html",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\access_control_matrix.html",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\performance_metrics.html",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\performance_metrics.html",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\risk_assessment_chart.html",
+      "duplicate_of": "C:\\Users\\marti\\github\\tidyllm\\demo-standalone\\risk_assessment_chart.html",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_MVR_Analysis.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_MVR_Analysis.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_Peer_Review.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_Peer_Review.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_VST_Template.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12345_VST_Template.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12346_VST_Template.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\REV12346_VST_Template.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\scripts\\streamlit_mvr_workspace\\documents\\robotic_arm_6dof_asmdrw.pdf",
+      "duplicate_of": "C:\\Users\\marti\\github\\robots\\robotic_arm_6dof_asmdrw.pdf",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\COMPREHENSIVE_TEST_STATUS.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\COMPREHENSIVE_TEST_STATUS.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\PHASE_3_EVIDENCE_SUMMARY.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\PHASE_3_EVIDENCE_SUMMARY.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\README.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\README.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\VALIDATION_SUMMARY.md",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\VALIDATION_SUMMARY.md",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\test_research_paper.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\test_research_paper.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\temp_research\\ml_research_paper.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\temp_research\\ml_research_paper.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\temp_research\\sample_whitepaper.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\temp_research\\sample_whitepaper.txt",
+      "action": "skip"
+    },
+    {
+      "file": "C:\\Users\\marti\\github\\tests\\temp_research\\tidyllm_methodology.txt",
+      "duplicate_of": "C:\\Users\\marti\\github\\tests\\temp_research\\tidyllm_methodology.txt",
+      "action": "skip"
+    }
+  ],
+  "errors": []
+}

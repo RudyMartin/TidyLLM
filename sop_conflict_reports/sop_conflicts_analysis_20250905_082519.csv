@@ -1,0 +1,3 @@
+Conflict_ID,Query,Severity,Documents_Affected,Dates_Involved,Authoritative_Date,Deprecated_Dates,Resolution,Status,Generated_At
+CONF-001,What is the official session management pattern for TidyLLM?,high,57,2025-09-05; 2025-09-04; 2025-09-03,2025-09-05,2025-09-04; 2025-09-03,Use guidance from 2025-09-05 as authoritative,Resolved,2025-09-05T08:25:19.602886
+CONF-002,Which embedding system should be used: tidyllm-sentence or tidyllm-vectorqa?,high,63,2025-09-05; 2025-09-04; 2025-09-03,2025-09-05,2025-09-04; 2025-09-03,Use guidance from 2025-09-05 as authoritative,Resolved,2025-09-05T08:25:19.602899

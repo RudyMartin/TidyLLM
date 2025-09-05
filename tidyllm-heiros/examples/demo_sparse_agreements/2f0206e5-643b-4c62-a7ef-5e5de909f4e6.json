@@ -1,0 +1,143 @@
+{
+  "agreement_id": "2f0206e5-643b-4c62-a7ef-5e5de909f4e6",
+  "title": "Automated Document Type Classification",
+  "description": "Pre-approved classification of uploaded documents as MVR, peer review, or supporting materials",
+  "version": "1.0",
+  "status": "approved",
+  "created_date": "2025-08-30T10:51:12.726461",
+  "approval_date": "2025-08-30T10:51:12.731617",
+  "expiry_date": null,
+  "business_purpose": "Streamline document intake process while maintaining audit trail",
+  "expected_frequency": "",
+  "business_owner": "Risk Management Team",
+  "technical_owner": "AI Systems Team",
+  "conditions": [
+    {
+      "condition_id": "730cbdac-03c3-49d5-bdb8-596b34ee2aaf",
+      "description": "Document size must be under 50MB",
+      "condition_type": "context_check",
+      "validation_method": "automated",
+      "parameters": {
+        "required_keys": [
+          "file_size"
+        ],
+        "max_size": 52428800
+      },
+      "mandatory": true,
+      "defined_by": "Security Team",
+      "business_justification": "Large files require manual security screening"
+    },
+    {
+      "condition_id": "a7b52be7-0b23-445c-a746-91db38907398",
+      "description": "Document must be PDF or TXT format",
+      "condition_type": "context_check",
+      "validation_method": "automated",
+      "parameters": {
+        "required_keys": [
+          "file_extension"
+        ],
+        "allowed_extensions": [
+          ".pdf",
+          ".txt"
+        ]
+      },
+      "mandatory": true,
+      "defined_by": "Compliance Team",
+      "business_justification": "Only approved file formats for regulatory compliance"
+    }
+  ],
+  "approved_actions": [
+    {
+      "action_id": "35b1962a-8a4e-44d4-bb21-8f63311a436b",
+      "name": "Classify Document Type",
+      "description": "Use ML model to classify document type with confidence scoring",
+      "action_type": "ml_classification",
+      "parameters": {
+        "model": "document_classifier_v2",
+        "confidence_threshold": 0.85
+      },
+      "max_executions_per_day": null,
+      "max_executions_per_hour": null,
+      "requires_human_confirmation": false,
+      "log_level": "INFO",
+      "sensitive_data_handling": "standard",
+      "retention_period_days": 365
+    },
+    {
+      "action_id": "133e5069-578d-4b3c-8be8-607ba28e6180",
+      "name": "Extract Document Metadata",
+      "description": "Extract title, author, date, and section structure",
+      "action_type": "metadata_extraction",
+      "parameters": {
+        "extraction_method": "hybrid_ocr_nlp"
+      },
+      "max_executions_per_day": null,
+      "max_executions_per_hour": null,
+      "requires_human_confirmation": false,
+      "log_level": "INFO",
+      "sensitive_data_handling": "standard",
+      "retention_period_days": 365
+    }
+  ],
+  "compliance_frameworks": [
+    "sarbanes_oxley",
+    "internal_policy"
+  ],
+  "risk_assessment": {
+    "risk_level": "low",
+    "business_impact_score": 2.0,
+    "compliance_risk_score": 1.5,
+    "operational_risk_score": 2.5,
+    "mitigation_strategies": [
+      "Confidence threshold prevents misclassification",
+      "Manual review queue for low-confidence results",
+      "Audit trail for all classifications"
+    ],
+    "monitoring_requirements": [
+      "Weekly accuracy metrics review",
+      "Monthly false positive analysis"
+    ],
+    "escalation_triggers": [],
+    "risk_analysis_document": null,
+    "assessor_id": "risk_team",
+    "assessment_date": "2025-08-30T10:51:12.730892"
+  },
+  "stakeholder_approvals": [
+    {
+      "stakeholder_id": "7738b317-da61-4e6a-8d46-18051f5b9eb1",
+      "name": "Jane Smith",
+      "role": "VP Risk Management",
+      "department": "Risk Management",
+      "approval_date": "2025-08-30T10:51:12.729552",
+      "approval_method": "digital_signature",
+      "comments": "Approved for standard document classification workflow",
+      "conditions": []
+    },
+    {
+      "stakeholder_id": "98a4e04c-278b-4fb7-83c8-3d104d47e27f",
+      "name": "Bob Johnson",
+      "role": "Chief Compliance Officer",
+      "department": "Compliance",
+      "approval_date": "2025-08-30T10:51:12.730223",
+      "approval_method": "digital_signature",
+      "comments": "Complies with document handling policies",
+      "conditions": []
+    }
+  ],
+  "review_frequency_days": 365,
+  "last_review_date": null,
+  "next_review_date": "2026-08-30T10:51:12.731618",
+  "execution_count": 0,
+  "last_execution_date": null,
+  "execution_statistics": {},
+  "documentation_links": [],
+  "related_policies": [],
+  "change_history": [
+    {
+      "action": "approved",
+      "timestamp": "2025-08-30T10:51:12.731623",
+      "approver_id": "system_admin",
+      "previous_status": "pending_review"
+    }
+  ]
+}

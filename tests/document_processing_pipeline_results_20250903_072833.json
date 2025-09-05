@@ -1,0 +1,25 @@
+{
+  "timestamp": "2025-09-03T07:28:32.824047",
+  "tests": {
+    "document_creation_and_processing": {
+      "status": "success",
+      "documents_processed": 3,
+      "total_documents": 3,
+      "batch_processing_status": "success",
+      "evidence_file": "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\standard\\tests\\EVIDENCE\\evidence_document_processing_pipeline_20250903_072832.json"
+    },
+    "s3_document_upload_integration": {
+      "status": "success",
+      "s3_url": "https://dsai-2025-asu.s3.amazonaws.com/tidyllm-tests/document-processing/test_document_1756902513.txt",
+      "upload_time": 0.38899898529052734,
+      "integration_success": false,
+      "evidence_file": "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\standard\\tests\\EVIDENCE\\evidence_s3_document_upload_integration_20250903_072833.json"
+    }
+  },
+  "summary": {
+    "total_tests": 2,
+    "passed_tests": 2,
+    "success_rate": 100.0,
+    "overall_status": "pass"
+  }
+}

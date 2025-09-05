@@ -1,0 +1,125 @@
+{
+  "test_type": "tidyllm_backends",
+  "timestamp": "2025-09-03T13:35:20.131022",
+  "results": {
+    "mock_backend": {
+      "status": "SUCCESS",
+      "message": "Mock backend operational",
+      "backend_type": "mock",
+      "health": {
+        "healthy": true,
+        "last_used": null,
+        "call_count": 0,
+        "error_count": 0,
+        "error_rate": 0.0
+      }
+    },
+    "direct_backend": {
+      "status": "SUCCESS",
+      "message": "Direct backend operational",
+      "backend_type": "direct",
+      "health": {
+        "healthy": true,
+        "last_used": null,
+        "call_count": 0,
+        "error_count": 0,
+        "error_rate": 0.0
+      }
+    },
+    "bedrock_backend": {
+      "status": "SUCCESS",
+      "message": "Bedrock backend instantiated (healthy)",
+      "backend_type": "bedrock",
+      "health": {
+        "healthy": true,
+        "last_used": null,
+        "call_count": 0,
+        "error_count": 0,
+        "error_rate": 0.0
+      }
+    },
+    "gateway_backend": {
+      "status": "SUCCESS",
+      "message": "Gateway backend instantiated (healthy)",
+      "backend_type": "gateway",
+      "health": {
+        "healthy": true,
+        "last_used": null,
+        "call_count": 0,
+        "error_count": 0,
+        "error_rate": 0.0
+      }
+    },
+    "auto_detection": {
+      "status": "SUCCESS",
+      "message": "Auto-detection selected: direct",
+      "detected_backend": "direct",
+      "backend_info": {
+        "type": "direct",
+        "team": "performance",
+        "status": "operational",
+        "litellm_available": true,
+        "provider": "openai",
+        "model": "gpt-3.5-turbo",
+        "features": [
+          "multiple_providers",
+          "performance_optimized",
+          "connection_pooling",
+          "retry_logic",
+          "timeout_management"
+        ],
+        "config": {
+          "provider": "openai",
+          "model": "gpt-3.5-turbo",
+          "temperature": 0.7,
+          "max_tokens": 1000,
+          "connection_pool_size": 10,
+          "request_timeout": 30,
+          "retry_attempts": 3
+        },
+        "health": {
+          "healthy": true,
+          "last_used": null,
+          "call_count": 0,
+          "error_count": 0,
+          "error_rate": 0.0
+        },
+        "description": "Direct LiteLLM backend optimized by Team Performance"
+      }
+    },
+    "cli_backend_testing": {
+      "status": "SUCCESS",
+      "message": "CLI backend testing operational",
+      "test_results": {
+        "team_test_results": [
+          {
+            "backend": "mock",
+            "team": "qa",
+            "status": "operational"
+          },
+          {
+            "backend": "direct",
+            "team": "performance",
+            "status": "operational"
+          },
+          {
+            "backend": "bedrock",
+            "team": "aws",
+            "status": "operational"
+          },
+          {
+            "backend": "gateway",
+            "team": "gateway",
+            "status": "operational"
+          }
+        ]
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "success_rate": "100.0%"
+  }
+}

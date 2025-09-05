@@ -1,0 +1,126 @@
+{
+  "timestamp": "2025-09-03T07:01:32.027540",
+  "tests": {
+    "aws_credentials_check": {
+      "status": "success",
+      "credential_sources": [
+        "environment_variables"
+      ],
+      "environment_variables": {
+        "AWS_ACCESS_KEY_ID": "AKIASXYZ...",
+        "AWS_SECRET_ACCESS_KEY": "xGMWglS3...",
+        "AWS_DEFAULT_REGION": "us-east-..."
+      },
+      "credentials_available": true
+    },
+    "boto3_s3_connection": {
+      "status": "success",
+      "s3_connection_successful": true,
+      "connection_time": 0.3865382671356201,
+      "bucket_count": 3,
+      "buckets": [
+        "dsai-2025-asu",
+        "nsc-mvp1",
+        "sagemaker-us-east-1-188494237500"
+      ]
+    },
+    "s3_bucket_operations": {
+      "status": "partial",
+      "test_bucket": "dsai-2025-asu",
+      "operations_tested": {
+        "list_objects": {
+          "success": false,
+          "error": "AccessDenied"
+        },
+        "get_bucket_location": {
+          "success": false,
+          "error": "AccessDenied"
+        },
+        "get_bucket_versioning": {
+          "success": false,
+          "error": "AccessDenied"
+        }
+      },
+      "successful_operations": 0,
+      "total_operations": 3,
+      "success_rate": 0.0
+    },
+    "s3_file_operations": {
+      "status": "success",
+      "test_bucket": "dsai-2025-asu",
+      "test_file_key": "tidyllm-test-20250903-070134.txt",
+      "file_operations": {
+        "upload": {
+          "success": true,
+          "duration": 0.3742218017578125,
+          "file_size": 101,
+          "s3_url": "https://dsai-2025-asu.s3.amazonaws.com/tidyllm-test-20250903-070134.txt",
+          "etag": "2d1ff8aea18d2a7477578464f9959144",
+          "response_metadata": {
+            "RequestId": "57NX05SQ20ES8BH3",
+            "HostId": "03jKzKesg9R7rQPEM97HFb7r8KaY1CdxLQATZ2iLqVoqEPFEtZnQzN4is57yo+iLLc21GP+z007KYkTKaxvw4Q==",
+            "HTTPStatusCode": 200,
+            "HTTPHeaders": {
+              "x-amz-id-2": "03jKzKesg9R7rQPEM97HFb7r8KaY1CdxLQATZ2iLqVoqEPFEtZnQzN4is57yo+iLLc21GP+z007KYkTKaxvw4Q==",
+              "x-amz-request-id": "57NX05SQ20ES8BH3",
+              "date": "Wed, 03 Sep 2025 12:01:36 GMT",
+              "x-amz-server-side-encryption": "AES256",
+              "etag": "\"2d1ff8aea18d2a7477578464f9959144\"",
+              "x-amz-checksum-crc32": "3rh8TA==",
+              "x-amz-checksum-type": "FULL_OBJECT",
+              "content-length": "0",
+              "server": "AmazonS3"
+            },
+            "RetryAttempts": 0
+          }
+        },
+        "head_object": {
+          "success": true,
+          "duration": 0.03759884834289551,
+          "file_size": 101
+        },
+        "download": {
+          "success": true,
+          "duration": 0.041155338287353516,
+          "content_matches": true,
+          "downloaded_size": 101
+        },
+        "delete": {
+          "success": true,
+          "duration": 0.04719996452331543
+        }
+      },
+      "successful_operations": 4,
+      "total_operations": 4,
+      "success_rate": 100.0
+    },
+    "s3_performance": {
+      "status": "success",
+      "performance_metrics": {
+        "list_buckets": {
+          "average_time": 0.047034660975138344,
+          "times": [
+            0.046010494232177734,
+            0.04722452163696289,
+            0.047868967056274414
+          ]
+        },
+        "list_objects": {
+          "error": "AccessDenied"
+        },
+        "head_bucket": {
+          "error": "403"
+        }
+      },
+      "tests_completed": 1,
+      "overall_average_time": 0.047034660975138344,
+      "performance_good": true
+    }
+  },
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 4.5,
+    "success_rate": 90.0,
+    "overall_status": "pass"
+  }
+}

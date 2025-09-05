@@ -1,0 +1,48 @@
+{
+  "report_type": "YRSN Validation Report",
+  "generated_at": "2025-09-05T10:42:19.355645",
+  "yrsn_metrics": {
+    "average_noise_score": 88.59184864675741,
+    "highest_noise_score": 95.07462686567165,
+    "lowest_noise_score": 81.09133352786694,
+    "queries_above_50_percent_noise": 5,
+    "queries_above_70_percent_noise": 5
+  },
+  "validation_details": [
+    {
+      "query": "What are the model validation requirements?",
+      "noise_score": 94.83193277310924,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.05168067226890756,
+      "specific_guidance_count": 10
+    },
+    {
+      "query": "How should stress testing procedures be conducted?",
+      "noise_score": 86.63967611336032,
+      "quality_level": "HIGH_RISK",
+      "actionable_ratio": 0.13360323886639677,
+      "specific_guidance_count": 2
+    },
+    {
+      "query": "What credit risk assessment methods are required?",
+      "noise_score": 81.09133352786694,
+      "quality_level": "HIGH_RISK",
+      "actionable_ratio": 0.18908666472133062,
+      "specific_guidance_count": 28
+    },
+    {
+      "query": "Which regulatory compliance guidelines apply?",
+      "noise_score": 95.07462686567165,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.049253731343283584,
+      "specific_guidance_count": 11
+    },
+    {
+      "query": "What documentation is required for model validation?",
+      "noise_score": 85.32167395377888,
+      "quality_level": "HIGH_RISK",
+      "actionable_ratio": 0.14678326046221113,
+      "specific_guidance_count": 34
+    }
+  ]
+}

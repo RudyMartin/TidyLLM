@@ -1,0 +1,92 @@
+{
+  "analysis_type": "Orphan Files Identification (Respecting 2-Day Rule)",
+  "created_at": "2025-09-05T17:30:00",
+  "constraints_followed": {
+    "last_2_days_rule": "Files modified Sept 3-5, 2025 stay in exact place",
+    "constraints_doc": "./docs/2025-09-05/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+    "organization_rules": "Scripts→/scripts/, Docs→/docs/, Code→/tidyllm/, Tests→/tests/"
+  },
+  "last_2_days_files": {
+    "description": "Files from last 2 days - STAY IN EXACT PLACE",
+    "count": 25,
+    "root_level_files": [
+      "checklist_vs_sop_comparison.py",
+      "compliance_sop_conflict_demo.py", 
+      "comprehensive_python_audit.py",
+      "create_sop_domain_flow.py",
+      "docs_conflict_analyzer.py",
+      "domain_cross_domain_reporter.py",
+      "embedding_verification.py",
+      "flow_checklist_upload.py",
+      "flow_modeling_upload.py", 
+      "flow_sop_upload.py",
+      "one_click_domain_rag_builder.py",
+      "organize_documentation_by_date.py",
+      "pdf_intelligent_sorter.py",
+      "risk_management_sop_drop_zone.py",
+      "rudy_test_embeddings.py",
+      "simple_domain_rag_builder.py",
+      "simple_pdf_sorter.py",
+      "sop_conflict_reporter_OLD_STANDALONE.py",
+      "sop_domain_rag_tidyllm.py",
+      "start_production_with_aws.py",
+      "submodule_analyzer.py",
+      "test_aws_connection.py",
+      "test_s3_upload.py", 
+      "test_sop_docs_processing.py",
+      "tidyllm_internal_domain_rag.py",
+      "uncertain_file_investigator.py"
+    ],
+    "status": "PROTECTED - Do not move per user instruction"
+  },
+  "older_orphan_candidates": {
+    "description": "Files older than Sept 3, 2025 that could be reorganized",
+    "count": 0,
+    "reason": "All root-level .py files are from last 2 days"
+  },
+  "potential_reorganization": {
+    "description": "Future reorganization suggestions when 2-day protection expires",
+    "categories": {
+      "should_go_to_scripts": [
+        "start_production_with_aws.py",
+        "comprehensive_python_audit.py",
+        "organize_documentation_by_date.py",
+        "pdf_intelligent_sorter.py",
+        "simple_pdf_sorter.py",
+        "submodule_analyzer.py", 
+        "uncertain_file_investigator.py"
+      ],
+      "should_go_to_tests": [
+        "test_aws_connection.py",
+        "test_s3_upload.py",
+        "test_sop_docs_processing.py",
+        "rudy_test_embeddings.py",
+        "embedding_verification.py"
+      ],
+      "should_go_to_tidyllm": [
+        "tidyllm_internal_domain_rag.py"
+      ],
+      "demos_uncertain_location": [
+        "compliance_sop_conflict_demo.py",
+        "checklist_vs_sop_comparison.py",
+        "domain_cross_domain_reporter.py",
+        "docs_conflict_analyzer.py"
+      ]
+    }
+  },
+  "constraint_violations_noted": {
+    "root_directory_code": "25 Python files in root (violates CONSTRAINTS but protected by 2-day rule)",
+    "file_organization": "Files should be in /scripts/, /docs/, /tidyllm/, /tests/ per constraints",
+    "temporary_exception": "User override: last 2 days files stay in exact place"
+  },
+  "compliance_status": {
+    "constraints_adherence": "TEMPORARILY_SUSPENDED_BY_USER_RULE",
+    "future_action_needed": "Reorganize files after 2-day protection expires",
+    "no_code_changes": "MAINTAINED - Read-only analysis"
+  },
+  "recommendations": {
+    "immediate": "No moves - respect 2-day rule",
+    "future": "After Sept 5, 2025 - organize per CONSTRAINTS document",
+    "monitoring": "Track file ages for future reorganization opportunities"
+  }
+}

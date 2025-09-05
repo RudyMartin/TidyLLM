@@ -1,0 +1,35 @@
+drop_zones:
+- agent: dspy
+  backend: auto
+  color: cyan
+  create_zone_dir_if_not_exists: true
+  events:
+  - created
+  file_patterns:
+  - '*.pdf'
+  - '*.docx'
+  - '*.txt'
+  model: claude-3-sonnet
+  name: TidyLLM Document Processing
+  workflow_prompt: prompts/document_analysis.md
+  zone_dirs:
+  - drop_zones/documents
+- agent: dspy
+  backend: auto
+  color: blue
+  compliance_tasks:
+  - data_validation
+  - schema_analysis
+  - compliance_check
+  create_zone_dir_if_not_exists: true
+  events:
+  - created
+  file_patterns:
+  - '*.csv'
+  - '*.json'
+  - '*.xlsx'
+  model: claude-3-sonnet
+  name: TidyLLM Data Analysis
+  workflow_prompt: prompts/data_analysis.md
+  zone_dirs:
+  - drop_zones/data

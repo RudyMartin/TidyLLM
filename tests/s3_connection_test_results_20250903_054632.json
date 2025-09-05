@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-09-03T05:46:23.100512",
+  "tests": {
+    "aws_credentials_check": {
+      "status": "partial",
+      "credential_sources": [],
+      "environment_variables": {
+        "AWS_ACCESS_KEY_ID": "NOT SET",
+        "AWS_SECRET_ACCESS_KEY": "NOT SET",
+        "AWS_DEFAULT_REGION": "NOT SET"
+      },
+      "credentials_available": false
+    },
+    "boto3_s3_connection": {
+      "status": "error",
+      "error": "AWS credentials not configured"
+    },
+    "s3_bucket_operations": {
+      "status": "error",
+      "error": "Unable to locate credentials"
+    },
+    "s3_file_operations": {
+      "status": "error",
+      "error": "Unable to locate credentials"
+    },
+    "s3_performance": {
+      "status": "error",
+      "error": "Unable to locate credentials"
+    }
+  },
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 0.5,
+    "success_rate": 10.0,
+    "overall_status": "fail"
+  }
+}

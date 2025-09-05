@@ -1,0 +1,23 @@
+{
+  "test_name": "gateway_processing_capabilities",
+  "timestamp": "2025-09-04T06:25:33.025039",
+  "test_input": "Test processing request",
+  "results": {
+    "dspy_processing": {
+      "status": "GatewayStatus.SUCCESS",
+      "has_data": true,
+      "gateway_name": "DSPyGateway"
+    },
+    "llm_processing": {
+      "status": "GatewayStatus.SUCCESS",
+      "has_data": true,
+      "gateway_name": "LLMGateway"
+    },
+    "heiros_processing": {
+      "status": "GatewayStatus.SUCCESS",
+      "has_data": true,
+      "gateway_name": "HeirOSGateway"
+    },
+    "processing_test": "PASS"
+  }
+}

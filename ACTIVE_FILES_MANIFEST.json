@@ -1,0 +1,137 @@
+{
+  "manifest_type": "Active Files by Recency and Import Analysis",
+  "created_at": "2025-09-05T17:00:00",
+  "analysis_criteria": {
+    "recency_threshold": "2025-09-01",
+    "import_analysis": "Standard library vs external dependencies",
+    "constraint_compliance": "No code changes, read-only analysis"
+  },
+  "critical_constraints_found": [
+    "./tidyllm_internal_domain_rag.py",
+    "./docs_conflict_analysis_20250905_072401.json",
+    "./tidyllm/knowledge_systems/stateless_s3_domain_rag.py"
+  ],
+  "most_active_files": {
+    "tier_1_recent": {
+      "description": "Most recently modified files with active imports",
+      "precedence": 1.0,
+      "files": [
+        {
+          "path": "./scripts/start_drop_zones_demo.py",
+          "import_profile": "streamlit, pandas, json, pathlib",
+          "purpose": "Drop zones demo interface",
+          "activity_score": 10
+        },
+        {
+          "path": "./tidyllm_internal_domain_rag.py", 
+          "import_profile": "pathlib, json, subprocess, datetime",
+          "purpose": "Internal RAG system builder",
+          "activity_score": 9
+        },
+        {
+          "path": "./domain_rag_system/demo.py",
+          "import_profile": "pathlib, json",
+          "purpose": "Domain RAG demo system",
+          "activity_score": 8
+        }
+      ]
+    },
+    "tier_2_active_modules": {
+      "description": "Core tidyllm modules with recent activity",
+      "precedence": 0.9,
+      "files": [
+        {
+          "path": "./tidyllm/chat_workflow_interface.py",
+          "import_profile": "streamlit, json, datetime, pathlib",
+          "purpose": "Workflow chat interface",
+          "activity_score": 7
+        },
+        {
+          "path": "./tidyllm/connection_manager.py",
+          "import_profile": "threading, dataclasses, enum, contextlib",
+          "purpose": "Connection management system",
+          "activity_score": 7
+        },
+        {
+          "path": "./tidyllm/document_chains.py",
+          "import_profile": "json, logging, dataclasses, typing",
+          "purpose": "Document processing chains",
+          "activity_score": 6
+        }
+      ]
+    },
+    "tier_3_compliance": {
+      "description": "Compliance and validation modules",
+      "precedence": 0.8,
+      "files": [
+        {
+          "path": "./tidyllm-compliance/tidyllm_compliance/__init__.py",
+          "import_profile": "standard_library_only",
+          "purpose": "Compliance module main",
+          "activity_score": 6
+        },
+        {
+          "path": "./compliance_sop_conflict_demo.py",
+          "import_profile": "to_be_analyzed",
+          "purpose": "SOP conflict demonstration", 
+          "activity_score": 5
+        }
+      ]
+    },
+    "tier_4_utilities": {
+      "description": "Utility and processing scripts",
+      "precedence": 0.7,
+      "files": [
+        {
+          "path": "./flow_modeling_upload.py",
+          "import_profile": "to_be_analyzed",
+          "purpose": "Model flow upload utility",
+          "activity_score": 4
+        },
+        {
+          "path": "./simple_domain_rag_builder.py", 
+          "import_profile": "to_be_analyzed",
+          "purpose": "Simple RAG builder",
+          "activity_score": 4
+        }
+      ]
+    }
+  },
+  "import_patterns": {
+    "most_common_stdlib": [
+      "json",
+      "pathlib", 
+      "datetime",
+      "typing",
+      "os"
+    ],
+    "external_dependencies": [
+      "streamlit",
+      "pandas", 
+      "subprocess"
+    ],
+    "tidyllm_internal_imports": [
+      "tidyllm_compliance",
+      "tidyllm_sentence",
+      "tlm"
+    ]
+  },
+  "architecture_insights": {
+    "active_frameworks": ["Streamlit for demos", "Standard library focus"],
+    "dependency_strategy": "Minimal external dependencies",
+    "module_structure": "tidyllm-* namespace pattern",
+    "constraint_compliance": "Read-only analysis maintains repository integrity"
+  },
+  "recommendations": {
+    "focus_areas": [
+      "Drop zones demo system (highest activity)",
+      "Internal RAG documentation system",
+      "Compliance module ecosystem"
+    ],
+    "import_hygiene": "Standard library preferred, external deps minimized",
+    "active_development": "Recent files show focus on RAG systems and compliance"
+  },
+  "total_analyzed_files": 30,
+  "active_file_count": 1250,
+  "constraint_adherence": "NO_CODE_CHANGES_MAINTAINED"
+}

@@ -1,0 +1,41 @@
+{
+  "report_type": "YRSN Validation Report",
+  "generated_at": "2025-09-05T08:58:34.946166",
+  "yrsn_metrics": {
+    "average_noise_score": 95.29377003768116,
+    "highest_noise_score": 96.34888438133875,
+    "lowest_noise_score": 94.44834855938159,
+    "queries_above_50_percent_noise": 4,
+    "queries_above_70_percent_noise": 4
+  },
+  "validation_details": [
+    {
+      "query": "What is the official session management pattern for TidyLLM?",
+      "noise_score": 95.5872445542331,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.044127554457668985,
+      "specific_guidance_count": 35
+    },
+    {
+      "query": "Which embedding system should be used: tidyllm-sentence or tidyllm-vectorqa?",
+      "noise_score": 94.7906026557712,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.05209397344228805,
+      "specific_guidance_count": 41
+    },
+    {
+      "query": "How should MVR documents be classified and tagged?",
+      "noise_score": 96.34888438133875,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.036511156186612576,
+      "specific_guidance_count": 2
+    },
+    {
+      "query": "What is the process for YRSN noise analysis validation?",
+      "noise_score": 94.44834855938159,
+      "quality_level": "CRITICAL_FAILURE",
+      "actionable_ratio": 0.05551651440618412,
+      "specific_guidance_count": 21
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "test_type": "tidyllm_comprehensive",
+  "timestamp": "2025-09-03T13:02:40.829937",
+  "results": {
+    "full_feature_integration": {
+      "status": "SUCCESS",
+      "message": "Comprehensive feature integration working",
+      "integration_results": {
+        "backend_operational": true,
+        "all_features_enabled": true,
+        "metrics_tracked": true,
+        "workflow_completed": true,
+        "validation_working": true,
+        "workflow_results": [
+          [
+            "step1",
+            {
+              "status": "success",
+              "prompt": "Please provide detailed analysis and comprehensive result for data processing"
+            }
+          ],
+          [
+            "step2",
+            {
+              "status": "success",
+              "prompt": "Please provide detailed analysis and comprehensive result for data processing"
+            }
+          ],
+          [
+            "step3",
+            {
+              "status": "validation_failed",
+              "valid": false
+            }
+          ],
+          [
+            "step4",
+            {
+              "status": "success",
+              "prompt": "Generate comprehensive analysis and detailed result for the new dataset requirements"
+            }
+          ]
+        ],
+        "initial_metrics": {
+          "enabled": true,
+          "total_requests": 0,
+          "successful_requests": 0,
+          "failed_requests": 0,
+          "cache_hits": 0,
+          "cache_misses": 0,
+          "cache_hit_rate": 0.0,
+          "total_response_time": 0.0,
+          "average_response_time": 0.0,
+          "retry_count": 0,
+          "validation_failures": 0,
+          "success_rate": 0.0,
+          "last_updated": "2025-09-03T13:02:33.098378",
+          "config": {
+            "track_response_times": true,
+            "track_cache_metrics": true,
+            "track_error_rates": true
+          }
+        },
+        "final_metrics": {
+          "enabled": true,
+          "total_requests": 0,
+          "successful_requests": 0,
+          "failed_requests": 0,
+          "cache_hits": 0,
+          "cache_misses": 0,
+          "cache_hit_rate": 0.0,
+          "total_response_time": 0.0,
+          "average_response_time": 0.0,
+          "retry_count": 0,
+          "validation_failures": 0,
+          "success_rate": 0.0,
+          "last_updated": "2025-09-03T13:02:33.098378",
+          "config": {
+            "track_response_times": true,
+            "track_cache_metrics": true,
+            "track_error_rates": true
+          }
+        },
+        "comprehensive_success": true
+      }
+    },
+    "complex_cli_workflow": {
+      "status": "SUCCESS",
+      "message": "Complex CLI workflow successful",
+      "workflow_analysis": {
+        "total_steps": 7,
+        "successful_steps": 7,
+        "success_rate": "1.000",
+        "avg_execution_time": "0.000s",
+        "total_workflow_time": "0.003s",
+        "workflow_results": {
+          "init_system": {
+            "success": true,
+            "result": {
+              "status": "initialized",
+              "backend": "MockBackend"
+            },
+            "description": "Initialize TidyLLM system",
+            "execution_time": "0.000s"
+          },
+          "create_analyzer": {
+            "success": true,
+            "result": {
+              "status": "module_created",
+              "signature": "document_text -> comprehensive_analysis"
+            },
+            "description": "Create document analyzer module",
+            "execution_time": "0.001s"
+          },
+          "create_summarizer": {
+            "success": true,
+            "result": {
+              "status": "module_created",
+              "signature": "analysis_data -> executive_summary"
+            },
+            "description": "Create summary generator module",
+            "execution_time": "0.001s"
+          },
+          "validate_team": {
+            "success": true,
+            "result": {
+              "team_test_results": [
+                {
+                  "backend": "mock",
+                  "team": "qa",
+                  "status": "operational"
+                },
+                {
+                  "backend": "direct",
+                  "team": "performance",
+                  "status": "operational"
+                },
+                {
+                  "backend": "bedrock",
+                  "team": "aws",
+                  "status": "operational"
+                },
+                {
+                  "backend": "gateway",
+                  "team": "gateway",
+                  "status": "operational"
+                }
+              ]
+            },
+            "description": "Validate team configuration",
+            "execution_time": "0.001s"
+          },
+          "check_status": {
+            "success": true,
+            "result": {
+              "teams": {
+                "gateway": "Enterprise routing and governance",
+                "aws": "Bedrock optimization and AWS integration",
+                "reliability": "Error handling and retry strategies",
+                "performance": "Caching and metrics optimization",
+                "qa": "Testing and validation frameworks"
+              }
+            },
+            "description": "Check system status",
+            "execution_time": "0.000s"
+          },
+          "list_drop_zones": {
+            "success": true,
+            "result": {
+              "status": "no_config",
+              "message": "Configuration file drop_zones.yaml does not exist"
+            },
+            "description": "List available drop zones",
+            "execution_time": "0.000s"
+          },
+          "final_status": {
+            "success": true,
+            "result": {
+              "teams": {
+                "gateway": "Enterprise routing and governance",
+                "aws": "Bedrock optimization and AWS integration",
+                "reliability": "Error handling and retry strategies",
+                "performance": "Caching and metrics optimization",
+                "qa": "Testing and validation frameworks"
+              }
+            },
+            "description": "Final system status check",
+            "execution_time": "0.000s"
+          }
+        },
+        "complex_workflow_success": true
+      }
+    },
+    "advanced_command_chaining": {
+      "status": "SUCCESS",
+      "message": "Advanced command chaining successful",
+      "chaining_analysis": {
+        "execution_order": [
+          "foundation_init",
+          "data_processor",
+          "content_analyzer",
+          "quality_validator",
+          "data_integrator",
+          "system_validator",
+          "drop_zones_setup",
+          "system_status"
+        ],
+        "order_constraints_met": true,
+        "constraint_violations": [],
+        "successful_commands": 8,
+        "total_commands": 8,
+        "chain_success_rate": "1.000",
+        "advanced_chaining_success": true
+      }
+    },
+    "edge_case_scenarios": {
+      "status": "SUCCESS",
+      "message": "All edge cases handled",
+      "edge_case_results": {
+        "minimal_config": {
+          "handled": true,
+          "backend_type": "direct"
+        },
+        "extreme_validation": {
+          "handled": true,
+          "features_enabled": true
+        },
+        "short_ttl_cache": {
+          "handled": true,
+          "cache_enabled": true
+        },
+        "rapid_initialization": {
+          "handled": true,
+          "operational_count": 5,
+          "tested_count": 5
+        }
+      }
+    },
+    "comprehensive_drop_zones": {
+      "status": "SUCCESS",
+      "message": "Comprehensive drop zones working",
+      "drop_zones_analysis": {
+        "zones_loaded": true,
+        "different_backends": true,
+        "multiple_patterns": true,
+        "cli_integration": true,
+        "zone_features": {
+          "auto_create_enabled": 2,
+          "auto_create_disabled": 1,
+          "multiple_events": 1,
+          "backend_variety": 2
+        },
+        "comprehensive_success": true
+      }
+    },
+    "system_limits_and_boundaries": {
+      "status": "SUCCESS",
+      "message": "System boundaries handled well",
+      "boundaries_analysis": {
+        "large_chain_handled": true,
+        "execution_time": "0.013s",
+        "completed_commands": 17,
+        "total_commands": 17,
+        "resource_limits_handled": true,
+        "created_wrappers": 100,
+        "large_chain_success": true,
+        "resource_success": true,
+        "boundaries_success": true
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "success_rate": "100.0%"
+  }
+}

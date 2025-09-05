@@ -1,0 +1,184 @@
+{
+  "framework": {
+    "name": "Y=R+S+N Mathematical Decomposition Framework",
+    "version": "1.0",
+    "description": "A mathematical framework for analyzing and decomposing content quality in research papers and technical documents",
+    "created_by": "TidyLLM Research Project",
+    "created_date": "2024"
+  },
+  "mathematical_formulas": {
+    "base_equation": "Y = R + S + N",
+    "y_score_calculation": "Y_Score = R + (0.5 * S)",
+    "context_collapse_risk": "Risk = S + (1.5 * N)",
+    "normalization": "R + S + N = 1.0 (100%)"
+  },
+  "components": {
+    "R_relevant": {
+      "name": "Relevant Content",
+      "description": "Core systematic content that directly addresses the research objectives",
+      "typical_range": "25% to 85%",
+      "quality_indicators": [
+        "Clear mathematical formulas",
+        "Step-by-step methodologies", 
+        "Validated results",
+        "Concrete examples",
+        "Proven theories",
+        "Direct answers to research questions"
+      ],
+      "scoring_interpretation": {
+        "excellent": {"range": "85%+", "description": "Excellent paper, use as primary source"},
+        "good": {"range": "60-85%", "description": "Good paper, useful for research"},
+        "fair": {"range": "40-60%", "description": "Okay paper, some useful parts"},
+        "poor": {"range": "below 40%", "description": "Poor paper, be very careful"}
+      }
+    },
+    "S_superfluous": {
+      "name": "Superfluous Content", 
+      "description": "Marginally systematic content that provides context but is not essential",
+      "typical_range": "10% to 45%",
+      "content_types": [
+        "Long introductions",
+        "Literature reviews",
+        "Historical background",
+        "Future work sections",
+        "Acknowledgments",
+        "General discussions"
+      ],
+      "scoring_interpretation": {
+        "focused": {"range": "10-25%", "description": "Focused paper, gets to the point"},
+        "normal": {"range": "25-35%", "description": "Normal amount of background"},
+        "unfocused": {"range": "35-45%", "description": "Lots of background, may be unfocused"}
+      }
+    },
+    "N_noise": {
+      "name": "Noise Content",
+      "description": "True noise, errors, and irrelevant content that reduces paper quality",
+      "typical_range": "5% to 35%",
+      "problem_types": [
+        "Mathematical errors",
+        "Unclear explanations",
+        "Contradictory statements",
+        "Formatting problems",
+        "Unrelated information",
+        "Broken equations"
+      ],
+      "scoring_interpretation": {
+        "excellent": {"range": "0-10%", "description": "Very clean paper, high quality"},
+        "good": {"range": "10-20%", "description": "Some issues but still usable"},
+        "problematic": {"range": "20-35%", "description": "Significant problems, use with caution"},
+        "avoid": {"range": "above 35%", "description": "Avoid this source"}
+      }
+    }
+  },
+  "y_score_interpretation": {
+    "excellent": {"range": "0.9+", "quality": "Excellent", "risk": "Low", "action": "Use as primary source"},
+    "very_good": {"range": "0.8-0.9", "quality": "Very Good", "risk": "Low", "action": "Great supporting source"},
+    "good": {"range": "0.7-0.8", "quality": "Good", "risk": "Medium", "action": "Useful with validation"},
+    "fair": {"range": "0.6-0.7", "quality": "Fair", "risk": "Medium", "action": "Use carefully"},
+    "poor": {"range": "0.5-0.6", "quality": "Poor", "risk": "Medium-High", "action": "Secondary use only"},
+    "very_poor": {"range": "below 0.5", "quality": "Very Poor", "risk": "High", "action": "Avoid if possible"}
+  },
+  "context_collapse": {
+    "description": "When bad or confusing information overwhelms good information",
+    "risk_levels": {
+      "low": {"range": "0.0-0.3", "description": "Safe to use, reliable content"},
+      "medium": {"range": "0.3-0.6", "description": "Be careful, validate key claims"},
+      "high": {"range": "0.6+", "description": "Dangerous, avoid or use extreme caution"}
+    },
+    "types": {
+      "poisoning": "Absorption of misinformation and biased content",
+      "distraction": "Information overload leading to focus loss",
+      "confusion": "Integration of non-relevant or contradictory data", 
+      "clash": "Conflicts between different information sources"
+    }
+  },
+  "use_cases": {
+    "students": [
+      "Use papers with Y Score > 0.8 as primary sources",
+      "Papers with Y Score 0.6-0.8 for supporting information",
+      "Avoid papers with Y Score < 0.5 unless necessary",
+      "Check Context Collapse Risk before citing"
+    ],
+    "researchers": [
+      "Aim for R > 70% and N < 15% in own papers",
+      "Prefer sources with low context collapse risk",
+      "Use framework to screen large numbers of papers",
+      "Document Y scores in literature review process"
+    ],
+    "business_professionals": [
+      "Evaluate technical reports using R scores",
+      "Be suspicious of high N scores (errors/unclear parts)",
+      "Assess quality of data and recommendations",
+      "Request Y=R+S+N analysis of vendor documentation"
+    ]
+  },
+  "examples": {
+    "high_quality_paper": {
+      "title": "Mathematical Decomposition of Signal and Noise in Context Engineering Systems",
+      "content_sample": "We present a robust mathematical framework for signal decomposition with comprehensive validation across multiple datasets",
+      "scores": {"R": 0.78, "S": 0.15, "N": 0.07, "Y_Score": 0.86},
+      "interpretation": "Excellent paper, suitable for primary reference"
+    },
+    "survey_paper": {
+      "title": "Survey of Background Literature in Information Theory Applications",
+      "content_sample": "This comprehensive survey provides extensive background information and literature review",
+      "scores": {"R": 0.35, "S": 0.55, "N": 0.10, "Y_Score": 0.63},
+      "interpretation": "Good for background reading, not primary source"
+    },
+    "problematic_paper": {
+      "title": "Multidimensional Stochastic Analysis with Heterogeneous Nonlinear Components", 
+      "content_sample": "Complex analysis with unclear mathematical formulations and ambiguous frameworks. Some equations contain formatting errors",
+      "scores": {"R": 0.57, "S": 0.24, "N": 0.19, "Y_Score": 0.69},
+      "interpretation": "Use with caution, validate key claims"
+    }
+  },
+  "keywords": {
+    "relevant_indicators": [
+      "mathematical decomposition", "signal separation", "noise reduction",
+      "systematic analysis", "orthogonal projection", "residual analysis", 
+      "variance decomposition", "systematic risk", "mathematical model",
+      "robust", "validated", "comprehensive", "rigorous", "proof", "theorem"
+    ],
+    "superfluous_indicators": [
+      "background information", "literature review", "historical context",
+      "future work", "acknowledgments", "related work", "introduction",
+      "general discussion", "broader implications", "survey"
+    ],
+    "noise_indicators": [
+      "formatting error", "typo", "unclear text", "incomplete sentence",
+      "broken equation", "missing data", "unrelated content", "ambiguous",
+      "confusing", "contradictory", "inconsistent"
+    ]
+  },
+  "implementation": {
+    "scoring_algorithm": {
+      "base_scoring": {
+        "R_base": 0.4,
+        "S_base": 0.2, 
+        "N_base": 0.1
+      },
+      "keyword_bonuses": {
+        "math_terms_bonus": 0.15,
+        "context_engineering_bonus": 0.12,
+        "quality_indicators_bonus": 0.05
+      },
+      "complexity_penalties": {
+        "high_jargon_penalty": 0.08,
+        "unclear_formulation_penalty": 0.05
+      },
+      "bounds": {
+        "R_min": 0.25, "R_max": 0.85,
+        "S_min": 0.10, "S_max": 0.45,
+        "N_min": 0.05, "N_max": 0.35
+      }
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "last_updated": "2024-08-31",
+    "format": "JSON",
+    "encoding": "UTF-8",
+    "license": "MIT",
+    "contact": "TidyLLM Research Project"
+  }
+}

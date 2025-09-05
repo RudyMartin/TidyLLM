@@ -1,0 +1,27 @@
+{
+  "collection_id": "COLLECTION_20250904_223334",
+  "name": "Demo Analysis Collection",
+  "description": "Demonstration collection with MVR, VST, and peer review",
+  "document_ids": [
+    "REV12345",
+    "REV12345",
+    "REV12345"
+  ],
+  "collection_type": "peer_review",
+  "primary_document": "REV12345",
+  "metadata": {
+    "created_by": "human_analyst",
+    "document_count": 3,
+    "types": [
+      "peer_review"
+    ],
+    "last_advancement": "2025-09-04T22:34:40.769669",
+    "advancement_results": {
+      "total_documents": 3,
+      "successful": 3,
+      "timestamp": "2025-09-04T22:34:40.769675"
+    }
+  },
+  "created_at": "2025-09-04T22:33:34.585122",
+  "last_updated": "2025-09-04T22:34:40.769687"
+}

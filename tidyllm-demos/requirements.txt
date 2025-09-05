@@ -1,0 +1,22 @@
+# Core dependencies
+streamlit>=1.28.0
+mlflow>=3.0.0
+psycopg2-binary>=2.9.0
+pyyaml>=6.0
+pandas>=2.0.0
+plotly>=5.0.0
+
+# TidyLLM ecosystem
+# Note: Install tidyllm-gateway with: pip install -e ../tidyllm-gateway
+
+# Additional utilities
+requests>=2.25.0
+python-dotenv>=1.0.0
+click>=8.0.0
+
+# Development dependencies
+pytest>=7.0.0
+black>=23.0.0
+flake8>=6.0.0
+
+

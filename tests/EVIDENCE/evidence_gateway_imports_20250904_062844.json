@@ -1,0 +1,18 @@
+{
+  "test_name": "gateway_imports",
+  "timestamp": "2025-09-04T06:28:43.381541",
+  "results": {
+    "import_status": "SUCCESS",
+    "gateways_imported": [
+      "DSPyGateway",
+      "LLMGateway",
+      "HeirOSGateway"
+    ],
+    "registry_status": "SUCCESS",
+    "gateway_availability": {
+      "dspy": true,
+      "llm": true,
+      "heiros": true
+    }
+  }
+}
