@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 Test AWS S3 Connection with credentials from admin folder
 """
 
@@ -9,9 +20,9 @@ from botocore.exceptions import NoCredentialsError, ClientError
 
 def setup_aws_credentials():
     """Set AWS credentials from admin config"""
-    os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-    os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+    
+    
+    
     
     print("[OK] AWS credentials configured:")
     print(f"  Access Key: {os.environ['AWS_ACCESS_KEY_ID'][:10]}...")
@@ -35,12 +46,12 @@ def test_s3_connection():
                 print(f"    ... and {len(buckets) - 5} more")
                 
         # Test specific bucket if nsc-mvp1 exists
-        if any(b['Name'] == 'nsc-mvp1' for b in buckets):
-            print("\n[OK] Target bucket 'nsc-mvp1' is accessible")
+        if any(b['Name'] == s3_config["bucket"] for b in buckets):
+            print("\n[OK] Target bucket s3_config["bucket"] is accessible")
             
             # List some objects in the bucket
             try:
-                objects = s3.list_objects_v2(Bucket='nsc-mvp1', MaxKeys=5)
+                objects = s3.list_objects_v2(Bucket=s3_config["bucket"], MaxKeys=5)
                 if 'Contents' in objects:
                     print(f"  Sample objects in nsc-mvp1:")
                     for obj in objects['Contents'][:5]:

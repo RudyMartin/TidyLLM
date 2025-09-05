@@ -7,6 +7,7 @@
 - **Model Risk Standards**: Federal Reserve SR 11-7, OCC guidance compliance checking
 - **Evidence Validation**: Document authenticity and completeness assessment
 - **Argument Consistency**: Review scope determination based on logical analysis
+- **Research Papers**: Whitepaper and academic document analysis for regulatory compliance
 
 ## Architecture
 ```
@@ -14,6 +15,7 @@ tidyllm_compliance/
 ├── model_risk/       # Model risk development standards
 ├── evidence/         # Evidence validation and authenticity 
 ├── consistency/      # Argument consistency analysis
+├── research_papers/  # Whitepaper and academic document analysis
 └── __init__.py       # Main API exports
 ```
 
@@ -60,6 +62,7 @@ This package works seamlessly with:
 2. **Audit & Investigation**: Evidence authenticity validation  
 3. **Legal Review**: Argument consistency and scope determination
 4. **Regulatory Reporting**: Automated compliance monitoring
+5. **Research Analysis**: Whitepaper analysis for regulatory compliance backing
 
 ## Academic Validation
 - Rule-based precision with configurable thresholds

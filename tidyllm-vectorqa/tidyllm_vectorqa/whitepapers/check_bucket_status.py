@@ -2,13 +2,21 @@
 """Check bucket status and ownership"""
 
 from dotenv import load_dotenv
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 load_dotenv()
 
 import boto3
 from botocore.exceptions import ClientError
 
 s3 = boto3.client('s3')
-bucket_name = 'nsc-mvp1'
+bucket_name = s3_config["bucket"]
 
 print(f"Checking status of bucket: {bucket_name}")
 print("=" * 50)

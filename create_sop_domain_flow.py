@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 SOP Domain RAG Flow Creator
 ===========================
 
@@ -13,9 +24,9 @@ from pathlib import Path
 from datetime import datetime
 
 # Set AWS credentials
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+
+
 
 def create_sop_domain_flow():
     """Create SOP domain RAG flow using existing system"""
@@ -133,7 +144,7 @@ def create_sop_flow_direct():
         "domain": "sop_conflict_resolution",
         "input_path": str(docs_path),
         "document_count": doc_count,
-        "s3_bucket": "nsc-mvp1",
+        "s3_bucket": s3_config["bucket"],
         "s3_prefix": "sop_domain_rag/",
         "embedding_backend": embedding_backend,
         "conflict_queries": [

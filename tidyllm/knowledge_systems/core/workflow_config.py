@@ -1,4 +1,12 @@
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 Workflow Configuration Management
 ================================
 
@@ -96,7 +104,7 @@ def create_workflow_config(
     
     # Create S3 config with override capability
     s3_config = S3Config(
-        bucket=s3_bucket or s3_settings.get('bucket', 'nsc-mvp1'),
+        bucket=s3_bucket or s3_settings.get('bucket', s3_config["bucket"]),
         region=s3_region or s3_settings.get('region', 'us-east-1'),
         prefix=s3_prefix or s3_settings.get('prefix', 'pages/'),
         connection_timeout=s3_settings.get('connection_timeout', 30),
@@ -132,13 +140,13 @@ def get_domain_specific_config(domain_name: str) -> Dict[str, Any]:
     domain_configs = {
         # Research domains use research bucket
         "research": {
-            "s3_bucket": "nsc-mvp1", 
+            "s3_bucket": s3_config["bucket"], 
             "s3_prefix": "research/"
         },
         
         # Model validation uses specialized structure  
         "model_validation": {
-            "s3_bucket": "nsc-mvp1",
+            "s3_bucket": s3_config["bucket"],
             "s3_prefix": "model_validation/"
         },
         

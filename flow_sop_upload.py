@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 Flow Agreement: SOP PDFs Upload
 ==============================
 Pushes SOP PDFs to S3://nsc-mvp1/knowledge_base/sop/
@@ -17,12 +28,12 @@ def upload_sop_pdfs():
     print("=" * 50)
     
     # Set AWS credentials explicitly
-    os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-    os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+    
+    
+    
     
     # Local SOP folder (sorted PDFs)
-    sop_folder = Path("knowledge_base/sop")
+    sop_folder = Path(build_s3_path("knowledge_base", "sop"))
     if not sop_folder.exists():
         print("[ERROR] No sop folder found")
         return False
@@ -36,8 +47,8 @@ def upload_sop_pdfs():
         return False
     
     # Upload each PDF
-    bucket = 'nsc-mvp1'
-    s3_prefix = 'knowledge_base/sop/'
+    bucket = s3_config["bucket"]
+    s3_prefix = build_s3_path("knowledge_base", "sop/")
     
     uploaded = 0
     for pdf_file in sop_folder.glob("*.pdf"):

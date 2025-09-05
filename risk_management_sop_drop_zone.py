@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 Risk Management SOP Drop Zone Integration
 ==========================================
 
@@ -24,9 +35,9 @@ from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
 # Set AWS credentials for TidyLLM system
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+
+
 
 # Import TidyLLM Flow Agreements System
 try:
@@ -163,7 +174,7 @@ class RiskDocumentProcessor:
         self.drop_zone_path = Path(drop_zone_path)
         self.docs_path = Path("docs")
         self.results_path = Path("risk_sop_results")
-        self.s3_bucket = "nsc-mvp1"
+        self.s3_bucket = s3_config["bucket"]
         self.s3_prefix = "risk_management_sop/"
         
         # Create directories if they don't exist

@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 Domain Workflow Creator
 =======================
 
@@ -24,9 +35,9 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 
 # Set AWS credentials
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+
+
 
 parent_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(parent_dir))

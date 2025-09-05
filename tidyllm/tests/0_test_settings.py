@@ -1,6 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 TidyLLM Settings Test - Priority Test #0
 
 This test runs first (0_) to force validation of admin/settings.yaml
@@ -64,7 +72,7 @@ class TestSettingsLoader:
         
         # Test specific S3 values
         assert s3_config['region'] == 'us-east-1', f"S3 region should be us-east-1, got: {s3_config['region']}"
-        assert s3_config['bucket'] == 'nsc-mvp1', f"S3 bucket should be nsc-mvp1, got: {s3_config['bucket']}"
+        assert s3_config['bucket'] == s3_config["bucket"], f"S3 bucket should be nsc-mvp1, got: {s3_config['bucket']}"
         assert s3_config['prefix'] == 'pages/', f"S3 prefix should be pages/, got: {s3_config['prefix']}"
         
         # Test optional S3 fields

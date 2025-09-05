@@ -1,4 +1,12 @@
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 TidyLLM Whitepapers - Streamlit Demo
 ===================================
 
@@ -738,7 +746,7 @@ def show_paper_repository_page():
                         st.info(f"🌐 Connected to S3 - Found {connection_test['bucket_count']} buckets in {connection_test['region']}")
                         
                         # Show configured S3 bucket and prefix from settings.yaml
-                        st.info(f"📦 Configured for S3 bucket: `{status.get('default_bucket', 'nsc-mvp1')}`")
+                        st.info(f"📦 Configured for S3 bucket: `{status.get('default_bucket', s3_config["bucket"])}`")
                         if status.get('default_prefix'):
                             st.info(f"📁 Default prefix: `{status['default_prefix']}`")
                         if status.get('kms_key_id'):
@@ -795,7 +803,7 @@ def show_paper_repository_page():
                 aws_status = f"❌ Error checking credentials: {str(e)[:50]}..."
                 st.error(f"**Status:** {aws_status}")
             
-            s3_bucket = st.text_input("S3 Bucket Name", placeholder="nsc-mvp1", value="nsc-mvp1")
+            s3_bucket = st.text_input("S3 Bucket Name", placeholder=s3_config["bucket"], value=s3_config["bucket"])
             s3_prefix = st.text_input("S3 Prefix (optional)", placeholder="papers/", value="papers/")
             
             col1, col2 = st.columns(2)

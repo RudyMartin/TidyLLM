@@ -1,0 +1,67 @@
+# VectorQA Sage - Docker Compose Configuration
+# Auth: John Doe - Example Company LLC
+# Date: 2025-08-23
+
+version: '3.8'
+
+services:
+  vectorqa-sage:
+    build:
+      context: ../app
+      dockerfile: ../environ_settings/Dockerfile
+    container_name: vectorqa-sage
+    ports:
+      - "8501:8501"
+    environment:
+      - VECTORQA_ENV=production
+      - PYTHONPATH=/app/src
+    volumes:
+      # Mount environment settings (read-only)
+      - ./environ_settings:/app/environ_settings:ro
+      # Mount logs directory
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8501/_stcore/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - vectorqa-network
+
+  # Optional: Add database service if needed
+  # postgres:
+  #   image: postgres:13
+  #   container_name: vectorqa-postgres
+  #   environment:
+  #     POSTGRES_DB: vectorqa
+  #     POSTGRES_USER: vectorqa_user
+  #     POSTGRES_PASSWORD: ${DB_PASSWORD}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - vectorqa-network
+
+  # Optional: Add nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: vectorqa-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - vectorqa-sage
+    restart: unless-stopped
+    networks:
+      - vectorqa-network
+
+networks:
+  vectorqa-network:
+    driver: bridge
+
+volumes:
+  # postgres_data:  # Uncomment if using database

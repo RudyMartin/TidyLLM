@@ -1,4 +1,12 @@
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 Knowledge Systems S3 Manager
 ============================
 
@@ -86,7 +94,7 @@ class S3Manager:
         
         try:
             # Use defaults if not provided
-            bucket = bucket or self.config.default_bucket or "nsc-mvp1"
+            bucket = bucket or self.config.default_bucket or s3_config["bucket"]
             
             # Generate S3 key if not provided
             if not s3_key:

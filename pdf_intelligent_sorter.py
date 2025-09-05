@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 Intelligent PDF Sorter for Knowledge Base
 =========================================
 
@@ -19,7 +27,7 @@ from typing import Dict, List, Tuple
 class IntelligentPDFSorter:
     """Intelligently sorts PDFs based on content type analysis"""
     
-    def __init__(self, source_dir: str = "knowledge_base/pdfs"):
+    def __init__(self, source_dir: str = build_s3_path("knowledge_base", "pdfs")):
         self.source_dir = Path(source_dir)
         self.target_base = Path("knowledge_base")
         

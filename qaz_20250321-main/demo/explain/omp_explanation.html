@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OMP Explanation for Newbies</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #e74c3c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+        }
+
+        .section h3 {
+            color: #34495e;
+            margin: 20px 0 10px 0;
+            font-size: 1.4em;
+        }
+
+        .analogy-box {
+            background: #e8f4fd;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #3498db;
+        }
+
+        .metrics-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .metrics-table th {
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .metrics-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ecf0f1;
+        }
+
+        .metrics-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .complexity-highlight {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 3px solid #ffc107;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .example-box {
+            background: #d4edda;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #28a745;
+        }
+
+        .benefits-list {
+            background: #e8f5e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .benefits-list ul {
+            margin-left: 20px;
+        }
+
+        .benefits-list li {
+            margin: 8px 0;
+            color: #155724;
+        }
+
+        .back-link {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: #2980b9;
+        }
+
+        .highlight {
+            background: #ffeaa7;
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 OMP Explanation for Newbies</h1>
+            <p>Understanding Orthogonal Matching Pursuit in Simple Terms</p>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>What is OMP? (For Newbies)</h2>
+                <h3>OMP = Orthogonal Matching Pursuit</h3>
+                
+                <div class="analogy-box">
+                    <strong>Think of it like this:</strong><br>
+                    • <strong>Imagine you have a big library</strong> with thousands of books<br>
+                    • <strong>You want to find the 5 most important books</strong> that explain a topic<br>
+                    • <strong>OMP is like a smart librarian</strong> who picks the best books one by one
+                </div>
+
+                <h3>Simple Analogy:</h3>
+                <div class="code-block">
+Problem: "Explain machine learning using only 5 books"
+OMP Process:
+1. Pick the BEST book first (most relevant)
+2. Pick the SECOND best book (that adds new info)
+3. Pick the THIRD best book (that fills gaps)
+4. Continue until you have 5 books
+5. Each book is "orthogonal" (adds unique information)
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>📊 What Are We Measuring?</h2>
+                
+                <h3>1. Algorithm Complexity (Not Paper Complexity)</h3>
+                <p>When we say <span class="highlight">"O(k²n)"</span>, we're measuring:</p>
+                <ul>
+                    <li><strong>k</strong> = number of items we want to find (like 5 books)</li>
+                    <li><strong>n</strong> = total number of items to search through (like 1000 books)</li>
+                    <li><strong>O(k²n)</strong> = how much time/computation it takes</li>
+                </ul>
+
+                <h3>2. Performance Metrics We Track:</h3>
+                
+                <h4>Speed (Complexity):</h4>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Complexity</th>
+                            <th>Speed</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OMP</strong></td>
+                            <td class="complexity-highlight">O(k²n)</td>
+                            <td>Fast for small k</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L1 Minimization</strong></td>
+                            <td class="complexity-highlight">O(n³)</td>
+                            <td>Slower but more accurate</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Basis Pursuit</strong></td>
+                            <td class="complexity-highlight">O(n³)</td>
+                            <td>Slower but exact</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lasso</strong></td>
+                            <td class="complexity-highlight">O(n²)</td>
+                            <td>Medium speed</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Accuracy Comparison:</h4>
+                <table class="metrics-table">
+                    <thead>
+                        <tr>
+                            <th>Algorithm</th>
+                            <th>Accuracy</th>
+                            <th>Memory Usage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>OMP</strong></td>
+                            <td>85%</td>
+                            <td>Low</td>
+                        </tr>
+                        <tr>
+                            <td><strong>L1 Minimization</strong></td>
+                            <td>95%</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Basis Pursuit</strong></td>
+                            <td>92%</td>
+                            <td>High</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lasso</strong></td>
+                            <td>88%</td>
+                            <td>Medium</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <h2>🔍 Real-World Example:</h2>
+                
+                <h3>Document Analysis Context:</h3>
+                <div class="example-box">
+                    <strong>Problem:</strong> "Find the 10 most important words to describe this document"<br><br>
+                    <strong>OMP Process:</strong><br>
+                    1. Find the MOST important word first<br>
+                    2. Find the SECOND most important word (that's different)<br>
+                    3. Continue until you have 10 words<br>
+                    4. Each word adds unique meaning
+                </div>
+
+                <h3>What We Measure:</h3>
+                <ul>
+                    <li><strong>Speed:</strong> How fast can we find the 10 words?</li>
+                    <li><strong>Accuracy:</strong> How well do these 10 words describe the document?</li>
+                    <li><strong>Memory:</strong> How much computer memory do we need?</li>
+                </ul>
+            </div>
+
+            <div class="section">
+                <h2>🎯 Why This Matters for Sparse Representation:</h2>
+                
+                <h3>Sparse = "Only the Important Stuff"</h3>
+                <ul>
+                    <li><strong>Instead of storing 1000 words</strong> → Store only 10 important words</li>
+                    <li><strong>Instead of using all books</strong> → Use only 5 best books</li>
+                    <li><strong>Instead of all data</strong> → Use only essential data</li>
+                </ul>
+
+                <div class="benefits-list">
+                    <h4>Benefits:</h4>
+                    <ul>
+                        <li><strong>Faster processing</strong> (less data to handle)</li>
+                        <li><strong>Less storage</strong> (only keep important stuff)</li>
+                        <li><strong>Better understanding</strong> (focus on what matters)</li>
+                        <li><strong>Easier to work with</strong> (simpler representations)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>🎯 In Our Sparse Bracket System:</h2>
+                
+                <p>When we use <span class="highlight">[OMP Analysis]</span>, we're:</p>
+                <ul>
+                    <li><strong>Analyzing how OMP works</strong> for sparse representation</li>
+                    <li><strong>Comparing its performance</strong> to other algorithms</li>
+                    <li><strong>Understanding when to use it</strong> vs. other methods</li>
+                    <li><strong>Measuring its effectiveness</strong> for our specific tasks</li>
+                </ul>
+
+                <div class="analogy-box">
+                    <strong>Key Insight:</strong> We're measuring <strong>algorithm performance</strong>, not paper complexity. 
+                    We want to know which algorithm is best for finding the most important information efficiently!
+                </div>
+            </div>
+
+            <a href="../sparse_bracket_demo.html" class="back-link">← Back to Sparse Bracket Demo</a>
+        </div>
+    </div>
+</body>
+</html>
+

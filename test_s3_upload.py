@@ -5,12 +5,16 @@ Test S3 Upload Functionality
 
 import os
 import boto3
+import sys
 from datetime import datetime
+from pathlib import Path
 
-# Set AWS credentials
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET' 
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 
 def test_s3_upload():
     """Test S3 upload to nsc-mvp1 bucket"""
@@ -32,7 +36,7 @@ def test_s3_upload():
         # Try upload
         try:
             s3.put_object(
-                Bucket='nsc-mvp1',
+                Bucket=s3_config["bucket"],
                 Key=test_key,
                 Body=test_content.encode('utf-8'),
                 ContentType='text/plain'
@@ -41,14 +45,14 @@ def test_s3_upload():
             print(f"Location: s3://nsc-mvp1/{test_key}")
             
             # Try to read it back
-            response = s3.get_object(Bucket='nsc-mvp1', Key=test_key)
+            response = s3.get_object(Bucket=s3_config["bucket"], Key=test_key)
             content = response['Body'].read().decode('utf-8')
             print(f"[VERIFIED] Read back {len(content)} bytes")
             
             return True
             
         except s3.exceptions.NoSuchBucket:
-            print("[ERROR] Bucket 'nsc-mvp1' does not exist")
+            print("[ERROR] Bucket s3_config["bucket"] does not exist")
             return False
             
         except Exception as e:
