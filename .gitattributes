@@ -1,0 +1,21 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Keep these as-is, don't convert line endings
+*.bat text eol=crlf
+*.sh text eol=lf
+
+# Ensure certain files are always normalized
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.sql text eol=lf
+
+# Binary files
+*.pdf binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
