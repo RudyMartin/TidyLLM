@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 One-Click Domain RAG Builder from S3 Folders
 ============================================
 
@@ -19,9 +30,9 @@ from typing import Dict, List, Any
 from datetime import datetime
 
 # Set AWS credentials
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+
+
 
 class OneClickDomainRAGBuilder:
     """One-click builder for hierarchical domain RAG from S3 folders"""

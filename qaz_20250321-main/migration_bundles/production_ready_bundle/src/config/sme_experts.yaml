@@ -1,0 +1,122 @@
+# SME Experts Configuration
+# This file defines the Subject Matter Experts (SMEs) for each risk category
+# Each expert has specific expertise areas and availability information
+
+sme_experts:
+  - sme_id: "SME_001"
+    name: "Dr. Sarah Johnson"
+    expertise_area: "Model Risk"
+    validation_type: "initial"
+    risk_tier: "high"
+    availability: "available"
+    contact_info: "user@example.com"
+    phone: "+1-555-0123"
+    specialties:
+      - "ML Model Validation"
+      - "Model Governance"
+      - "Performance Monitoring"
+      - "Data Drift Detection"
+      - "Model Bias Assessment"
+    experience_years: 12
+    certifications:
+      - "PhD in Machine Learning"
+      - "Model Risk Management Certification"
+      - "FRM (Financial Risk Manager)"
+    working_hours: "9:00 AM - 5:00 PM EST"
+    emergency_contact: true
+
+  - sme_id: "SME_002"
+    name: "Michael Chen"
+    expertise_area: "Credit Risk"
+    validation_type: "event-driven"
+    risk_tier: "critical"
+    availability: "available"
+    contact_info: "user@example.com"
+    phone: "+1-555-0124"
+    specialties:
+      - "Credit Scoring Models"
+      - "Portfolio Analysis"
+      - "Default Modeling"
+      - "Concentration Risk"
+      - "Stress Testing"
+    experience_years: 15
+    certifications:
+      - "MBA in Finance"
+      - "Credit Risk Management"
+      - "CFA (Chartered Financial Analyst)"
+    working_hours: "8:00 AM - 6:00 PM EST"
+    emergency_contact: true
+
+  - sme_id: "SME_003"
+    name: "Dr. Emily Rodriguez"
+    expertise_area: "Market Risk"
+    validation_type: "periodic"
+    risk_tier: "critical"
+    availability: "available"
+    contact_info: "user@example.com"
+    phone: "+1-555-0125"
+    specialties:
+      - "VaR Modeling"
+      - "Stress Testing"
+      - "Market Analysis"
+      - "Liquidity Risk"
+      - "Correlation Analysis"
+    experience_years: 18
+    certifications:
+      - "PhD in Quantitative Finance"
+      - "Market Risk Management"
+      - "PRM (Professional Risk Manager)"
+    working_hours: "7:00 AM - 7:00 PM EST"
+    emergency_contact: true
+
+  - sme_id: "SME_004"
+    name: "James Wilson"
+    expertise_area: "Operational Risk"
+    validation_type: "initial"
+    risk_tier: "medium"
+    availability: "available"
+    contact_info: "user@example.com"
+    phone: "+1-555-0126"
+    specialties:
+      - "System Reliability"
+      - "Process Optimization"
+      - "Business Continuity"
+      - "Technology Risk"
+      - "Compliance Management"
+    experience_years: 10
+    certifications:
+      - "MBA in Information Systems"
+      - "Operational Risk Management"
+      - "CISSP (Certified Information Systems Security Professional)"
+    working_hours: "9:00 AM - 5:00 PM EST"
+    emergency_contact: false
+
+  - sme_id: "SME_005"
+    name: "Dr. Lisa Thompson"
+    expertise_area: "Model Risk"
+    validation_type: "periodic"
+    risk_tier: "high"
+    availability: "busy"
+    contact_info: "user@example.com"
+    phone: "+1-555-0127"
+    specialties:
+      - "Deep Learning Models"
+      - "NLP Model Validation"
+      - "Explainable AI"
+      - "Model Interpretability"
+      - "AI Ethics"
+    experience_years: 8
+    certifications:
+      - "PhD in Computer Science"
+      - "AI Ethics Certification"
+      - "Machine Learning Specialization"
+    working_hours: "10:00 AM - 6:00 PM EST"
+    emergency_contact: true
+
+# Configuration Notes:
+# - validation_type: initial (new models), periodic (regular reviews), event-driven (incidents)
+# - risk_tier: low, medium, high, critical (determines priority)
+# - availability: available, busy, offline, vacation
+# - emergency_contact: whether this expert can be contacted for urgent issues
+# - working_hours: when the expert is typically available
+# - experience_years: years of relevant experience

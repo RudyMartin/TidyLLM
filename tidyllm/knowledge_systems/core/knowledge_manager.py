@@ -1,4 +1,12 @@
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 Knowledge Manager
 =================
 
@@ -99,7 +107,7 @@ class KnowledgeManager:
             domain_name="model_validation",
             description="Model validation and risk management knowledge base",
             s3_bucket=self.s3_manager.config.default_bucket if self.s3_manager else None,
-            s3_prefix="knowledge_base/model_validation/",
+            s3_prefix = build_s3_path("knowledge_base", "model_validation/"),
             metadata_schema={
                 "regulation_type": {"pattern": r"(Basel|CCAR|DFAST|SR11-7)", "description": "Financial regulation type"},
                 "risk_category": {"pattern": r"(credit|market|operational|model)", "description": "Risk category"},

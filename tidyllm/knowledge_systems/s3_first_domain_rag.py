@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 """
+
+# S3 Configuration Management
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import get_s3_config, build_s3_path
+
+# Get S3 configuration (bucket and path builder)
+s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
+
 S3-First Domain RAG Creation
 ============================
 
@@ -52,7 +60,7 @@ def main():
     # Step 1: Define S3 structure
     domain_name = "model_validation"
     bucket = "dsai-2025-asu"  # From test evidence
-    s3_prefix = f"knowledge_base/{domain_name}/"
+    s3_prefix = fbuild_s3_path("knowledge_base", "{domain_name}/")
     
     print(f"Domain: {domain_name}")
     print(f"S3 Bucket: {bucket}")
@@ -242,8 +250,8 @@ def main():
             "bucket": bucket,
             "knowledge_bases": {
                 "model_validation": f"{s3_prefix}*.pdf",
-                "legal_docs": "knowledge_base/legal/*.pdf",
-                "technical_manuals": "knowledge_base/technical/*.pdf"
+                "legal_docs": build_s3_path("knowledge_base", "legal/*.pdf"),
+                "technical_manuals": build_s3_path("knowledge_base", "technical/*.pdf")
             }
         },
         "vector_db_schema": {

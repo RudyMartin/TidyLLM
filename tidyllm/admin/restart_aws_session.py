@@ -19,16 +19,14 @@ import time
 from pathlib import Path
 from datetime import datetime
 import json
+import yaml
 
 class AWSSessionManager:
     """Manages AWS session restart and verification"""
     
     def __init__(self):
-        self.credentials = {
-            'AWS_ACCESS_KEY_ID': 'REMOVED_AWS_KEY',
-            'AWS_SECRET_ACCESS_KEY': 'REMOVED_AWS_SECRET',
-            'AWS_DEFAULT_REGION': 'us-east-1'
-        }
+        self.settings_file = Path(__file__).parent / "settings.yaml"
+        self.credentials = self._load_credentials_from_yaml()
         
     def restart_session(self, clear_cache=True, verify=True):
         """Restart AWS session completely"""
@@ -88,6 +86,145 @@ class AWSSessionManager:
                 print(f"  Cleared: {var}")
         
         print(f"  Total cleared: {cleared_count} environment variables")
+    
+    def _load_credentials_from_yaml(self):
+        """Load AWS credentials from settings.yaml file"""
+        
+        try:
+            if not self.settings_file.exists():
+                print(f"[WARN] Settings file not found: {self.settings_file}")
+                print("[FALLBACK] Using hardcoded credentials (not recommended)")
+                return {
+                    # Credentials loaded by centralized system,
+                    # Credentials loaded by centralized system,
+                    # Credentials loaded by centralized system
+                }
+            
+            print(f"[YAML] Loading credentials from: {self.settings_file}")
+            
+            with open(self.settings_file, 'r') as f:
+                settings = yaml.safe_load(f)
+            
+            # Extract AWS credentials from YAML structure
+            aws_config = settings.get('aws', {})
+            bedrock_config = aws_config.get('bedrock', {})
+            credentials_config = bedrock_config.get('credentials', {})
+            
+            # Get region from multiple possible locations
+            region = (
+                credentials_config.get('region') or 
+                bedrock_config.get('region') or 
+                aws_config.get('region') or 
+                settings.get('s3', {}).get('region') or
+                'us-east-1'
+            )
+            
+            # Build credentials dict
+            credentials = {
+                'AWS_DEFAULT_REGION': region
+            }
+            
+            # Add access key if available
+            access_key = credentials_config.get('access_key_id')
+            if access_key:
+                credentials['AWS_ACCESS_KEY_ID'] = access_key
+                print(f"  Found access_key_id in YAML")
+            
+            # Add secret key if available
+            secret_key = credentials_config.get('secret_access_key')
+            if secret_key:
+                credentials['AWS_SECRET_ACCESS_KEY'] = secret_key
+                print(f"  Found secret_access_key in YAML")
+            
+            # Add session token if available
+            session_token = credentials_config.get('session_token')
+            if session_token:
+                credentials['AWS_SESSION_TOKEN'] = session_token
+                print(f"  Found session_token in YAML")
+            
+            # Add profile if available
+            profile = credentials_config.get('profile')
+            if profile:
+                credentials['AWS_PROFILE'] = profile
+                print(f"  Found profile in YAML: {profile}")
+            
+            print(f"  Region: {region}")
+            print(f"  Credentials loaded: {len([k for k in credentials.keys() if k.startswith('AWS')])} AWS settings")
+            
+            # If no credentials found, fall back to platform-specific credential script
+            if not any(k in credentials for k in ['AWS_ACCESS_KEY_ID', 'AWS_PROFILE']):
+                print(f"[WARN] No AWS credentials found in YAML")
+                print(f"[FALLBACK] Using platform-specific credential script")
+                
+                # Load from platform-specific script
+                platform_credentials = self._load_from_platform_script()
+                credentials.update(platform_credentials)
+            
+            return credentials
+            
+        except Exception as e:
+            print(f"[ERROR] Failed to load YAML credentials: {e}")
+            print(f"[FALLBACK] Using platform-specific credential script")
+            return self._load_from_platform_script()
+    
+    def _load_from_platform_script(self):
+        """Load credentials from platform-specific script (.bat for Windows, .sh for Linux)"""
+        
+        import platform
+        
+        admin_dir = Path(__file__).parent
+        
+        if platform.system().lower() == 'windows':
+            # Use .bat file for Windows
+            script_path = admin_dir / "set_aws_env.bat"
+            print(f"  [WINDOWS] Using: {script_path}")
+        else:
+            # Use .sh file for Linux/Unix
+            script_path = admin_dir / "set_aws_env.sh"
+            print(f"  [LINUX] Using: {script_path}")
+        
+        try:
+            if script_path.exists():
+                # Parse the script file to extract credentials
+                credentials = {# Credentials loaded by centralized system}
+                
+                with open(script_path, 'r') as f:
+                    for line in f:
+                        line = line.strip()
+                        
+                        # Windows batch format: set VAR=value
+                        if line.startswith('set AWS_'):
+                            parts = line[4:].split('=', 1)  # Remove 'set ' prefix
+                            if len(parts) == 2:
+                                key, value = parts
+                                credentials[key] = value
+                                print(f"    Found {key}")
+                        
+                        # Linux shell format: export VAR=value
+                        elif line.startswith('export AWS_'):
+                            parts = line[7:].split('=', 1)  # Remove 'export ' prefix
+                            if len(parts) == 2:
+                                key, value = parts
+                                credentials[key] = value
+                                print(f"    Found {key}")
+                
+                print(f"  Loaded {len(credentials)} credentials from platform script")
+                return credentials
+            else:
+                print(f"  [ERROR] Platform script not found: {script_path}")
+                return {
+                    # Credentials loaded by centralized system,
+                    # Credentials loaded by centralized system,
+                    # Credentials loaded by centralized system
+                }
+                
+        except Exception as e:
+            print(f"  [ERROR] Failed to parse platform script: {e}")
+            return {
+                # Credentials loaded by centralized system,
+                # Credentials loaded by centralized system,
+                # Credentials loaded by centralized system
+            }
     
     def _clear_boto3_cache(self):
         """Clear boto3 cached sessions and credentials"""

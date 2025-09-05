@@ -10,23 +10,27 @@ Now supports S3 source with existing session management.
 import os
 import json
 import boto3
+import sys
 from pathlib import Path
 from datetime import datetime
 
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
 def sync_from_s3_to_local():
-    """Sync S3 knowledge base to local folders using existing pattern"""
+    """Sync S3 knowledge base to local folders using centralized credential management"""
     
     print("S3 SYNC: Downloading from S3 to local folders...")
     
-    # Set AWS credentials (existing session management pattern)
-    os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-    os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+    # Load AWS credentials using centralized system
+    num_vars_set = set_aws_environment(verbose=True)
+    print(f"[CREDENTIALS] Set {num_vars_set} AWS environment variables")
     
     try:
         s3 = boto3.client('s3')
-        bucket = 'nsc-mvp1'
-        base_prefix = 'knowledge_base/'
+        bucket = s3_config["bucket"]
+        base_prefix = build_s3_path("knowledge_base", "")
         
         # Download each category using existing session
         categories = ['checklist', 'sop', 'modeling']
@@ -34,7 +38,7 @@ def sync_from_s3_to_local():
         
         for category in categories:
             s3_prefix = f"{base_prefix}{category}/"
-            local_dir = Path(f"knowledge_base/{category}")
+            local_dir = Path(fbuild_s3_path("knowledge_base", "{category}"))
             local_dir.mkdir(parents=True, exist_ok=True)
             
             print(f"[SYNC] {category} folder...")
@@ -49,12 +53,11 @@ def sync_from_s3_to_local():
                 result = subprocess.run(['python', '-c', f'''
 import boto3
 import os
-os.environ["AWS_ACCESS_KEY_ID"] = "REMOVED_AWS_KEY"
-os.environ["AWS_SECRET_ACCESS_KEY"] = "REMOVED_AWS_SECRET"
-os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+# Credentials already loaded by centralized system
+# Credentials already loaded by centralized system
 
 s3 = boto3.client("s3")
-bucket = "nsc-mvp1"
+bucket = s3_config["bucket"]
 prefix = "{s3_prefix}"
 
 # Try direct download of files we uploaded

@@ -1,0 +1,16 @@
+
+    TECHNICAL DOCUMENTATION
+    
+    API Endpoints:
+    - /api/v1/models
+    - /api/v1/validation
+    - /api/v1/reports
+    
+    Database Schema:
+    - models table
+    - validation_results table
+    - reports table
+    
+    System Architecture:
+    Microservices-based architecture with REST APIs.
+    

@@ -1,0 +1,51 @@
+# MVR Demo Complete Requirements
+# All dependencies needed for the MVR Review Streamlit Demo
+# Python 3.11+ required for development and demo
+
+# Core Streamlit and UI
+streamlit>=1.28.0
+plotly>=5.17.0
+
+# Data Processing (Pure Python - no pandas/numpy)
+# Note: We use pure Python alternatives, but keeping minimal versions for compatibility
+pandas>=2.0.0
+numpy>=1.24.0
+
+# YAML Support for Sparse Agreements
+PyYAML>=6.0
+
+# PDF Processing
+pypdf>=3.0.0
+
+# Document Processing
+python-docx>=0.8.11
+openpyxl>=3.1.0
+
+# Image Processing
+Pillow>=10.0.0
+
+# DataTable for DataMart (optional - falls back to pure Python)
+datatable>=1.0.0
+
+# AWS Integration (for S3)
+boto3>=1.34.0
+
+# Database Support
+psycopg2-binary>=2.9.0
+
+# MLflow Integration (optional)
+mlflow>=2.8.0
+
+# DSPy Framework (optional)
+dspy-ai>=2.4.0
+
+# Additional Utilities
+python-dateutil>=2.8.0
+pytz>=2023.3
+
+# Development and Testing
+pytest>=7.4.0
+pytest-cov>=4.1.0
+
+# Performance Monitoring
+watchdog>=3.0.0

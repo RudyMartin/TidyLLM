@@ -1,5 +1,16 @@
 #!/usr/bin/env python3
 """
+
+# Centralized AWS credential management
+import sys
+from pathlib import Path
+
+# Add admin directory to path for credential loading
+sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+from credential_loader import set_aws_environment
+
+# Load AWS credentials using centralized system
+set_aws_environment()
 SOP Domain RAG using TidyLLM Flow Agreements System
 ===================================================
 
@@ -18,9 +29,9 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 
 # Set AWS credentials for TidyLLM system
-os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+
+
+
 
 # Import TidyLLM Flow Agreements System
 try:
@@ -162,7 +173,7 @@ class SOPDomainRAG:
             self._init_domain_workflow()
             
         self.docs_path = Path("docs")
-        self.s3_bucket = "nsc-mvp1"
+        self.s3_bucket = s3_config["bucket"]
         self.s3_prefix = "sop_domain_rag/"
         
     def _init_domain_workflow(self):
@@ -662,7 +673,7 @@ class SOPDomainRAG:
         """Initialize fallback mode"""
         print("[FALLBACK] Initializing without flow agreements")
         self.docs_path = Path("docs")
-        self.s3_bucket = "nsc-mvp1"
+        self.s3_bucket = s3_config["bucket"]
         self.s3_prefix = "sop_domain_rag/"
     
     def _create_sop_for_query(self, query: str, conflicts: Dict[str, Any]) -> Dict[str, Any]:

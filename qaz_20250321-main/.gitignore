@@ -1,0 +1,477 @@
+# VectorQA Sage - Comprehensive .gitignore
+
+# =============================================================================
+# CREDENTIALS & SECURITY
+# =============================================================================
+# NEVER commit these files - they contain sensitive information!
+backend/config/credentials.env
+backend/config/*.key
+backend/config/*.pem
+backend/config/*.p12
+backend/config/secrets.json
+backend/config/aws_credentials.json
+
+# Environment files (but allow template)
+*.env
+.env.local
+.env.production
+.env.staging
+.env.development
+
+# Allow template files (safe to commit)
+!backend/config/credentials_template.env
+.env.production
+.env.staging
+.env.development
+secrets/
+secrets.json
+credentials.json
+api_keys.txt
+tokens.txt
+
+# =============================================================================
+# PYTHON
+# =============================================================================
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# =============================================================================
+# VIRTUAL ENVIRONMENTS
+# =============================================================================
+.venv/
+venv/
+env/
+ENV/
+.conda/
+conda/
+
+# =============================================================================
+# IDE & EDITORS
+# =============================================================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# OPERATING SYSTEM
+# =============================================================================
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.tmp
+*.temp
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# PROJECT SPECIFIC
+# =============================================================================
+# VectorQA Sage specific files
+logs/
+*.log
+data/processed/
+data/raw/
+data/temp/
+compiled_modules/
+backup/
+backups/
+*.backup
+*.bak
+*.tmp
+
+# Tests folder (contains sensitive test data)
+tests/
+
+# Environment settings (SENSITIVE - deployment configs)
+# NOTE: For deployment, we separate environ_settings from the main application:
+# - Main app gets packaged/tested independently 
+# - environ_settings contains deployment-specific configs and secrets
+# - Deploy by extracting both packages at same directory level
+# - This separation ensures secrets never mix with application code
+environ_settings/
+
+# Optional resources folders (reference materials, not part of main codebase)  
+# Consolidated under optional/ directory - contains legacy code and reference materials
+optional/
+archive/
+input/
+
+
+# Temporary and draft files
+changes for deno.md
+
+# Restructured directories - ignore temporary files
+frontend/static/temp/
+backend/temp/
+database/temp/
+deploy/temp/
+tests/temp/
+
+# Test artifacts
+test_results/
+test_output/
+coverage_html/
+.pytest_cache/
+
+# Documentation builds
+docs/build/
+docs/_build/
+
+# Temporary files
+temp/
+tmp/
+.tmp/
+
+# =============================================================================
+# BACKUP FILES
+# =============================================================================
+# Requirements backups
+requirements_backup_*.txt
+requirements_*_backup.txt
+
+# Configuration backups
+config_backup/
+*.backup
+*.bak
+
+# Underscore-prefixed folders (archives, backups, etc.)
+_*/
+
+# Claude AI files and folders
+.claude/
+
+# =============================================================================
+# GIT & VERSION CONTROL
+# =============================================================================
+# Git
+.git/
+.gitignore.backup
+.gitattributes.backup
+
+# =============================================================================
+# CLOUD & DEPLOYMENT
+# =============================================================================
+# AWS
+.aws/
+aws_credentials.json
+
+# Docker
+Dockerfile.backup
+docker-compose.override.yml
+
+# Kubernetes
+*.kubeconfig
+
+# =============================================================================
+# MACHINE LEARNING & DATA
+# =============================================================================
+# Model files
+*.pkl
+*.pickle
+*.joblib
+*.h5
+*.hdf5
+*.model
+*.weights
+*.bin
+
+# Data files
+*.csv
+*.json
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.xlsx
+*.xls
+
+# Vector databases
+*.faiss
+*.index
+*.vec
+
+# =============================================================================
+# SECURITY & COMPLIANCE
+# =============================================================================
+# SSL certificates
+*.crt
+*.key
+*.pem
+*.p12
+*.pfx
+
+# SSH keys
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+known_hosts
+
+# GPG
+*.gpg
+*.asc
+
+# =============================================================================
+# MONITORING & LOGS
+# =============================================================================
+# Application logs
+logs/
+*.log
+*.log.*
+log/
+
+# System logs
+syslog
+messages
+
+# =============================================================================
+# CACHE & TEMPORARY
+# =============================================================================
+# Cache directories
+.cache/
+cache/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Temporary files
+*.tmp
+*.temp
+.tmp/
+temp/
+tmp/
+
+# =============================================================================
+# DEVELOPMENT TOOLS
+# =============================================================================
+# Pre-commit hooks
+.pre-commit-config.yaml
+
+# Linting
+.flake8
+.pylintrc
+.mypy.ini
+
+# Testing
+.tox/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# =============================================================================
+# END OF FILE
+# =============================================================================
+
+# =============================================================================
+# DATA DIRECTORY (auto-generated content)
+# =============================================================================
+# All data folders - contains caches, outputs, experiments
+data/
+knowledge_base/
+deployment_packages/
+
+
+# Legacy data folder patterns (in case any are missed)
+llm_cache/
+llm_metrics/
+llm_enhanced_output/
+llm_utilization_reports/
+mlflow_export/
+mlflow_real_doc_export/
+mlflow_real_document_output/
+mlruns/
+environ_settings/
