@@ -1,0 +1,22 @@
+{
+  "test_name": "dependency_chain_logic",
+  "timestamp": "2025-09-04T06:28:44.583097",
+  "dependency_chain": {
+    "foundation": "LLMGateway (no dependencies)",
+    "layer_1": "DSPyGateway (requires LLMGateway)",
+    "layer_2": "HeirOSGateway (requires DSPyGateway + LLMGateway)"
+  },
+  "results": {
+    "chain_test": "PASS",
+    "actual_chain": {
+      "llm_gateway": [],
+      "dspy_gateway": [
+        "llm"
+      ],
+      "heiros_gateway": [
+        "dspy",
+        "llm"
+      ]
+    }
+  }
+}

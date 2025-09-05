@@ -1,0 +1,239 @@
+{
+  "test_type": "tidyllm_integration",
+  "timestamp": "2025-09-03T12:52:28.141343",
+  "results": {
+    "full_workflow_integration": {
+      "status": "SUCCESS",
+      "message": "Full workflow integration working",
+      "workflow_results": {
+        "backend_operational": true,
+        "features_enabled": true,
+        "metrics_enabled": true,
+        "wrapper_info": {
+          "version": "1.0.0-dev",
+          "backend": {
+            "type": "mock",
+            "team": "qa",
+            "status": "operational",
+            "features": [
+              "predictable_responses",
+              "configurable_delays",
+              "error_simulation",
+              "custom_responses",
+              "test_mode"
+            ],
+            "config": {
+              "response_delay": 0.1,
+              "error_rate": 0.0,
+              "custom_responses_count": 0
+            },
+            "health": {
+              "healthy": true,
+              "last_used": null,
+              "call_count": 0,
+              "error_count": 0,
+              "error_rate": 0.0
+            },
+            "description": "Mock backend for testing and development by Team QA"
+          },
+          "config": {
+            "backend_type": "mock",
+            "model": "integration-test-model",
+            "features": {
+              "retry": true,
+              "cache": true,
+              "validation": true,
+              "metrics": true
+            }
+          },
+          "metrics": {
+            "enabled": true,
+            "total_requests": 0,
+            "successful_requests": 0,
+            "failed_requests": 0,
+            "cache_hits": 0,
+            "cache_misses": 0,
+            "cache_hit_rate": 0.0,
+            "total_response_time": 0.0,
+            "average_response_time": 0.0,
+            "retry_count": 0,
+            "validation_failures": 0,
+            "success_rate": 0.0,
+            "last_updated": "2025-09-03T12:52:22.156761",
+            "config": {
+              "track_response_times": true,
+              "track_cache_metrics": true,
+              "track_error_rates": true
+            }
+          },
+          "team_contributions": {
+            "gateway": "Enterprise routing and governance",
+            "aws": "Bedrock optimization and multi-region support",
+            "reliability": "Error handling and retry strategies",
+            "performance": "Caching and metrics optimization",
+            "qa": "Testing and validation frameworks"
+          }
+        }
+      }
+    },
+    "cli_to_backend_integration": {
+      "status": "FAIL",
+      "message": "CLI integration failed",
+      "cli_results": {
+        "init": {
+          "status": "initialized",
+          "backend": "MockBackend"
+        },
+        "team": {
+          "teams": {
+            "gateway": "Enterprise routing and governance",
+            "aws": "Bedrock optimization and AWS integration",
+            "reliability": "Error handling and retry strategies",
+            "performance": "Caching and metrics optimization",
+            "qa": "Testing and validation frameworks"
+          }
+        },
+        "create": {
+          "status": "module_created",
+          "signature": "test_input -> test_output"
+        }
+      }
+    },
+    "drop_zones_full_stack": {
+      "status": "SUCCESS",
+      "message": "Drop zones full stack integration working",
+      "integration_results": {
+        "zones_loaded": true,
+        "cli_integration": true,
+        "zone_count": 1,
+        "list_result": {
+          "status": "no_config",
+          "message": "Configuration file drop_zones.yaml does not exist"
+        }
+      }
+    },
+    "command_chaining_with_features": {
+      "status": "SUCCESS",
+      "message": "Command chaining with features working",
+      "chaining_results": {
+        "execution_successful": true,
+        "proper_ordering": true,
+        "execution_order": [
+          "init_with_features",
+          "create_module_1",
+          "create_module_2",
+          "team_validation",
+          "drop_zones_check"
+        ],
+        "results_count": 5
+      }
+    },
+    "error_recovery_integration": {
+      "status": "SUCCESS",
+      "message": "Error recovery integration working",
+      "recovery_results": {
+        "error_recovery_working": true,
+        "initial_metrics": {
+          "enabled": true,
+          "total_requests": 0,
+          "successful_requests": 0,
+          "failed_requests": 0,
+          "cache_hits": 0,
+          "cache_misses": 0,
+          "cache_hit_rate": 0.0,
+          "total_response_time": 0.0,
+          "average_response_time": 0.0,
+          "retry_count": 0,
+          "validation_failures": 0,
+          "success_rate": 0.0,
+          "last_updated": "2025-09-03T12:52:28.137566",
+          "config": {
+            "track_response_times": true,
+            "track_cache_metrics": true,
+            "track_error_rates": true
+          }
+        },
+        "final_metrics": {
+          "enabled": true,
+          "total_requests": 0,
+          "successful_requests": 0,
+          "failed_requests": 0,
+          "cache_hits": 0,
+          "cache_misses": 0,
+          "cache_hit_rate": 0.0,
+          "total_response_time": 0.0,
+          "average_response_time": 0.0,
+          "retry_count": 0,
+          "validation_failures": 0,
+          "success_rate": 0.0,
+          "last_updated": "2025-09-03T12:52:28.137566",
+          "config": {
+            "track_response_times": true,
+            "track_cache_metrics": true,
+            "track_error_rates": true
+          }
+        }
+      }
+    },
+    "end_to_end_scenario": {
+      "status": "SUCCESS",
+      "message": "End-to-end scenario completed successfully",
+      "scenario_results": {
+        "Initialize system": {
+          "status": "success",
+          "result": {
+            "status": "initialized",
+            "backend": "MockBackend"
+          }
+        },
+        "Create processing module": {
+          "status": "success",
+          "result": {
+            "status": "module_created",
+            "signature": "document -> summary"
+          }
+        },
+        "Test system": {
+          "status": "success",
+          "result": {
+            "team_test_results": [
+              {
+                "backend": "mock",
+                "team": "qa",
+                "status": "operational"
+              },
+              {
+                "backend": "direct",
+                "team": "performance",
+                "status": "operational"
+              },
+              {
+                "backend": "bedrock",
+                "team": "aws",
+                "status": "operational"
+              },
+              {
+                "backend": "gateway",
+                "team": "gateway",
+                "status": "operational"
+              }
+            ]
+          }
+        },
+        "Check drop zones": {
+          "status": "success",
+          "result": {
+            "status": "no_config",
+            "message": "Configuration file drop_zones.yaml does not exist"
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 5,
+    "failed": 1,
+    "success_rate": "83.3%"
+  }
+}

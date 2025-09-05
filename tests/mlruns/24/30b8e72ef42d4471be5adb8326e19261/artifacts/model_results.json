@@ -1,0 +1,12 @@
+{
+  "model_metrics": {
+    "accuracy": 0.95,
+    "precision": 0.92,
+    "recall": 0.88
+  },
+  "experiment_details": {
+    "run_id": "30b8e72ef42d4471be5adb8326e19261",
+    "timestamp": "2025-09-03T07:01:56.497152",
+    "integration_test": true
+  }
+}

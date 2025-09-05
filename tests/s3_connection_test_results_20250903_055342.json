@@ -1,0 +1,107 @@
+{
+  "timestamp": "2025-09-03T05:53:38.137796",
+  "tests": {
+    "aws_credentials_check": {
+      "status": "success",
+      "credential_sources": [
+        "environment_variables"
+      ],
+      "environment_variables": {
+        "AWS_ACCESS_KEY_ID": "AKIASXYZ...",
+        "AWS_SECRET_ACCESS_KEY": "xGMWglS3...",
+        "AWS_DEFAULT_REGION": "us-east-..."
+      },
+      "credentials_available": true
+    },
+    "boto3_s3_connection": {
+      "status": "success",
+      "s3_connection_successful": true,
+      "connection_time": 0.4314439296722412,
+      "bucket_count": 3,
+      "buckets": [
+        "dsai-2025-asu",
+        "nsc-mvp1",
+        "sagemaker-us-east-1-188494237500"
+      ]
+    },
+    "s3_bucket_operations": {
+      "status": "partial",
+      "test_bucket": "dsai-2025-asu",
+      "operations_tested": {
+        "list_objects": {
+          "success": false,
+          "error": "AccessDenied"
+        },
+        "get_bucket_location": {
+          "success": false,
+          "error": "AccessDenied"
+        },
+        "get_bucket_versioning": {
+          "success": false,
+          "error": "AccessDenied"
+        }
+      },
+      "successful_operations": 0,
+      "total_operations": 3,
+      "success_rate": 0.0
+    },
+    "s3_file_operations": {
+      "status": "success",
+      "test_bucket": "dsai-2025-asu",
+      "test_file_key": "tidyllm-test-20250903-055341.txt",
+      "file_operations": {
+        "upload": {
+          "success": true,
+          "duration": 0.375424861907959,
+          "file_size": 101
+        },
+        "head_object": {
+          "success": true,
+          "duration": 0.043387413024902344,
+          "file_size": 101
+        },
+        "download": {
+          "success": true,
+          "duration": 0.0419464111328125,
+          "content_matches": true,
+          "downloaded_size": 101
+        },
+        "delete": {
+          "success": true,
+          "duration": 0.050350189208984375
+        }
+      },
+      "successful_operations": 4,
+      "total_operations": 4,
+      "success_rate": 100.0
+    },
+    "s3_performance": {
+      "status": "success",
+      "performance_metrics": {
+        "list_buckets": {
+          "average_time": 0.03944094975789388,
+          "times": [
+            0.04040932655334473,
+            0.03874635696411133,
+            0.039167165756225586
+          ]
+        },
+        "list_objects": {
+          "error": "AccessDenied"
+        },
+        "head_bucket": {
+          "error": "403"
+        }
+      },
+      "tests_completed": 1,
+      "overall_average_time": 0.03944094975789388,
+      "performance_good": true
+    }
+  },
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 4.5,
+    "success_rate": 90.0,
+    "overall_status": "pass"
+  }
+}

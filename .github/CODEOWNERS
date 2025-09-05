@@ -1,0 +1,87 @@
+# TidyLLM Code Ownership - Team Collaboration
+# 
+# This file defines which teams are responsible for reviewing changes
+# to different parts of the codebase. Each team focuses on their area
+# of expertise while ensuring cross-team collaboration.
+
+# Global ownership - all teams review major changes
+* @team-gateway @team-aws @team-reliability @team-performance @team-qa
+
+# Core unified wrapper - all teams must approve changes
+src/tidyllm/__init__.py @team-gateway @team-aws @team-reliability @team-performance @team-qa
+src/tidyllm/unified.py @team-gateway @team-aws @team-reliability @team-performance @team-qa
+src/tidyllm/config.py @team-gateway @team-aws @team-reliability @team-performance @team-qa
+
+# Backend implementations - primary team + gateway team
+src/tidyllm/backends/ @team-gateway
+src/tidyllm/backends/gateway.py @team-gateway @team-reliability
+src/tidyllm/backends/bedrock.py @team-aws @team-gateway
+src/tidyllm/backends/direct.py @team-performance @team-gateway
+src/tidyllm/backends/mock.py @team-qa @team-gateway
+
+# Feature implementations - primary team + performance team
+src/tidyllm/features/ @team-performance
+src/tidyllm/features/retry.py @team-reliability @team-performance
+src/tidyllm/features/cache.py @team-performance @team-reliability
+src/tidyllm/features/validation.py @team-qa @team-performance
+src/tidyllm/features/metrics.py @team-performance @team-reliability
+
+# Utilities - shared ownership based on functionality
+src/tidyllm/utils/ @team-performance @team-reliability
+src/tidyllm/utils/detection.py @team-gateway @team-aws
+src/tidyllm/utils/aws_helpers.py @team-aws @team-gateway
+src/tidyllm/utils/error_handling.py @team-reliability @team-performance
+
+# Pattern analysis - all teams contribute insights
+src/tidyllm/patterns/ @team-gateway @team-aws @team-reliability @team-performance @team-qa
+src/tidyllm/patterns/analysis.py @team-gateway @team-performance
+src/tidyllm/patterns/migration.py @team-reliability @team-qa
+
+# Testing - QA team leads, all teams contribute
+tests/ @team-qa
+tests/unit/ @team-qa @team-performance
+tests/integration/ @team-qa @team-gateway @team-aws
+tests/performance/ @team-performance @team-reliability
+tests/compatibility/ @team-qa @team-reliability
+
+# Documentation - all teams maintain their areas
+docs/ @team-qa @team-gateway
+docs/api/ @team-qa @team-performance
+docs/guides/ @team-gateway @team-qa
+docs/patterns/ @team-gateway @team-reliability
+docs/migration/ @team-reliability @team-qa
+
+# Examples - all teams contribute
+examples/ @team-qa @team-gateway
+examples/basic/ @team-qa @team-gateway
+examples/advanced/ @team-gateway @team-aws
+examples/migration/ @team-reliability @team-qa
+examples/integration/ @team-gateway @team-performance
+
+# Team experiment areas - owned by respective teams
+experiments/team-gateway/ @team-gateway
+experiments/team-aws/ @team-aws
+experiments/team-reliability/ @team-reliability
+experiments/team-performance/ @team-performance
+
+# Integration tools - gateway team + target integration teams
+integration/ @team-gateway @team-qa
+integration/tidyllm/ @team-gateway @team-performance
+integration/testing/ @team-qa @team-reliability
+integration/deployment/ @team-gateway @team-aws
+
+# Configuration and setup files - all teams review
+pyproject.toml @team-gateway @team-aws @team-reliability @team-performance @team-qa
+requirements.txt @team-performance @team-reliability
+setup.py @team-performance @team-qa
+
+# CI/CD and GitHub workflows - performance + QA teams
+.github/ @team-qa @team-performance
+.github/workflows/ @team-qa @team-performance @team-reliability
+.github/ISSUE_TEMPLATE/ @team-qa @team-gateway
+
+# Team collaboration files - all teams
+.github/CODEOWNERS @team-gateway @team-aws @team-reliability @team-performance @team-qa
+CONTRIBUTING.md @team-qa @team-gateway
+CODE_OF_CONDUCT.md @team-gateway @team-qa
+SECURITY.md @team-gateway @team-reliability

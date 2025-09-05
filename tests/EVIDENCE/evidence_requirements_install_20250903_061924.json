@@ -1,0 +1,32 @@
+{
+  "test_type": "requirements_installation",
+  "results": {
+    "Python Version": true,
+    "Pip Availability": true,
+    "Core Dependencies": true,
+    "Optional Dependencies": true,
+    "TidyLLM Installation": true,
+    "Requirements Installation": true
+  },
+  "requirements_files": [
+    "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\tidyllm\\vectorqa\\whitepapers\\requirements.txt",
+    "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\tidyllm\\heiros\\research-pipeline\\requirements.txt",
+    "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\pyproject.toml"
+  ],
+  "overall_success": true,
+  "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "win32",
+  "metadata": {
+    "test_file": "0_install_requirements.py",
+    "timestamp": "2025-09-03T06:19:24.979759",
+    "test_name": "requirements_install",
+    "python_version": "3.13.7 (tags/v3.13.7:bcee1c3, Aug 14 2025, 14:15:11) [MSC v.1944 64 bit (AMD64)]",
+    "working_directory": "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\standard\\tests",
+    "environment_variables": {
+      "AWS_ACCESS_KEY_ID": "AKIASXYZBZ...",
+      "AWS_DEFAULT_REGION": "us-east-1",
+      "POSTGRES_PASSWORD": "SET",
+      "TIDYLLM_ENV": "NOT_SET"
+    }
+  }
+}

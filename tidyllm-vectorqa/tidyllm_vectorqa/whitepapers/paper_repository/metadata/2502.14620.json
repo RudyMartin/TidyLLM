@@ -1,0 +1,19 @@
+{
+  "paper_id": "2502.14620",
+  "title": "Exploring RWKV for Sentence Embeddings: Layer-wise Analysis and Baseline Comparison for Semantic Similarity",
+  "authors": [
+    "Xinghan Pan"
+  ],
+  "source": "ArXiv",
+  "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise.pdf",
+  "file_size": 197812,
+  "download_date": "2025-09-01T00:50:12.693848",
+  "y_score": 0.78,
+  "r_score": null,
+  "s_score": null,
+  "n_score": null,
+  "context_risk": null,
+  "collections": [],
+  "tags": [],
+  "notes": ""
+}

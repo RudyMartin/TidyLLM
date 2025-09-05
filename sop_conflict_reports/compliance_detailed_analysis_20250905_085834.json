@@ -1,0 +1,127 @@
+{
+  "report_type": "Detailed Compliance Analysis",
+  "generated_at": "2025-09-05T08:58:34.946155",
+  "analysis_scope": {
+    "queries_processed": 4,
+    "yrsn_validation_enabled": true,
+    "fallback_strategy_used": true
+  },
+  "query_breakdown": [
+    {
+      "query_id": "COMP-001",
+      "query": "What is the official session management pattern for TidyLLM?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 95.5872445542331,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (95.6% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.044127554457668985,
+        "guidance_sources": [
+          "AWS_CREDENTIALS_SETUP.md",
+          "CLEANUP_ACTION_PLAN.md",
+          "CLEANUP_COMPLETED.md",
+          "CRITICAL_DESIGN_DECISIONS.md",
+          "FINAL_CLEANUP_ACTION_PLAN.md",
+          "Guidance-on-AWS-Sessions.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "MASTER_AUDIT_SUMMARY.md",
+          "README.md",
+          "RUDY_EMBEDDING_USAGE.md",
+          "Session-Management-Migration-Map.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "### \"S3 upload not available\"\n- Ensure AWS credentials are set in the same terminal session\n- Verify with: `echo $AWS_ACCESS_KEY_ID` (should show AKIASXYZBZ...)\n- Test with: `aws s3 ls` (if AWS CLI installed)",
+        "# Verify removal\nls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa",
+        "# Verify removal\nls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa\n```"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    },
+    {
+      "query_id": "COMP-002",
+      "query": "Which embedding system should be used: tidyllm-sentence or tidyllm-vectorqa?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 94.7906026557712,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (94.8% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.05209397344228805,
+        "guidance_sources": [
+          "CLEANUP_ACTION_PLAN.md",
+          "CLEANUP_COMPLETED.md",
+          "CRITICAL_DESIGN_DECISIONS.md",
+          "DROP_ZONE_TRACKING_DOCUMENTATION.md",
+          "FINAL_CLEANUP_ACTION_PLAN.md",
+          "Guidance-on-AWS-Sessions.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "MASTER_AUDIT_SUMMARY.md",
+          "README.md",
+          "RUDY_EMBEDDING_USAGE.md",
+          "Session-Management-Migration-Map.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "# Verify removal\nls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa",
+        "# Verify removal\nls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa\n```",
+        "ls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa\n```"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    },
+    {
+      "query_id": "COMP-003",
+      "query": "How should MVR documents be classified and tagged?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 96.34888438133875,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (96.3% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.036511156186612576,
+        "guidance_sources": [
+          "CLEANUP_ACTION_PLAN.md",
+          "RUDY_EMBEDDING_USAGE.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "MEDIUM"
+      },
+      "guidance_content": [
+        "# Verify removal\nls -la | grep tidyllm-\n# Should only show: tidyllm-compliance, tidyllm-demos, tidyllm-documents, \n#                   tidyllm-gateway, tidyllm-sentence, tidyllm-vectorqa\n```",
+        "- Processing by date\n- Embedding models used\n- Recent documents processed\n- Sample embedding data",
+        "Use this script to:\n1. **Monitor Pipeline Health** - Check if documents are being processed\n2. **Debug Embedding Issues** - See which models are working\n3. **Track Processing Progress** - Monitor batch jobs"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    },
+    {
+      "query_id": "COMP-004",
+      "query": "What is the process for YRSN noise analysis validation?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 94.44834855938159,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (94.4% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.05551651440618412,
+        "guidance_sources": [
+          "boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+          "boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+          "boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+          "boss_demo_report_real_test_016_1757051464.md",
+          "CRITICAL_DESIGN_DECISIONS.md",
+          "DROP_ZONE_TRACKING_DOCUMENTATION.md",
+          "Guidance-on-AWS-Sessions.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "MASTER_AUDIT_SUMMARY.md",
+          "README.md",
+          "RUDY_EMBEDDING_USAGE.md",
+          "Session-Management-Migration-Map.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    }
+  ]
+}

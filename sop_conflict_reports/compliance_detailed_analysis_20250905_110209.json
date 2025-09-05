@@ -1,0 +1,118 @@
+{
+  "report_type": "Detailed Compliance Analysis",
+  "generated_at": "2025-09-05T11:02:09.583632",
+  "analysis_scope": {
+    "queries_processed": 4,
+    "yrsn_validation_enabled": true,
+    "fallback_strategy_used": true
+  },
+  "query_breakdown": [
+    {
+      "query_id": "COMP-001",
+      "query": "What are the model validation requirements?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 94.83193277310924,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (94.8% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.05168067226890756,
+        "guidance_sources": [
+          "boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+          "boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+          "boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+          "boss_demo_report_real_test_016_1757051464.md",
+          "DROP_ZONE_TRACKING_DOCUMENTATION.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "RUDY_EMBEDDING_USAGE.md",
+          "Session-Management-Migration-Map.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    },
+    {
+      "query_id": "COMP-002",
+      "query": "How should stress testing procedures be conducted?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 86.63967611336032,
+        "quality_assessment": "HIGH COMPLIANCE RISK (86.6% noise) - Minimal actionable content",
+        "actionable_content_ratio": 0.13360323886639677,
+        "guidance_sources": [
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "MEDIUM"
+      },
+      "guidance_content": [
+        "3. **Automatic**: CI checks for forbidden imports AND file organization\n4. **Documentation**: All examples must use native stack AND proper file locations\n5. **Testing**: Test cases must not import forbidden dependencies\n\n### **Exception Policy:**"
+      ],
+      "compliance_recommendation": "HIGH RISK: Minimal actionable content - SOP improvement needed"
+    },
+    {
+      "query_id": "COMP-003",
+      "query": "What credit risk assessment methods are required?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 81.09133352786694,
+        "quality_assessment": "HIGH COMPLIANCE RISK (81.1% noise) - Minimal actionable content",
+        "actionable_content_ratio": 0.18908666472133062,
+        "guidance_sources": [
+          "boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+          "boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+          "boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+          "boss_demo_report_real_test_016_1757051464.md",
+          "CRITICAL_DESIGN_DECISIONS.md",
+          "DROP_ZONE_TRACKING_DOCUMENTATION.md",
+          "FINAL_CLEANUP_ACTION_PLAN.md",
+          "Guidance-on-AWS-Sessions.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "MASTER_AUDIT_SUMMARY.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "## 🎯 **Actionable Insights**\n\n### **Immediate Actions Required**\n1. **High Priority**: {high_priority_actions}\n2. **Medium Priority**: {medium_priority_actions}",
+        "## 🎯 **Actionable Insights**\n\n### **Immediate Actions Required**\n1. **High Priority**: {high_priority_actions}\n2. **Medium Priority**: {medium_priority_actions}",
+        "## 🎯 **Actionable Insights**\n\n### **Immediate Actions Required**\n1. **High Priority**: {high_priority_actions}\n2. **Medium Priority**: {medium_priority_actions}"
+      ],
+      "compliance_recommendation": "HIGH RISK: Minimal actionable content - SOP improvement needed"
+    },
+    {
+      "query_id": "COMP-004",
+      "query": "Which regulatory compliance guidelines apply?",
+      "compliance_details": {
+        "status": "FOUND",
+        "yrsn_noise_score": 95.07462686567165,
+        "quality_assessment": "CRITICAL COMPLIANCE FAILURE (95.1% noise) - No actionable guidance",
+        "actionable_content_ratio": 0.049253731343283584,
+        "guidance_sources": [
+          "boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+          "boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+          "boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+          "boss_demo_report_real_test_016_1757051464.md",
+          "CLEANUP_ACTION_PLAN.md",
+          "CLEANUP_COMPLETED.md",
+          "DROP_ZONE_TRACKING_DOCUMENTATION.md",
+          "IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+          "MASTER_AUDIT_SUMMARY.md",
+          "Session-Management-Migration-Map.md"
+        ],
+        "retrieval_method": "primary_sop",
+        "confidence_level": "HIGH"
+      },
+      "guidance_content": [
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}",
+        "Pre-Approved Decisions Used:\n  - Document Classification: {sparse_classification_id}\n  - Compliance Validation: {sparse_compliance_id}\n  - Risk Assessment: {sparse_risk_id}"
+      ],
+      "compliance_recommendation": "CRITICAL: No actionable guidance found - immediate SOP update required"
+    }
+  ]
+}

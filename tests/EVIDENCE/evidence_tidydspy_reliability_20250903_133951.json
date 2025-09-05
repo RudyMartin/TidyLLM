@@ -1,0 +1,132 @@
+{
+  "test_type": "tidyllm_reliability",
+  "timestamp": "2025-09-03T13:39:51.014211",
+  "results": {
+    "retry_mechanism_reliability": {
+      "status": "SUCCESS",
+      "message": "Retry mechanism reliability good",
+      "reliability_metrics": {
+        "retry_worked": true,
+        "attempted_retries": true,
+        "permanent_failure_handled": true,
+        "total_duration": "0.031s",
+        "reasonable_timing": true,
+        "success_attempts": 3,
+        "failure_attempts": 4
+      }
+    },
+    "cache_fault_tolerance": {
+      "status": "SUCCESS",
+      "message": "Cache fault tolerance good",
+      "fault_tolerance_results": {
+        "normal_operation": true,
+        "corruption_handled": true,
+        "recovery_successful": true,
+        "stats_available": true,
+        "fault_tolerance_good": true
+      }
+    },
+    "backend_failover_reliability": {
+      "status": "SUCCESS",
+      "message": "Backend failover reliability good",
+      "failover_results": {
+        "operational_backends": 3,
+        "total_backends_tested": 3,
+        "backend_results": {
+          "mock": {
+            "initialization_success": true,
+            "info_available": true,
+            "health_check_completed": true,
+            "backend_type": "mock",
+            "status": "operational"
+          },
+          "direct": {
+            "initialization_success": true,
+            "info_available": true,
+            "health_check_completed": true,
+            "backend_type": "direct",
+            "status": "operational"
+          },
+          "auto": {
+            "initialization_success": true,
+            "info_available": true,
+            "health_check_completed": true,
+            "backend_type": "direct",
+            "status": "operational"
+          }
+        },
+        "failover_reliability": true
+      }
+    },
+    "cli_error_recovery": {
+      "status": "SUCCESS",
+      "message": "CLI error recovery good",
+      "recovery_results": {
+        "invalid_command": {
+          "handled_gracefully": true,
+          "error_message": "Unknown command: nonexistent_command",
+          "description": "Unknown command should be handled gracefully",
+          "informative_error": true
+        },
+        "invalid_backend": {
+          "handled_gracefully": true,
+          "result_type": "dict",
+          "description": "Invalid backend should be handled",
+          "exception_avoided": true
+        },
+        "malformed_signature": {
+          "handled_gracefully": true,
+          "error_message": "Invalid signature format: 'invalid signature format', must contain exactly one '->'.",
+          "description": "Malformed signature should be handled",
+          "informative_error": true
+        },
+        "invalid_action": {
+          "handled_gracefully": true,
+          "result_type": "NoneType",
+          "description": "Invalid team action should be handled",
+          "exception_avoided": true
+        },
+        "invalid_drop_zones": {
+          "handled_gracefully": true,
+          "error_message": "Unknown drop zones action: invalid_action",
+          "description": "Invalid drop zones action should be handled",
+          "informative_error": true
+        }
+      }
+    },
+    "concurrent_reliability": {
+      "status": "SUCCESS",
+      "message": "Concurrent reliability good",
+      "reliability_metrics": {
+        "total_operations": 25,
+        "successful_operations": 25,
+        "failed_operations": 0,
+        "success_rate": "1.000",
+        "total_time": "0.001s",
+        "avg_completion_time": "0.000s",
+        "max_completion_time": "0.000s",
+        "reliability_good": true
+      }
+    },
+    "system_stability": {
+      "status": "SUCCESS",
+      "message": "System stability good",
+      "stability_metrics": {
+        "creation_failures": 0,
+        "operation_failures": 0,
+        "memory_issues": 0,
+        "successful_operations": 10,
+        "success_rate": "1.000",
+        "no_memory_issues": true,
+        "minimal_failures": true,
+        "stability_good": true
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "success_rate": "100.0%"
+  }
+}

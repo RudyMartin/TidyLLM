@@ -1,0 +1,41 @@
+{
+  "demo_metadata": {
+    "file_processed": "boss_demo_evidence\\input_zone\\ModelRiskManagementPracticeNote_May2019.pdf",
+    "processing_timestamp": "2025-09-05T00:51:01.565285",
+    "evidence_tracking": true,
+    "boss_demo_mode": true
+  },
+  "workflow_evidence": {
+    "extraction": {
+      "method": "PyPDF2",
+      "original_file_size_bytes": 266337,
+      "file_hash_md5": "4c72624c7f4bb5d36629ec769695b827",
+      "extracted_text_length": 56176,
+      "pages_processed": 28,
+      "extraction_duration_seconds": 0.384301,
+      "encoding_used": "utf-8",
+      "proof_summary": "Real extraction: 56176 chars from 266337 byte file"
+    },
+    "compliance": {
+      "method": "direct_analysis",
+      "text_analyzed_length": 56176,
+      "analysis_duration_seconds": 0.005083,
+      "compliance_score": 0.6,
+      "analysis_timestamp": "2025-09-05T00:51:01.562593",
+      "real_analysis": true,
+      "proof_summary": "Real compliance analysis: score 0.6"
+    },
+    "peer_review": {
+      "method": "structured_analysis",
+      "prompt_length": 2568,
+      "response_length": 864,
+      "generation_duration_seconds": 1.7e-05,
+      "compliance_score_input": 0.6,
+      "text_input_length": 56176,
+      "real_generation": true,
+      "proof_summary": "Real peer review: 864 chars in 0.0s"
+    }
+  },
+  "file_hash": "4c72624c7f4bb5d36629ec769695b827",
+  "original_text_sample": " \n \nA PUBLIC POLICY PRAC TICE NOTE  \n \nModel Risk Management  \n \n \nMay 2019 \n \nDeveloped by  the Model Risk Management Work Group  of the \nERM/ORSA Committee  of the American Academy of Actuaries  \n \n A PUBLIC POLICY PRACTICE NOTE  \n\u00a9 2019 American Academy of Actuaries  2 www.actuary.org   \n  \n \n \nModel Risk Management  \n \nMay 2019 \n \n \nDeveloped by  \nthe Model Risk Management Work Group \nof the ERM/ORSA Committee  \nof the American Academy of Actuaries  \n \n \n \n \n \n \n \n \n \nThe American Academy of..."
+}

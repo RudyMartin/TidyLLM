@@ -1,0 +1,154 @@
+{
+  "test_type": "tidyllm_performance",
+  "timestamp": "2025-09-03T12:53:57.388076",
+  "results": {
+    "cache_performance": {
+      "status": "SUCCESS",
+      "message": "Cache performance acceptable",
+      "performance_metrics": {
+        "total_set_time": "0.038s",
+        "avg_set_time": "0.385ms",
+        "total_get_time": "0.011s",
+        "avg_get_time": "0.113ms",
+        "hit_rate": "1.000",
+        "stats_time": "0.003s",
+        "cache_files": 100,
+        "performance_acceptable": true
+      }
+    },
+    "metrics_overhead": {
+      "status": "FAIL",
+      "message": "Metrics overhead too high",
+      "overhead_analysis": {
+        "disabled_time": "0.000s",
+        "enabled_time": "0.001s",
+        "overhead": "0.001s",
+        "overhead_percentage": "1543.4%",
+        "final_metrics": {
+          "enabled": true,
+          "total_requests": 1000,
+          "successful_requests": 1000,
+          "failed_requests": 0,
+          "cache_hits": 0,
+          "cache_misses": 1000,
+          "cache_hit_rate": 0.0,
+          "total_response_time": 99.9999999999986,
+          "average_response_time": 0.09999999999999859,
+          "retry_count": 0,
+          "validation_failures": 0,
+          "success_rate": 1.0,
+          "last_updated": "2025-09-03T12:53:54.038359",
+          "config": {
+            "track_response_times": true,
+            "track_cache_metrics": true,
+            "track_error_rates": true
+          }
+        },
+        "overhead_acceptable": false
+      }
+    },
+    "retry_mechanism_performance": {
+      "status": "SUCCESS",
+      "message": "Retry mechanism performance acceptable",
+      "retry_performance": {
+        "config_1": {
+          "max_retries": 1,
+          "success_time": "0.000s",
+          "result": "success_0"
+        },
+        "config_2": {
+          "max_retries": 3,
+          "success_time": "0.000s",
+          "result": "success_1"
+        },
+        "config_3": {
+          "max_retries": 5,
+          "success_time": "0.000s",
+          "result": "success_2"
+        }
+      }
+    },
+    "concurrent_operations": {
+      "status": "SUCCESS",
+      "message": "Concurrent operations performance good",
+      "concurrent_results": {
+        "total_operations": 10,
+        "successful_operations": 10,
+        "failed_operations": 0,
+        "success_rate": "1.000",
+        "total_time": "0.002s",
+        "avg_duration": "0.000s",
+        "performance_good": true
+      }
+    },
+    "memory_efficiency": {
+      "status": "SUCCESS",
+      "message": "Memory usage efficient",
+      "memory_analysis": {
+        "initial_memory": "189.28MB",
+        "peak_memory": "189.43MB",
+        "final_memory": "189.43MB",
+        "memory_increase": "0.16MB",
+        "memory_per_wrapper": "0.00MB",
+        "memory_efficient": true
+      }
+    },
+    "cli_command_performance": {
+      "status": "SUCCESS",
+      "message": "CLI command performance acceptable",
+      "cli_performance": {
+        "init": {
+          "avg_time": "0.000s",
+          "success_rate": "1.000",
+          "times": [
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s"
+          ]
+        },
+        "team": {
+          "avg_time": "0.000s",
+          "success_rate": "1.000",
+          "times": [
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s"
+          ]
+        },
+        "create": {
+          "avg_time": "0.001s",
+          "success_rate": "1.000",
+          "times": [
+            "0.001s",
+            "0.001s",
+            "0.001s",
+            "0.002s",
+            "0.002s"
+          ]
+        },
+        "drop-zones": {
+          "avg_time": "0.000s",
+          "success_rate": "1.000",
+          "times": [
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s",
+            "0.000s"
+          ]
+        }
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 5,
+    "failed": 1,
+    "skipped": 0,
+    "success_rate": "83.3%"
+  }
+}

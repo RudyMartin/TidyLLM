@@ -1,0 +1,12 @@
+include README.md
+include LICENSE
+include requirements*.txt
+recursive-include tidyllm_vectorqa *.py
+recursive-include tidyllm_vectorqa *.json
+recursive-include tidyllm_vectorqa *.tex
+recursive-include tidyllm_vectorqa *.toml
+recursive-include tidyllm_vectorqa *.yaml
+recursive-include tidyllm_vectorqa *.yml
+exclude tests/*
+global-exclude __pycache__
+global-exclude *.pyc

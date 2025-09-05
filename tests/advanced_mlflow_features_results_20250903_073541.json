@@ -1,0 +1,53 @@
+{
+  "timestamp": "2025-09-03T07:34:08.791515",
+  "tests": {
+    "model_versioning_registry": {
+      "status": "error",
+      "error": "[WinError 5] Access is denied: '\\\\Users\\\\rudy'"
+    },
+    "ab_testing_experiments": {
+      "status": "success",
+      "experiment_name": "tidyllm_ab_test_1756902864",
+      "experiment_id": "26",
+      "configurations_tested": 2,
+      "statistical_analysis": {
+        "status": "success",
+        "metrics_comparison": {
+          "average_response_time": {
+            "config_a_value": 0.36719030141830444,
+            "config_b_value": 0.3721435070037842,
+            "percentage_change": 1.3489478252414482,
+            "winner": "config_b"
+          },
+          "average_response_length": {
+            "config_a_value": 364.0,
+            "config_b_value": 364.0,
+            "percentage_change": 0.0,
+            "winner": "tie"
+          },
+          "creativity_score": {
+            "config_a_value": 1.0,
+            "config_b_value": 1.0,
+            "percentage_change": 0.0,
+            "winner": "tie"
+          }
+        },
+        "overall_winner": "config_b",
+        "wins_config_a": 0,
+        "wins_config_b": 1,
+        "recommendation": "Recommend Configuration B (Creative) based on marginal improvements. Consider production testing with larger sample size."
+      },
+      "evidence_file": "C:\\Users\\marti\\github_0901\\UNIFIED_TIDYLLM\\standard\\tests\\EVIDENCE\\evidence_advanced_mlflow_ab_testing_20250903_073500.json"
+    },
+    "custom_metrics_artifacts": {
+      "status": "error",
+      "error": "[WinError 5] Access is denied: '\\\\Users\\\\rudy'"
+    }
+  },
+  "summary": {
+    "total_tests": 3,
+    "passed_tests": 1,
+    "success_rate": 33.33333333333333,
+    "overall_status": "fail"
+  }
+}

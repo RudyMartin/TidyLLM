@@ -1,0 +1,346 @@
+{
+  "papers": {
+    "2308.02381": {
+      "title": "Non-Ideal Measurement Heat Engines",
+      "authors": [
+        "Abhisek Panda",
+        "Felix C. Binder"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2308.02381_Non-Ideal_Measurement_Heat_Engines.pdf",
+      "file_size": 615976,
+      "download_date": "2025-08-31T19:05:33.417623",
+      "y_score": 0.714,
+      "collections": [
+        "Test Collection"
+      ]
+    },
+    "2303.13534": {
+      "title": "Prompting AI Art: An Investigation into the Creative Skill of Prompt\n  Engineering",
+      "authors": [
+        "Jonas Oppenlaender",
+        "Rhema Linder",
+        "Johanna Silvennoinen"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati.pdf",
+      "file_size": 7718089,
+      "download_date": "2025-08-31T19:07:01.118842",
+      "y_score": 0.8,
+      "collections": [
+        "Test Collection"
+      ]
+    },
+    "2412.00553": {
+      "title": "A novel algorithm for the decomposition of non-stationary multidimensional and multivariate signals",
+      "authors": [
+        "Roberto Cavassi",
+        "Antonio Cicone",
+        "Enza Pellegrino",
+        "Haomin Zhou"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2412.00553_A_novel_algorithm_for_the_decomposition_of_non-sta.pdf",
+      "file_size": 823031,
+      "download_date": "2025-09-01T00:11:57.164755",
+      "y_score": 0.82,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2404.04870": {
+      "title": "Signal-noise separation using unsupervised reservoir computing",
+      "authors": [
+        "Jaesung Choi",
+        "Pilwon Kim"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2404.04870_Signal-noise_separation_using_unsupervised_reservo.pdf",
+      "file_size": 7434787,
+      "download_date": "2025-09-01T00:12:12.124247",
+      "y_score": 0.85,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2405.18274": {
+      "title": "Signal-Plus-Noise Decomposition of Nonlinear Spiked Random Matrix Models",
+      "authors": [
+        "Behrad Moniri",
+        "Hamed Hassani"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2405.18274_Signal-Plus-Noise_Decomposition_of_Nonlinear_Spike.pdf",
+      "file_size": 2266794,
+      "download_date": "2025-09-01T00:12:39.008092",
+      "y_score": 0.78,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2501.09174": {
+      "title": "Short-time Variational Mode Decomposition",
+      "authors": [
+        "Hao Jia",
+        "Pengfei Cao",
+        "Tong Liang"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2501.09174_Short-time_Variational_Mode_Decomposition.pdf",
+      "file_size": 16502424,
+      "download_date": "2025-09-01T00:16:27.093769",
+      "y_score": 0.81,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2410.23534": {
+      "title": "Empirical Wavelet Transform",
+      "authors": [
+        "J\u00e9r\u00f4me Gilles"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2410.23534_Empirical_Wavelet_Transform.pdf",
+      "file_size": 2598086,
+      "download_date": "2025-09-01T00:22:43.447084",
+      "y_score": 0.79,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2308.03077": {
+      "title": "Gabor-based learnable sparse representation for self-supervised denoising",
+      "authors": [
+        "Sixiu Liu",
+        "Shijun Cheng",
+        "Tariq Alkhalifah"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2308.03077_Gabor-based_learnable_sparse_representation_for_se.pdf",
+      "file_size": 2980188,
+      "download_date": "2025-09-01T00:24:53.982935",
+      "y_score": 0.83,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2409.19550": {
+      "title": "Tailored Low-Rank Matrix Factorization for Similarity Matrix Completion",
+      "authors": [
+        "Changyi Ma",
+        "Runsheng Yu",
+        "Xiao Chen",
+        "Youzhi Zhang"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2409.19550_Tailored_Low-Rank_Matrix_Factorization_for_Similar.pdf",
+      "file_size": 728281,
+      "download_date": "2025-09-01T00:26:28.062207",
+      "y_score": 0.77,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2504.19124": {
+      "title": "Blind Source Separation Based on Sparsity",
+      "authors": [
+        "Zhongxuan Li"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2504.19124_Blind_Source_Separation_Based_on_Sparsity.pdf",
+      "file_size": 4847247,
+      "download_date": "2025-09-01T00:28:32.808282",
+      "y_score": 0.8,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2110.05649": {
+      "title": "Learned Robust PCA: A Scalable Deep Unfolding Approach for High-Dimensional Outlier Detection",
+      "authors": [
+        "HanQin Cai",
+        "Jialin Liu",
+        "Wotao Yin"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr.pdf",
+      "file_size": 5136730,
+      "download_date": "2025-09-01T00:29:48.896623",
+      "y_score": 0.84,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2208.08287": {
+      "title": "Noisy Nonnegative Tucker Decomposition with Sparse Factors and Missing Data",
+      "authors": [
+        "Xiongjun Zhang",
+        "Michael K. Ng"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse.pdf",
+      "file_size": 475165,
+      "download_date": "2025-09-01T00:40:38.167673",
+      "y_score": 0.76,
+      "collections": [
+        "Y=R+S+N Mathematical Framework"
+      ]
+    },
+    "2502.14620": {
+      "title": "Exploring RWKV for Sentence Embeddings: Layer-wise Analysis and Baseline Comparison for Semantic Similarity",
+      "authors": [
+        "Xinghan Pan"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise.pdf",
+      "file_size": 197812,
+      "download_date": "2025-09-01T00:50:12.694411",
+      "y_score": 0.78,
+      "collections": [
+        "Transformer-Enhanced Embeddings"
+      ]
+    },
+    "2408.08073": {
+      "title": "Extracting Sentence Embeddings from Pretrained Transformer Models",
+      "authors": [
+        "Lukas Stankevi\u010dius",
+        "Mantas Luko\u0161evi\u010dius"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2408.08073_Extracting_Sentence_Embeddings_from_Pretrained_Tra.pdf",
+      "file_size": 1623589,
+      "download_date": "2025-09-01T00:52:39.404757",
+      "y_score": 0.81,
+      "collections": [
+        "Transformer-Enhanced Embeddings"
+      ]
+    },
+    "2501.14288": {
+      "title": "A Comprehensive Framework for Semantic Similarity Analysis of Human and AI-Generated Text Using Transformer Architectures and Ensemble Techniques",
+      "authors": [
+        "Lifu Gao",
+        "Ziwei Liu",
+        "Qi Zhang"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity.pdf",
+      "file_size": 726963,
+      "download_date": "2025-09-01T00:54:42.932518",
+      "y_score": 0.83,
+      "collections": [
+        "Transformer-Enhanced Embeddings"
+      ]
+    },
+    "2004.09813": {
+      "title": "Making Monolingual Sentence Embeddings Multilingual using Knowledge Distillation",
+      "authors": [
+        "Nils Reimers",
+        "Iryna Gurevych"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua.pdf",
+      "file_size": 744396,
+      "download_date": "2025-09-01T01:14:02.565760",
+      "y_score": 0.86,
+      "collections": [
+        "Transformer-Enhanced Embeddings"
+      ]
+    },
+    "2410.11842": {
+      "title": "MoH: Multi-Head Attention as Mixture-of-Head Attention",
+      "authors": [
+        "Peng Jin",
+        "Bo Zhu",
+        "Li Yuan",
+        "Shuicheng Yan"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2410.11842_MoH_Multi-Head_Attention_as_Mixture-of-Head_Atten.pdf",
+      "file_size": 2633876,
+      "download_date": "2025-09-01T01:29:43.393905",
+      "y_score": 0.84,
+      "collections": [
+        "Transformer-Enhanced Embeddings"
+      ]
+    },
+    "2211.12051": {
+      "title": "Adaptive Dynamic Filtering Network for Image Denoising",
+      "authors": [
+        "Hao Shen",
+        "Zhong-Qiu Zhao",
+        "Wandi Zhang"
+      ],
+      "source": "ArXiv",
+      "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi.pdf",
+      "file_size": 4520433,
+      "download_date": "2025-09-01T01:33:26.287848",
+      "y_score": 0.82,
+      "collections": [
+        "Dynamic Filtering Systems"
+      ]
+    }
+  },
+  "collections": {
+    "Physics Papers": {
+      "description": "Collection of physics research papers",
+      "papers": [],
+      "created_at": "2025-08-31T19:06:46.814857"
+    },
+    "Test Collection": {
+      "description": "Testing paper associations",
+      "papers": [
+        "2308.02381",
+        "2303.13534"
+      ],
+      "created_at": "2025-08-31T23:06:47.303839"
+    },
+    "Y=R+S+N Mathematical Framework": {
+      "description": "Papers on signal decomposition, noise separation, and mathematical decomposition frameworks",
+      "papers": [
+        "2412.00553",
+        "2404.04870",
+        "2405.18274",
+        "2501.09174",
+        "2410.23534",
+        "2308.03077",
+        "2409.19550",
+        "2504.19124",
+        "2110.05649",
+        "2208.08287"
+      ],
+      "created_at": "2025-08-31T23:42:49.295854"
+    },
+    "Transformer-Enhanced Embeddings": {
+      "description": "Papers on transformer embeddings, attention mechanisms, semantic similarity, and contextual embeddings",
+      "papers": [
+        "2502.14620",
+        "2408.08073",
+        "2501.14288",
+        "2004.09813",
+        "2410.11842"
+      ],
+      "created_at": "2025-08-31T23:43:03.841992"
+    },
+    "Dynamic Filtering Systems": {
+      "description": "Papers on adaptive filtering, dynamic thresholding, time-windowed analysis, and progressive filtering",
+      "papers": [
+        "2211.12051"
+      ],
+      "created_at": "2025-08-31T23:43:03.842596"
+    },
+    "Information Quality Assessment": {
+      "description": "Papers on information quality evaluation, content assessment, academic paper evaluation, and quality metrics",
+      "papers": [],
+      "created_at": "2025-08-31T23:43:03.842945"
+    },
+    "Research Space Visualization": {
+      "description": "Papers on research landscape mapping, topic modeling, document clustering, and research visualization",
+      "papers": [],
+      "created_at": "2025-08-31T23:43:03.843409"
+    }
+  },
+  "stats": {
+    "total_papers": 18,
+    "total_size": 62573867
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "test_type": "tidyllm_imports",
+  "timestamp": "2025-09-03T13:27:39.078340",
+  "results": {
+    "core_imports": {
+      "status": "SUCCESS",
+      "message": "Core imports successful"
+    },
+    "config_imports": {
+      "status": "SUCCESS",
+      "message": "Config imports successful"
+    },
+    "backend_imports": {
+      "status": "SUCCESS",
+      "message": "Backend imports successful"
+    },
+    "feature_imports": {
+      "status": "SUCCESS",
+      "message": "Feature imports successful"
+    },
+    "drop_zones_imports": {
+      "status": "SUCCESS",
+      "message": "Drop zones imports successful"
+    },
+    "cli_imports": {
+      "status": "SUCCESS",
+      "message": "CLI imports successful"
+    },
+    "basic_instantiation": {
+      "status": "SUCCESS",
+      "message": "Basic instantiation successful",
+      "backend": "direct"
+    }
+  },
+  "summary": {
+    "total_tests": 7,
+    "passed": 7,
+    "failed": 0,
+    "success_rate": "100.0%"
+  }
+}

@@ -1,0 +1,7 @@
+Query,Type,YRSN_Noise,Actionable_Ratio,Assessment
+Are there specific model validation requirements documented?,NEUTRAL,72.3,0.277,MODERATE RISK - Some useful content
+Do stress testing procedures have defined steps?,NEUTRAL,72.3,0.277,MODERATE RISK - Some useful content
+Are credit risk assessment methods explicitly stated?,NEUTRAL,72.3,0.277,MODERATE RISK - Some useful content
+Do regulatory compliance guidelines provide actionable guidance?,NEUTRAL,72.3,0.277,MODERATE RISK - Some useful content
+What are the model validation requirements?,LEADING,94.8,0.052,CRITICAL FAILURE - No actionable guidance
+How should stress testing procedures be conducted?,LEADING,94.8,0.052,CRITICAL FAILURE - No actionable guidance

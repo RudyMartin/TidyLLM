@@ -1,0 +1,105 @@
+{
+  "timestamp": "2025-09-03T06:19:41.007304",
+  "tests": {
+    "postgres_connection": {
+      "status": "success",
+      "connection_successful": true,
+      "database_version": "PostgreSQL 16.6 on aarch64-unknown-linux-gnu, compiled by aarch64-unknown-linux-gnu-gcc (GCC) 9.5.0, 64-bit",
+      "database_size_mb": 14.0,
+      "host": "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com",
+      "database": "vectorqa"
+    },
+    "mlflow_postgres_backend": {
+      "status": "success",
+      "postgres_backend_active": true,
+      "tracking_uri": "postgresql://vectorqa_user:REMOVED_PASSWORD@vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com:5432/vectorqa",
+      "experiments_found": 20,
+      "experiments": [
+        "tidyllm_baseball_chat_test",
+        "tidyllm_test_experiment",
+        "PostgreSQL_Test_20250903_060448",
+        "PostgreSQL_Test_20250903_055419",
+        "PostgreSQL_Test_20250903_054616",
+        "PostgreSQL_Test_20250903_054215",
+        "TidyLLM_Baseball_Chat_Test",
+        "tidyllm-chat-production",
+        "tidyllm-production",
+        "DSPy_No_LiteLLM_Integration"
+      ]
+    },
+    "mlflow_postgres_tables": {
+      "status": "success",
+      "tables_found": 6,
+      "tables_expected": 6,
+      "all_tables_exist": true,
+      "table_info": {
+        "experiments": {
+          "exists": true,
+          "row_count": 20
+        },
+        "runs": {
+          "exists": true,
+          "row_count": 42
+        },
+        "metrics": {
+          "exists": true,
+          "row_count": 175
+        },
+        "params": {
+          "exists": true,
+          "row_count": 175
+        },
+        "tags": {
+          "exists": true,
+          "row_count": 228
+        },
+        "experiment_tags": {
+          "exists": true,
+          "row_count": 0
+        }
+      },
+      "total_rows": 640
+    },
+    "mlflow_data_persistence": {
+      "status": "success",
+      "test_experiment_id": "20",
+      "test_run_id": "220c353f9adb4328b5e8b006b0285aa8",
+      "params_persisted": true,
+      "metrics_persisted": true,
+      "tags_persisted": true,
+      "persistence_successful": true,
+      "retrieved_data": {
+        "params_count": 3,
+        "metrics_count": 3,
+        "tags_count": 6
+      }
+    },
+    "mlflow_query_performance": {
+      "status": "success",
+      "performance_results": {
+        "list_experiments": {
+          "duration": 0.15844392776489258,
+          "count": 21
+        },
+        "search_runs": {
+          "duration": 0.26961541175842285,
+          "count": 1
+        },
+        "get_run": {
+          "duration": 0.33270955085754395,
+          "run_id": "220c353f9adb4328b5e8b006b0285aa8"
+        }
+      },
+      "total_time": 0.7607688903808594,
+      "average_time": 0.2535896301269531,
+      "operations_tested": 3,
+      "performance_acceptable": true
+    }
+  },
+  "summary": {
+    "total_tests": 5,
+    "passed_tests": 5,
+    "success_rate": 100.0,
+    "overall_status": "pass"
+  }
+}

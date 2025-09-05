@@ -1,0 +1,21 @@
+{
+  "paper_id": "2501.14288",
+  "title": "A Comprehensive Framework for Semantic Similarity Analysis of Human and AI-Generated Text Using Transformer Architectures and Ensemble Techniques",
+  "authors": [
+    "Lifu Gao",
+    "Ziwei Liu",
+    "Qi Zhang"
+  ],
+  "source": "ArXiv",
+  "file_path": "C:\\Users\\marti\\github\\tidyllm-vectorqa\\tidyllm_vectorqa\\whitepapers\\paper_repository\\papers\\2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity.pdf",
+  "file_size": 726963,
+  "download_date": "2025-09-01T00:54:42.931917",
+  "y_score": 0.83,
+  "r_score": null,
+  "s_score": null,
+  "n_score": null,
+  "context_risk": null,
+  "collections": [],
+  "tags": [],
+  "notes": ""
+}

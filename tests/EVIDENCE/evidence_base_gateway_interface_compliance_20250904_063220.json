@@ -1,0 +1,97 @@
+{
+  "test_name": "base_gateway_interface_compliance",
+  "timestamp": "2025-09-04T06:32:20.986564",
+  "required_methods": [
+    "process",
+    "process_sync",
+    "validate_config",
+    "get_capabilities",
+    "_get_default_dependencies",
+    "get_required_gateways"
+  ],
+  "results": {
+    "dspygateway": {
+      "inheritance_check": "PASS",
+      "instantiation": "PASS",
+      "required_methods": "PASS",
+      "capabilities": {
+        "backends": [
+          "auto",
+          "bedrock",
+          "sagemaker",
+          "openai",
+          "anthropic",
+          "mlflow",
+          "mock"
+        ],
+        "current_backend": "mock",
+        "models": [
+          "mock-model"
+        ],
+        "max_tokens": 2000,
+        "supports_streaming": false,
+        "supports_async": true,
+        "supports_batch": false,
+        "cache_enabled": true,
+        "retry_enabled": true
+      },
+      "dependencies": [
+        "llm"
+      ]
+    },
+    "llmgateway": {
+      "inheritance_check": "PASS",
+      "instantiation": "PASS",
+      "required_methods": "PASS",
+      "capabilities": {
+        "models": {
+          "claude": [
+            "claude-3-5-sonnet",
+            "claude-3-haiku"
+          ],
+          "openai": [
+            "gpt-4o",
+            "gpt-4o-mini"
+          ]
+        },
+        "providers": [
+          "claude",
+          "openai"
+        ],
+        "max_tokens": 4096,
+        "supports_streaming": false,
+        "supports_async": true,
+        "mlflow_enabled": false
+      },
+      "dependencies": []
+    },
+    "heirosgateway": {
+      "inheritance_check": "PASS",
+      "instantiation": "PASS",
+      "required_methods": "PASS",
+      "capabilities": {
+        "optimization_types": [
+          "analyze",
+          "optimize",
+          "cleanup",
+          "validate",
+          "suggest",
+          "auto_fix"
+        ],
+        "dag_manager_available": false,
+        "flow_manager_available": false,
+        "auto_optimization_enabled": false,
+        "optimization_level": 1,
+        "compliance_mode": true,
+        "audit_trail": true,
+        "supports_async": true,
+        "supports_batch": true
+      },
+      "dependencies": [
+        "dspy",
+        "llm"
+      ]
+    },
+    "interface_compliance": "PASS"
+  }
+}

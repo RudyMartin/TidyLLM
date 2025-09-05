@@ -1,0 +1,12 @@
+{
+  "report_type": "Compliance Executive Summary",
+  "generated_at": "2025-09-05T08:56:02.713444",
+  "compliance_metrics": {
+    "total_queries_analyzed": 1,
+    "compliant_responses": 0,
+    "high_risk_responses": 1,
+    "overall_compliance_rate": 0.0
+  },
+  "compliance_status": "NEEDS_REVIEW",
+  "recommendation": "Review high-risk responses for compliance"
+}

@@ -1,0 +1,211 @@
+{
+  "test_type": "tidyllm_cli_chaining",
+  "timestamp": "2025-09-03T12:49:12.719137",
+  "results": {
+    "basic_single_commands": {
+      "status": "SUCCESS",
+      "message": "Basic single commands working",
+      "results": {
+        "init": {
+          "status": "initialized",
+          "backend": "MockBackend"
+        },
+        "create": {
+          "status": "module_created",
+          "signature": "test -> result"
+        },
+        "team": {
+          "teams": {
+            "gateway": "Enterprise routing and governance",
+            "aws": "Bedrock optimization and AWS integration",
+            "reliability": "Error handling and retry strategies",
+            "performance": "Caching and metrics optimization",
+            "qa": "Testing and validation frameworks"
+          }
+        }
+      }
+    },
+    "simple_command_chain": {
+      "status": "SUCCESS",
+      "message": "Simple command chain executed",
+      "chain_result": {
+        "execution_order": [
+          "init",
+          "create"
+        ],
+        "results": {
+          "init": {
+            "status": "completed",
+            "result": {
+              "status": "initialized",
+              "backend": "MockBackend"
+            },
+            "error": null,
+            "duration": 0.00034
+          },
+          "create": {
+            "status": "completed",
+            "result": {
+              "status": "module_created",
+              "signature": "input -> output"
+            },
+            "error": null,
+            "duration": 0.000778
+          }
+        }
+      }
+    },
+    "complex_dependency_chain": {
+      "status": "SUCCESS",
+      "message": "Complex dependency chain executed correctly",
+      "execution_order": [
+        "init",
+        "create1",
+        "create2",
+        "team_test"
+      ],
+      "order_correct": true,
+      "all_successful": true
+    },
+    "drop_zones_integration": {
+      "status": "SUCCESS",
+      "message": "Drop zones integration chain working",
+      "integration_result": {
+        "execution_order": [
+          "init_system",
+          "create_module",
+          "list_zones",
+          "backend_test"
+        ],
+        "results": {
+          "init_system": {
+            "status": "completed",
+            "result": {
+              "status": "initialized",
+              "backend": "DirectBackend"
+            },
+            "error": null,
+            "duration": 0.000227
+          },
+          "create_module": {
+            "status": "completed",
+            "result": {
+              "status": "module_created",
+              "signature": "document -> analysis"
+            },
+            "error": null,
+            "duration": 0.000772
+          },
+          "list_zones": {
+            "status": "completed",
+            "result": {
+              "status": "no_config",
+              "message": "Configuration file drop_zones.yaml does not exist"
+            },
+            "error": null,
+            "duration": 5.7e-05
+          },
+          "backend_test": {
+            "status": "completed",
+            "result": {
+              "team_test_results": [
+                {
+                  "backend": "mock",
+                  "team": "qa",
+                  "status": "operational"
+                },
+                {
+                  "backend": "direct",
+                  "team": "performance",
+                  "status": "operational"
+                },
+                {
+                  "backend": "bedrock",
+                  "team": "aws",
+                  "status": "operational"
+                },
+                {
+                  "backend": "gateway",
+                  "team": "gateway",
+                  "status": "operational"
+                }
+              ]
+            },
+            "error": null,
+            "duration": 0.000948
+          }
+        }
+      }
+    },
+    "error_handling": {
+      "status": "SUCCESS",
+      "message": "Error handling working correctly",
+      "error_handling_result": {
+        "execution_order": [
+          "good_init",
+          "bad_command",
+          "should_not_run"
+        ],
+        "results": {
+          "good_init": {
+            "status": "completed",
+            "result": {
+              "status": "initialized",
+              "backend": "MockBackend"
+            },
+            "error": null,
+            "duration": 0.000272
+          },
+          "bad_command": {
+            "status": "failed",
+            "result": null,
+            "error": "Unknown command: nonexistent",
+            "duration": 4e-06
+          }
+        },
+        "stopped_on_failure": "bad_command"
+      }
+    },
+    "context_passing": {
+      "status": "SUCCESS",
+      "message": "Context passing working",
+      "context_result": {
+        "execution_order": [
+          "init_with_context",
+          "use_context"
+        ],
+        "results": {
+          "init_with_context": {
+            "status": "completed",
+            "result": {
+              "status": "initialized",
+              "backend": "MockBackend"
+            },
+            "error": null,
+            "duration": 0.000219
+          },
+          "use_context": {
+            "status": "completed",
+            "result": {
+              "teams": {
+                "gateway": "Enterprise routing and governance",
+                "aws": "Bedrock optimization and AWS integration",
+                "reliability": "Error handling and retry strategies",
+                "performance": "Caching and metrics optimization",
+                "qa": "Testing and validation frameworks"
+              }
+            },
+            "error": null,
+            "duration": 1e-06
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "total_tests": 6,
+    "passed": 6,
+    "failed": 0,
+    "success_rate": "100.0%"
+  }
+}

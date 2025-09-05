@@ -1,0 +1,73 @@
+{
+  "system_type": "TidyLLM Internal Domain RAG",
+  "purpose": "Self-referential conflict resolution for TidyLLM codebase",
+  "created_at": "2025-09-05T12:30:37.493596",
+  "total_documents": 12,
+  "hierarchy": {
+    "critical": {
+      "precedence": 1.0,
+      "level": "CRITICAL_DECISIONS",
+      "files": [],
+      "description": "Critical design decisions and constraints"
+    },
+    "architecture": {
+      "precedence": 0.9,
+      "level": "ARCHITECTURE",
+      "files": [
+        "DOMAIN_RAG_HIERARCHY_DOCUMENTATION.md",
+        "SOP_DOMAIN_RAG_STRATEGY.md",
+        "tidyllm-whitepapers/tidyllm-whitepapers/README.md",
+        "tidyllm/demo-standalone/my_config/README.md",
+        "tidyllm/demo-standalone/requirements.txt",
+        "tidyllm/deprecated/session_management/DEPRECATION_NOTICE.md",
+        "tidyllm/deprecated/session_management/drop_zones_old/PRODUCTION_PLAN.md",
+        "tidyllm/deprecated/session_management/drop_zones_old/README_BASIC.md",
+        "tidyllm/deprecated/session_management/drop_zones_old/drop_zones/processed/demo_research_paper.md",
+        "tidyllm/deprecated/session_management/drop_zones_old/input/README.md",
+        "tidyllm/deprecated/session_management/drop_zones_old/research_peer_review/README.txt",
+        "tidyllm/deprecated/session_management/drop_zones_old/results/peer_review_summary_ModelRiskManagementPracticeNote_May2019_1756923453.txt"
+      ],
+      "description": "System architecture and integration"
+    },
+    "current": {
+      "precedence": 0.8,
+      "level": "CURRENT",
+      "files": [],
+      "description": "Latest documentation (2025-09-05)"
+    },
+    "recent": {
+      "precedence": 0.7,
+      "level": "RECENT",
+      "files": [],
+      "description": "Recent documentation (2025-09-04, 2025-09-03)"
+    },
+    "historical": {
+      "precedence": 0.6,
+      "level": "HISTORICAL",
+      "files": [],
+      "description": "Historical documentation (2025-09-01)"
+    },
+    "examples": {
+      "precedence": 0.5,
+      "level": "EXAMPLES",
+      "files": [],
+      "description": "Examples and templates"
+    }
+  },
+  "conflict_resolution": {
+    "rule": "Higher precedence level wins in conflicts",
+    "precedence_order": [
+      "CRITICAL_DECISIONS",
+      "ARCHITECTURE",
+      "CURRENT",
+      "RECENT",
+      "HISTORICAL",
+      "EXAMPLES"
+    ]
+  },
+  "naming_convention": {
+    "external_domain_rag": "Model validation compliance (knowledge_base/)",
+    "internal_domain_rag": "TidyLLM self-documentation (docs/)",
+    "tidyllm_self_rag": "This system (conflict resolution)"
+  }
+}

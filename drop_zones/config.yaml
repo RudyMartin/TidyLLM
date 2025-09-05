@@ -1,0 +1,41 @@
+# Unified Drop Zones Configuration
+# Uses UnifiedSessionManager for all operations
+
+# S3 Configuration (via UnifiedSessionManager)
+s3:
+  bucket: "nsc-mvp1"
+  region: "us-east-1"
+  prefix: "dropzones/"
+
+# Processing Configuration  
+processing:
+  supported_formats: ["pdf", "txt", "md", "json", "docx"]
+  max_file_size_mb: 50
+  enable_mlflow_tracking: true
+  
+# Embedding Configuration (TidyLLM Native Stack)
+embeddings:
+  provider: "tidyllm_sentence"  # NOT sentence-transformers
+  method: "tfidf"               # TF-IDF method
+  model_type: "native"          # Pure Python implementation
+  
+# Database Configuration (via UnifiedSessionManager)
+database:
+  enable_postgres: true
+  tables:
+    documents: "document_metadata"
+    embeddings: "document_embeddings"
+    collections: "document_collections"
+
+# Architecture Constraints
+architecture:
+  session_manager: "UnifiedSessionManager"  # Official implementation
+  forbidden_imports:
+    - "sentence_transformers"  # Use tidyllm_sentence instead
+    - "numpy"                  # Use tidyllm.tlm instead  
+    - "sklearn"                # Use tidyllm.tlm algorithms instead
+  required_stack:
+    - "tidyllm_sentence"       # For embeddings
+    - "tidyllm.tlm"           # For math operations
+    - "polars"                # For data processing
+    - "UnifiedSessionManager" # For all external services

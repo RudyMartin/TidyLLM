@@ -1,0 +1,35 @@
+{
+  "test_name": "consolidated_gateway_structure",
+  "timestamp": "2025-09-04T06:32:19.825869",
+  "expected_structure": {
+    "location": "tidyllm/gateways/",
+    "gateways": [
+      "DSPyGateway",
+      "LLMGateway",
+      "HeirOSGateway"
+    ],
+    "benefits": [
+      "clear organization",
+      "easy discovery",
+      "consistent naming"
+    ]
+  },
+  "results": {
+    "import_status": "SUCCESS",
+    "gateways_available": [
+      "DSPyGateway",
+      "LLMGateway",
+      "HeirOSGateway"
+    ],
+    "registry_keys": [
+      "dspy",
+      "llm",
+      "heiros"
+    ],
+    "base_components": [
+      "BaseGateway",
+      "GatewayResponse",
+      "GatewayStatus"
+    ]
+  }
+}

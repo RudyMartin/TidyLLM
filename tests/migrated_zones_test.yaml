@@ -1,0 +1,155 @@
+drop_zones:
+- agent: tidyllm
+  backend: auto
+  color: cyan
+  compliance_tasks:
+  - document_classification
+  - content_extraction
+  - compliance_scan
+  - regulatory_mapping
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*.pdf'
+  - '*.docx'
+  - '*.doc'
+  - '*.txt'
+  model: sonnet
+  name: Document Processing Zone
+  workflow_prompt: prompts/compliance_document_processing.md
+  zone_dirs:
+  - drop_zones/documents
+- agent: tidyllm
+  backend: auto
+  color: blue
+  compliance_tasks:
+  - risk_assessment
+  - model_validation
+  - regulatory_compliance
+  - documentation_review
+  - data_quality_check
+  - governance_audit
+  - backtesting_analysis
+  - stress_testing
+  - sensitivity_analysis
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*.pdf'
+  - '*.docx'
+  - '*mvr*.txt'
+  - '*vst*.txt'
+  model: sonnet
+  name: MVR QA Analysis Zone
+  workflow_prompt: prompts/compliance_mvr_qa_chain.md
+  zone_dirs:
+  - drop_zones/mvr_qa
+- agent: tidyllm
+  backend: auto
+  color: green
+  compliance_tasks:
+  - independent_review
+  - methodology_validation
+  - assumption_testing
+  - code_review
+  - documentation_assessment
+  - regulatory_mapping
+  - risk_evaluation
+  - compliance_verification
+  - quality_assurance
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*.pdf'
+  - '*.docx'
+  - '*peer*.txt'
+  - '*review*.txt'
+  model: sonnet
+  name: Peer Review Zone
+  workflow_prompt: prompts/compliance_peer_review_chain.md
+  zone_dirs:
+  - drop_zones/peer_review
+- agent: tidyllm
+  backend: auto
+  color: yellow
+  compliance_tasks:
+  - document_analysis
+  - compliance_check
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*.pdf'
+  - '*.docx'
+  - '*.xlsx'
+  - '*.csv'
+  - '*.json'
+  model: sonnet
+  name: AWS Upload Zone
+  workflow_prompt: prompts/compliance_aws_upload_and_process.md
+  zone_dirs:
+  - drop_zones/aws_upload
+- agent: tidyllm
+  backend: auto
+  color: magenta
+  compliance_tasks:
+  - document_classification
+  - content_extraction
+  - compliance_scan
+  - regulatory_mapping
+  - risk_assessment
+  - model_validation
+  - regulatory_compliance
+  - independent_review
+  - methodology_validation
+  - quality_assurance
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*complete*.pdf'
+  - '*complete*.docx'
+  - '*full*.txt'
+  model: sonnet
+  name: Complete Compliance Workflow
+  workflow_prompt: prompts/compliance_complete_workflow.md
+  zone_dirs:
+  - drop_zones/complete_workflow
+- agent: tidyllm
+  backend: auto
+  color: red
+  compliance_tasks:
+  - document_analysis
+  - compliance_check
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*urgent*.pdf'
+  - '*critical*.pdf'
+  - '*regulatory*.pdf'
+  model: sonnet
+  name: High Priority Regulatory Zone
+  workflow_prompt: prompts/compliance_urgent_regulatory_review.md
+  zone_dirs:
+  - drop_zones/urgent
+- agent: tidyllm
+  backend: auto
+  color: cyan
+  compliance_tasks:
+  - document_analysis
+  - compliance_check
+  create_zone_dir_if_not_exists: true
+  events:
+  - - created
+  file_patterns:
+  - '*test*.txt'
+  - '*model*.txt'
+  model: sonnet
+  name: Model Tracking Test Zone
+  workflow_prompt: prompts/compliance_model_version_test.md
+  zone_dirs:
+  - drop_zones/model_test

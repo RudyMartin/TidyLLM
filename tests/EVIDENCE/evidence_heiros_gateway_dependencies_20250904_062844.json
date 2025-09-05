@@ -1,0 +1,30 @@
+{
+  "test_name": "heiros_gateway_dependencies",
+  "timestamp": "2025-09-04T06:28:44.582560",
+  "expected_dependencies": [
+    "dspy",
+    "llm"
+  ],
+  "rationale": "HeirOS optimizes AI workflows (needs DSPy) with corporate controls (needs LLM)",
+  "results": {
+    "dependency_test": "PASS",
+    "actual_dependencies": [
+      "dspy",
+      "llm"
+    ],
+    "dependency_object": {
+      "use_dspy_gateway": true,
+      "use_llm_gateway": true,
+      "use_heiros_gateway": false
+    },
+    "safety_placeholders": {
+      "alternate_dspy_gateway": true,
+      "alternate_llm_gateway": true,
+      "alternate_heiros_gateway": false
+    },
+    "heiros_components": {
+      "dag_manager_available": false,
+      "flow_manager_available": false
+    }
+  }
+}

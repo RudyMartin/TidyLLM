@@ -1,0 +1,145 @@
+flow_type: "domain_rag_query"
+domain: "model_validation"
+name: "Model Validation RAG Flow"
+description: "Retrieval Augmented Generation for Model Validation and Risk Management"
+version: "1.0"
+
+metadata:
+  created_by: "TidyLLM Knowledge Systems"
+  knowledge_base_source: "tidyllm/knowledge_base/*.pdf"
+  regulation_focus: ["Basel", "CCAR", "DFAST", "SR11-7", "Model Risk Management"]
+  risk_categories: ["credit", "market", "operational", "model"]
+
+parameters:
+  similarity_threshold: 0.7
+  max_results: 5
+  embedding_model: "text-embedding-3-small" 
+  vector_dimension: 1536
+
+operations:
+  - name: "query_preprocessing"
+    type: "text_processing"
+    description: "Clean and prepare user query"
+    parameters:
+      normalize_text: true
+      extract_keywords: true
+      identify_regulation_type: true
+
+  - name: "vector_search"
+    type: "vector_similarity_search"
+    description: "Search model validation knowledge base"
+    depends_on: ["query_preprocessing"]
+    parameters:
+      search_method: "cosine_similarity"
+      rerank_results: true
+      domain_filter: "model_validation"
+
+  - name: "context_assembly"
+    type: "context_preparation"
+    description: "Assemble relevant context from search results"
+    depends_on: ["vector_search"]
+    parameters:
+      max_context_length: 4000
+      prioritize_high_scores: true
+      include_metadata: true
+
+  - name: "rag_generation"
+    type: "llm_generation"
+    description: "Generate answer using retrieved context"
+    depends_on: ["context_assembly"]
+    parameters:
+      model: "claude-3-haiku"
+      temperature: 0.1
+      system_prompt: |
+        You are a model validation expert with deep knowledge of financial regulations
+        and risk management practices. Use the provided context to answer questions
+        accurately and cite specific regulatory requirements when applicable.
+        
+        Key areas of expertise:
+        - Basel III/IV requirements for model validation
+        - CCAR and DFAST stress testing
+        - SR11-7 model risk management guidance  
+        - Model development lifecycle
+        - Validation testing methodologies
+        - Documentation requirements
+        - Governance and oversight
+
+  - name: "response_formatting"
+    type: "response_processing"
+    description: "Format final response with sources"
+    depends_on: ["rag_generation"]
+    parameters:
+      include_citations: true
+      confidence_scoring: true
+      source_attribution: true
+
+routing:
+  entry_point: "query_preprocessing"
+  success_path: 
+    - "query_preprocessing"
+    - "vector_search" 
+    - "context_assembly"
+    - "rag_generation"
+    - "response_formatting"
+  
+  error_handling:
+    - condition: "vector_search_fails"
+      action: "fallback_to_general_response"
+    - condition: "no_relevant_results"
+      action: "suggest_alternative_queries"
+
+integration:
+  chat_interface:
+    enabled: true
+    bracket_command: "[model_validation_rag]"
+    display_name: "Model Validation Knowledge"
+    
+  mvr_analysis_workflow:
+    compatible: true
+    injection_points:
+      mvr_qa: 
+        description: "Inject regulatory knowledge for Q&A generation"
+        operation: "rag_generation"
+      mvr_peer:
+        description: "Provide validation context for peer review"
+        operation: "context_assembly" 
+      mvr_report:
+        description: "Supply reporting templates and standards"
+        operation: "vector_search"
+        
+  flow_commands:
+    - command: "validate_model"
+      description: "Get model validation requirements"
+      parameters: { focus: "validation_requirements" }
+    - command: "basel_guidance"
+      description: "Basel III/IV model requirements" 
+      parameters: { focus: "basel_requirements" }
+    - command: "stress_test"
+      description: "CCAR/DFAST stress testing guidance"
+      parameters: { focus: "stress_testing" }
+
+quality_controls:
+  confidence_thresholds:
+    high: 0.8
+    medium: 0.6
+    low: 0.4
+    
+  source_requirements:
+    min_sources: 2
+    prefer_regulation_sources: true
+    
+  response_validation:
+    check_regulation_accuracy: true
+    validate_citations: true
+    
+outputs:
+  primary:
+    answer: "Generated answer from model validation knowledge"
+    confidence: "Confidence score (0.0-1.0)"
+    sources: "List of source documents with relevance scores"
+    
+  metadata:
+    processing_time: "Time taken to process query" 
+    regulations_referenced: "List of regulations mentioned"
+    risk_categories: "Risk categories addressed"
+    validation_stages: "Model lifecycle stages referenced"

@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -m pytest --help)",
+      "Bash(python -m pytest tlm/tests/ -v)",
+      "Bash(python:*)",
+      "Bash(git init:*)",
+      "Bash(gh repo create:*)",
+      "Read(C:\\Users\\marti\\github/**)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(git add:*)",
+      "Bash(git rm:*)",
+      "Bash(git commit:*)",
+      "Bash(git remote add:*)",
+      "Bash(git branch:*)",
+      "Bash(git push:*)",
+      "Bash(pip install:*)",
+      "Read(C:\\Users\\marti\\github\\tidyllm-sentence/**)",
+      "Bash(set PYTHONIOENCODING=utf-8)",
+      "Read(C:\\Users\\marti\\github\\tidyllm-compliance/**)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

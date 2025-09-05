@@ -1,0 +1,261 @@
+# TidyLLM Settings with Embedding Configuration
+# =============================================
+
+aws:
+  bedrock:
+    credentials:
+      access_key_id: null
+      profile: null
+      secret_access_key: null
+      session_token: null
+    default_model: anthropic.claude-3-sonnet-20240229-v1:0
+    region: us-east-1
+
+# =============================================================================
+# EMBEDDING CONFIGURATION (NEW!)
+# =============================================================================
+embeddings:
+  # Target dimension for standardized embeddings
+  target_dimension: 1024
+  
+  # Padding strategy for smaller embeddings
+  padding_strategy: "zeros"  # Options: "zeros", "random", "repeat"
+  
+  # Default embedding model
+  default_model: "titan_v2_1024"
+  
+  # Available embedding models
+  models:
+    # Amazon Titan Embeddings
+    titan_v1:
+      model_id: "amazon.titan-embed-text-v1"
+      native_dimension: 1536
+      provider: "bedrock"
+      description: "Titan v1 - High dimensional"
+      
+    titan_v2_256:
+      model_id: "amazon.titan-embed-text-v2:0"
+      native_dimension: 256
+      provider: "bedrock"
+      configurable_dimensions: true
+      description: "Titan v2 - Compact 256d"
+      
+    titan_v2_512:
+      model_id: "amazon.titan-embed-text-v2:0"
+      native_dimension: 512
+      provider: "bedrock"
+      configurable_dimensions: true
+      description: "Titan v2 - Medium 512d"
+      
+    titan_v2_1024:
+      model_id: "amazon.titan-embed-text-v2:0"
+      native_dimension: 1024
+      provider: "bedrock"
+      configurable_dimensions: true
+      description: "Titan v2 - Standard 1024d"
+    
+    # Cohere Embeddings
+    cohere_english:
+      model_id: "cohere.embed-english-v3"
+      native_dimension: 384
+      provider: "bedrock"
+      description: "Cohere English v3"
+      
+    cohere_multilingual:
+      model_id: "cohere.embed-multilingual-v3"
+      native_dimension: 384
+      provider: "bedrock"
+      description: "Cohere Multilingual v3"
+    
+    # OpenAI Embeddings (if using)
+    openai_small:
+      model_id: "text-embedding-3-small"
+      native_dimension: 1536
+      provider: "openai"
+      configurable_dimensions: true
+      description: "OpenAI Small - Can output 1024"
+      
+    openai_large:
+      model_id: "text-embedding-3-large"
+      native_dimension: 3072
+      provider: "openai"
+      configurable_dimensions: true
+      description: "OpenAI Large - Can output 1024"
+
+# =============================================================================
+# VECTOR DATABASE CONFIGURATION
+# =============================================================================
+vector_database:
+  # PostgreSQL with pgvector
+  postgres:
+    host: "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com"
+    port: 5432
+    database: "vectorqa"
+    user: "vectorqa_user"
+    password: "REMOVED_PASSWORD"
+    
+    # Vector configuration
+    vector:
+      dimension: 1024  # Standardized dimension for all vectors
+      index_type: "ivfflat"  # or "hnsw"
+      similarity_metric: "cosine"  # or "l2", "inner_product"
+      
+    # Performance settings
+    performance:
+      connection_pool_size: 10
+      max_batch_size: 100
+      enable_parallel_processing: true
+  
+  # FAISS configuration (if using)
+  faiss:
+    enabled: false
+    index_type: "IndexFlatL2"  # or "IndexIVFFlat", "IndexHNSWFlat"
+    dimension: 1024
+    nlist: 100  # for IVF indexes
+    nprobe: 10  # for IVF indexes
+    
+  # S3 storage for indexes
+  s3:
+    bucket: "sagemaker-us-east-1-188494237500"
+    prefix: "embeddings/"
+    index_folder: "indexes/"
+    metadata_folder: "metadata/"
+
+# =============================================================================
+# MULTI-MODEL STRATEGY
+# =============================================================================
+multi_model:
+  # Strategy for handling multiple embedding models
+  strategy:
+    # Whether to allow mixed models in same collection
+    allow_mixed_models: true
+    
+    # How to handle dimension mismatches
+    dimension_handling: "standardize"  # Options: "standardize", "separate_tables", "reject"
+    
+    # Track model used for each embedding
+    track_model_metadata: true
+    
+    # Model selection for new embeddings
+    model_selection:
+      # Prefer models that match target dimension natively
+      prefer_native_dimension: true
+      
+      # Fallback order if primary model fails
+      fallback_order:
+        - "titan_v2_1024"
+        - "titan_v2_512"
+        - "cohere_english"
+      
+      # Cost optimization
+      prefer_cheaper_models: true
+      
+  # Migration settings for existing embeddings
+  migration:
+    # Whether to re-embed existing documents when changing models
+    re_embed_on_model_change: false
+    
+    # Batch size for re-embedding
+    batch_size: 100
+    
+    # Keep old embeddings as backup
+    keep_backup: true
+
+# =============================================================================
+# EMBEDDING GENERATION SETTINGS
+# =============================================================================
+embedding_generation:
+  # Text preprocessing
+  preprocessing:
+    # Maximum text length per embedding
+    max_text_length: 8192
+    
+    # Text cleaning
+    clean_text: true
+    remove_html: true
+    normalize_unicode: true
+    
+    # Chunking for long texts
+    chunk_strategy: "smart"  # Options: "smart", "fixed", "sentence"
+    chunk_size: 1000
+    chunk_overlap: 200
+  
+  # Batching settings
+  batching:
+    # Batch size for API calls
+    batch_size: 25
+    
+    # Maximum parallel requests
+    max_parallel_requests: 5
+    
+    # Retry settings
+    max_retries: 3
+    retry_delay: 1.0
+    
+  # Caching settings
+  caching:
+    # Cache embeddings to avoid re-computation
+    enabled: true
+    
+    # Cache storage
+    cache_type: "database"  # Options: "database", "redis", "memory"
+    
+    # Cache expiration (hours)
+    expiration_hours: 720  # 30 days
+    
+    # Cache key strategy
+    cache_key_includes_model: true
+
+# =============================================================================
+# MONITORING AND METRICS
+# =============================================================================
+embedding_metrics:
+  # Track embedding generation metrics
+  track_metrics: true
+  
+  # Metrics to track
+  metrics:
+    - "generation_time"
+    - "dimension_distribution"
+    - "model_usage"
+    - "cache_hit_rate"
+    - "error_rate"
+    - "cost_per_embedding"
+  
+  # Alerting
+  alerts:
+    # Alert if dimension mismatch detected
+    dimension_mismatch: true
+    
+    # Alert if embedding generation fails
+    generation_failure: true
+    
+    # Alert if costs exceed threshold
+    cost_threshold: 10.0  # USD per day
+
+cache:
+  default:
+    cache_dir: .bedrock_cache
+    compression: true
+    enabled: true
+    expiration_hours: 24
+    max_cache_size_mb: 100
+
+logging:
+  format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+  level: INFO
+
+retry:
+  default:
+    backoff_factor: 2.0
+    base_delay: 1.0
+    max_delay: 60.0
+    max_retries: 3
+
+validation:
+  default:
+    forbidden_keywords: []
+    max_length: null
+    min_length: 10
+    required_keywords: []
+    strict_mode: false
