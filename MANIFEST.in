@@ -1,0 +1,70 @@
+# Include package metadata and documentation
+include README.md
+include LICENSE
+include CHANGELOG.md
+include *.txt
+include *.md
+include pyproject.toml
+include setup.py
+
+# Include tidyllm package and all its files
+recursive-include tidyllm *.py
+recursive-include tidyllm *.yaml
+recursive-include tidyllm *.json
+recursive-include tidyllm *.md
+recursive-include tidyllm *.txt
+
+# Include admin configuration files
+recursive-include tidyllm/admin *.yaml
+recursive-include tidyllm/admin *.json
+
+# Include workflow definitions
+recursive-include tidyllm/workflows *.yaml
+recursive-include tidyllm/workflows *.json
+recursive-include tidyllm/workflows *.md
+
+# Include knowledge systems
+recursive-include tidyllm/knowledge_systems *.py
+recursive-include tidyllm/knowledge_systems *.yaml
+recursive-include tidyllm/knowledge_systems *.json
+recursive-include tidyllm/knowledge_systems *.md
+
+# Include gateways
+recursive-include tidyllm/gateways *.py
+recursive-include tidyllm/gateways *.yaml
+recursive-include tidyllm/gateways *.json
+
+# Include demo files
+recursive-include tidyllm/demos *.py
+recursive-include tidyllm/demos *.yaml
+recursive-include tidyllm/demos *.json
+recursive-include tidyllm/demos *.md
+
+# Include test files
+recursive-include tidyllm/tests *.py
+recursive-include tests *.py
+
+# Include scripts and utilities
+recursive-include tidyllm/scripts *.py
+recursive-include tidyllm/utils *.py
+
+# Include any other configuration files
+include tidyllm/tables.yaml
+
+# Exclude build artifacts and cache files
+global-exclude *.pyc
+global-exclude *.pyo
+global-exclude *~
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude __pycache__
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .git*
+recursive-exclude * .pytest_cache
+recursive-exclude * .mypy_cache
+recursive-exclude * .coverage
+recursive-exclude * htmlcov
+recursive-exclude * build
+recursive-exclude * dist
+recursive-exclude * *.egg-info
