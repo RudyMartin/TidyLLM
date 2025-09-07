@@ -1,34 +1,52 @@
 #!/usr/bin/env python3
 """
-TidyLLM - Enterprise AI Workflow Platform
-=========================================
+TidyLLM - The Great Walled City of Enterprise AI
+===============================================
 
-TidyLLM provides enterprise-grade AI workflow automation through FLOW Agreements - 
-pre-approved, auditable AI operations that ensure compliance and consistency.
+Welcome to TidyLLM, a great ancient walled city protecting enterprise AI workflows.
+Like any great city, there are THREE GATES for entry, each offering different paths
+to explore the powerful FLOW Agreement systems within.
 
-**Enterprise Features:**
-- FLOW Agreement system for audit compliance
-- 3-tier gateway architecture (Corporate -> AI -> Workflow)
-- Real-time AWS infrastructure integration
-- PostgreSQL audit trails with 7-year retention
-- S3-first document processing pipeline
+**The Three Gates:**
 
-**FLOW Agreement Commands:**
-- Performance testing and benchmarking
-- Security audits and compliance checks  
-- Cost analysis and optimization
-- Integration testing across services
-- Scalability assessment under load
+**CORPORATE GATE** (tidyllm.py) - *The Grand Entrance*
+   - Guided tours with expert recommendations
+   - Executive-friendly interface with enterprise reporting
+   - Full audit trails and compliance documentation
+   - Choose your guide: Clean, Original, or Bridge systems
+
+**EXPLORER'S GATE** (flow_bridge.py) - *The Adventurer's Choice*
+   - Hybrid exploration with system migration tools
+   - Choose your own path between different implementations
+   - Real-time system health and migration guidance
+   - For those who want control over their journey
+
+**ARTISAN'S GATE** (flow_clean.py) - *The Direct Path*
+   - Direct access to clean, presentation-ready workflows
+   - Zero dependencies, perfect for demonstrations
+   - Real-time AWS infrastructure connections
+   - For craftsmen who appreciate elegant simplicity
+
+**Within the City Walls:**
+   - FLOW Agreement temples (audit-compliant workflows)
+   - PostgreSQL archives (7-year retention halls)
+   - AWS infrastructure districts (S3, Bedrock, RDS)
+   - Performance amphitheaters and security bastions
 
 Usage:
-    # Python API
-    from tidyllm import TidyLLMInterface
-    
-    tidyllm = TidyLLMInterface()
-    result = tidyllm.execute("[Integration Test]")
-    
-    # Command Line Interface
+    # Main entrance - Corporate Gate (Recommended for executives)
     python tidyllm.py "[Integration Test]"
+    
+    # Explorer's path - Hybrid Bridge
+    python flow_bridge.py "[Integration Test]" 
+    
+    # Direct artisan path - Clean system
+    python flow_clean.py "[Integration Test]"
+    
+    # Python API - Program your own city tour
+    from tidyllm import TidyLLMInterface
+    city_guide = TidyLLMInterface()
+    tour_result = city_guide.execute("[Integration Test]")
 """
 
 import sys
@@ -315,28 +333,36 @@ def main():
     
     if len(sys.argv) < 2:
         print("=" * 60)
-        print("TidyLLM - ENTERPRISE AI WORKFLOW PLATFORM")
+        print("TidyLLM - THE GREAT WALLED CITY OF ENTERPRISE AI")
         print("=" * 60)
-        print("Enterprise-grade AI workflow automation through FLOW Agreements")
-        print("Audit compliant | AWS integrated | PostgreSQL tracked")
+        print("Welcome to the CORPORATE GATE - The Grand Entrance")
+        print("Your guided tour of enterprise AI workflows awaits")
         print()
-        print("Usage:")
-        print('  python tidyllm.py "[Integration Test]"          # Execute FLOW Agreement')
-        print('  python tidyllm.py --commands                   # List all available FLOWs')
-        print('  python tidyllm.py --status                     # Enterprise system status')
-        print('  python tidyllm.py --batch "[cmd1]" "[cmd2]"    # Batch execution')
+        print("The Three Gates of TidyLLM:")
+        print("  CORPORATE GATE  (tidyllm.py)     - Executive tours with expert guides")  
+        print("  EXPLORER'S GATE (flow_bridge.py) - Adventure paths with migration tools")
+        print("  ARTISAN'S GATE  (flow_clean.py)  - Direct craftsmanship access")
+        print()
+        print("Corporate Gate Services:")
+        print('  python tidyllm.py "[Integration Test]"          # Guided FLOW Agreement tour')
+        print('  python tidyllm.py --commands                   # Map of city districts')
+        print('  python tidyllm.py --status                     # City walls status')
+        print('  python tidyllm.py --batch "[cmd1]" "[cmd2]"    # Group expedition')
         print()
         
-        # Enterprise system overview
+        # City status overview
         tidyllm = TidyLLMInterface()
         status = tidyllm.get_system_status()
         
-        print("Enterprise Platform Status:")
-        print("-" * 28)
+        print("City Defenses Status:")
+        print("-" * 22)
         systems_available = len([s for s in status['systems'].keys() if status['systems'][s].get('available', False)])
-        print(f"Operational Systems: {systems_available}")
-        print(f"Preferred Mode: {status['unified_interface']['prefer_system']}")
-        print(f"Platform Version: {status['unified_interface']['version']}")
+        print(f"Gates Open: {systems_available}/3")
+        print(f"Recommended Guide: {status['unified_interface']['prefer_system']}")
+        print(f"City Charter: v{status['unified_interface']['version']}")
+        print()
+        print("Choose your gate wisely, traveler. Each path leads to the same")
+        print("powerful FLOW Agreement temples, but offers a different journey.")
         print()
         return
     
@@ -344,15 +370,26 @@ def main():
     
     if sys.argv[1] == "--commands":
         print("=" * 60)
-        print("TidyLLM - AVAILABLE FLOW AGREEMENTS")
+        print("TidyLLM CITY MAP - FLOW AGREEMENT DISTRICTS")
         print("=" * 60)
-        print("Enterprise-approved workflow commands for audit compliance")
+        print("Ancient temples and districts within the city walls")
+        print("Each district offers specialized services for travelers")
         print()
         
         commands = tidyllm.list_available_commands()
         for system_name, system_commands in commands.items():
-            print(f"\n{system_name.upper()} SYSTEM:")
-            print("-" * 30)
+            if system_name == "clean":
+                print(f"\nARTISAN DISTRICT ({system_name.upper()} system):")
+                print("-" * 40)
+                print("Elegant, direct access to core services")
+            elif system_name == "original": 
+                print(f"\nHISTORIC QUARTER ({system_name.upper()} system):")
+                print("-" * 40)
+                print("Traditional services with full heritage")
+            else:
+                print(f"\nGUIDE SERVICES ({system_name.upper()} system):")
+                print("-" * 40)
+                print("Hybrid tours combining all districts")
             if isinstance(system_commands, list):
                 for i, cmd in enumerate(system_commands, 1):
                     print(f"{i:2d}. {cmd}")
@@ -403,34 +440,36 @@ def main():
         command = sys.argv[1]
         
         print("=" * 60)
-        print("TidyLLM - ENTERPRISE AI WORKFLOW PLATFORM")
+        print("TidyLLM - GUIDED TOUR IN PROGRESS")
         print("=" * 60)
-        print(f"Executing FLOW Agreement: {command}")
+        print(f"Your guide is leading you to: {command}")
+        print("Passing through the city gates...")
         print("-" * 60)
         
         result = tidyllm.execute(command, context={'cli': True, 'enterprise_mode': True})
         
-        print(f"System Used: {result.system_used.upper()}")
-        print(f"Success: {'YES' if result.success else 'NO'}")
-        print(f"Execution Mode: {result.execution_mode}")
-        print(f"Confidence: {result.confidence:.2f}")
+        guide_name = result.system_used.upper().replace('BRIDGE-', 'BRIDGE -> ')
+        print(f"Guide Selected: {guide_name}")
+        print(f"Tour Success: {'YES - Temple reached!' if result.success else 'NO - Path blocked'}")
+        print(f"Journey Mode: {result.execution_mode}")
+        print(f"Guide Confidence: {result.confidence:.2f}")
         
         if result.fallback_chain:
-            print(f"Fallback Chain: {' → '.join(result.fallback_chain)}")
+            print(f"Alternative Paths Taken: {' -> '.join(result.fallback_chain)}")
         
         if result.error:
-            print(f"Error: {result.error}")
+            print(f"Journey Issue: {result.error}")
         else:
-            print("\nResult Details:")
+            print("\nTemple Services Accessed:")
             for key, value in result.result.items():
                 if key in ['action', 'status', 'execution_mode', 'real_implementation']:
                     print(f"  {key}: {value}")
         
         if result.metadata and result.metadata.get('execution_time_seconds'):
-            print(f"\nExecution Time: {result.metadata['execution_time_seconds']:.3f}s")
+            print(f"\nTour Duration: {result.metadata['execution_time_seconds']:.3f} seconds")
         
-        print("\nEnterprise Audit JSON:")
-        print("-" * 22)
+        print("\nCity Archives Record (JSON):")
+        print("-" * 30)
         print(tidyllm.to_json(result))
 
 if __name__ == "__main__":
