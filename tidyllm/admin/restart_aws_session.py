@@ -93,11 +93,11 @@ class AWSSessionManager:
         try:
             if not self.settings_file.exists():
                 print(f"[WARN] Settings file not found: {self.settings_file}")
-                print("[FALLBACK] Using hardcoded credentials (not recommended)")
+                print("[FALLBACK] Using environment-based credentials")
                 return {
-                    # Credentials loaded by centralized system,
-                    # Credentials loaded by centralized system,
-                    # Credentials loaded by centralized system
+                    'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
+                    'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+                    'AWS_DEFAULT_REGION': os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
                 }
             
             print(f"[YAML] Loading credentials from: {self.settings_file}")
@@ -186,7 +186,7 @@ class AWSSessionManager:
         try:
             if script_path.exists():
                 # Parse the script file to extract credentials
-                credentials = {# Credentials loaded by centralized system}
+                credentials = {}
                 
                 with open(script_path, 'r') as f:
                     for line in f:
@@ -213,17 +213,17 @@ class AWSSessionManager:
             else:
                 print(f"  [ERROR] Platform script not found: {script_path}")
                 return {
-                    # Credentials loaded by centralized system,
-                    # Credentials loaded by centralized system,
-                    # Credentials loaded by centralized system
+                    'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
+                    'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+                    'AWS_DEFAULT_REGION': os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
                 }
                 
         except Exception as e:
             print(f"  [ERROR] Failed to parse platform script: {e}")
             return {
-                # Credentials loaded by centralized system,
-                # Credentials loaded by centralized system,
-                # Credentials loaded by centralized system
+                'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
+                'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+                'AWS_DEFAULT_REGION': os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
             }
     
     def _clear_boto3_cache(self):

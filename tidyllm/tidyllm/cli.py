@@ -9,6 +9,68 @@ import sys
 from pathlib import Path
 from . import __version__
 
+def show_ecosystem_help():
+    """Show comprehensive ecosystem help with available functions."""
+    help_text = f"""
+TidyLLM Ecosystem - Complete Function Reference
+Version: {__version__}
+
+=== WORKING COMPONENTS ===
+
+TLM (Pure Python ML) - 70 Functions Available:
+  Core ML Algorithms:
+    tlm.kmeans_fit(data, k=3)           # K-means clustering
+    tlm.logreg_fit(X, y)                # Logistic regression  
+    tlm.svm_fit(X, y)                   # Support Vector Machine
+    tlm.pca_power_fit(X)                # Principal Component Analysis
+    tlm.gmm_fit(X, k=3)                 # Gaussian Mixture Models
+    tlm.nb_fit(X, y)                    # Naive Bayes
+
+  Math Operations:
+    tlm.l2_normalize(vectors)           # L2 normalization
+    tlm.dot(vec1, vec2)                 # Dot product
+    tlm.matmul(A, B)                    # Matrix multiplication
+    tlm.transpose(matrix)               # Matrix transpose
+
+  Neural Network Components:
+    tlm.softmax(logits)                 # Softmax activation
+    tlm.sigmoid(x)                      # Sigmoid activation
+    tlm.multi_head_attention(Q, K, V)   # Attention mechanism
+
+tidyllm-sentence (Educational Embeddings) - 25 Functions Available:
+  Embedding Methods:
+    tls.tfidf_fit_transform(docs)       # TF-IDF embeddings
+    tls.word_avg_fit_transform(docs)    # Word averaging
+    tls.lsa_fit_transform(docs)         # Latent Semantic Analysis
+
+  Text Processing:
+    tls.word_tokenize(text)             # Word tokenization
+    tls.cosine_similarity(v1, v2)       # Cosine similarity
+    tls.semantic_search(q, corpus)      # Semantic search
+
+=== STATUS ===
+[OK] TLM: 70 pure Python ML functions available
+[OK] tidyllm-sentence: 25 embedding functions available
+[ERROR] Main TidyLLM: No functional methods (only imports/flags)
+
+=== USAGE EXAMPLES ===
+
+# Pure Python Machine Learning:
+import tlm
+data = [[1,2], [3,4], [5,6]]
+centers, labels, inertia = tlm.kmeans_fit(data, k=2)
+normalized = tlm.l2_normalize(data)
+
+# Educational Embeddings:
+import tidyllm_sentence as tls
+docs = ["Hello world", "Machine learning"]  
+embeddings, model = tls.tfidf_fit_transform(docs)
+similarity = tls.cosine_similarity(embeddings[0], embeddings[1])
+
+Type 'tidyllm help commands' for CLI command reference.
+"""
+    print(help_text)
+
 def show_main_help():
     """Show main TidyLLM help with available commands."""
     help_text = f"""
@@ -22,6 +84,7 @@ AVAILABLE COMMANDS:
 
 Core Commands:
     help                Show this help message
+    help functions      Show all available functions in ecosystem
     version             Show TidyLLM version information
     init                Initialize TidyLLM in current directory
     config              Show current configuration
@@ -271,7 +334,11 @@ def main():
     
     # Handle main commands
     if command in ['help', '--help', '-h']:
-        show_main_help()
+        # Check if there's a subcommand
+        if len(sys.argv) > 2 and sys.argv[2].lower() == 'functions':
+            show_ecosystem_help()
+        else:
+            show_main_help()
     elif command in ['version', '--version', '-v']:
         show_version()
     elif command == 'init':
