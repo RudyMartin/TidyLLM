@@ -1,0 +1,242 @@
+[build-system]
+requires = ["setuptools>=65.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tidyllm"
+dynamic = ["version"]
+description = "The Great Walled City of Enterprise AI - A comprehensive AI/ML library for enterprise workflows"
+readme = "README.md"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "TidyLLM Development Team", email = "info@tidyllm.ai"}
+]
+maintainers = [
+    {name = "TidyLLM Development Team", email = "info@tidyllm.ai"}
+]
+keywords = [
+    "ai", "ml", "llm", "enterprise", "workflows", "automation", 
+    "bedrock", "aws", "mlflow", "dspy", "knowledge-systems"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research", 
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Office/Business",
+]
+requires-python = ">=3.8"
+dependencies = [
+    # Core Python data processing
+    "pyyaml>=6.0",
+    "requests>=2.28.0",
+    "pandas>=1.5.0",
+    "openpyxl>=3.0.0",
+    
+    # AWS and cloud services
+    "boto3>=1.26.0",
+    "botocore>=1.29.0",
+    
+    # Database connectivity
+    "psycopg2-binary>=2.9.0",
+    
+    # ML and AI frameworks
+    "mlflow>=2.0.0",
+    "dspy-ai>=2.4.0",
+    "openai>=1.0.0",
+    "anthropic>=0.25.0",
+    
+    # System monitoring
+    "psutil>=5.8.0",
+    
+    # Type hints and utilities
+    "typing-extensions>=4.0.0",
+]
+
+[project.optional-dependencies]
+# Web interface and visualization
+web = [
+    "streamlit>=1.28.0",
+    "plotly>=5.15.0",
+    "rich>=13.0.0",
+]
+
+# Advanced data processing
+data = [
+    "numpy>=1.24.0",
+    "polars>=0.20.0",
+    "pyarrow>=10.0.0",
+]
+
+# Document processing
+documents = [
+    "PyPDF2>=3.0.0",
+    "pdfplumber>=0.9.0",
+    "python-docx>=0.8.11",
+    "beautifulsoup4>=4.11.0",
+]
+
+# Development and testing
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+# Extended AI capabilities
+ai = [
+    "transformers>=4.30.0",
+    "torch>=2.0.0",
+    "sentence-transformers>=2.2.0",
+    "langchain>=0.1.0",
+    "chromadb>=0.4.0",
+]
+
+# All optional dependencies
+all = [
+    "streamlit>=1.28.0",
+    "plotly>=5.15.0", 
+    "rich>=13.0.0",
+    "numpy>=1.24.0",
+    "polars>=0.20.0",
+    "pyarrow>=10.0.0",
+    "PyPDF2>=3.0.0",
+    "pdfplumber>=0.9.0",
+    "python-docx>=0.8.11",
+    "beautifulsoup4>=4.11.0",
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "flake8>=6.0.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+    "transformers>=4.30.0",
+    "torch>=2.0.0",
+    "sentence-transformers>=2.2.0",
+    "langchain>=0.1.0",
+    "chromadb>=0.4.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/tidyllm/tidyllm"
+"Bug Tracker" = "https://github.com/tidyllm/tidyllm/issues"
+"Documentation" = "https://docs.tidyllm.ai"
+"Source Code" = "https://github.com/tidyllm/tidyllm"
+"Changelog" = "https://github.com/tidyllm/tidyllm/blob/main/CHANGELOG.md"
+
+[project.scripts]
+tidyllm = "tidyllm.cli:main"
+tidyllm-demo = "tidyllm.demos.launch_demo:main"
+tidyllm-workflow = "tidyllm.workflows.cli:main"
+qa-processor = "qa_processor:main"
+
+[tool.setuptools]
+packages = ["tidyllm"]
+include-package-data = true
+
+[tool.setuptools.dynamic]
+version = {attr = "tidyllm.__version__"}
+
+[tool.setuptools.package-data]
+tidyllm = [
+    "admin/*.yaml",
+    "admin/*.json", 
+    "workflows/*.yaml",
+    "workflows/*.json",
+    "knowledge_systems/**/*.yaml",
+    "knowledge_systems/**/*.json",
+    "gateways/**/*.yaml",
+    "gateways/**/*.json",
+    "*.md",
+    "*.txt",
+    "*.yaml",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+[tool.flake8]
+max-line-length = 100
+extend-ignore = ["E203", "E501", "W503"]
+per-file-ignores = [
+    "__init__.py:F401",
+]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "tidyllm/tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--cov=tidyllm",
+    "--cov-report=html",
+    "--cov-report=term-missing",
+    "--strict-markers",
+    "--strict-config",
+    "--verbosity=2",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+
+[tool.coverage.run]
+source = ["tidyllm"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/build/*",
+    "*/dist/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
