@@ -1,8 +1,19 @@
 """
 
-# S3 Configuration Management
-sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
-from credential_loader import get_s3_config, build_s3_path
+import logging
+from typing import Dict, List, Any, Optional, Union
+from pathlib import Path
+
+# S3 Configuration Management - Import from admin
+try:
+    from ...admin.credential_loader import get_s3_config, build_s3_path
+except ImportError:
+    # Fallback import path
+    import sys
+    from pathlib import Path
+    admin_path = Path(__file__).parent.parent.parent / 'admin'
+    sys.path.insert(0, str(admin_path))
+    from credential_loader import get_s3_config, build_s3_path
 
 # Get S3 configuration (bucket and path builder)
 s3_config = get_s3_config()  # Add environment parameter for dev/staging/prod
@@ -74,7 +85,7 @@ class KnowledgeInterface:
                     config = DomainRAGConfig(
                         domain_name=domain_name,
                         description=description,
-                        s3_prefix=fbuild_s3_path("knowledge_base", "{domain_name}/"),
+                        s3_prefix=build_s3_path("knowledge_base", f"{domain_name}/"),
                         s3_bucket=self.manager.s3_manager.config.default_bucket if self.manager.s3_manager else None
                     )
                     
@@ -183,7 +194,7 @@ class KnowledgeInterface:
     
     def upload_knowledge_base_to_s3(self, local_path: Union[str, Path], 
                                    domain_name: str = "default",
-                                   s3_prefix: str = build_s3_path("knowledge_base", "")) -> Dict[str, Any]:
+                                   s3_prefix: str = None) -> Dict[str, Any]:
         """Upload local knowledge base to S3 for domain RAG creation"""
         try:
             if not self.manager.s3_manager:
@@ -191,6 +202,10 @@ class KnowledgeInterface:
                     "success": False,
                     "error": "S3 manager not available"
                 }
+            
+            # Set default s3_prefix if not provided
+            if s3_prefix is None:
+                s3_prefix = build_s3_path("knowledge_base", "")
             
             result = self.manager.s3_manager.upload_knowledge_base(
                 local_path=local_path,

@@ -147,13 +147,36 @@ class UnifiedSessionManager:
     
     def _discover_credentials(self):
         """Discover credentials from environment and settings"""
+        # Check if we already have a fully configured setup
+        if (self.config.postgres_password and 
+            self.config.postgres_host != "localhost" and
+            self.config.s3_access_key_id):
+            logger.info("🎯 Configuration already provided - skipping auto-discovery")
+            return
+        
         logger.info("🔍 Discovering credentials for all services...")
+        
+        # Store original config values to avoid overwriting intentional settings
+        original_postgres_host = self.config.postgres_host if self.config.postgres_host != "localhost" else None
+        original_postgres_database = self.config.postgres_database if self.config.postgres_database != "tidyllm_db" else None
+        original_postgres_username = self.config.postgres_username if self.config.postgres_username != "postgres" else None
+        original_postgres_password = self.config.postgres_password
         
         # Load from environment first
         self._load_from_environment()
         
         # Load from settings file if available
         self._load_from_settings()
+        
+        # Restore original config if it was intentionally set
+        if original_postgres_host:
+            self.config.postgres_host = original_postgres_host
+        if original_postgres_database:
+            self.config.postgres_database = original_postgres_database
+        if original_postgres_username:
+            self.config.postgres_username = original_postgres_username
+        if original_postgres_password:
+            self.config.postgres_password = original_postgres_password
         
         # Test IAM role availability
         self._test_iam_role()
@@ -184,10 +207,11 @@ class UnifiedSessionManager:
     def _load_from_settings(self):
         """Load from tidyllm settings files"""
         settings_paths = [
-            Path("tidyllm/tidyllm/admin/embeddings_settings.yaml"),
-            Path("tidyllm/admin/embeddings_settings.yaml"),
-            Path("settings.yaml"),
-            Path("config.yaml")
+            Path("tidyllm/admin/settings.yaml"),  # Real admin settings file first
+            Path("tidyllm/tidyllm/admin/settings.yaml"),  # Alternative path
+            Path("tidyllm/admin/embeddings_settings.yaml"),  # Legacy fallback
+            Path("settings.yaml"),  # Root level
+            Path("config.yaml")  # Generic fallback
         ]
         
         for path in settings_paths:
@@ -201,15 +225,19 @@ class UnifiedSessionManager:
                     if aws_config.get('default_bucket'):
                         self.config.s3_default_bucket = aws_config['default_bucket']
                     
-                    # Extract PostgreSQL settings
-                    db_config = settings.get('database', {}) or settings.get('postgresql', {})
+                    # Extract PostgreSQL settings - check multiple possible config sections
+                    db_config = settings.get('postgres', {}) or settings.get('database', {}) or settings.get('postgresql', {})
                     if db_config:
                         self.config.postgres_host = db_config.get('host', self.config.postgres_host)
                         self.config.postgres_port = db_config.get('port', self.config.postgres_port)
-                        self.config.postgres_database = db_config.get('database', self.config.postgres_database)
-                        self.config.postgres_username = db_config.get('username', self.config.postgres_username)
-                        if db_config.get('password'):
-                            self.config.postgres_password = db_config['password']
+                        # Handle both field name formats
+                        self.config.postgres_database = db_config.get('db_name', db_config.get('database', self.config.postgres_database))
+                        self.config.postgres_username = db_config.get('db_user', db_config.get('username', self.config.postgres_username))
+                        password = db_config.get('db_password', db_config.get('password'))
+                        if password:
+                            self.config.postgres_password = password
+                        
+                        logger.info(f"✅ PostgreSQL config loaded: {self.config.postgres_host}:{self.config.postgres_port}/{self.config.postgres_database}")
                     
                     logger.info(f"✅ Loaded settings from {path}")
                     break

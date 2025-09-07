@@ -22,6 +22,17 @@ import numpy as np
 # Import embedding standardization
 from .embedding_config import EmbeddingStandardizer, standardize_embedding, get_target_dimension
 
+# Use UnifiedSessionManager for database connections
+try:
+    import sys
+    from pathlib import Path
+    project_root = Path(__file__).parent.parent.parent.parent
+    sys.path.insert(0, str(project_root))
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+
 try:
     import psycopg2
     from psycopg2.extras import RealDictCursor
@@ -84,9 +95,6 @@ class VectorManager:
     """Unified vector database operations manager"""
     
     def __init__(self, config: VectorConfig = None, auto_connect: bool = True):
-        if not POSTGRES_AVAILABLE:
-            logger.warning("psycopg2 not available. Install with: pip install psycopg2-binary")
-        
         self.config = config or VectorConfig()
         if not self.config.password:
             self.config.password = os.environ.get('POSTGRES_PASSWORD', 'REMOVED_PASSWORD')
@@ -96,18 +104,52 @@ class VectorManager:
             target_dimension=self.config.vector_dimension
         )
         
-        self.connection = None
+        # Use UnifiedSessionManager for database connections
+        if UNIFIED_SESSION_AVAILABLE:
+            self.session_mgr = UnifiedSessionManager()
+            self.connection = None  # Legacy fallback connection
+        else:
+            self.session_mgr = None
+            self.connection = None
+            if not POSTGRES_AVAILABLE:
+                logger.warning("Neither UnifiedSessionManager nor psycopg2 available")
+        
         self._embedding_cache = {}
         
-        if auto_connect and POSTGRES_AVAILABLE:
+        if auto_connect:
             self.connect()
     
     def connect(self) -> Dict[str, Any]:
         """Connect to vector database"""
+        # Use UnifiedSessionManager if available
+        if self.session_mgr:
+            try:
+                # Test connection by trying to get PostgreSQL connection
+                test_conn = self.session_mgr.get_postgres_connection()
+                if test_conn:
+                    test_conn.close()
+                    return {
+                        "success": True,
+                        "message": "Connected via UnifiedSessionManager",
+                        "connection_type": "UnifiedSessionManager"
+                    }
+                else:
+                    return {
+                        "success": False,
+                        "error": "UnifiedSessionManager connection failed"
+                    }
+            except Exception as e:
+                logger.error(f"UnifiedSessionManager connection failed: {e}")
+                return {
+                    "success": False,
+                    "error": str(e)
+                }
+        
+        # Fallback to direct connection
         if not POSTGRES_AVAILABLE:
             return {
                 "success": False,
-                "error": "PostgreSQL driver not available"
+                "error": "Neither UnifiedSessionManager nor PostgreSQL driver available"
             }
         
         try:
@@ -122,9 +164,10 @@ class VectorManager:
             
             return {
                 "success": True,
-                "message": "Connected to vector database",
+                "message": "Connected to vector database (fallback)",
                 "host": self.config.host,
-                "database": self.config.database
+                "database": self.config.database,
+                "connection_type": "direct_fallback"
             }
         except Exception as e:
             logger.error(f"Failed to connect to vector database: {e}")
@@ -135,32 +178,59 @@ class VectorManager:
     
     def check_extensions(self) -> Dict[str, Any]:
         """Check if required extensions are available"""
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-        
         try:
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            # Use UnifiedSessionManager if available
+            if self.session_mgr:
                 # Check for pgvector extension
-                cursor.execute("""
+                pgvector_result = self.session_mgr.execute_postgres_query("""
                     SELECT EXISTS(
                         SELECT 1 FROM pg_extension WHERE extname = 'vector'
                     ) as pgvector_available;
                 """)
-                pgvector_result = cursor.fetchone()
                 
                 # Check available extensions
-                cursor.execute("""
+                extensions_result = self.session_mgr.execute_postgres_query("""
                     SELECT name FROM pg_available_extensions 
                     WHERE name IN ('vector', 'pgvector') 
                     ORDER BY name;
                 """)
-                available_extensions = [row['name'] for row in cursor.fetchall()]
                 
-                return {
-                    "success": True,
-                    "pgvector_installed": pgvector_result['pgvector_available'],
-                    "available_extensions": available_extensions
-                }
+                if pgvector_result and extensions_result:
+                    return {
+                        "success": True,
+                        "pgvector_installed": pgvector_result[0]['pgvector_available'],
+                        "available_extensions": [row['name'] for row in extensions_result]
+                    }
+                else:
+                    return {"success": False, "error": "Query failed via UnifiedSessionManager"}
+            
+            # Fallback to direct connection
+            elif self.connection:
+                with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+                    # Check for pgvector extension
+                    cursor.execute("""
+                        SELECT EXISTS(
+                            SELECT 1 FROM pg_extension WHERE extname = 'vector'
+                        ) as pgvector_available;
+                    """)
+                    pgvector_result = cursor.fetchone()
+                    
+                    # Check available extensions
+                    cursor.execute("""
+                        SELECT name FROM pg_available_extensions 
+                        WHERE name IN ('vector', 'pgvector') 
+                        ORDER BY name;
+                    """)
+                    available_extensions = [row['name'] for row in cursor.fetchall()]
+                    
+                    return {
+                        "success": True,
+                        "pgvector_installed": pgvector_result['pgvector_available'],
+                        "available_extensions": available_extensions
+                    }
+            else:
+                return {"success": False, "error": "Not connected to database"}
+                
         except Exception as e:
             return {"success": False, "error": str(e)}
     
@@ -565,7 +635,8 @@ class VectorManager:
                     json.dumps(chunk_data.get("metadata", {}))
                 ))
                 
-                chunk_id = cursor.fetchone()[0]
+                result = cursor.fetchone()
+                chunk_id = result[0] if isinstance(result, tuple) else result['id']
                 
             return {
                 "success": True,

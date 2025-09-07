@@ -23,7 +23,18 @@ from datetime import datetime
 from dataclasses import dataclass
 from .base_gateway import BaseGateway, GatewayResponse
 
-# Database drivers (optional - loaded dynamically)
+# Use UnifiedSessionManager for all database connections
+try:
+    import sys
+    from pathlib import Path
+    project_root = Path(__file__).parent.parent.parent
+    sys.path.insert(0, str(project_root))
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+
+# Database drivers (fallback only - prefer UnifiedSessionManager)
 try:
     import psycopg2
     import psycopg2.pool
@@ -102,7 +113,13 @@ class DatabaseGateway(BaseGateway):
         super().__init__(config)
         self.db_config = config
         
-        # Connection pools by connection name
+        # Use UnifiedSessionManager for database connections
+        if UNIFIED_SESSION_AVAILABLE:
+            self.session_mgr = UnifiedSessionManager()
+        else:
+            self.session_mgr = None
+            
+        # Connection pools by connection name (legacy fallback)
         self.connection_pools: Dict[str, Any] = {}
         
         # Query statistics
@@ -113,10 +130,12 @@ class DatabaseGateway(BaseGateway):
             "avg_execution_time_ms": 0.0
         }
         
-        # Initialize connection pools
-        self._initialize_connection_pools()
+        # Initialize connection pools (fallback only)
+        if not UNIFIED_SESSION_AVAILABLE:
+            self._initialize_connection_pools()
         
         logger.info("🗄️ Database Gateway initialized")
+        logger.info(f"   UnifiedSessionManager: {'Available' if UNIFIED_SESSION_AVAILABLE else 'Fallback mode'}")
         logger.info(f"   Available connections: {list(config.available_connections.keys())}")
     
     def _initialize_connection_pools(self):
@@ -261,34 +280,55 @@ class DatabaseGateway(BaseGateway):
         start_time = datetime.utcnow()
         
         try:
-            # Get connection from pool
-            connection = self._get_connection(connection_name)
-            
-            # Execute query
-            cursor = connection.cursor()
-            
-            if parameters:
-                cursor.execute(query, parameters)
+            # Use UnifiedSessionManager if available
+            if self.session_mgr:
+                # Execute via UnifiedSessionManager (returns RealDictRow objects)
+                raw_results = self.session_mgr.execute_postgres_query(query, parameters)
+                
+                if raw_results:
+                    # RealDictRow objects can be treated as dictionaries
+                    results = [dict(row) for row in raw_results]
+                    columns = list(results[0].keys()) if results else []
+                    
+                    # Check result size limits
+                    if len(results) > self.db_config.max_result_rows:
+                        logger.warning(f"Query returned {len(results)} rows, limiting to {self.db_config.max_result_rows}")
+                        results = results[:self.db_config.max_result_rows]
+                else:
+                    results = []
+                    columns = []
+                
+                execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+                
             else:
-                cursor.execute(query)
-            
-            # Fetch results
-            columns = [desc[0] for desc in cursor.description] if cursor.description else []
-            rows = cursor.fetchall()
-            
-            # Check result size limits
-            if len(rows) > self.db_config.max_result_rows:
-                logger.warning(f"Query returned {len(rows)} rows, limiting to {self.db_config.max_result_rows}")
-                rows = rows[:self.db_config.max_result_rows]
-            
-            cursor.close()
-            self._return_connection(connection_name, connection)
-            
-            # Process results
-            execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
-            
-            # Convert to list of dictionaries
-            results = [dict(zip(columns, row)) for row in rows]
+                # Fallback to direct connection
+                connection = self._get_connection(connection_name)
+                
+                # Execute query
+                cursor = connection.cursor()
+                
+                if parameters:
+                    cursor.execute(query, parameters)
+                else:
+                    cursor.execute(query)
+                
+                # Fetch results
+                columns = [desc[0] for desc in cursor.description] if cursor.description else []
+                rows = cursor.fetchall()
+                
+                # Check result size limits
+                if len(rows) > self.db_config.max_result_rows:
+                    logger.warning(f"Query returned {len(rows)} rows, limiting to {self.db_config.max_result_rows}")
+                    rows = rows[:self.db_config.max_result_rows]
+                
+                cursor.close()
+                self._return_connection(connection_name, connection)
+                
+                # Process results
+                execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+                
+                # Convert to list of dictionaries
+                results = [dict(zip(columns, row)) for row in rows]
             
             # Sanitize results if needed
             if self.db_config.sanitize_results:
@@ -325,27 +365,41 @@ class DatabaseGateway(BaseGateway):
         start_time = datetime.utcnow()
         
         try:
-            # Get connection from pool
-            connection = self._get_connection(connection_name)
+            affected_rows = 0
             
-            # Execute command
-            cursor = connection.cursor()
-            
-            if parameters:
-                cursor.execute(query, parameters)
+            # Use UnifiedSessionManager if available
+            if self.session_mgr:
+                # Execute via UnifiedSessionManager
+                # Note: UnifiedSessionManager execute_postgres_query handles both SELECT and DML
+                result = self.session_mgr.execute_postgres_query(query, parameters)
+                # For DML operations, result might be None or empty
+                affected_rows = 1 if result is not None else 0  # Simplified row count
+                
+                execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
+                
             else:
-                cursor.execute(query)
+                # Fallback to direct connection
+                connection = self._get_connection(connection_name)
+                
+                # Execute command
+                cursor = connection.cursor()
+                
+                if parameters:
+                    cursor.execute(query, parameters)
+                else:
+                    cursor.execute(query)
+                
+                # Get affected rows
+                affected_rows = cursor.rowcount
+                
+                # Commit transaction
+                connection.commit()
+                
+                cursor.close()
+                self._return_connection(connection_name, connection)
+                
+                execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
             
-            # Get affected rows
-            affected_rows = cursor.rowcount
-            
-            # Commit transaction
-            connection.commit()
-            
-            cursor.close()
-            self._return_connection(connection_name, connection)
-            
-            execution_time = (datetime.utcnow() - start_time).total_seconds() * 1000
             self._update_query_stats(True, execution_time)
             
             return {
@@ -359,12 +413,13 @@ class DatabaseGateway(BaseGateway):
             
         except Exception as e:
             self._update_query_stats(False, 0)
-            # Rollback on error
-            try:
-                connection.rollback()
-                self._return_connection(connection_name, connection)
-            except:
-                pass
+            # Rollback on error (fallback mode only)
+            if not self.session_mgr:
+                try:
+                    connection.rollback()
+                    self._return_connection(connection_name, connection)
+                except:
+                    pass
             raise e
     
     def _execute_procedure(self, connection_name: str, procedure_name: str, parameters: List[Any]) -> Dict[str, Any]:

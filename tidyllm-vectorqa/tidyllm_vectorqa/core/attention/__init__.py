@@ -1,1 +1,0 @@
-# tlm.attention - Pure Python attention mechanisms for transformers

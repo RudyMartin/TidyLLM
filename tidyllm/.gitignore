@@ -16,6 +16,8 @@ _*
 # C extensions
 *.so
 *nul*
+qaz*
+
 
 
 # Distribution / packaging
