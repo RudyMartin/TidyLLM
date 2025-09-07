@@ -9,19 +9,19 @@ to explore the powerful FLOW Agreement systems within.
 
 **The Three Gates:**
 
-**CORPORATE GATE** (tidyllm.py) - *The Grand Entrance*
+**1. ENTERPRISE GATE** (1-enterprise.py) - *The Grand Entrance*
    - Guided tours with expert recommendations
    - Executive-friendly interface with enterprise reporting
    - Full audit trails and compliance documentation
    - Choose your guide: Clean, Original, or Bridge systems
 
-**EXPLORER'S GATE** (flow_bridge.py) - *The Adventurer's Choice*
+**2. DEVELOPER GATE** (2-developer.py) - *The Technical Choice*
    - Hybrid exploration with system migration tools
    - Choose your own path between different implementations
    - Real-time system health and migration guidance
    - For those who want control over their journey
 
-**ARTISAN'S GATE** (flow_clean.py) - *The Direct Path*
+**3. DEMO GATE** (3-demo.py) - *The Presentation Path*
    - Direct access to clean, presentation-ready workflows
    - Zero dependencies, perfect for demonstrations
    - Real-time AWS infrastructure connections
@@ -34,14 +34,14 @@ to explore the powerful FLOW Agreement systems within.
    - Performance amphitheaters and security bastions
 
 Usage:
-    # Main entrance - Corporate Gate (Recommended for executives)
-    python tidyllm.py "[Integration Test]"
+    # 1. Main entrance - Enterprise Gate (Recommended for business users)
+    python 1-enterprise.py "[Integration Test]"
     
-    # Explorer's path - Hybrid Bridge
-    python flow_bridge.py "[Integration Test]" 
+    # 2. Technical path - Developer Bridge
+    python 2-developer.py "[Integration Test]" 
     
-    # Direct artisan path - Clean system
-    python flow_clean.py "[Integration Test]"
+    # 3. Presentation path - Demo System
+    python 3-demo.py "[Integration Test]"
     
     # Python API - Program your own city tour
     from tidyllm import TidyLLMInterface
@@ -98,21 +98,32 @@ class TidyLLMInterface:
         self._bridge = None
         self._clean_manager = None
         self._original_manager = None
+        self._demo_module = None
+        self._developer_module = None
         self._initialize_systems()
     
     def _initialize_systems(self):
         """Initialize available FLOW systems."""
         try:
-            # Initialize bridge system
-            from flow_bridge import HybridFlowBridge
+            # Initialize bridge system by importing from renamed file
+            import importlib.util
+            bridge_path = Path(__file__).parent / "2-developer.py"
+            spec = importlib.util.spec_from_file_location("developer_bridge", bridge_path)
+            self._developer_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(self._developer_module)
+            HybridFlowBridge = self._developer_module.HybridFlowBridge
             self._bridge = HybridFlowBridge()
             logger.info("Hybrid FLOW Bridge initialized")
         except Exception as e:
             logger.warning(f"Bridge system unavailable: {e}")
         
         try:
-            # Initialize clean system directly
-            from flow_clean import CleanFlowManager
+            # Initialize clean system by importing from renamed file
+            demo_path = Path(__file__).parent / "3-demo.py"
+            spec = importlib.util.spec_from_file_location("demo_clean", demo_path)
+            self._demo_module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(self._demo_module)
+            CleanFlowManager = self._demo_module.CleanFlowManager
             self._clean_manager = CleanFlowManager()
             logger.info("Clean FLOW system initialized")
         except Exception as e:
@@ -201,7 +212,8 @@ class TidyLLMInterface:
     def _execute_with_clean(self, command: str, context: Dict[str, Any]) -> FlowExecutionResult:
         """Execute using clean system."""
         try:
-            from flow_clean import execute_clean_flow_command
+            # Use the already loaded demo module
+            execute_clean_flow_command = self._demo_module.execute_clean_flow_command
             
             clean_result = execute_clean_flow_command(command, context)
             
@@ -339,15 +351,15 @@ def main():
         print("Your guided tour of enterprise AI workflows awaits")
         print()
         print("The Three Gates of TidyLLM:")
-        print("  CORPORATE GATE  (tidyllm.py)     - Executive tours with expert guides")  
-        print("  EXPLORER'S GATE (flow_bridge.py) - Adventure paths with migration tools")
-        print("  ARTISAN'S GATE  (flow_clean.py)  - Direct craftsmanship access")
+        print("  1. ENTERPRISE GATE (1-enterprise.py) - Executive tours with expert guides")  
+        print("  2. DEVELOPER GATE  (2-developer.py)  - Technical paths with migration tools")
+        print("  3. DEMO GATE       (3-demo.py)       - Direct presentation access")
         print()
-        print("Corporate Gate Services:")
-        print('  python tidyllm.py "[Integration Test]"          # Guided FLOW Agreement tour')
-        print('  python tidyllm.py --commands                   # Map of city districts')
-        print('  python tidyllm.py --status                     # City walls status')
-        print('  python tidyllm.py --batch "[cmd1]" "[cmd2]"    # Group expedition')
+        print("Enterprise Gate Services:")
+        print('  python 1-enterprise.py "[Integration Test]"    # Guided FLOW Agreement tour')
+        print('  python 1-enterprise.py --commands              # Map of city districts')
+        print('  python 1-enterprise.py --status                # City walls status')
+        print('  python 1-enterprise.py --batch "[cmd1]" "[cmd2]"  # Group expedition')
         print()
         
         # City status overview

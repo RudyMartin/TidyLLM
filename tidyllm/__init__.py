@@ -79,9 +79,9 @@ try:
     from pathlib import Path
     import importlib.util
     
-    # Import TidyLLMInterface from the main tidyllm.py file using direct module loading
+    # Import TidyLLMInterface from the main 1-enterprise.py file using direct module loading
     root_dir = Path(__file__).parent.parent
-    main_script_path = root_dir / "tidyllm.py"
+    main_script_path = root_dir / "1-enterprise.py"
     
     if main_script_path.exists():
         spec = importlib.util.spec_from_file_location("tidyllm_main", main_script_path)
