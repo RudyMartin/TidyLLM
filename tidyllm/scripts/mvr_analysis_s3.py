@@ -23,7 +23,7 @@ from pathlib import Path
 sys.path.append(str(Path(__file__).parent.parent))
 
 from scripts.start_unified_sessions import UnifiedSessionManager
-from flow_agreements.mvr_analysis import MVRAnalysisFlowAgreement, MVRAnalysisConfig
+from flow.agreements.mvr_analysis import MVRAnalysisFlowAgreement, MVRAnalysisConfig
 import json
 from datetime import datetime
 import tidyllm.tlm as np  # TidyLLM native math

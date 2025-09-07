@@ -252,7 +252,7 @@ def test_flow_agreements():
     
     try:
         sys.path.insert(0, 'tidyllm/demo-standalone')
-        from flow_agreements import FlowAgreementManager, execute_flow_command
+        from flow.agreements import FlowAgreementManager, execute_flow_command
         
         start_time = time.time()
         flow_manager = FlowAgreementManager()
