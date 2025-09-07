@@ -1,25 +1,34 @@
 #!/usr/bin/env python3
 """
-Unified FLOW Interface
-=====================
+TidyLLM - Enterprise AI Workflow Platform
+=========================================
 
-Single, consistent API for all FLOW Agreement operations.
-Provides unified access to both Clean and Original FLOW systems.
+TidyLLM provides enterprise-grade AI workflow automation through FLOW Agreements - 
+pre-approved, auditable AI operations that ensure compliance and consistency.
 
-This is the recommended interface for:
-- CLI applications
-- API endpoints  
-- UI components
-- Programmatic access
+**Enterprise Features:**
+- FLOW Agreement system for audit compliance
+- 3-tier gateway architecture (Corporate -> AI -> Workflow)
+- Real-time AWS infrastructure integration
+- PostgreSQL audit trails with 7-year retention
+- S3-first document processing pipeline
+
+**FLOW Agreement Commands:**
+- Performance testing and benchmarking
+- Security audits and compliance checks  
+- Cost analysis and optimization
+- Integration testing across services
+- Scalability assessment under load
 
 Usage:
-    from flow_unified import UnifiedFlowInterface
+    # Python API
+    from tidyllm import TidyLLMInterface
     
-    flow = UnifiedFlowInterface()
-    result = flow.execute("[Integration Test]")
+    tidyllm = TidyLLMInterface()
+    result = tidyllm.execute("[Integration Test]")
     
-    # Or use as CLI
-    python flow_unified.py "[Integration Test]"
+    # Command Line Interface
+    python tidyllm.py "[Integration Test]"
 """
 
 import sys
@@ -48,20 +57,24 @@ class FlowExecutionResult:
     fallback_chain: Optional[List[str]] = None
     metadata: Optional[Dict[str, Any]] = None
 
-class UnifiedFlowInterface:
+class TidyLLMInterface:
     """
-    Unified interface for all FLOW Agreement operations.
+    TidyLLM Enterprise AI Workflow Platform Interface.
     
-    Provides consistent API regardless of underlying system implementation.
-    Automatically selects best available system for each operation.
+    Provides enterprise-grade FLOW Agreement execution with:
+    - Audit compliance and 7-year retention
+    - Real-time AWS infrastructure integration  
+    - Multi-system fallback and reliability
+    - Corporate-friendly terminology and reporting
     """
     
     def __init__(self, prefer_system: str = "auto"):
         """
-        Initialize unified FLOW interface.
+        Initialize TidyLLM Enterprise AI Workflow Platform.
         
         Args:
             prefer_system: "auto", "clean", "original", or "bridge"
+                         "auto" selects optimal system automatically
         """
         self.prefer_system = prefer_system
         self._bridge = None
@@ -97,23 +110,24 @@ class UnifiedFlowInterface:
     
     def execute(self, command: str, context: Optional[Dict[str, Any]] = None) -> FlowExecutionResult:
         """
-        Execute FLOW command using best available system.
+        Execute enterprise FLOW Agreement with full audit compliance.
         
         Args:
-            command: FLOW command (e.g., "[Integration Test]")
-            context: Optional context for execution
+            command: FLOW Agreement command (e.g., "[Integration Test]")
+            context: Optional execution context for audit trail
             
         Returns:
-            FlowExecutionResult with standardized response
+            FlowExecutionResult with enterprise metadata and audit information
         """
         context = context or {}
         start_time = datetime.now()
         
-        # Add unified interface metadata
+        # Add TidyLLM enterprise metadata
         context.update({
-            'unified_interface': True,
-            'interface_version': '1.0.0',
-            'timestamp': start_time.isoformat()
+            'tidyllm_platform': True,
+            'platform_version': '1.0.0',
+            'enterprise_mode': True,
+            'audit_timestamp': start_time.isoformat()
         })
         
         # Determine system to use
@@ -297,41 +311,45 @@ class UnifiedFlowInterface:
         return json.dumps(self.to_dict(result), indent=2, default=str)
 
 def main():
-    """Main CLI interface for unified FLOW system."""
+    """Main CLI interface for TidyLLM Enterprise AI Workflow Platform."""
     
     if len(sys.argv) < 2:
         print("=" * 60)
-        print("UNIFIED FLOW INTERFACE")
+        print("TidyLLM - ENTERPRISE AI WORKFLOW PLATFORM")
         print("=" * 60)
-        print("Single, consistent API for all FLOW Agreement operations")
+        print("Enterprise-grade AI workflow automation through FLOW Agreements")
+        print("Audit compliant | AWS integrated | PostgreSQL tracked")
         print()
         print("Usage:")
-        print('  python flow_unified.py "[Integration Test]"     # Execute command')
-        print('  python flow_unified.py --commands              # List all commands')
-        print('  python flow_unified.py --status                # System status')
-        print('  python flow_unified.py --batch "[cmd1]" "[cmd2]" # Batch execution')
+        print('  python tidyllm.py "[Integration Test]"          # Execute FLOW Agreement')
+        print('  python tidyllm.py --commands                   # List all available FLOWs')
+        print('  python tidyllm.py --status                     # Enterprise system status')
+        print('  python tidyllm.py --batch "[cmd1]" "[cmd2]"    # Batch execution')
         print()
         
-        # Quick system overview
-        flow = UnifiedFlowInterface()
-        status = flow.get_system_status()
+        # Enterprise system overview
+        tidyllm = TidyLLMInterface()
+        status = tidyllm.get_system_status()
         
-        print("System Overview:")
-        print("-" * 30)
+        print("Enterprise Platform Status:")
+        print("-" * 28)
         systems_available = len([s for s in status['systems'].keys() if status['systems'][s].get('available', False)])
-        print(f"Available Systems: {systems_available}")
-        print(f"Preferred System: {status['unified_interface']['prefer_system']}")
+        print(f"Operational Systems: {systems_available}")
+        print(f"Preferred Mode: {status['unified_interface']['prefer_system']}")
+        print(f"Platform Version: {status['unified_interface']['version']}")
         print()
         return
     
-    flow = UnifiedFlowInterface()
+    tidyllm = TidyLLMInterface()
     
     if sys.argv[1] == "--commands":
         print("=" * 60)
-        print("AVAILABLE FLOW COMMANDS")
+        print("TidyLLM - AVAILABLE FLOW AGREEMENTS")
         print("=" * 60)
+        print("Enterprise-approved workflow commands for audit compliance")
+        print()
         
-        commands = flow.list_available_commands()
+        commands = tidyllm.list_available_commands()
         for system_name, system_commands in commands.items():
             print(f"\n{system_name.upper()} SYSTEM:")
             print("-" * 30)
@@ -344,26 +362,30 @@ def main():
         
     elif sys.argv[1] == "--status":
         print("=" * 60)
-        print("UNIFIED FLOW SYSTEM STATUS")
+        print("TidyLLM - ENTERPRISE PLATFORM STATUS")
         print("=" * 60)
+        print("Real-time status of all enterprise AI workflow systems")
+        print()
         
-        status = flow.get_system_status()
+        status = tidyllm.get_system_status()
         print(json.dumps(status, indent=2, default=str))
         
     elif sys.argv[1] == "--batch":
         print("=" * 60)
-        print("BATCH FLOW EXECUTION")
+        print("TidyLLM - BATCH FLOW EXECUTION")
         print("=" * 60)
+        print("Enterprise batch processing with full audit trail")
+        print()
         
         batch_commands = sys.argv[2:]
         if not batch_commands:
-            print("Error: No commands provided for batch execution")
+            print("Error: No FLOW Agreement commands provided for batch execution")
             return
         
-        print(f"Executing {len(batch_commands)} commands...")
+        print(f"Executing {len(batch_commands)} enterprise FLOW Agreement(s)...")
         print("-" * 60)
         
-        results = flow.execute_batch(batch_commands)
+        results = tidyllm.execute_batch(batch_commands)
         
         for i, result in enumerate(results, 1):
             print(f"\n[{i}] {result.command}")
@@ -374,19 +396,19 @@ def main():
             if result.error:
                 print(f"    Error: {result.error}")
         
-        print(f"\n\nBatch Summary: {sum(1 for r in results if r.success)}/{len(results)} successful")
+        print(f"\n\nEnterprise Batch Summary: {sum(1 for r in results if r.success)}/{len(results)} FLOW Agreements executed successfully")
         
     else:
-        # Execute single command
+        # Execute single FLOW Agreement
         command = sys.argv[1]
         
         print("=" * 60)
-        print("UNIFIED FLOW INTERFACE")
+        print("TidyLLM - ENTERPRISE AI WORKFLOW PLATFORM")
         print("=" * 60)
-        print(f"Executing: {command}")
+        print(f"Executing FLOW Agreement: {command}")
         print("-" * 60)
         
-        result = flow.execute(command, context={'cli': True})
+        result = tidyllm.execute(command, context={'cli': True, 'enterprise_mode': True})
         
         print(f"System Used: {result.system_used.upper()}")
         print(f"Success: {'YES' if result.success else 'NO'}")
@@ -407,9 +429,9 @@ def main():
         if result.metadata and result.metadata.get('execution_time_seconds'):
             print(f"\nExecution Time: {result.metadata['execution_time_seconds']:.3f}s")
         
-        print("\nJSON Output:")
-        print("-" * 30)
-        print(flow.to_json(result))
+        print("\nEnterprise Audit JSON:")
+        print("-" * 22)
+        print(tidyllm.to_json(result))
 
 if __name__ == "__main__":
     main()
