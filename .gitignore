@@ -23,7 +23,7 @@ share/python-wheels/
 MANIFEST
 _*
 .claude
-knowledge_base/
+knowledge_base/*
 
 
 # PyInstaller
