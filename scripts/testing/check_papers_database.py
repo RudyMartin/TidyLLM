@@ -94,14 +94,29 @@ def check_papers_in_database():
         ]
         
         total_s3_files = 0
+        from psycopg2 import sql
         for table, column in s3_tables:
-            cursor.execute(f"SELECT COUNT(*) as count FROM {table} WHERE {column} IS NOT NULL AND {column} != '';")
+            # Use psycopg2.sql for safe identifier interpolation
+            cursor.execute(
+                sql.SQL("SELECT COUNT(*) as count FROM {} WHERE {} IS NOT NULL AND {} != '';").format(
+                    sql.Identifier(table),
+                    sql.Identifier(column),
+                    sql.Identifier(column)
+                )
+            )
             count = cursor.fetchone()['count']
             print(f"S3 files in {table}: {count}")
             total_s3_files += count
             
             if count > 0:
-                cursor.execute(f"SELECT {column} FROM {table} WHERE {column} IS NOT NULL AND {column} != '' LIMIT 3;")
+                cursor.execute(
+                    sql.SQL("SELECT {} FROM {} WHERE {} IS NOT NULL AND {} != '' LIMIT 3;").format(
+                        sql.Identifier(column),
+                        sql.Identifier(table),
+                        sql.Identifier(column),
+                        sql.Identifier(column)
+                    )
+                )
                 paths = cursor.fetchall()
                 for path_row in paths:
                     path = path_row[column]

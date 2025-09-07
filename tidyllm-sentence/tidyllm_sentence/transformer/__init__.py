@@ -1,1 +1,0 @@
-# tidyllm-sentence transformer - Lightweight attention for semantic similarity
