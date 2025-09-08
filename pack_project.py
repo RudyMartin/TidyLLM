@@ -1,75 +1,34 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """
-TidyLLM Project Packing Script
+TidyLLM Project Packing Script (Python 3)
 
-This script organizes the TidyLLM project into smaller, manageable zip files
-for easier distribution and deployment.
+- Splits project into logical packages (config below).
+- Enforces --max-size by splitting large packages into parts _part01, _part02, ...
+- Supports glob-style excludes (e.g., **/__pycache__/**, *.pyc, .venv/**).
+- Optional inclusion of empty directories via --include-empty.
+- Dry-run and verbose modes for planning.
 
 Usage:
     python pack_project.py [options]
-
-Options:
-    --output-dir DIR     Output directory for zip files (default: ./packages)
-    --max-size SIZE      Maximum size per package in MB (default: 50)
-    --exclude PATTERN    Exclude files matching pattern (can be used multiple times)
-    --include-empty      Include empty directories
-    --dry-run           Show what would be packed without creating files
-    --verbose           Show detailed progress
-    --help              Show this help message
 """
 
+import argparse
+import json
 import os
 import sys
 import zipfile
-import argparse
-import shutil
-import json
 from datetime import datetime
-
-# Python 2/3 compatibility
-try:
-    from pathlib import Path
-except ImportError:
-    # Python 2 fallback
-    class Path(object):
-        def __init__(self, path):
-            self.path = os.path.abspath(path)
-        
-        def __str__(self):
-            return self.path
-        
-        def __div__(self, other):
-            return Path(os.path.join(self.path, other))
-        
-        def is_file(self):
-            return os.path.isfile(self.path)
-        
-        def is_dir(self):
-            return os.path.isdir(self.path)
-        
-        def mkdir(self, parents=False, exist_ok=False):
-            if parents:
-                os.makedirs(self.path, exist_ok=exist_ok)
-            else:
-                os.mkdir(self.path)
-        
-        def stat(self):
-            return os.stat(self.path)
-        
-        def relative_to(self, other):
-            return Path(os.path.relpath(self.path, other.path))
-        
-        def resolve(self):
-            return Path(os.path.abspath(self.path))
-
+from fnmatch import fnmatch
+from pathlib import Path
 
 class ProjectPacker:
-    def __init__(self, project_root, output_dir="./packages", max_size_mb=50):
+    def __init__(self, project_root, output_dir="./packages", max_size_mb=50, include_empty=False):
         self.project_root = Path(project_root).resolve()
         self.output_dir = Path(output_dir).resolve()
         self.max_size_mb = max_size_mb
         self.max_size_bytes = max_size_mb * 1024 * 1024
-        
+        self.include_empty = include_empty
+
         # Define package structure
         self.packages = {
             "01_core_tidyllm": {
@@ -77,40 +36,27 @@ class ProjectPacker:
                 "paths": [
                     "tidyllm/",
                     "setup.py",
-                    "pyproject.toml", 
+                    "pyproject.toml",
                     "requirements.txt",
                     "MANIFEST.in",
                     "README.md",
                     "INSTALLATION.md",
                     "CLI_DOCUMENTATION.md",
                     "qa_processor.py",
-                    "qa_test_runner.py"
+                    "qa_test_runner.py",
                 ],
-                "estimated_size": "~2MB"
             },
             "02_knowledge_base": {
                 "description": "Knowledge base with PDFs and documents",
-                "paths": [
-                    "knowledge_base/"
-                ],
-                "estimated_size": "~39MB"
+                "paths": ["knowledge_base/"],
             },
             "03_scripts_demos": {
                 "description": "Scripts, demos, and automation tools",
-                "paths": [
-                    "scripts/",
-                    "drop_zones/",
-                    "prompts/"
-                ],
-                "estimated_size": "~5.5MB"
+                "paths": ["scripts/", "drop_zones/", "prompts/"],
             },
             "04_educational_libs": {
                 "description": "Educational ML libraries (tidyllm-sentence, tlm)",
-                "paths": [
-                    "tidyllm-sentence/",
-                    "tlm/"
-                ],
-                "estimated_size": "~500KB"
+                "paths": ["tidyllm-sentence/", "tlm/"],
             },
             "05_tests_docs": {
                 "description": "Tests and ecosystem documentation",
@@ -119,313 +65,341 @@ class ProjectPacker:
                     "paper_repository/",
                     "ECOSYSTEM_*.md",
                     "PACKAGE_SUCCESS_SUMMARY.md",
-                    "Under-the-hood-with-flow.md"
+                    "Under-the-hood-with-flow.md",
                 ],
-                "estimated_size": "~1.5MB"
             },
             "06_demo_files": {
                 "description": "Demo scripts and flow documentation",
                 "paths": [
                     "1-enterprise.py",
-                    "2-developer.py", 
+                    "2-developer.py",
                     "3-demo.py",
                     "flow_demo.py",
-                    "FLOW_README.md"
+                    "FLOW_README.md",
                 ],
-                "estimated_size": "~100KB"
-            }
+            },
         }
-        
-        # Files to exclude
-        self.exclude_patterns = {
-            "__pycache__/",
-            "*.pyc",
-            "*.pyo",
-            ".git/",
+
+        # Default exclusions (glob patterns; matched against POSIX-style relative paths)
+        self.default_excludes = {
+            "**/__pycache__/**",
+            "**/*.pyc",
+            "**/*.pyo",
+            ".git/**",
             ".gitignore",
             ".DS_Store",
-            "*.log",
-            "*.tmp",
-            ".pytest_cache/",
-            "*.egg-info/",
-            "dist/",
-            "build/",
-            ".venv/",
-            "venv/",
-            "env/",
-            ".env"
+            "**/*.log",
+            "**/*.tmp",
+            ".pytest_cache/**",
+            "**/*.egg-info/**",
+            "dist/**",
+            "build/**",
+            ".venv/**",
+            "venv/**",
+            "env/**",
+            ".env",
         }
 
-    def get_file_size(self, file_path):
-        """Get file size in bytes."""
-        try:
-            return os.path.getsize(str(file_path))
-        except (OSError, IOError):
-            return 0
+    def rel(self, p: Path) -> str:
+        return p.relative_to(self.project_root).as_posix()
 
-    def should_exclude(self, path, exclude_patterns):
-        """Check if path should be excluded."""
-        path_str = str(path)
-        for pattern in exclude_patterns:
-            if pattern.endswith("/"):
-                if pattern.rstrip("/") in path_str:
-                    return True
-            elif pattern.startswith("*"):
-                if os.path.basename(path_str).endswith(pattern[1:]):
-                    return True
-            else:
-                if pattern in path_str:
-                    return True
-        return False
+    def match_any(self, rel_path: str, patterns) -> bool:
+        return any(fnmatch(rel_path, pat) for pat in patterns)
 
     def collect_files(self, paths, exclude_patterns):
-        """Collect all files matching the given paths."""
         files = []
-        
-        for path_str in paths:
-            path = Path(os.path.join(str(self.project_root), path_str))
-            
-            if path.is_file():
-                if not self.should_exclude(path, exclude_patterns):
-                    files.append(path)
-            elif path.is_dir():
-                for root, dirs, filenames in os.walk(str(path)):
-                    root_path = Path(root)
-                    
-                    # Remove excluded directories from dirs list to prevent walking into them
-                    dirs[:] = [d for d in dirs if not self.should_exclude(Path(os.path.join(root, d)), exclude_patterns)]
-                    
-                    for filename in filenames:
-                        file_path = Path(os.path.join(root, filename))
-                        if not self.should_exclude(file_path, exclude_patterns):
-                            files.append(file_path)
-        
+        # Normalize to POSIX-rel for matching
+        for p_str in paths:
+            # Support globs for top-level includes too (e.g., ECOSYSTEM_*.md)
+            for match in self.project_root.glob(p_str):
+                if match.is_file():
+                    rp = self.rel(match)
+                    if not self.match_any(rp, exclude_patterns):
+                        files.append(match)
+                elif match.is_dir():
+                    # Walk directory
+                    for root, dirs, filenames in os.walk(match):
+                        root_path = Path(root)
+                        rel_root = self.rel(root_path)
+                        # Filter dirs in-place to avoid walking excluded ones
+                        keep_dirs = []
+                        for d in dirs:
+                            d_rel = f"{rel_root}/{d}" if rel_root else d
+                            if not self.match_any(d_rel + "/**", exclude_patterns):
+                                keep_dirs.append(d)
+                        dirs[:] = keep_dirs
+
+                        # Optionally include empty directories
+                        if self.include_empty and not filenames:
+                            # Represent empty dir by adding a trailing slash name
+                            # ZipFormat: add a directory entry with no data later
+                            pass  # We add directory entries when writing
+
+                        for fname in filenames:
+                            fpath = root_path / fname
+                            rp = self.rel(fpath)
+                            if not self.match_any(rp, exclude_patterns):
+                                files.append(fpath)
+        # De-dup and sort for stability
+        files = sorted(set(files))
         return files
 
-    def calculate_package_size(self, files):
-        """Calculate total size of files in bytes."""
-        total_size = 0
-        for file_path in files:
-            total_size += self.get_file_size(file_path)
-        return total_size
+    def file_size(self, p: Path) -> int:
+        try:
+            return p.stat().st_size
+        except OSError:
+            return 0
 
-    def create_zip_package(self, package_name, files, description, 
-                          dry_run=False, verbose=False):
-        """Create a zip package with the given files."""
-        package_info = {
-            "name": package_name,
-            "description": description,
+    def chunk_into_parts(self, files):
+        """Greedy size-based bin packing into parts <= max_size_bytes."""
+        parts = []
+        current = []
+        current_size = 0
+
+        # Sort by size desc to reduce parts (simple first-fit-decreasing)
+        files_sorted = sorted(files, key=self.file_size, reverse=True)
+
+        for f in files_sorted:
+            sz = self.file_size(f)
+            # If a single file exceeds limit, place it alone (still creates a part)
+            if sz > self.max_size_bytes and not current:
+                parts.append([f])
+                continue
+
+            if current_size + sz <= self.max_size_bytes:
+                current.append(f)
+                current_size += sz
+            else:
+                if current:
+                    parts.append(current)
+                current = [f]
+                current_size = sz
+
+        if current:
+            parts.append(current)
+
+        return parts
+
+    def write_zip(self, zip_path: Path, files, dry_run=False, verbose=False):
+        info = {
+            "zip_file": zip_path.as_posix(),
             "file_count": len(files),
-            "total_size_bytes": self.calculate_package_size(files),
-            "total_size_mb": round(self.calculate_package_size(files) / (1024.0 * 1024.0), 2),
-            "created": datetime.now().isoformat(),
-            "files": []
+            "files": [],
+            "total_size_bytes": 0,
         }
-        
+
         if dry_run:
             if verbose:
-                print("  [DRY RUN] Would create {}.zip with {} files".format(package_name, len(files)))
-            return package_info
-        
-        # Create output directory
-        if not os.path.exists(str(self.output_dir)):
-            os.makedirs(str(self.output_dir))
-        
-        zip_path = Path(os.path.join(str(self.output_dir), "{}.zip".format(package_name)))
-        
+                print(f"  [DRY RUN] Would create {zip_path.name} with {len(files)} files")
+            for f in files:
+                size = self.file_size(f)
+                info["files"].append({"path": self.rel(f), "size_bytes": size})
+                info["total_size_bytes"] += size
+            info["zip_size_mb"] = round(info["total_size_bytes"] / (1024 * 1024), 2)
+            return info
+
+        zip_path.parent.mkdir(parents=True, exist_ok=True)
         if verbose:
-            print("  Creating {}...".format(os.path.basename(str(zip_path))))
-        
-        with zipfile.ZipFile(str(zip_path), 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for file_path in files:
+            print(f"  Creating {zip_path.name} ...")
+
+        with zipfile.ZipFile(zip_path, "w", compression=zipfile.ZIP_DEFLATED) as z:
+            # Track directories to add explicit entries for empty dirs (optional)
+            dir_entries = set()
+
+            for f in files:
+                arcname = self.rel(f)
+                # Collect parent directories for possible empty-dir entries
+                parent = Path(arcname).parent
+                while parent and parent.as_posix() != ".":
+                    dir_entries.add(parent.as_posix() + "/")
+                    parent = parent.parent
+
                 try:
-                    # Calculate relative path from project root
-                    arcname = os.path.relpath(str(file_path), str(self.project_root))
-                    zipf.write(str(file_path), arcname)
-                    
-                    file_info = {
-                        "path": arcname,
-                        "size_bytes": self.get_file_size(file_path)
-                    }
-                    package_info["files"].append(file_info)
-                    
+                    z.write(f, arcname)
+                    sz = self.file_size(f)
+                    info["files"].append({"path": arcname, "size_bytes": sz})
+                    info["total_size_bytes"] += sz
                     if verbose:
-                        print("    Added: {}".format(arcname))
-                        
+                        print(f"    Added: {arcname}")
                 except Exception as e:
-                    print("    Warning: Could not add {}: {}".format(file_path, e))
-        
-        package_info["zip_file"] = str(zip_path)
-        package_info["zip_size_mb"] = round(os.path.getsize(str(zip_path)) / (1024.0 * 1024.0), 2)
-        
-        return package_info
+                    print(f"    Warning: Could not add {arcname}: {e}")
+
+            # Optionally ensure empty directories exist in the archive
+            if self.include_empty:
+                for d in sorted(dir_entries):
+                    # If no member starts with this dir, add a directory entry
+                    if not any(m.filename.startswith(d) for m in z.infolist()):
+                        z.writestr(d, "")  # directory entry
+
+        info["zip_size_mb"] = round(Path(zip_path).stat().st_size / (1024 * 1024), 2)
+        return info
+
+    def pack_package(self, name, desc, files, dry_run=False, verbose=False):
+        size_bytes = sum(self.file_size(f) for f in files)
+        size_mb = round(size_bytes / (1024 * 1024), 2)
+
+        if verbose:
+            print(f"  Files collected: {len(files)}, total ~{size_mb} MB")
+
+        parts = self.chunk_into_parts(files) if self.max_size_bytes > 0 else [files]
+
+        summaries = []
+        if len(parts) == 1:
+            zip_path = self.output_dir / f"{name}.zip"
+            summaries.append(self.write_zip(zip_path, parts[0], dry_run, verbose))
+        else:
+            if verbose:
+                print(f"  Splitting into {len(parts)} parts to respect {self.max_size_mb} MB limit")
+            for i, part in enumerate(parts, start=1):
+                zip_path = self.output_dir / f"{name}_part{i:02d}.zip"
+                summaries.append(self.write_zip(zip_path, part, dry_run, verbose))
+
+        # Aggregate
+        total_bytes = sum(s["total_size_bytes"] for s in summaries)
+        return {
+            "name": name,
+            "description": desc,
+            "created": datetime.now().isoformat(),
+            "parts": summaries,
+            "file_count": sum(s["file_count"] for s in summaries),
+            "total_size_mb": round(total_bytes / (1024 * 1024), 2),
+        }
 
     def pack_all(self, exclude_patterns=None, dry_run=False, verbose=False):
-        """Pack all packages."""
-        if exclude_patterns is None:
-            exclude_patterns = self.exclude_patterns
-        
-        print("Packing TidyLLM project from: {}".format(self.project_root))
-        print("Output directory: {}".format(self.output_dir))
-        print("Max package size: {}MB".format(self.max_size_mb))
-        print("Exclude patterns: {}".format(exclude_patterns))
-        print()
-        
+        excludes = set(self.default_excludes)
+        if exclude_patterns:
+            excludes.update(exclude_patterns)
+
+        print(f"Packing TidyLLM project from: {self.project_root}")
+        print(f"Output directory: {self.output_dir}")
+        print(f"Max package size: {self.max_size_mb} MB")
+        print(f"Include empty dirs: {self.include_empty}")
+        print(f"Exclude patterns: {sorted(excludes)}\n")
+
         all_packages = {}
         total_files = 0
-        total_size = 0
-        
-        for package_name, package_config in self.packages.items():
-            print("Processing {}: {}".format(package_name, package_config['description']))
-            
-            # Collect files for this package
-            files = self.collect_files(package_config["paths"], exclude_patterns)
-            
+        total_size_mb = 0.0
+
+        for pkg_name, cfg in self.packages.items():
+            print(f"Processing {pkg_name}: {cfg['description']}")
+            files = self.collect_files(cfg["paths"], excludes)
             if not files:
-                print("  No files found for {}".format(package_name))
+                print(f"  No files found for {pkg_name}\n")
                 continue
-            
-            # Create package
-            package_info = self.create_zip_package(
-                package_name, files, package_config["description"], 
-                dry_run, verbose
-            )
-            
-            all_packages[package_name] = package_info
-            total_files += package_info["file_count"]
-            total_size += package_info["total_size_bytes"]
-            
-            print("  Files: {}, Size: {}MB".format(package_info['file_count'], package_info['total_size_mb']))
-            
-            # Check size limit
-            if package_info["total_size_mb"] > self.max_size_mb:
-                print("  WARNING: Package exceeds size limit of {}MB".format(self.max_size_mb))
-            
-            print()
-        
-        # Create summary
+
+            pkg_summary = self.pack_package(pkg_name, cfg["description"], files, dry_run, verbose)
+            all_packages[pkg_name] = pkg_summary
+            total_files += pkg_summary["file_count"]
+            total_size_mb += pkg_summary["total_size_mb"]
+
+            # Quick line
+            parts_n = len(pkg_summary["parts"])
+            label = f"{pkg_summary['total_size_mb']} MB in {parts_n} part(s)"
+            print(f"  ✅ Packed: {label}\n")
+
         summary = {
-            "project_root": str(self.project_root),
-            "output_dir": str(self.output_dir),
+            "project_root": self.project_root.as_posix(),
+            "output_dir": self.output_dir.as_posix(),
             "packing_date": datetime.now().isoformat(),
             "total_packages": len(all_packages),
             "total_files": total_files,
-            "total_size_mb": round(total_size / (1024.0 * 1024.0), 2),
-            "packages": all_packages
+            "total_size_mb": round(total_size_mb, 2),
+            "packages": all_packages,
         }
-        
-        # Save summary
+
         if not dry_run:
-            summary_path = Path(os.path.join(str(self.output_dir), "packing_summary.json"))
-            with open(str(summary_path), 'w') as f:
+            self.output_dir.mkdir(parents=True, exist_ok=True)
+            summary_path = self.output_dir / "packing_summary.json"
+            with summary_path.open("w", encoding="utf-8") as f:
                 json.dump(summary, f, indent=2)
-            print("Packing summary saved to: {}".format(summary_path))
-        
+            print(f"Packing summary saved to: {summary_path}")
+
         print("\nPacking complete!")
-        print("Total packages: {}".format(len(all_packages)))
-        print("Total files: {}".format(total_files))
-        print("Total size: {}MB".format(round(total_size / (1024.0 * 1024.0), 2)))
-        
+        print(f"Total packages: {len(all_packages)}")
+        print(f"Total files: {total_files}")
+        print(f"Total size: {round(total_size_mb, 2)} MB")
+
         return summary
 
     def create_unpack_script(self, dry_run=False):
-        """Create a script to unpack all packages."""
-        unpack_script = '''#!/bin/bash
+        script = """#!/bin/bash
 # TidyLLM Project Unpacking Script
 # Generated by pack_project.py
 
-set -e
+set -euo pipefail
 
 echo "TidyLLM Project Unpacker"
 echo "========================"
 
-# Check if packages directory exists
-if [ ! -d "packages" ]; then
-    echo "Error: packages directory not found!"
-    echo "Please run this script from the directory containing the packages folder."
-    exit 1
+PKG_DIR="packages"
+if [ ! -d "$PKG_DIR" ]; then
+  echo "Error: packages directory not found!"
+  echo "Run this script from the directory containing the 'packages' folder."
+  exit 1
 fi
 
-# Create project directory
 PROJECT_DIR="TidyLLM_unpacked"
 echo "Creating project directory: $PROJECT_DIR"
 mkdir -p "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 
-# Unpack all zip files in order
 echo "Unpacking packages..."
-for zip_file in ../packages/*.zip; do
-    if [ -f "$zip_file" ]; then
-        echo "  Unpacking $(basename "$zip_file")..."
-        unzip -q "$zip_file"
-    fi
+shopt -s nullglob
+for zip_file in ../$PKG_DIR/*.zip; do
+  echo "  Unpacking $(basename "$zip_file")..."
+  unzip -q "$zip_file"
 done
 
 echo "Unpacking complete!"
 echo "Project restored to: $PROJECT_DIR"
-echo ""
+echo
 echo "Next steps:"
-echo "1. cd $PROJECT_DIR"
-echo "2. pip install -e ."
-echo "3. python qa_processor.py --setup"
-'''
-        
+echo "1) cd $PROJECT_DIR"
+echo "2) pip install -e ."
+echo "3) python qa_processor.py --setup || true"
+"""
         if not dry_run:
-            script_path = Path(os.path.join(str(self.output_dir), "unpack.sh"))
-            with open(str(script_path), 'w') as f:
-                f.write(unpack_script)
-            os.chmod(str(script_path), 0755)
-            print("Unpack script created: {}".format(script_path))
-        
-        return unpack_script
+            self.output_dir.mkdir(parents=True, exist_ok=True)
+            path = self.output_dir / "unpack.sh"
+            path.write_text(script, encoding="utf-8")
+            path.chmod(0o755)
+            print(f"Unpack script created: {path}")
+        return script
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description="Pack TidyLLM project into zip packages with size-aware splitting."
+    )
+    parser.add_argument("--output-dir", default="./packages", help="Output directory (default: ./packages)")
+    parser.add_argument("--max-size", type=int, default=50, help="Max size per package in MB (default: 50)")
+    parser.add_argument("--exclude", action="append", default=[], help="Glob exclude pattern (repeatable)")
+    parser.add_argument("--include-empty", action="store_true", help="Include empty directories")
+    parser.add_argument("--dry-run", action="store_true", help="Plan only; do not write archives")
+    parser.add_argument("--verbose", action="store_true", help="Verbose progress")
+    parser.add_argument("--project-root", default=".", help="Project root (default: .)")
+    return parser.parse_args()
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Pack TidyLLM project into smaller zip files",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog=__doc__
-    )
-    
-    parser.add_argument("--output-dir", default="./packages",
-                       help="Output directory for zip files (default: ./packages)")
-    parser.add_argument("--max-size", type=int, default=50,
-                       help="Maximum size per package in MB (default: 50)")
-    parser.add_argument("--exclude", action="append", default=[],
-                       help="Exclude files matching pattern (can be used multiple times)")
-    parser.add_argument("--include-empty", action="store_true",
-                       help="Include empty directories")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Show what would be packed without creating files")
-    parser.add_argument("--verbose", action="store_true",
-                       help="Show detailed progress")
-    parser.add_argument("--project-root", default=".",
-                       help="Project root directory (default: current directory)")
-    
-    args = parser.parse_args()
-    
-    # Create packer
+    args = parse_args()
     packer = ProjectPacker(
         project_root=args.project_root,
         output_dir=args.output_dir,
-        max_size_mb=args.max_size
+        max_size_mb=args.max_size,
+        include_empty=args.include_empty,
     )
-    
-    # Add custom exclude patterns
-    exclude_patterns = packer.exclude_patterns.copy()
-    exclude_patterns.update(args.exclude)
-    
-    # Pack all packages
+
+    # Merge excludes (respect user-provided)
     summary = packer.pack_all(
-        exclude_patterns=exclude_patterns,
+        exclude_patterns=set(args.exclude),
         dry_run=args.dry_run,
-        verbose=args.verbose
+        verbose=args.verbose,
     )
-    
-    # Create unpack script
+
     if not args.dry_run:
-        packer.create_unpack_script(dry_run=args.dry_run)
-    
+        packer.create_unpack_script(dry_run=False)
+
     return 0
 
 

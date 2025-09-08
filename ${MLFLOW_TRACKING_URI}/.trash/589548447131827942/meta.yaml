@@ -1,0 +1,7 @@
+artifact_location: file:C:/Users/marti/github/${MLFLOW_TRACKING_URI}/589548447131827942
+creation_time: 1757297398420
+experiment_id: '589548447131827942'
+last_update_time: 1757297398772
+lifecycle_stage: deleted
+name: tidyllm_test_20250907_210958
+tags: {}

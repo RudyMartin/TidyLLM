@@ -5,11 +5,11 @@
 # DATABASE CONFIGURATION
 # =============================================================================
 postgres:
-  host: "${POSTGRES_HOST}"
+  host: "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com"
   port: 5432
-  db_name: "${POSTGRES_DB}"
-  db_user: "${POSTGRES_USER}"
-  db_password: "${POSTGRES_PASSWORD}"
+  db_name: "vectorqa"
+  db_user: "vectorqa_user"
+  db_password: "REMOVED_PASSWORD"
   ssl_mode: "require"
   connection_pool_size: 10
   max_retries: 3
@@ -19,36 +19,13 @@ postgres:
 # S3 CONFIGURATION
 # =============================================================================
 s3:
-  region: "us-east-1"        # AWS region
-  
-  # Default bucket configuration (can be overridden per environment)
-  bucket: "nsc-mvp1"         # Primary S3 bucket name
-  
-  # Base prefixes for different content types (use prefix + requirement)
-  prefixes:
-    knowledge_base: "knowledge_base/"     # Base: knowledge_base/ + checklist/, sop/, modeling/
-    mvr_analysis: "mvr_analysis/"         # Base: mvr_analysis/ + raw/, reports/, embeddings/
-    pages: "pages/"                       # Base: pages/ + domain/, category/
-    embeddings: "embeddings/"             # Base: embeddings/ + tfidf/, sentence/
-    metadata: "metadata/"                 # Base: metadata/ + processing/, tracking/
-    temp: "temp/"                         # Base: temp/ + uploads/, processing/
-  
-  # Environment-specific bucket overrides  
-  environments:
-    development:
-      bucket: "nsc-dev-bucket"
-      prefix_override: "dev/"             # Prepends to all prefixes: dev/knowledge_base/, dev/mvr_analysis/
-    
-    staging:
-      bucket: "nsc-staging-bucket"
-      prefix_override: "staging/"         # Prepends to all prefixes: staging/knowledge_base/, staging/mvr_analysis/
-    
-    production:
-      bucket: "nsc-prod-bucket" 
-      prefix_override: "prod/"            # Prepends to all prefixes: prod/knowledge_base/, prod/mvr_analysis/
-  
+  region: "us-east-1"        # corrected AWS region format
+  bucket: "nsc-mvp1"         # domain maps to bucket name
+  prefix: "pages/"           # folder prefix for storing files
   connection_timeout: 30     # optional, in seconds
   max_retries: 3             # optional, retry settings
+  #aws_access_key_id: "${AWS_ACCESS_KEY_ID}"
+  #aws_secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
 
 # =============================================================================
 # AWS BEDROCK CONFIGURATION
@@ -483,9 +460,9 @@ development:
 integrations:
   # MLflow integration
   mlflow:
-    enabled: true
-    tracking_uri: "${MLFLOW_TRACKING_URI}"
-    experiment_name: "tidyllm-workflows"
+    enabled: false
+    tracking_uri: null
+    experiment_name: "tidyllm-enhanced"
   
   # Weights & Biases integration
   wandb:
