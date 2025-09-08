@@ -23,12 +23,20 @@ from credential_loader import set_aws_environment
 # Load AWS credentials using centralized system
 set_aws_environment()
 
-import boto3
 import json
 from datetime import datetime, timezone
 from typing import Dict, List, Any, Optional
 import uuid
 import time
+
+# Import UnifiedSessionManager for audit-compliant session management
+try:
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    # Fallback to direct boto3 import if UnifiedSessionManager not available
+    import boto3
+    UNIFIED_SESSION_AVAILABLE = False
 
 # Import compliance validation components
 try:
@@ -60,7 +68,16 @@ class S3FirstMVRProcessor:
         
         self.bucket_name = bucket_name
         self.base_prefix = base_prefix
-        self.s3_client = boto3.client('s3')
+        
+        # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+        if UNIFIED_SESSION_AVAILABLE:
+            print("[MVR] Using UnifiedSessionManager for audit-compliant S3 access")
+            self.session_manager = UnifiedSessionManager()
+            self.s3_client = self.session_manager.get_s3_client()
+        else:
+            print("[MVR] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+            import boto3
+            self.s3_client = boto3.client('s3')
         
         # Initialize compliance validators
         self.yrsn_analyzer = YRSNNoiseAnalyzer() if YRSNNoiseAnalyzer and enable_yrsn_validation else None

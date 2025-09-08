@@ -105,6 +105,19 @@ class GatewayRegistry:
         self._services: Dict[ServiceType, ServiceInfo] = {}
         self._initialized = False
         
+        # INTEGRATION: Initialize UnifiedSessionManager for all gateways
+        try:
+            import sys
+            from pathlib import Path
+            project_root = Path(__file__).parent.parent.parent
+            sys.path.insert(0, str(project_root))
+            from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+            self.session_manager = UnifiedSessionManager()
+            logger.info("Gateway Registry: UnifiedSessionManager integrated")
+        except ImportError as e:
+            logger.warning(f"Gateway Registry: UnifiedSessionManager not available: {e}")
+            self.session_manager = None
+        
         # Register all available services
         self._register_core_services()
         
@@ -171,6 +184,11 @@ class GatewayRegistry:
                     else:
                         # Standard gateway initialization
                         instance = service_info.service_class(**service_config)
+                    
+                    # INTEGRATION: Inject UnifiedSessionManager into each gateway
+                    if self.session_manager and hasattr(instance, 'set_session_manager'):
+                        instance.set_session_manager(self.session_manager)
+                        logger.info(f"UnifiedSessionManager injected into {service_type.value}")
                     
                     service_info.instance = instance
                     service_info.initialized = True

@@ -1,0 +1,43 @@
+{
+  "status": "REQUIRES ATTENTION",
+  "success_rate": 60.0,
+  "tests_passed": 6,
+  "tests_failed": 4,
+  "execution_time": 2.895907402038574,
+  "timestamp": "2025-09-07T18:55:41.933639",
+  "components": {
+    "infrastructure": {
+      "healthy": false,
+      "response_time_ms": 1157.6504707336426,
+      "credential_source": "environment"
+    },
+    "gateways": {
+      "corporate_llm": {
+        "healthy": false
+      },
+      "ai_processing": {
+        "healthy": true,
+        "response_time_ms": 0.00476837158203125
+      },
+      "workflow_optimizer": {
+        "healthy": true,
+        "response_time_ms": 0.0026226043701171875
+      }
+    },
+    "flow": {
+      "healthy": false,
+      "error": "No module named 'flow_agreements'"
+    },
+    "ai_processing": {
+      "healthy": false,
+      "backend": "auto",
+      "response_time_ms": 0.04410743713378906,
+      "cache_hit": false
+    },
+    "cache": {
+      "healthy": true,
+      "file_count": 0,
+      "size_mb": 0.0
+    }
+  }
+}

@@ -19,12 +19,20 @@ import json
 import asyncio
 import logging
 import time
+import uuid
 from datetime import datetime, timedelta
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
 
 from .base_gateway import BaseGateway, GatewayResponse, GatewayStatus, GatewayDependencies
+
+# CRITICAL: Import polars for DataFrame processing
+try:
+    import polars as pl
+    POLARS_AVAILABLE = True
+except ImportError:
+    POLARS_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 

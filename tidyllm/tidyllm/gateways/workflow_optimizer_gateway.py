@@ -16,12 +16,21 @@ Purpose: Acts as an intelligent workflow consultant that:
 import asyncio
 import logging
 import json
+import uuid
 from typing import Dict, Any, Optional, List, Union
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
+import time
 
 from .base_gateway import BaseGateway, GatewayResponse, GatewayStatus, GatewayDependencies
+
+# CRITICAL: Import polars for DataFrame processing
+try:
+    import polars as pl
+    POLARS_AVAILABLE = True
+except ImportError:
+    POLARS_AVAILABLE = False
 
 logger = logging.getLogger(__name__)
 
