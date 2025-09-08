@@ -87,7 +87,14 @@ class TestS3Connectivity(unittest.TestCase):
         """Set up S3 client for tests."""
         if BOTO3_AVAILABLE:
             try:
-                self.s3_client = boto3.client('s3')
+                # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+                try:
+                    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                    session_manager = UnifiedSessionManager()
+                    self.s3_client = session_manager.get_s3_client()
+                except ImportError:
+                    # Fallback to direct boto3
+                    self.s3_client = boto3.client('s3')
             except Exception as e:
                 print(f"Failed to create S3 client: {e}")
                 self.s3_client = None
@@ -169,7 +176,14 @@ class TestS3Operations(unittest.TestCase):
         """Set up for S3 operations."""
         if BOTO3_AVAILABLE:
             try:
-                self.s3_client = boto3.client('s3')
+                # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+                try:
+                    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                    session_manager = UnifiedSessionManager()
+                    self.s3_client = session_manager.get_s3_client()
+                except ImportError:
+                    # Fallback to direct boto3
+                    self.s3_client = boto3.client('s3')
                 # Use a test bucket name that's likely to be available
                 self.test_bucket = self._find_test_bucket()
             except Exception:

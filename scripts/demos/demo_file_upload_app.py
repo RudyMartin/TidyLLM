@@ -36,8 +36,17 @@ class DocumentFileUploader:
     """Demo file uploader for documents from tidyllm-vectorqa documents folder"""
     
     def __init__(self):
-        self.s3_client = boto3.client('s3')
-        self.s3_resource = boto3.resource('s3')
+        # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+        try:
+            from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+            session_manager = UnifiedSessionManager()
+            self.s3_client = session_manager.get_s3_client()
+            session = session_manager._create_boto3_session()
+            self.s3_resource = session.resource('s3')
+        except ImportError:
+            # Fallback to direct boto3
+            self.s3_client = boto3.client('s3')
+            self.s3_resource = boto3.resource('s3')
         self.target_bucket = None
         
     def setup_s3_environment(self):

@@ -38,10 +38,22 @@ def upload_modeling_pdfs():
         print("[ERROR] No modeling folder found")
         return False
     
-    # Get existing session (no new boto3!)
+    # Get S3 client through UnifiedSessionManager
     try:
+        import sys
+        from pathlib import Path
+        sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+        from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+        
+        print("[SESSION] Using UnifiedSessionManager for S3 access")
+        session_manager = UnifiedSessionManager()
+        s3 = session_manager.get_s3_client()
+        print("[OK] Using unified AWS session")
+    except ImportError:
+        print("[SESSION] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+        import boto3
         s3 = boto3.client('s3')
-        print("[OK] Using existing AWS session")
+        print("[OK] Using direct AWS session")
     except Exception as e:
         print(f"[ERROR] Session issue: {e}")
         return False
