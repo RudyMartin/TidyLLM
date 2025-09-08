@@ -115,7 +115,7 @@ class GatewayRegistry:
             self.session_manager = UnifiedSessionManager()
             logger.info("Gateway Registry: UnifiedSessionManager integrated")
         except ImportError as e:
-            logger.warning(f"Gateway Registry: UnifiedSessionManager not available: {e}")
+            logger.debug(f"Gateway Registry: UnifiedSessionManager not available: {e}")
             self.session_manager = None
         
         # Register all available services

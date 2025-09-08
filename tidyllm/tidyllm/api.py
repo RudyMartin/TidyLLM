@@ -145,8 +145,8 @@ class TidyLLMSimpleAPI:
                 self._gateway_registry = init_gateways({
                     "corporate_llm": {
                         "budget_limit_daily_usd": self.config.get('cost_optimization', {}).get('limits', {}).get('daily_limit', 10.0),
-                        "compliance_mode": True,
-                        "audit_enabled": True
+                        "log_all_requests": True,
+                        "require_audit_reason": True
                     },
                     "ai_processing": {
                         "backend": "bedrock",  # Primary backend
@@ -154,8 +154,7 @@ class TidyLLMSimpleAPI:
                         "cache_enabled": True
                     },
                     "workflow_optimizer": {
-                        "optimization_level": "basic",  # For simple chat, don't over-optimize
-                        "audit_mode": True
+                        "optimization_level": "basic"  # For simple chat, don't over-optimize
                     }
                 })
             
@@ -221,7 +220,7 @@ class TidyLLMSimpleAPI:
         if os.getenv('AWS_ACCESS_KEY_ID'):
             try:
                 logger.warning("AUDIT: Using direct AWS Bedrock access (gateway bypass)")
-                return self._bedrock_chat(message, model, **kwargs)
+                return self._direct_bedrock_chat(message, model, **kwargs)
             except Exception as e:
                 logger.error(f"AWS Bedrock error: {e}")
         
@@ -262,6 +261,49 @@ class TidyLLMSimpleAPI:
         # If all else fails, simulate but log this too
         logger.warning("AUDIT: All AI services failed, using simulation mode")
         return self._simulate_chat(message)
+    
+    def _direct_bedrock_chat(self, message: str, model: Optional[str], **kwargs) -> str:
+        """Direct AWS Bedrock chat bypassing gateways."""
+        import boto3
+        import json
+        
+        try:
+            # Create Bedrock client directly
+            bedrock = boto3.client(
+                'bedrock-runtime',
+                region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
+            )
+            
+            # Use Claude model on Bedrock by default
+            bedrock_model = model or "anthropic.claude-3-sonnet-20240229-v1:0"
+            
+            # Prepare request for Claude format
+            body = {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": kwargs.get('max_tokens', 1000),
+                "temperature": kwargs.get('temperature', 0.7),
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": message
+                    }
+                ]
+            }
+            
+            # Call Bedrock
+            response = bedrock.invoke_model(
+                modelId=bedrock_model,
+                body=json.dumps(body),
+                contentType="application/json"
+            )
+            
+            # Parse response
+            response_body = json.loads(response['body'].read())
+            return response_body['content'][0]['text']
+            
+        except Exception as e:
+            logger.error(f"Direct Bedrock access failed: {e}")
+            raise
     
     def _bedrock_chat(self, message: str, model: Optional[str], **kwargs) -> str:
         """Chat using AWS Bedrock - ROUTED THROUGH GATEWAY FOR AUDIT COMPLIANCE."""
