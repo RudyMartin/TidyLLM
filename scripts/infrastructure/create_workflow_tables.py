@@ -5,17 +5,34 @@ Create TidyLLM-HeirOS workflow tables in PostgreSQL database
 import psycopg2
 from psycopg2.extras import RealDictCursor
 
+# Import UnifiedSessionManager for secure database connections
+try:
+    import sys
+    from pathlib import Path
+    sys.path.append(str(Path(__file__).parent))
+    from start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+
 def create_workflow_tables():
     """Create all TidyLLM-HeirOS workflow tables"""
     
-    conn = psycopg2.connect(
-        host='vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com',
-        port=5432,
-        database='vectorqa',
-        user='vectorqa_user', 
-        password='REMOVED_PASSWORD',
-        sslmode='require'
-    )
+    # SECURITY: Use UnifiedSessionManager instead of hardcoded credentials
+    if UNIFIED_SESSION_AVAILABLE:
+        print("Using UnifiedSessionManager for secure database access")
+        session_manager = UnifiedSessionManager()
+        conn = session_manager.get_postgres_connection()
+    else:
+        print("WARNING: Falling back to direct psycopg2 connection")
+        conn = psycopg2.connect(
+            host='vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com',
+            port=5432,
+            database='vectorqa',
+            user='vectorqa_user', 
+            password='REMOVED_PASSWORD',
+            sslmode='require'
+        )
     
     cursor = conn.cursor()
     

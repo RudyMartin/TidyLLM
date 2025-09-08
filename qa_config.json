@@ -1,0 +1,20 @@
+{
+  "revision_pattern": "^REV\\d{5,}$",
+  "poll_seconds": 3,
+  "max_batch": 5,
+  "excel_tabs": [
+    "core_checklist",
+    "custom_checklist",
+    "custom_prompts"
+  ],
+  "pipeline_stages": [
+    "qa_drop",
+    "qa_ingest",
+    "qa_extract",
+    "qa_embed",
+    "qa_index",
+    "qa_analysis",
+    "qa_reports",
+    "qa_logs"
+  ]
+}

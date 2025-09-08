@@ -4,7 +4,6 @@ Test S3 Upload Functionality
 """
 
 import os
-import boto3
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -16,6 +15,15 @@ from credential_loader import set_aws_environment
 # Load AWS credentials using centralized system
 set_aws_environment()
 
+# Import UnifiedSessionManager for audit-compliant session management
+try:
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    # Fallback to direct boto3 import if UnifiedSessionManager not available
+    import boto3
+    UNIFIED_SESSION_AVAILABLE = False
+
 def test_s3_upload():
     """Test S3 upload to nsc-mvp1 bucket"""
     
@@ -24,8 +32,15 @@ def test_s3_upload():
     print("=" * 60)
     
     try:
-        # Create S3 client
-        s3 = boto3.client('s3')
+        # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+        if UNIFIED_SESSION_AVAILABLE:
+            print("[TEST] Using UnifiedSessionManager for audit-compliant S3 access")
+            session_manager = UnifiedSessionManager()
+            s3 = session_manager.get_s3_client()
+        else:
+            print("[TEST] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+            import boto3
+            s3 = boto3.client('s3')
         
         # Test content
         test_content = f"TidyLLM S3 Test Upload\nTimestamp: {datetime.now().isoformat()}\nStatus: Testing AWS session restart"

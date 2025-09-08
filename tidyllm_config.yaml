@@ -1,0 +1,21 @@
+# TidyLLM Configuration
+# Auto-generated configuration file
+
+# QA Processing Settings
+qa:
+  watch_folder: './qa_files'
+  output_folder: './qa_reports'
+  config_folder: './qa_config'
+  mlflow_enabled: true
+
+# Model Settings  
+model:
+  default_provider: 'anthropic'
+  default_model: 'claude-3-sonnet'
+  experiment_prefix: 'tidyllm'
+
+# Integration Settings
+integrations:
+  aws_enabled: true
+  mlflow_enabled: true
+  database_enabled: false

@@ -1,0 +1,125 @@
+# Standard Pipeline Template
+# Reusable template for creating new workflow configs
+
+workflow_name: "${WORKFLOW_NAME}"
+workflow_id: "${WORKFLOW_ID}"
+description: "${WORKFLOW_DESCRIPTION}"
+created_by: "TidyLLM Config System"
+version: "1.0"
+
+# Template parameters (fill in when creating new workflow)
+parameters:
+  # Folder structure  
+  base_path: "drop_zones/${WORKFLOW_ID}"
+  source_folder: "${base_path}/incoming"
+  processing_folder: "${base_path}/processing"
+  output_folder: "${base_path}/reports"
+  completed_folder: "${base_path}/completed"
+  
+  # File handling
+  file_patterns: ["${FILE_PATTERNS}"]
+  
+  # Processing parameters
+  max_timeout: ${MAX_TIMEOUT}
+  retry_attempts: 3
+  parallel_processing: ${PARALLEL_PROCESSING}
+  
+  # Integration settings
+  s3_bucket: "${S3_BUCKET}"
+  s3_prefix: "${WORKFLOW_ID}"
+  mlflow_experiment: "${WORKFLOW_ID}_processing"
+
+# Standard gateway configuration
+gateways:
+  primary: "${PRIMARY_GATEWAY}"
+  secondary: "${SECONDARY_GATEWAY}"
+  specialized:
+    processing: "${PRIMARY_GATEWAY}"
+    reporting: "${SECONDARY_GATEWAY}"
+    storage: "heiros"
+
+# Template stages (customize as needed)
+stages:
+  
+  # Stage 1: Intake
+  intake:
+    description: "File intake and initial validation"
+    drop_zone: "${parameters.source_folder}"
+    output_zone: "${parameters.base_path}/intake"
+    
+    operations:
+      - name: "validate_input_files"
+        gateway: "${gateways.primary}"
+        instruction: "Validate input files match expected patterns"
+        timeout: "${parameters.max_timeout}"
+        
+      - name: "create_processing_record"
+        gateway: "${gateways.specialized.storage}"
+        instruction: "Create processing audit record"
+        depends_on: ["validate_input_files"]
+    
+    routing:
+      - condition: "validation_passed == true"
+        destination: "${parameters.base_path}/process"
+        action: "move_file"
+
+  # Stage 2: Process  
+  process:
+    description: "Main processing stage"
+    drop_zone: "${parameters.base_path}/intake"
+    output_zone: "${parameters.base_path}/process"
+    
+    operations:
+      - name: "main_processing"
+        gateway: "${gateways.primary}"
+        instruction: "${MAIN_PROCESSING_INSTRUCTION}"
+        timeout: "${parameters.max_timeout}"
+        
+      - name: "quality_check"
+        gateway: "${gateways.secondary}"
+        instruction: "Validate processing results"
+        depends_on: ["main_processing"]
+    
+    routing:
+      - condition: "processing_complete == true"
+        destination: "${parameters.base_path}/report"
+        action: "move_file"
+
+  # Stage 3: Report
+  report:
+    description: "Generate final outputs and reports"
+    drop_zone: "${parameters.base_path}/process"
+    output_zone: "${parameters.output_folder}"
+    
+    operations:
+      - name: "generate_report"
+        gateway: "${gateways.specialized.reporting}"
+        instruction: "Generate final report"
+        timeout: "${parameters.max_timeout}"
+        
+      - name: "archive_results"
+        gateway: "${gateways.specialized.storage}"
+        instruction: "Archive to ${parameters.completed_folder}/YYYY-MM-DD/"
+        depends_on: ["generate_report"]
+    
+    routing:
+      - condition: "all_outputs_complete == true"
+        destination: "${parameters.completed_folder}"
+        action: "archive_with_date"
+
+# Standard monitoring and quality control
+monitoring:
+  progress_updates: true
+  processing_metrics: true
+  error_notifications: true
+  
+quality_gates:
+  input_validation: required
+  processing_validation: required
+  output_validation: required
+
+# Standard error handling
+error_handling:
+  max_retries: "${parameters.retry_attempts}"
+  fallback_gateway: "${gateways.secondary}"
+  error_queue: "${parameters.base_path}/failed/"

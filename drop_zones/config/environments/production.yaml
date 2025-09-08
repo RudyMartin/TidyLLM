@@ -1,0 +1,60 @@
+# Production Environment Configuration
+# Overrides default workflow parameters for production deployment
+
+environment: "production"
+description: "Production environment with enhanced security and performance"
+
+# Global parameter overrides
+parameters:
+  # Performance settings
+  max_timeout: 600        # Longer timeouts in production
+  retry_attempts: 5       # More retries for reliability
+  parallel_processing: true
+  
+  # Security settings  
+  audit_trail_required: true
+  encryption_required: true
+  
+  # S3 settings (production bucket)
+  s3_bucket: "nsc-prod-bucket" 
+  s3_prefix: "prod"
+  
+  # Database settings (production endpoint)
+  postgres_host: "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com"
+  postgres_database: "prod_mlflow"
+
+# Gateway overrides (production gateways)
+gateways:
+  primary: "production-dspy"
+  secondary: "production-llm"
+  specialized:
+    excel_processing: "production-heiros"
+    embedding_generation: "production-dspy"
+    report_generation: "production-llm" 
+    audit_tracking: "production-heiros"
+
+# Enhanced monitoring for production
+monitoring:
+  progress_updates: true
+  audit_logging: true
+  error_notifications: true
+  processing_metrics: true
+  performance_tracking: true
+  security_monitoring: true
+  
+# Stricter quality gates for production  
+quality_gates:
+  excel_structure_validation: required
+  content_extraction_validation: required
+  embedding_quality_check: required
+  report_format_validation: required
+  security_scan: required
+  performance_benchmark: required
+
+# Production error handling
+error_handling:
+  max_retries: 5
+  fallback_gateway: "production-llm"
+  error_queue: "prod/error_review/"
+  notification_webhook: "https://prod-alerts.tidyllm.com/qa_control"
+  escalation_threshold: 3

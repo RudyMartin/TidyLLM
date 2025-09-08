@@ -12,6 +12,13 @@ from datetime import datetime
 from enum import Enum
 import logging
 
+# CRITICAL: Import polars for DataFrame processing at all gateway stages
+try:
+    import polars as pl
+    POLARS_AVAILABLE = True
+except ImportError:
+    POLARS_AVAILABLE = False
+
 if TYPE_CHECKING:
     from . import AIProcessingGateway, CorporateLLMGateway, WorkflowOptimizerGateway
 
@@ -128,9 +135,242 @@ class BaseGateway(ABC):
         self.config = config
         self.name = self.__class__.__name__
         
+        # INTEGRATION: UnifiedSessionManager support
+        self.session_manager = None
+        
         # Initialize dependency configuration
         self.dependencies = self._get_default_dependencies()
         self._resolve_dependencies()
+    
+    def set_session_manager(self, session_manager):
+        """
+        Inject UnifiedSessionManager for consistent session handling.
+        
+        Args:
+            session_manager: UnifiedSessionManager instance
+        """
+        self.session_manager = session_manager
+        logger.info(f"UnifiedSessionManager set for {self.name}")
+    
+    def get_s3_client(self):
+        """Get S3 client through UnifiedSessionManager if available."""
+        if self.session_manager:
+            return self.session_manager.get_s3_client()
+        else:
+            # Fallback to direct boto3
+            import boto3
+            return boto3.client('s3')
+    
+    def get_postgres_connection(self):
+        """Get PostgreSQL connection through UnifiedSessionManager if available."""
+        if self.session_manager:
+            return self.session_manager.get_postgres_connection()
+        else:
+            # Fallback would need to be implemented by subclass
+            raise NotImplementedError("No session manager available and no fallback implemented")
+    
+    def create_stage_dataframe(self, data: Dict[str, Any], stage_name: str) -> Optional['pl.DataFrame']:
+        """
+        Create polars DataFrame for gateway stage processing.
+        
+        Args:
+            data: Dictionary of data to convert to DataFrame
+            stage_name: Name of the gateway stage
+            
+        Returns:
+            polars DataFrame or None if polars not available
+        """
+        if not POLARS_AVAILABLE:
+            logger.warning(f"Polars not available for {stage_name} DataFrame processing")
+            return None
+            
+        try:
+            # Add metadata columns for audit trail
+            df_data = {
+                "stage": [stage_name],
+                "gateway": [self.name],
+                "timestamp": [datetime.now().isoformat()],
+                "request_id": [data.get("request_id", "unknown")]
+            }
+            
+            # Add all data fields as columns
+            for key, value in data.items():
+                if isinstance(value, (str, int, float, bool)):
+                    df_data[key] = [value]
+                elif isinstance(value, (list, tuple)):
+                    df_data[key] = [str(value)]  # Convert complex types to string
+                else:
+                    df_data[key] = [str(value)]
+            
+            return pl.DataFrame(df_data)
+            
+        except Exception as e:
+            logger.error(f"Failed to create DataFrame for {stage_name}: {e}")
+            return None
+    
+    def persist_stage_data(self, df: 'pl.DataFrame', stage_name: str, request_id: str) -> bool:
+        """
+        Persist polars DataFrame for this gateway stage.
+        
+        Args:
+            df: polars DataFrame to persist
+            stage_name: Name of the gateway stage
+            request_id: Unique request identifier
+            
+        Returns:
+            True if successful, False otherwise
+        """
+        if not POLARS_AVAILABLE or df is None:
+            return False
+            
+        try:
+            if self.session_manager:
+                # Persist to S3 as Parquet (polars native format)
+                s3_client = self.get_s3_client()
+                s3_key = f"gateway_data/{stage_name}/{request_id}/stage_data.parquet"
+                
+                # Convert DataFrame to bytes
+                parquet_bytes = df.write_parquet()
+                
+                # Upload to S3
+                s3_client.put_object(
+                    Bucket="nsc-mvp1",  # Default bucket
+                    Key=s3_key,
+                    Body=parquet_bytes,
+                    ContentType="application/parquet"
+                )
+                
+                logger.info(f"Persisted {stage_name} DataFrame to s3://nsc-mvp1/{s3_key}")
+                return True
+                
+            else:
+                logger.warning(f"No session manager - cannot persist {stage_name} DataFrame")
+                return False
+                
+        except Exception as e:
+            logger.error(f"S3 persistence failed for {stage_name} DataFrame: {e}")
+            
+            # CRITICAL: Local backup when S3 is down - NO DATA LOSS
+            try:
+                import os
+                from pathlib import Path
+                
+                # Create local backup directory
+                backup_dir = Path("gateway_data_backup") / stage_name / request_id
+                backup_dir.mkdir(parents=True, exist_ok=True)
+                
+                # Save DataFrame locally as Parquet
+                local_file = backup_dir / "stage_data.parquet"
+                df.write_parquet(local_file)
+                
+                # Save metadata about the failure
+                metadata_file = backup_dir / "backup_metadata.json"
+                import json
+                metadata = {
+                    "timestamp": datetime.now().isoformat(),
+                    "stage": stage_name,
+                    "request_id": request_id,
+                    "s3_error": str(e),
+                    "backup_location": str(local_file),
+                    "status": "s3_failed_local_backup"
+                }
+                
+                with open(metadata_file, 'w') as f:
+                    json.dump(metadata, f, indent=2)
+                
+                logger.warning(f"S3 DOWN - DataFrame backed up locally: {local_file}")
+                logger.info(f"Local backup metadata: {metadata_file}")
+                
+                return True  # Data is safe in local backup
+                
+            except Exception as backup_error:
+                logger.error(f"CRITICAL: Both S3 and local backup failed for {stage_name}: {backup_error}")
+                return False
+    
+    def sync_local_backups_to_s3(self) -> Dict[str, Any]:
+        """
+        Sync local backup files to S3 when connection is restored.
+        
+        Returns:
+            Dictionary with sync results
+        """
+        if not POLARS_AVAILABLE:
+            return {"status": "polars_unavailable"}
+            
+        from pathlib import Path
+        import json
+        
+        backup_root = Path("gateway_data_backup")
+        if not backup_root.exists():
+            return {"status": "no_backups", "message": "No local backup directory found"}
+        
+        sync_results = {
+            "status": "completed",
+            "synced_files": [],
+            "failed_files": [],
+            "total_files": 0
+        }
+        
+        try:
+            # Find all backup metadata files
+            metadata_files = list(backup_root.rglob("backup_metadata.json"))
+            sync_results["total_files"] = len(metadata_files)
+            
+            for metadata_file in metadata_files:
+                try:
+                    with open(metadata_file, 'r') as f:
+                        metadata = json.load(f)
+                    
+                    # Check if this is a pending backup
+                    if metadata.get("status") == "s3_failed_local_backup":
+                        parquet_file = Path(metadata["backup_location"])
+                        
+                        if parquet_file.exists():
+                            # Try to upload to S3
+                            if self.session_manager:
+                                s3_client = self.get_s3_client()
+                                s3_key = f"gateway_data/{metadata['stage']}/{metadata['request_id']}/stage_data.parquet"
+                                
+                                with open(parquet_file, 'rb') as f:
+                                    s3_client.put_object(
+                                        Bucket="nsc-mvp1",
+                                        Key=s3_key,
+                                        Body=f.read(),
+                                        ContentType="application/parquet"
+                                    )
+                                
+                                # Update metadata to mark as synced
+                                metadata["status"] = "synced_to_s3"
+                                metadata["sync_timestamp"] = datetime.now().isoformat()
+                                metadata["s3_location"] = f"s3://nsc-mvp1/{s3_key}"
+                                
+                                with open(metadata_file, 'w') as f:
+                                    json.dump(metadata, f, indent=2)
+                                
+                                sync_results["synced_files"].append({
+                                    "local_file": str(parquet_file),
+                                    "s3_location": f"s3://nsc-mvp1/{s3_key}",
+                                    "stage": metadata['stage'],
+                                    "request_id": metadata['request_id']
+                                })
+                                
+                                logger.info(f"Synced backup to S3: {s3_key}")
+                                
+                except Exception as file_error:
+                    sync_results["failed_files"].append({
+                        "file": str(metadata_file),
+                        "error": str(file_error)
+                    })
+                    logger.error(f"Failed to sync backup file {metadata_file}: {file_error}")
+            
+            logger.info(f"Backup sync completed: {len(sync_results['synced_files'])} files synced, {len(sync_results['failed_files'])} failed")
+            
+        except Exception as e:
+            sync_results["status"] = "error"
+            sync_results["error"] = str(e)
+            logger.error(f"Backup sync process failed: {e}")
+        
+        return sync_results
         
         # Validate after dependencies are resolved
         self._validate_config()
