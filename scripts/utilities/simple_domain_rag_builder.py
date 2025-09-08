@@ -9,26 +9,41 @@ Now supports S3 source with existing session management.
 
 import os
 import json
-import boto3
 import sys
 from pathlib import Path
 from datetime import datetime
+
+# Import UnifiedSessionManager for centralized session management
+try:
+    sys.path.append(str(Path(__file__).parent.parent.parent))
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+    import boto3  # Fallback only
 
 # Add admin directory to path for credential loading
 sys.path.append(str(Path(__file__).parent / 'tidyllm' / 'admin'))
 from credential_loader import set_aws_environment
 
 def sync_from_s3_to_local():
-    """Sync S3 knowledge base to local folders using centralized credential management"""
+    """Sync S3 knowledge base to local folders using centralized session management"""
     
     print("S3 SYNC: Downloading from S3 to local folders...")
     
-    # Load AWS credentials using centralized system
-    num_vars_set = set_aws_environment(verbose=True)
-    print(f"[CREDENTIALS] Set {num_vars_set} AWS environment variables")
+    # Use UnifiedSessionManager for S3 access
+    if UNIFIED_SESSION_AVAILABLE:
+        print("[SESSION] Using UnifiedSessionManager for S3 access")
+        session_manager = UnifiedSessionManager()
+        s3 = session_manager.get_s3_client()
+    else:
+        # Fallback to direct boto3 with credential loading
+        print("[SESSION] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+        num_vars_set = set_aws_environment(verbose=True)
+        print(f"[CREDENTIALS] Set {num_vars_set} AWS environment variables")
+        s3 = boto3.client('s3')
     
     try:
-        s3 = boto3.client('s3')
         bucket = s3_config["bucket"]
         base_prefix = build_s3_path("knowledge_base", "")
         
@@ -53,10 +68,21 @@ def sync_from_s3_to_local():
                 result = subprocess.run(['python', '-c', f'''
 import boto3
 import os
-# Credentials already loaded by centralized system
-# Credentials already loaded by centralized system
+import sys
+from pathlib import Path
 
-s3 = boto3.client("s3")
+# Use UnifiedSessionManager for S3 access
+try:
+    sys.path.append(str(Path(__file__).parent.parent.parent))
+    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    session_manager = UnifiedSessionManager()
+    s3 = session_manager.get_s3_client()
+    print("[SESSION] Using UnifiedSessionManager for S3 access")
+except ImportError:
+    # Fallback to direct boto3
+    import boto3
+    s3 = boto3.client("s3")
+    print("[SESSION] Fallback to direct boto3")
 bucket = s3_config["bucket"]
 prefix = "{s3_prefix}"
 

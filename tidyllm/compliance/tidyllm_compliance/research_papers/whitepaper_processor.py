@@ -352,7 +352,14 @@ class WhitepaperProcessor:
             if not bucket_name:
                 return {"success": False, "message": "S3 bucket not configured"}
             
-            s3_client = boto3.client('s3')
+            # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+            try:
+                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                session_manager = UnifiedSessionManager()
+                s3_client = session_manager.get_s3_client()
+            except ImportError:
+                # Fallback to direct boto3
+                s3_client = boto3.client('s3')
             
             # Upload PDF
             pdf_key = f"{prefix}papers/{Path(metadata.file_path).name}"

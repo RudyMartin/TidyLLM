@@ -1,34 +1,39 @@
 #!/usr/bin/env python3
 """
-
-# Centralized AWS credential management
-import sys
-from pathlib import Path
-
-# Add admin directory to path for credential loading
-sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
-from credential_loader import set_aws_environment
-
-# Load AWS credentials using centralized system
-set_aws_environment()
 Check S3 bucket for papers count and details
 """
-import boto3
+import sys
 import os
+from pathlib import Path
 from datetime import datetime
 
+# Import UnifiedSessionManager for centralized session management
+try:
+    sys.path.append(str(Path(__file__).parent))
+    from start_unified_sessions import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+    # Fallback to direct boto3 with credential loading
+    sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
+    from credential_loader import set_aws_environment
+    import boto3
+
 def check_s3_papers():
-    # Set AWS credentials
-    
-    
-    
-    
     try:
         print("="*80)
         print("S3 BUCKET ANALYSIS: nsc-mvp1/papers/papers/")
         print("="*80)
         
-        s3 = boto3.client('s3')
+        # Use UnifiedSessionManager for S3 access
+        if UNIFIED_SESSION_AVAILABLE:
+            print("[SESSION] Using UnifiedSessionManager for S3 access")
+            session_manager = UnifiedSessionManager()
+            s3 = session_manager.get_s3_client()
+        else:
+            print("[SESSION] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+            set_aws_environment()
+            s3 = boto3.client('s3')
         bucket = s3_config["bucket"]
         prefix = 'papers/papers/'
         

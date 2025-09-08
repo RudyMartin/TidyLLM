@@ -69,15 +69,32 @@ class SmartFileUploader:
             return False
     
     def setup_s3_client(self) -> bool:
-        """Setup S3 client using configuration"""
+        """Setup S3 client using UnifiedSessionManager"""
         print("\n2. Setting up S3 client...")
         
         try:
-            # Initialize S3 client with region from settings
-            region = self.s3_config.get('region', 'us-east-1')
-            
-            self.s3_client = boto3.client('s3', region_name=region)
-            self.s3_resource = boto3.resource('s3', region_name=region)
+            # Try UnifiedSessionManager first
+            try:
+                import sys
+                from pathlib import Path
+                sys.path.append(str(Path(__file__).parent.parent.parent))
+                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                
+                print("   [SESSION] Using UnifiedSessionManager for S3 access")
+                session_manager = UnifiedSessionManager()
+                self.s3_client = session_manager.get_s3_client()
+                
+                # For resource operations, use the same session
+                import boto3
+                session = session_manager._create_boto3_session()
+                self.s3_resource = session.resource('s3')
+                
+            except ImportError:
+                print("   [SESSION] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
+                # Fallback to direct boto3
+                region = self.s3_config.get('region', 'us-east-1')
+                self.s3_client = boto3.client('s3', region_name=region)
+                self.s3_resource = boto3.resource('s3', region_name=region)
             
             # Test connection by listing buckets
             response = self.s3_client.list_buckets()

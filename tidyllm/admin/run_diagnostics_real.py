@@ -217,9 +217,17 @@ def test_aws_credentials():
         
         start_time = time.time()
         
-        # Try to get caller identity
+        # Try to get caller identity using UnifiedSessionManager
         try:
-            sts = boto3.client('sts')
+            # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+            try:
+                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                session_manager = UnifiedSessionManager()
+                sts = session_manager._create_boto3_session().client('sts')
+            except ImportError:
+                # Fallback to direct boto3
+                sts = boto3.client('sts')
+                
             identity = sts.get_caller_identity()
             response_time = (time.time() - start_time) * 1000
             

@@ -65,7 +65,14 @@ class HierarchicalDomainRAGBuilder:
         
         self.bucket_name = bucket_name
         self.kb_prefix = knowledge_base_prefix
-        self.s3_client = boto3.client('s3')
+        # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+        try:
+            from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+            session_manager = UnifiedSessionManager()
+            self.s3_client = session_manager.get_s3_client()
+        except ImportError:
+            # Fallback to direct boto3
+            self.s3_client = boto3.client('s3')
         
         # Initialize compliance validators
         self.yrsn_analyzer = YRSNNoiseAnalyzer() if YRSNNoiseAnalyzer and enable_compliance_validation else None

@@ -31,7 +31,14 @@ def setup_aws_credentials():
 def test_s3_connection():
     """Test S3 connection"""
     try:
-        s3 = boto3.client('s3')
+        # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
+        try:
+            from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+            session_manager = UnifiedSessionManager()
+            s3 = session_manager.get_s3_client()
+        except ImportError:
+            # Fallback to direct boto3
+            s3 = boto3.client('s3')
         response = s3.list_buckets()
         
         buckets = response.get('Buckets', [])
