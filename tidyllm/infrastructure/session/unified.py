@@ -592,6 +592,103 @@ class UnifiedSessionManager:
             }
         }
     
+    def test_connection(self, service: str = "all") -> dict:
+        """Test connections to specified services with detailed results."""
+        import time
+        results = {}
+        
+        if service in ["all", "s3"]:
+            results["s3"] = self._test_s3_connection()
+        
+        if service in ["all", "bedrock"]:
+            results["bedrock"] = self._test_bedrock_connection()
+        
+        if service in ["all", "postgres"]:
+            results["postgres"] = self._test_postgres_connection()
+        
+        return results
+
+    def _test_s3_connection(self) -> dict:
+        """Test S3 connection with timing and details."""
+        import time
+        start_time = time.time()
+        
+        try:
+            s3_client = self.get_s3_client()
+            response = s3_client.list_buckets()
+            duration_ms = (time.time() - start_time) * 1000
+            
+            return {
+                "status": "success",
+                "duration_ms": round(duration_ms, 1),
+                "bucket_count": len(response.get("Buckets", [])),
+                "message": f"S3 connected successfully ({duration_ms:.1f}ms)"
+            }
+        except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            return {
+                "status": "failed",
+                "duration_ms": round(duration_ms, 1),
+                "error": str(e),
+                "message": f"S3 connection failed: {str(e)}"
+            }
+
+    def _test_bedrock_connection(self) -> dict:
+        """Test Bedrock connection with timing and details."""
+        import time
+        start_time = time.time()
+        
+        try:
+            bedrock_client = self.get_bedrock_client()
+            # Test with a minimal model list call
+            response = bedrock_client.list_foundation_models()
+            duration_ms = (time.time() - start_time) * 1000
+            
+            return {
+                "status": "success", 
+                "duration_ms": round(duration_ms, 1),
+                "model_count": len(response.get("modelSummaries", [])),
+                "message": f"Bedrock connected successfully ({duration_ms:.1f}ms)"
+            }
+        except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            return {
+                "status": "failed",
+                "duration_ms": round(duration_ms, 1),
+                "error": str(e),
+                "message": f"Bedrock connection failed: {str(e)}"
+            }
+
+    def _test_postgres_connection(self) -> dict:
+        """Test PostgreSQL connection with timing and details."""
+        import time
+        start_time = time.time()
+        
+        try:
+            conn = self.get_postgres_connection()
+            cursor = conn.cursor()
+            cursor.execute("SELECT 1")
+            result = cursor.fetchone()
+            cursor.close()
+            self.return_postgres_connection(conn)
+            
+            duration_ms = (time.time() - start_time) * 1000
+            return {
+                "status": "success",
+                "duration_ms": round(duration_ms, 1),
+                "test_query": "SELECT 1",
+                "result": result[0] if result else None,
+                "message": f"PostgreSQL connected successfully ({duration_ms:.1f}ms)"
+            }
+        except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            return {
+                "status": "failed",
+                "duration_ms": round(duration_ms, 1),
+                "error": str(e),
+                "message": f"PostgreSQL connection failed: {str(e)}"
+            }
+    
     def cleanup(self):
         """Clean up connections"""
         if self._postgres_pool:
