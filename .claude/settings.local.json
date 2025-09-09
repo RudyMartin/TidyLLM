@@ -123,7 +123,14 @@
       "Bash(dir:*)",
       "Bash(tree:*)",
       "Bash(cp:*)",
-      "Bash(PYTHONPATH=.. python run_critical_tests.py)"
+      "Bash(PYTHONPATH=.. python run_critical_tests.py)",
+      "Bash(tidyllm/admin/set_aws_env.bat)",
+      "Bash(echo:*)",
+      "Bash(tidyllmadminset_aws_env.bat)",
+      "Bash(/bashes)",
+      "Bash(export AWS_ACCESS_KEY_ID=REMOVED_AWS_KEY)",
+      "Bash(export AWS_SECRET_ACCESS_KEY=REMOVED_AWS_SECRET)",
+      "Bash(export:*)"
     ],
     "deny": [],
     "ask": []

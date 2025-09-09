@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 TidyLLM Command Line Interface
 Main entry point for tidyllm command with help and subcommands
 """

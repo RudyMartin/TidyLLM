@@ -1,4 +1,9 @@
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 Knowledge MCP Server - MCP Resource Provider Implementation
 ==========================================================
 🚀 CORE ENTERPRISE GATEWAY #4 - Knowledge & Context Layer

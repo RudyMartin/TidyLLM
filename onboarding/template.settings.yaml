@@ -269,3 +269,104 @@ deployment:
       - "s3:PutObject"
       - "kms:Encrypt"
       - "kms:Decrypt"
+
+# =============================================================================
+# CONFIGURATION MANAGEMENT (Template → Production Workflow)
+# =============================================================================
+configuration:
+  # Template processing settings
+  template:
+    source_file: "template.settings.yaml"
+    version: "1.0.4"
+    last_updated: "2025-09-09"
+  
+  # Output settings for generated production config
+  output:
+    # Default locations (in order of preference)
+    target_locations:
+      - path: "./settings.yaml"               # Current directory (highest priority)
+        description: "Local development config"
+        permissions: "0600"                   # Owner read/write only
+        backup: true
+        
+      - path: "../settings.yaml"             # Repository root
+        description: "Repository-level config"
+        permissions: "0600"
+        backup: true
+        
+      - path: "../tidyllm/admin/settings.yaml"  # Admin folder
+        description: "Admin management config"
+        permissions: "0600"
+        backup: true
+        
+      - path: "~/.tidyllm/settings.yaml"     # User home (corporate standard)
+        description: "User profile config"
+        permissions: "0600"
+        backup: true
+        create_directory: true
+        
+      - path: "/etc/tidyllm/settings.yaml"   # System-wide (Linux/corporate)
+        description: "System-wide config (requires sudo)"
+        permissions: "0644" 
+        owner: "root:tidyllm"
+        backup: true
+        create_directory: true
+    
+    # Default selection (can be overridden by user)
+    default_target: "./settings.yaml"
+    
+    # Backup settings
+    backup:
+      enabled: true
+      format: "settings_backup_{timestamp}.yaml"
+      retention_days: 30
+      location: "./backups/"
+  
+  # Generation settings
+  generation:
+    # Credential collection method
+    credential_input:
+      method: "interactive"  # Options: interactive, env_vars, file, vault
+      validation: true       # Validate credentials during input
+      mask_display: true     # Mask sensitive values in UI
+    
+    # Security settings for generated file
+    security:
+      file_permissions: "0600"  # Owner read/write only (critical for credentials)
+      create_backup: true
+      encrypt_at_rest: false     # Set true for corporate environments
+      
+    # Post-generation actions
+    post_generation:
+      test_connectivity: true    # Test AWS/DB connections after generation
+      validate_config: true     # Validate YAML structure
+      create_logs_directory: true
+      
+  # Corporate deployment options
+  deployment_modes:
+    development:
+      target: "./settings.yaml"
+      permissions: "0600"
+      backup: true
+      test_mode: true
+      
+    staging:
+      target: "../settings.yaml" 
+      permissions: "0600"
+      backup: true
+      validation_required: true
+      
+    production:
+      target: "/etc/tidyllm/settings.yaml"
+      permissions: "0644"
+      owner: "root:tidyllm"
+      backup: true
+      validation_required: true
+      approval_required: true
+      
+    corporate:
+      target: "~/.tidyllm/settings.yaml"
+      permissions: "0600" 
+      backup: true
+      encryption_required: true
+      audit_logging: true

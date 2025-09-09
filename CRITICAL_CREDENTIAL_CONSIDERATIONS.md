@@ -150,10 +150,12 @@ Before suggesting or implementing changes:
 
 ---
 
-## 🔄 **AUTOMATIC SESSION RECOVERY**
+## 🔄 **AUTOMATIC SESSION RECOVERY - ENHANCED 2025-09-09**
 
-### **✅ CRITICAL: UnifiedSessionManager Auto-Recovery**
-The UnifiedSessionManager **automatically restores connections** when AWS sessions are restarted:
+### **✅ CRITICAL: UnifiedSessionManager Auto-Recovery NOW WITH:**
+1. **Path-Independent Settings Discovery** - Works from ANY directory
+2. **Dynamic Credential Loading** - Auto-detects new AWS fields in settings.yaml
+3. **Automatic Fallback Chain** - No environment variables needed!
 
 #### **Auto-Recovery Process** (`tidyllm/infrastructure/session/unified.py`):
 ```python
@@ -180,16 +182,45 @@ def get_bedrock_client(self):
 2. Automatically detects best available credentials on restart
 3. Health checks validate all connections (`check_health()` - Line 463)
 
-#### **Session Restart Process**:
+#### **NEW Path-Independent Settings Discovery** (Lines 212-250):
+```python
+# Searches upward from ANY directory to find settings.yaml
+# Works from C:\Users\marti\Documents or /home/user/projects/deep/nested
+for _ in range(5):  # Search up to 5 levels up
+    potential_paths = [
+        current_dir / "tidyllm" / "admin" / "settings.yaml",
+        current_dir / "admin" / "settings.yaml",
+        current_dir / "settings.yaml",
+    ]
+# Fallback to explicit paths if not found
+Path.home() / "github" / "tidyllm" / "admin" / "settings.yaml"
+```
+
+#### **NEW Dynamic Credential Loading** (Lines 256-288):
+```python
+# Auto-detects ANY AWS field variations in settings.yaml
+for key, value in aws_config.items():
+    if key in ['access_key_id', 'aws_access_key_id', 'access_key']:
+        self.config.s3_access_key_id = value
+    elif key in ['secret_access_key', 'aws_secret_access_key', 'secret_key']:
+        self.config.s3_secret_access_key = value
+    # ... auto-maps all variations
+
+# Also checks api_keys section for legacy support
+api_keys = settings.get('api_keys', {})
+```
+
+#### **Session Restart - NO ENVIRONMENT VARIABLES NEEDED**:
 ```bash
-# User runs this to restart AWS session:
-tidyllm\admin\set_aws_env.bat
+# Just run your app from ANYWHERE:
+cd /any/random/directory
+streamlit run app.py
 
 # UnifiedSessionManager automatically:
-# 1. Detects new environment variables
-# 2. Re-initializes S3 and Bedrock clients  
-# 3. Validates connections with health checks
-# 4. Provides thread-safe access to restored connections
+# 1. Searches upward to find settings.yaml
+# 2. Dynamically loads ALL AWS fields
+# 3. Creates S3 and Bedrock clients with settings credentials
+# 4. Falls back to environment variables if settings not found
 ```
 
 ### **🚨 DO NOT MODIFY THESE AUTO-RECOVERY FUNCTIONS**:

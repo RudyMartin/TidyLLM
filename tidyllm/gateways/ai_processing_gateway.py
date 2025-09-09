@@ -1,4 +1,9 @@
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 AI Processing Gateway - Multi-Model AI Processing Engine
 =======================================================
 🚀 CORE ENTERPRISE GATEWAY #2 - AI Processing Layer

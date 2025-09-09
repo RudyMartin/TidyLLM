@@ -1,0 +1,31 @@
+Test Document for TidyLLM Onboarding Kit
+==========================================
+
+This is a test document to verify the functionality of the TidyLLM Corporate Onboarding Kit.
+
+Key Features to Test:
+- Document upload and processing
+- DomainRAG knowledge extraction
+- Chat interaction with AI models
+- Workflow execution and validation
+
+Technical Details:
+- Model Validation Report compliance
+- Quality assurance standards
+- Corporate security requirements
+- Integration with external services
+
+Test Case Scenarios:
+1. Connection testing for all 5 external services
+2. File upload and AI chat interaction
+3. Domain knowledge creation and CRUD operations
+4. YAML workflow editing and AI Manager setup
+5. End-to-end workflow execution
+6. Real-time dashboard monitoring
+
+This document contains various types of content to test the system's ability to:
+- Extract structured information
+- Generate semantic embeddings
+- Perform knowledge retrieval
+- Execute business workflows
+- Monitor system performance
