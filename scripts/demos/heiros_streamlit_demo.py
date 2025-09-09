@@ -17,7 +17,7 @@ from plotly.subplots import make_subplots
 
 # Import TidyLLM database integration
 try:
-    from tidyllm.tidyllm.database_integration import DatabaseManager, DatabaseConfig
+    from tidyllm.database_integration import DatabaseManager, DatabaseConfig
     TIDYLLM_DB_AVAILABLE = True
 except ImportError:
     # Fallback to direct psycopg2 if TidyLLM not available
