@@ -1,4 +1,9 @@
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 Workflow Optimizer Gateway - Workflow Intelligence Engine
 =========================================================
 🚀 CORE ENTERPRISE GATEWAY #3 - Workflow Intelligence Layer

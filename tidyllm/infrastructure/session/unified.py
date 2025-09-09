@@ -210,33 +210,80 @@ class UnifiedSessionManager:
             logger.info("[OK] Found AWS credentials in environment")
     
     def _load_from_settings(self):
-        """Load from tidyllm settings files"""
-        settings_paths = [
-            Path("tidyllm/admin/settings.yaml"),  # Real admin settings file first
-            Path("../tidyllm/admin/settings.yaml"),  # From subdirectory (e.g., onboarding)
-            Path("tidyllm/tidyllm/admin/settings.yaml"),  # Alternative path
-            Path("admin/settings.yaml"),  # Direct admin folder
-            Path("tidyllm/admin/embeddings_settings.yaml"),  # Legacy fallback
-            Path("settings.yaml"),  # Root level
-            Path("config.yaml")  # Generic fallback
-        ]
+        """Load from tidyllm settings files - search upward from current directory"""
+        # Start from current directory and search upward for settings.yaml
+        current_dir = Path.cwd()
+        settings_file = None
         
-        for path in settings_paths:
-            if path.exists():
-                try:
-                    with open(path) as f:
-                        settings = yaml.safe_load(f) if YAML_AVAILABLE else {}
+        # Search up to 5 levels up from current directory
+        for _ in range(5):
+            potential_paths = [
+                current_dir / "tidyllm" / "admin" / "settings.yaml",
+                current_dir / "admin" / "settings.yaml",
+                current_dir / "settings.yaml",
+            ]
+            
+            for path in potential_paths:
+                if path.exists():
+                    settings_file = path
+                    break
+            
+            if settings_file:
+                break
+                
+            # Move up one directory
+            parent = current_dir.parent
+            if parent == current_dir:  # Reached root
+                break
+            current_dir = parent
+        
+        # If not found by searching up, try explicit paths
+        if not settings_file:
+            fallback_paths = [
+                Path.home() / "github" / "tidyllm" / "admin" / "settings.yaml",
+                Path("C:/Users/marti/github/tidyllm/admin/settings.yaml"),
+            ]
+            for path in fallback_paths:
+                if path.exists():
+                    settings_file = path
+                    break
+        
+        if settings_file and settings_file.exists():
+            try:
+                with open(settings_file) as f:
+                    settings = yaml.safe_load(f) if YAML_AVAILABLE else {}
                     
-                    # Extract AWS settings
+                    # Dynamic AWS settings extraction - auto-detect all AWS fields
                     aws_config = settings.get('aws', {})
-                    if aws_config.get('default_bucket'):
-                        self.config.s3_default_bucket = aws_config['default_bucket']
                     
-                    # Load AWS credentials from settings if not in environment
-                    if not self.config.s3_access_key_id and aws_config.get('access_key_id'):
-                        self.config.s3_access_key_id = aws_config['access_key_id']
-                        self.config.s3_secret_access_key = aws_config.get('secret_access_key')
-                        self.config.s3_region = aws_config.get('region', 'us-east-1')
+                    # Dynamically load any AWS-related fields  
+                    for key, value in aws_config.items():
+                        if value:  # Only set non-empty values
+                            # Map common variations to standardized config fields
+                            if key in ['access_key_id', 'aws_access_key_id', 'access_key']:
+                                self.config.s3_access_key_id = value
+                            elif key in ['secret_access_key', 'aws_secret_access_key', 'secret_key']:
+                                self.config.s3_secret_access_key = value
+                            elif key in ['region', 'aws_region', 'default_region', 'aws_default_region']:
+                                self.config.s3_region = value
+                                self.config.bedrock_region = value
+                            elif key in ['default_bucket', 's3_bucket', 'bucket']:
+                                self.config.s3_default_bucket = value
+                            elif key == 'bedrock':
+                                # Handle nested bedrock config
+                                if isinstance(value, dict):
+                                    self.config.bedrock_region = value.get('region', self.config.bedrock_region)
+                                    self.config.bedrock_model_id = value.get('default_model', self.config.bedrock_model_id)
+                    
+                    # Also check api_keys section for AWS credentials (legacy support)
+                    api_keys = settings.get('api_keys', {})
+                    if not self.config.s3_access_key_id:
+                        self.config.s3_access_key_id = api_keys.get('aws_access_key_id') or api_keys.get('access_key_id')
+                    if not self.config.s3_secret_access_key:
+                        self.config.s3_secret_access_key = api_keys.get('aws_secret_access_key') or api_keys.get('secret_access_key')
+                    
+                    # Set credential source if we found credentials
+                    if self.config.s3_access_key_id and self.config.s3_secret_access_key:
                         self.config.credential_source = CredentialSource.SETTINGS_FILE
                         logger.info("[OK] Loaded AWS credentials from settings file")
                     
@@ -254,10 +301,9 @@ class UnifiedSessionManager:
                         
                         logger.info(f"[OK] PostgreSQL config loaded: {self.config.postgres_host}:{self.config.postgres_port}/{self.config.postgres_database}")
                     
-                    logger.info(f"[OK] Loaded settings from {path}")
-                    break
-                except Exception as e:
-                    logger.warning(f"[WARNING]  Could not load settings from {path}: {e}")
+                logger.info(f"[OK] Loaded settings from {settings_file}")
+            except Exception as e:
+                logger.warning(f"[WARNING]  Could not load settings from {settings_file}: {e}")
     
     def _test_iam_role(self):
         """Test if IAM role credentials are available"""

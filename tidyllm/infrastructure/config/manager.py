@@ -1,4 +1,9 @@
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 TidyLLM Configuration Manager - JSON and YAML Configuration Management
 
 Simplified configuration manager for handling JSON and YAML configuration files.
