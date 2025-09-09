@@ -52,7 +52,7 @@ class TrueS3FirstDomainRAG:
         self.s3_bucket = s3_bucket
         self.s3_prefix = s3_prefix
         
-        from ..infrastructure.s3_manager import get_s3_manager
+        from ..infrastructure.session import get_s3_manager
         from knowledge_systems.core.vector_manager import get_vector_manager
         
         self.s3_manager = get_s3_manager()

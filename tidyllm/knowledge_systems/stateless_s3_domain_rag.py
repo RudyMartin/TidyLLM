@@ -46,7 +46,7 @@ def create_stateless_s3_domain_rag(domain_name: str, s3_bucket: str, s3_prefix: 
     3. Clean up ANY temporary files immediately
     4. Return only metadata - no stored state in app
     """
-    from ...infrastructure.s3_manager import get_s3_manager
+    from ...infrastructure.session import get_s3_manager
     from knowledge_systems.core.vector_manager import get_vector_manager
     
     result = {
@@ -216,7 +216,7 @@ def query_stateless_domain_rag(domain_name: str, query: str, s3_bucket: str) -> 
     All data retrieved from S3 + Vector DB on-demand.
     """
     from knowledge_systems.core.vector_manager import get_vector_manager
-    from ...infrastructure.s3_manager import get_s3_manager
+    from ...infrastructure.session import get_s3_manager
     
     vector_manager = get_vector_manager()
     s3_manager = get_s3_manager()

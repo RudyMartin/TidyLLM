@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Union, Tuple
 from dataclasses import dataclass, asdict
 
-from ...infrastructure.s3_manager import S3Manager, UploadResult
+from ...infrastructure.session import S3Manager, UploadResult
 from .vector_manager import VectorManager, Document, SearchResult
 
 logger = logging.getLogger("domain_rag")

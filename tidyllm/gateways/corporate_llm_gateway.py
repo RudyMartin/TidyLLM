@@ -58,6 +58,7 @@ from enum import Enum
 from pathlib import Path
 
 from .base_gateway import BaseGateway, GatewayResponse, GatewayStatus, GatewayDependencies
+from ..infrastructure.standards import TidyLLMStandardRequest, TidyLLMStandardResponse, migrate_parameters, ResponseStatus, resolve_model_id
 
 # CRITICAL: Import polars for DataFrame processing
 try:
@@ -90,7 +91,7 @@ class LLMProvider(Enum):
 class LLMRequest:
     """Structured request for LLM operations."""
     prompt: str
-    model: Optional[str] = None
+    model_id: str
     provider: Optional[str] = None
     temperature: Optional[float] = None
     max_tokens: Optional[int] = None
@@ -103,7 +104,7 @@ class LLMRequest:
         """Convert to dictionary for API calls."""
         return {
             "prompt": self.prompt,
-            "model": self.model,
+            "model_id": self.model_id,
             "provider": self.provider,
             "temperature": self.temperature,
             "max_tokens": self.max_tokens,
@@ -241,9 +242,9 @@ class CorporateLLMGateway(BaseGateway):
         self.config_manager = None
         try:
             from ..infrastructure.config import ConfigManager
-            self.config_manager = ConfigManager()
+            self.config_manager = ConfigManager("config.yaml")  # Default config path
             logger.info("CorporateLLMGateway: ConfigManager integrated for enterprise config")
-        except ImportError as e:
+        except (ImportError, Exception) as e:
             logger.debug(f"CorporateLLMGateway: ConfigManager not available: {e}")
         
         # Always create a proper CorporateLLMConfig object
@@ -301,6 +302,72 @@ class CorporateLLMGateway(BaseGateway):
         logger.info(f"   Daily budget: ${self.config.budget_limit_daily_usd}")
         logger.info(f"CorporateLLMGateway dependencies: {self.get_required_services()}")
     
+    def process_request(self, request):
+        """
+        Process request through corporate gateway.
+        
+        This method provides the standard interface expected by tests
+        and delegates to the existing process_llm_request method.
+        
+        Args:
+            request: Request object or data to process
+            
+        Returns:
+            Processed response
+        """
+        # Convert to LLMRequest if needed
+        if not isinstance(request, LLMRequest):
+            if isinstance(request, str):
+                request = LLMRequest(prompt=request, model_id="claude-3-5-sonnet")  # Default model_id
+            elif isinstance(request, dict):
+                # Migrate legacy parameter names
+                migrated_params = migrate_parameters(request)
+                # Ensure model_id is present (required field)
+                if "model_id" not in migrated_params:
+                    migrated_params["model_id"] = migrated_params.get("model", "claude-3-5-sonnet")
+                request = LLMRequest(**migrated_params)
+            else:
+                request = LLMRequest(prompt=str(request), model_id="claude-3-5-sonnet")  # Default model_id
+        
+        return self.process_llm_request(request)
+    
+    def validate_request(self, request):
+        """
+        Validate request against corporate policies.
+        
+        This method provides the standard validation interface expected by tests
+        and uses the existing _validate_llm_request method.
+        
+        Args:
+            request: Request object or data to validate
+            
+        Returns:
+            bool: True if request is valid
+            
+        Raises:
+            ValueError: If request is invalid
+        """
+        # Convert to LLMRequest if needed
+        if not isinstance(request, LLMRequest):
+            if isinstance(request, str):
+                request = LLMRequest(prompt=request, model_id="claude-3-5-sonnet")  # Default model_id
+            elif isinstance(request, dict):
+                # Migrate legacy parameter names
+                migrated_params = migrate_parameters(request)
+                # Ensure model_id is present (required field)
+                if "model_id" not in migrated_params:
+                    migrated_params["model_id"] = migrated_params.get("model", "claude-3-5-sonnet")
+                request = LLMRequest(**migrated_params)
+            else:
+                request = LLMRequest(prompt=str(request), model_id="claude-3-5-sonnet")  # Default model_id
+        
+        try:
+            self._validate_llm_request(request)
+            return True
+        except Exception as e:
+            # Re-raise the validation error
+            raise e
+
     def process_llm_request(self, request):
         """Process LLM request through corporate gateway."""
         try:
@@ -330,9 +397,10 @@ class CorporateLLMGateway(BaseGateway):
                 ]
             }
             
-            # Call Bedrock
+            # Call Bedrock (resolve friendly model_id to actual Bedrock model identifier)
+            bedrock_model_id = resolve_model_id(request.model_id)
             response = bedrock.invoke_model(
-                modelId="anthropic.claude-3-sonnet-20240229-v1:0",
+                modelId=bedrock_model_id,  # Resolved to actual Bedrock model ID
                 body=json.dumps(body),
                 contentType="application/json"
             )
@@ -341,26 +409,21 @@ class CorporateLLMGateway(BaseGateway):
             response_body = json.loads(response['body'].read())
             content = response_body['content'][0]['text']
             
-            # Create response object
-            from dataclasses import dataclass
-            @dataclass
-            class LLMResponse:
-                success: bool
-                content: str
-                error: str = None
-            
             logger.info("LLM request processed successfully via AWS Bedrock")
-            return LLMResponse(success=True, content=content)
+            return TidyLLMStandardResponse(
+                status=ResponseStatus.SUCCESS,
+                data=content,
+                metadata={"provider": "bedrock", "model_id": request.model_id}
+            )
             
         except Exception as e:
             logger.error(f"LLM request failed: {e}")
-            @dataclass
-            class LLMResponse:
-                success: bool
-                content: str
-                error: str = None
-            
-            return LLMResponse(success=False, content="", error=str(e))
+            return TidyLLMStandardResponse(
+                status=ResponseStatus.ERROR,
+                data="",
+                error=str(e),
+                metadata={"provider": "bedrock", "model_id": getattr(request, 'model_id', 'unknown')}
+            )
     
     def _get_default_dependencies(self) -> GatewayDependencies:
         """
@@ -435,11 +498,25 @@ class CorporateLLMGateway(BaseGateway):
             if isinstance(input_data, LLMRequest):
                 request = input_data
             elif isinstance(input_data, str):
-                request = LLMRequest(prompt=input_data, **kwargs)
+                # Migrate kwargs parameters and ensure model_id
+                migrated_kwargs = migrate_parameters(kwargs)
+                if "model_id" not in migrated_kwargs:
+                    migrated_kwargs["model_id"] = migrated_kwargs.get("model", "claude-3-5-sonnet")
+                request = LLMRequest(prompt=input_data, **migrated_kwargs)
             elif isinstance(input_data, dict):
-                request = LLMRequest(**input_data, **kwargs)
+                # Merge input_data and kwargs, then migrate
+                merged_data = {**input_data, **kwargs}
+                migrated_data = migrate_parameters(merged_data)
+                # Ensure model_id is present
+                if "model_id" not in migrated_data:
+                    migrated_data["model_id"] = migrated_data.get("model", "claude-3-5-sonnet")
+                request = LLMRequest(**migrated_data)
             else:
-                request = LLMRequest(prompt=str(input_data), **kwargs)
+                # Migrate kwargs parameters and ensure model_id
+                migrated_kwargs = migrate_parameters(kwargs)
+                if "model_id" not in migrated_kwargs:
+                    migrated_kwargs["model_id"] = migrated_kwargs.get("model", "claude-3-5-sonnet")
+                request = LLMRequest(prompt=str(input_data), **migrated_kwargs)
             
             # Execute through corporate controls
             return self.execute_llm_request(request)
@@ -509,7 +586,7 @@ class CorporateLLMGateway(BaseGateway):
                 data=llm_response,
                 gateway_name="CorporateLLMGateway",
                 metadata={
-                    "model": filtered_request.model or self._get_default_model(filtered_request.provider),
+                    "model": filtered_request.model_id or self._get_default_model(filtered_request.provider),
                     "provider": filtered_request.provider or self.config.default_provider,
                     "processing_time": processing_time,
                     "cost_usd": cost,
@@ -555,7 +632,7 @@ class CorporateLLMGateway(BaseGateway):
             raise ValueError(f"Provider '{provider}' not available. Available: {self.config.available_providers}")
         
         # Validate model
-        model = request.model or self._get_default_model(provider)
+        model = request.model_id or self._get_default_model(provider)
         available_models = self.config.provider_models.get(provider, [])
         if model not in available_models:
             raise ValueError(f"Model '{model}' not available for provider '{provider}'. Available: {available_models}")
@@ -597,7 +674,7 @@ class CorporateLLMGateway(BaseGateway):
             filtered_prompt = self._mask_pii(request.prompt)
             filtered_request = LLMRequest(
                 prompt=filtered_prompt,
-                model=request.model,
+                model_id=request.model_id,
                 provider=request.provider,
                 temperature=request.temperature,
                 max_tokens=request.max_tokens,
@@ -618,7 +695,7 @@ class CorporateLLMGateway(BaseGateway):
         """Execute request through MLFlow Gateway."""
         
         provider = request.provider or self.config.default_provider
-        model = request.model or self._get_default_model(provider)
+        model = request.model_id or self._get_default_model(provider)
         
         try:
             # Call MLFlow Gateway
@@ -641,7 +718,7 @@ class CorporateLLMGateway(BaseGateway):
     def _execute_fallback_request(self, request: LLMRequest) -> str:
         """Execute fallback request when MLFlow unavailable."""
         provider = request.provider or self.config.default_provider
-        model = request.model or self._get_default_model(provider)
+        model = request.model_id or self._get_default_model(provider)
         
         logger.warning("Using fallback mode for LLM request")
         return f"[FALLBACK] Corporate LLM response using {provider}/{model} for: {request.prompt[:100]}..."
@@ -695,7 +772,7 @@ class CorporateLLMGateway(BaseGateway):
             "user_id": request.user_id,
             "session_id": request.session_id,
             "provider": request.provider or self.config.default_provider,
-            "model": request.model or self._get_default_model(request.provider),
+            "model": request.model_id or self._get_default_model(request.provider),
             "audit_reason": request.audit_reason,
             "prompt_length": len(request.prompt),
             "response_length": len(response),

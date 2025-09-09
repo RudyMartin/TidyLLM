@@ -41,7 +41,7 @@ class GatewayStatus:
 @dataclass
 class ModelStats:
     """Statistics for model usage"""
-    model_name: str
+    model_id: str
     total_requests: int
     total_tokens: int
     total_cost: float
@@ -174,11 +174,11 @@ class GatewayController:
         """Get all model configurations"""
         return self._models
     
-    def update_model_configuration(self, model_name: str, config: Dict[str, Any]) -> bool:
+    def update_model_configuration(self, model_id: str, config: Dict[str, Any]) -> bool:
         """Update configuration for a specific model"""
         try:
-            if model_name in self._models:
-                model = self._models[model_name]
+            if model_id in self._models:
+                model = self._models[model_id]
                 for key, value in config.items():
                     if hasattr(model, key):
                         setattr(model, key, value)
@@ -192,25 +192,25 @@ class GatewayController:
         """Get usage statistics for all models"""
         # Mock implementation - would query actual usage data
         stats = []
-        for model_name in self._models:
+        for model_id in self._models:
             stats.append(ModelStats(
-                model_name=model_name,
-                total_requests=100 + hash(model_name) % 500,
-                total_tokens=50000 + hash(model_name) % 100000,
-                total_cost=5.50 + (hash(model_name) % 100) / 10,
-                average_response_time=1.2 + (hash(model_name) % 30) / 10,
-                error_count=hash(model_name) % 5,
-                last_used=(datetime.now() - timedelta(minutes=hash(model_name) % 60)).isoformat()
+                model_id=model_id,
+                total_requests=100 + hash(model_id) % 500,
+                total_tokens=50000 + hash(model_id) % 100000,
+                total_cost=5.50 + (hash(model_id) % 100) / 10,
+                average_response_time=1.2 + (hash(model_id) % 30) / 10,
+                error_count=hash(model_id) % 5,
+                last_used=(datetime.now() - timedelta(minutes=hash(model_id) % 60)).isoformat()
             ))
         return stats
     
-    def enable_model(self, model_name: str) -> bool:
+    def enable_model(self, model_id: str) -> bool:
         """Enable a specific model"""
-        return self.update_model_configuration(model_name, {"enabled": True})
+        return self.update_model_configuration(model_id, {"enabled": True})
     
-    def disable_model(self, model_name: str) -> bool:
+    def disable_model(self, model_id: str) -> bool:
         """Disable a specific model"""
-        return self.update_model_configuration(model_name, {"enabled": False})
+        return self.update_model_configuration(model_id, {"enabled": False})
     
     def set_routing_strategy(self, strategy: str) -> bool:
         """Set model routing strategy"""
