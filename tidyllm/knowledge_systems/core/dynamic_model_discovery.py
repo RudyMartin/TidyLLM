@@ -23,6 +23,13 @@ from botocore.exceptions import ClientError
 import os
 import hashlib
 
+# Import UnifiedSessionManager for consistent credential handling
+try:
+    from ...infrastructure.session.unified import UnifiedSessionManager
+    UNIFIED_SESSION_AVAILABLE = True
+except ImportError:
+    UNIFIED_SESSION_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 @dataclass
@@ -60,6 +67,17 @@ class DynamicModelDiscovery:
         self.region = region
         self.cache_duration = timedelta(hours=cache_duration_hours)
         self.bedrock_client = None
+        
+        # Initialize UnifiedSessionManager for consistent credential handling
+        self.session_manager = None
+        if UNIFIED_SESSION_AVAILABLE:
+            try:
+                self.session_manager = UnifiedSessionManager()
+                logger.info("DynamicModelDiscovery: UnifiedSessionManager integrated")
+            except Exception as e:
+                logger.warning(f"DynamicModelDiscovery: Failed to initialize UnifiedSessionManager: {e}")
+        else:
+            logger.info("DynamicModelDiscovery: UnifiedSessionManager not available, using direct boto3")
         self.cached_models = {}
         self.last_discovery = None
         
@@ -96,10 +114,41 @@ class DynamicModelDiscovery:
         }
     
     def _get_bedrock_client(self):
-        """Get or create Bedrock client"""
+        """Get or create Bedrock client through UnifiedSessionManager if available"""
         if self.bedrock_client is None:
             try:
-                self.bedrock_client = boto3.client('bedrock', region_name=self.region)
+                # Use UnifiedSessionManager if available (consistent with gateways)
+                if self.session_manager:
+                    # Note: UnifiedSessionManager provides bedrock-runtime, but we need bedrock for model discovery
+                    # Create a session from the session manager and get bedrock client
+                    s3_client = self.session_manager.get_s3_client()
+                    # Extract session from s3_client to create bedrock client 
+                    session = self.session_manager._s3_client._client_config.region_name
+                    
+                    # Actually, let's use the session manager's approach for consistent credentials
+                    if hasattr(self.session_manager, '_s3_client'):
+                        # Create bedrock client using same credential approach as UnifiedSessionManager
+                        if self.session_manager.config.credential_source.value == "environment":
+                            import boto3
+                            session = boto3.Session(
+                                aws_access_key_id=self.session_manager.config.s3_access_key_id,
+                                aws_secret_access_key=self.session_manager.config.s3_secret_access_key
+                            )
+                            self.bedrock_client = session.client('bedrock', region_name=self.region)
+                            logger.info("DynamicModelDiscovery: Using UnifiedSessionManager credentials for Bedrock")
+                        else:
+                            # IAM role or default profile
+                            session = boto3.Session()
+                            self.bedrock_client = session.client('bedrock', region_name=self.region)
+                            logger.info("DynamicModelDiscovery: Using UnifiedSessionManager session for Bedrock")
+                    else:
+                        # Fallback to direct boto3
+                        self.bedrock_client = boto3.client('bedrock', region_name=self.region)
+                        logger.warning("DynamicModelDiscovery: Using direct boto3 for Bedrock (no session manager)")
+                else:
+                    # Fallback to direct boto3 when no session manager
+                    self.bedrock_client = boto3.client('bedrock', region_name=self.region)
+                    logger.info("DynamicModelDiscovery: Using direct boto3 for Bedrock (no UnifiedSessionManager)")
             except Exception as e:
                 logger.error(f"Failed to create Bedrock client: {e}")
                 return None
@@ -211,7 +260,17 @@ class DynamicModelDiscovery:
     
     def _determine_model_dimensions(self, models: Dict[str, DiscoveredModel]):
         """Test models to determine their embedding dimensions"""
-        bedrock_runtime = boto3.client('bedrock-runtime', region_name=self.region)
+        # Use UnifiedSessionManager for bedrock-runtime client if available
+        if self.session_manager:
+            try:
+                bedrock_runtime = self.session_manager.get_bedrock_client()
+                logger.info("DynamicModelDiscovery: Using UnifiedSessionManager for Bedrock Runtime")
+            except Exception as e:
+                logger.warning(f"DynamicModelDiscovery: Failed to get Bedrock client from session manager: {e}")
+                bedrock_runtime = boto3.client('bedrock-runtime', region_name=self.region)
+        else:
+            bedrock_runtime = boto3.client('bedrock-runtime', region_name=self.region)
+            logger.info("DynamicModelDiscovery: Using direct boto3 for Bedrock Runtime (no UnifiedSessionManager)")
         
         test_text = "Hello world"
         
