@@ -485,6 +485,18 @@ class AIProcessingGateway(BaseGateway):
             AIBackend.MOCK: ["mock-model"]
         }
         return model_map.get(self.ai_config.backend, ["unknown"])
+    
+    def process_chat(self, request_data: Dict[str, Any]) -> GatewayResponse:
+        """Generic wrapper for chat processing - calls process_ai_request()"""
+        from ..infrastructure.data_structures import AIRequest
+        
+        ai_request = AIRequest(
+            prompt=request_data.get("query", ""),
+            context=request_data.get("context", ""),
+            metadata=request_data.get("metadata", {})
+        )
+        
+        return self.process_ai_request(ai_request)
 
 
 # Backend implementations

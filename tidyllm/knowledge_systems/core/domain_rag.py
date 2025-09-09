@@ -417,3 +417,60 @@ class DomainRAG:
     def export_config(self) -> Dict[str, Any]:
         """Export domain RAG configuration"""
         return asdict(self.config)
+    
+    # Generic convenience methods for onboarding/demo compatibility
+    def add_document(self, content: Union[str, bytes], filename: str, metadata: Dict[str, Any] = None) -> Dict[str, Any]:
+        """Generic wrapper for document processing"""
+        # Create a temporary file if we have bytes/string content
+        if isinstance(content, (str, bytes)):
+            import tempfile
+            import os
+            with tempfile.NamedTemporaryFile(mode='w' if isinstance(content, str) else 'wb', 
+                                             suffix=Path(filename).suffix, 
+                                             delete=False) as f:
+                f.write(content)
+                temp_path = f.name
+            
+            try:
+                result = self.process_document(temp_path, metadata)
+                return {
+                    "success": True,
+                    "filename": filename,
+                    "processed": result.document_id,
+                    "chunks": len(result.chunks) if hasattr(result, 'chunks') else 0
+                }
+            finally:
+                os.unlink(temp_path)
+        else:
+            # Assume it's already a path
+            result = self.process_document(content, metadata)
+            return {
+                "success": True,
+                "filename": filename,
+                "processed": result.document_id,
+                "chunks": len(result.chunks) if hasattr(result, 'chunks') else 0
+            }
+    
+    def search(self, query: str, top_k: int = 5) -> List[Dict[str, Any]]:
+        """Generic search wrapper"""
+        from .rag_query import RAGQuery
+        rag_query = RAGQuery(query=query, top_k=top_k)
+        response = self.query(rag_query)
+        
+        # Convert to simple format for onboarding
+        results = []
+        for result in getattr(response, 'search_results', []):
+            results.append({
+                "content": result.content[:200] if hasattr(result, 'content') else str(result)[:200],
+                "score": getattr(result, 'score', 0.0),
+                "metadata": getattr(result, 'metadata', {})
+            })
+        return results
+    
+    def retrain_vectors(self) -> Dict[str, Any]:
+        """Mock vector retraining - not implemented in core DomainRAG"""
+        return {
+            "success": True,
+            "message": "Vector retraining not implemented in core DomainRAG",
+            "stats": self.get_stats()
+        }
