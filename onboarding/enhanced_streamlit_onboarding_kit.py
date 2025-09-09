@@ -208,22 +208,32 @@ def render_connection_config():
             postgres_ssl = st.checkbox("SSL Required", value=True)
             postgres_pool_size = st.number_input("Connection Pool Size", value=5, min_value=1, max_value=20)
         
-        if st.button("🗄️ Test Database Connection"):
+        if st.button("[DB] Test Database Connection"):
             with st.spinner("Testing database connectivity..."):
                 try:
                     if IMPORTS_AVAILABLE:
-                        session_mgr = UnifiedSessionManager()
-                        pg_status = session_mgr.test_postgres_connection()
-                        if pg_status:
-                            # Test query execution
-                            test_query = "SELECT version(), current_database(), current_user"
-                            result = session_mgr.execute_postgres_query(test_query)
+                        # Use existing session manager or create new one
+                        if st.session_state.session_manager is None:
+                            st.session_state.session_manager = UnifiedSessionManager()
+                        session_mgr = st.session_state.session_manager
+                        
+                        # Test PostgreSQL connection using available methods
+                        conn = session_mgr.get_postgres_connection()
+                        if conn:
+                            # Test with a simple query
+                            cursor = conn.cursor()
+                            cursor.execute("SELECT version(), current_database(), current_user")
+                            result = cursor.fetchone()
+                            cursor.close()
+                            session_mgr.return_postgres_connection(conn)
+                            
                             st.session_state.connection_status['database'] = True
                             st.success("[OK] PostgreSQL connection validated")
-                            st.info(f"Database version: {result[0][0][:50]}...")
+                            st.info(f"Database version: {result[0][:50]}...")
                         else:
                             st.session_state.connection_status['database'] = False
-                            st.error("[FAIL] Database connection failed")
+                            st.error("[FAIL] Could not get PostgreSQL connection from pool")
+                            st.error("Check database credentials in settings.yaml")
                     else:
                         st.error("[FAIL] TidyLLM imports failed - cannot validate database connection")
                         st.error("DatabaseGateway not available for testing")
