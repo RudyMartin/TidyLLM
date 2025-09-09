@@ -1,4 +1,9 @@
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 Corporate LLM Gateway - Enterprise Language Model Access Control
 ===============================================================
 🚀 CORE ENTERPRISE GATEWAY #1 - Foundation Layer
@@ -373,16 +378,22 @@ class CorporateLLMGateway(BaseGateway):
         try:
             logger.info(f"Processing LLM request: {request.prompt[:50]}...")
             
-            # Direct AWS Bedrock implementation
-            import boto3
+            # Use UnifiedSessionManager for Bedrock access (consistent with other gateways)
             import json
             import os
             
-            # Create Bedrock client
-            bedrock = boto3.client(
-                'bedrock-runtime',
-                region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
-            )
+            # Create Bedrock client through session manager (like AIProcessingGateway)
+            if self.session_manager:
+                bedrock = self.session_manager.get_bedrock_client()
+                logger.info("CorporateLLMGateway: Using UnifiedSessionManager for Bedrock access")
+            else:
+                # Fallback to direct boto3 (like other gateways do)
+                import boto3
+                bedrock = boto3.client(
+                    'bedrock-runtime',
+                    region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
+                )
+                logger.warning("CorporateLLMGateway: Using direct boto3 for Bedrock (no session manager)")
             
             # Prepare request
             body = {
