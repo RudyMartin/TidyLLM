@@ -497,6 +497,89 @@ class AIProcessingGateway(BaseGateway):
         )
         
         return self.process_ai_request(ai_request)
+    
+    def health_check(self) -> Dict[str, Any]:
+        """Perform comprehensive health check for AIProcessingGateway."""
+        import time
+        from datetime import datetime
+        start_time = time.time()
+        
+        health_status = {
+            "gateway": "AIProcessingGateway",
+            "status": "healthy",
+            "timestamp": datetime.now().isoformat(),
+            "checks": {},
+            "dependencies": {},
+            "metrics": {}
+        }
+        
+        try:
+            # 1. Configuration validation
+            health_status["checks"]["config"] = {
+                "status": "pass" if self.validate_config() else "fail",
+                "message": "Configuration validation"
+            }
+            
+            # 2. AI backend availability
+            if hasattr(self, 'ai_config'):
+                backend = self.ai_config.backend
+                health_status["checks"]["ai_backend"] = {
+                    "status": "available",
+                    "backend": backend.value,
+                    "message": f"Using {backend.value} backend"
+                }
+            
+            # 3. Model access check
+            try:
+                capabilities = self.get_capabilities()
+                model_count = len(capabilities.get("models", []))
+                health_status["checks"]["models"] = {
+                    "status": "pass" if model_count > 0 else "fail",
+                    "model_count": model_count,
+                    "message": f"{model_count} models available"
+                }
+            except Exception as e:
+                health_status["checks"]["models"] = {"status": "fail", "error": str(e)}
+            
+            # 4. Session manager dependency
+            if hasattr(self, 'session_manager') and self.session_manager:
+                try:
+                    health_summary = self.session_manager.get_health_summary()
+                    health_status["dependencies"]["session_manager"] = {
+                        "status": "healthy" if health_summary.get("overall_health") else "unhealthy",
+                        "details": health_summary
+                    }
+                except Exception as e:
+                    health_status["dependencies"]["session_manager"] = {"status": "error", "error": str(e)}
+            
+            # 5. Performance metrics
+            duration_ms = (time.time() - start_time) * 1000
+            health_status["metrics"] = {
+                "health_check_duration_ms": round(duration_ms, 1),
+                "memory_usage_mb": self._get_memory_usage()
+            }
+            
+            # 6. Overall status determination
+            failed_checks = [k for k, v in health_status["checks"].items() if v["status"] == "fail"]
+            if failed_checks:
+                health_status["status"] = "unhealthy"
+                health_status["failed_checks"] = failed_checks
+            
+        except Exception as e:
+            health_status["status"] = "error"
+            health_status["error"] = str(e)
+        
+        return health_status
+    
+    def _get_memory_usage(self) -> float:
+        """Get memory usage in MB."""
+        try:
+            import psutil
+            import os
+            process = psutil.Process(os.getpid())
+            return round(process.memory_info().rss / 1024 / 1024, 2)
+        except ImportError:
+            return 0.0
 
 
 # Backend implementations
