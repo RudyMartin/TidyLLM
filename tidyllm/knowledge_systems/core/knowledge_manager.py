@@ -26,7 +26,7 @@ from pathlib import Path
 from typing import Dict, List, Any, Optional, Union
 from dataclasses import dataclass, asdict
 
-from ...infrastructure.s3_manager import S3Manager, S3Config
+from ...infrastructure.session import S3Manager, S3Config
 from .vector_manager import VectorManager, VectorConfig
 from .domain_rag import DomainRAG, DomainRAGConfig, RAGQuery, RAGResponse
 
@@ -329,7 +329,7 @@ class KnowledgeManager:
             self.vector_manager.close()
         
         # Reset global instances
-        from ...infrastructure.s3_manager import reset_s3_manager
+        from ...infrastructure.session import reset_s3_manager
         from .vector_manager import reset_vector_manager
         reset_s3_manager()
         reset_vector_manager()

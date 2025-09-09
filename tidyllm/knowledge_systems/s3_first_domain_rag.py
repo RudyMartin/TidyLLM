@@ -37,7 +37,7 @@ def main():
     # Initialize knowledge systems
     try:
         from knowledge_systems import get_knowledge_interface
-        from ...infrastructure.s3_manager import get_s3_manager
+        from ...infrastructure.session import get_s3_manager
         from knowledge_systems.core.vector_manager import get_vector_manager
         
         ki = get_knowledge_interface()

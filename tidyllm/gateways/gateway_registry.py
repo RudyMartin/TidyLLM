@@ -105,8 +105,21 @@ class GatewayRegistry:
         >>> context = knowledge.search("validation criteria")
     """
     
+    _instance = None
+    _initialized_singleton = False
+    
+    def __new__(cls):
+        """Implement singleton pattern."""
+        if cls._instance is None:
+            cls._instance = super(GatewayRegistry, cls).__new__(cls)
+        return cls._instance
+    
     def __init__(self):
-        """Initialize Gateway Registry."""
+        """Initialize Gateway Registry (only once due to singleton pattern)."""
+        # Only initialize once
+        if self._initialized_singleton:
+            return
+            
         self._services: Dict[ServiceType, ServiceInfo] = {}
         self._initialized = False
         
@@ -123,6 +136,7 @@ class GatewayRegistry:
         self._register_core_services()
         
         logger.info("Gateway Registry initialized")
+        self._initialized_singleton = True
     
     def _register_core_services(self):
         """Register core services with their dependencies."""

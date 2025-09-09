@@ -158,15 +158,15 @@ class TidyLLMAdminAPI:
         }
     
     @handle_errors
-    def update_model_config(self, model_name: str, config: Dict[str, Any]) -> Dict[str, Any]:
-        """PUT /api/gateway/models/{model_name} - Update model configuration"""
-        success = self.gateway_controller.update_model_configuration(model_name, config)
+    def update_model_config(self, model_id: str, config: Dict[str, Any]) -> Dict[str, Any]:
+        """PUT /api/gateway/models/{model_id} - Update model configuration"""
+        success = self.gateway_controller.update_model_configuration(model_id, config)
         if not success:
-            raise AdminAPIError(f"Failed to update model '{model_name}' configuration", 500)
+            raise AdminAPIError(f"Failed to update model '{model_id}' configuration", 500)
         
         return {
             "success": True,
-            "message": f"Model '{model_name}' configuration updated",
+            "message": f"Model '{model_id}' configuration updated",
             "timestamp": datetime.now().isoformat()
         }
     

@@ -58,7 +58,7 @@ class DomainWorkflowCreator:
             s3_region: Override S3 region (uses settings.yaml default if None)
         """
         from knowledge_systems.core.workflow_config import create_workflow_config
-        from ..infrastructure.s3_manager import get_s3_manager
+        from ..infrastructure.session import get_s3_manager
         from knowledge_systems.core.vector_manager import get_vector_manager
         
         # Create workflow config with overrides

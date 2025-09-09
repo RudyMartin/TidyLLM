@@ -121,7 +121,9 @@
       "Bash(admin/set_aws_env.bat)",
       "Bash(tidyllm status:*)",
       "Bash(dir:*)",
-      "Bash(tree:*)"
+      "Bash(tree:*)",
+      "Bash(cp:*)",
+      "Bash(PYTHONPATH=.. python run_critical_tests.py)"
     ],
     "deny": [],
     "ask": []

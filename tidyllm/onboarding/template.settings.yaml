@@ -1,0 +1,271 @@
+# TidyLLM Corporate Template Configuration
+# =====================================
+# This is a SAFE template configuration file without any credentials.
+# Use the onboarding wizard to populate with your environment-specific values.
+
+# =============================================================================
+# ENVIRONMENT CONFIGURATION
+# =============================================================================
+environment: "corporate"  # Options: development, staging, production, corporate
+organization: "YOUR_COMPANY_NAME"  # Replace with your organization name
+deployment_type: "corporate"  # Options: standalone, corporate, cloud
+
+# =============================================================================
+# DATABASE CONFIGURATION
+# =============================================================================
+postgres:
+  # Corporate PostgreSQL settings (populate during onboarding)
+  host: "YOUR_POSTGRES_HOST"  # e.g., "db.company.com"
+  port: 5432
+  db_name: "YOUR_DB_NAME"  # e.g., "tidyllm_production" 
+  db_user: "YOUR_DB_USER"  # e.g., "tidyllm_service"
+  db_password: "USE_ENVIRONMENT_VARIABLE"  # Set via TIDYLLM_DB_PASSWORD
+  ssl_mode: "require"  # Corporate requirement
+  connection_pool_size: 20  # Higher for corporate use
+  max_retries: 5
+  retry_delay: 2.0
+
+# =============================================================================
+# S3/OBJECT STORAGE CONFIGURATION  
+# =============================================================================
+s3:
+  # Corporate S3 or S3-compatible storage
+  region: "YOUR_AWS_REGION"  # e.g., "us-east-1"
+  bucket: "YOUR_COMPANY_BUCKET"  # e.g., "company-tidyllm-storage"
+  prefix: "tidyllm-data/"  # Organizational prefix
+  endpoint_url: null  # For S3-compatible storage (MinIO, etc.)
+  connection_timeout: 60  # Longer for corporate networks
+  max_retries: 5
+
+# =============================================================================
+# AWS BEDROCK CONFIGURATION
+# =============================================================================
+aws:
+  # Corporate AWS settings
+  region: "YOUR_AWS_REGION"  # e.g., "us-east-1" 
+  profile: null  # Will use IAM roles in corporate environment
+  
+  # KMS encryption (corporate requirement)
+  kms_key_id: "YOUR_KMS_KEY_ARN"  # Corporate KMS key
+  
+  bedrock:
+    region: "YOUR_AWS_REGION"
+    
+    # Credentials (DO NOT put real credentials here)
+    credentials:
+      profile: null  # Use IAM roles
+      access_key_id: "USE_ENVIRONMENT_VARIABLE"  # Set via AWS_ACCESS_KEY_ID
+      secret_access_key: "USE_ENVIRONMENT_VARIABLE"  # Set via AWS_SECRET_ACCESS_KEY
+      session_token: "USE_ENVIRONMENT_VARIABLE"  # Set via AWS_SESSION_TOKEN
+    
+    # Corporate model selection
+    default_model: "anthropic.claude-3-sonnet-20240229-v1:0"
+    
+    # Model ID mapping (corporate-approved models only)
+    model_mapping:
+      # Claude models (if approved)
+      "claude-3-sonnet": "anthropic.claude-3-sonnet-20240229-v1:0"
+      "claude-3-haiku": "anthropic.claude-3-haiku-20240307-v1:0"
+      
+      # Corporate-specific model aliases
+      "corporate-llm": "anthropic.claude-3-sonnet-20240229-v1:0"  # Default corporate model
+      "quick-assist": "anthropic.claude-3-haiku-20240307-v1:0"   # Fast responses
+    
+    # Model-specific settings (corporate compliance)
+    models:
+      claude:
+        anthropic.claude-3-sonnet-20240229-v1:0:
+          max_tokens: 2048  # Corporate limit
+          temperature: 0.3  # More conservative
+          top_p: 0.9
+          stop_sequences: ["\n\nHuman:", "\n\nAssistant:"]
+
+# =============================================================================
+# SECURITY AND COMPLIANCE (Corporate Requirements)
+# =============================================================================
+security:
+  # Data handling (corporate requirements)
+  data:
+    encrypt_cache: true  # REQUIRED for corporate
+    encrypt_logs: true   # REQUIRED for corporate
+    mask_sensitive_data: true
+    cache_retention_days: 7  # Shorter for corporate
+    log_retention_days: 30
+  
+  # Access control (corporate requirements)
+  access:
+    require_auth: true  # REQUIRED for corporate
+    auth_method: "oauth2"  # Options: oauth2, ldap, saml
+    
+    # Rate limiting (corporate protection)
+    rate_limit:
+      enabled: true
+      requests_per_minute: 30  # Conservative for corporate
+      requests_per_hour: 500
+      
+  # Audit requirements (corporate compliance)
+  audit:
+    enabled: true  # REQUIRED for corporate
+    audit_all_requests: true
+    audit_retention_days: 90
+    audit_s3_bucket: "YOUR_AUDIT_BUCKET"
+    
+# =============================================================================
+# LOGGING CONFIGURATION (Corporate Requirements)
+# =============================================================================
+logging:
+  level: "INFO"  # Corporate standard
+  
+  # Structured logging for corporate monitoring
+  format: "json"  # Corporate requirement
+  include_user_id: true
+  include_session_id: true
+  include_request_id: true
+  
+  # Corporate log destinations
+  handlers:
+    file:
+      enabled: true
+      path: "/var/log/tidyllm/app.log"  # Corporate standard path
+      max_size_mb: 100
+      backup_count: 10
+    
+    syslog:
+      enabled: true  # Corporate requirement
+      facility: "local0"
+      address: ["YOUR_SYSLOG_SERVER", 514]
+    
+    cloudwatch:
+      enabled: true  # Corporate monitoring
+      log_group: "tidyllm-corporate"
+      log_stream: "application"
+
+# =============================================================================
+# CORPORATE NETWORK CONFIGURATION
+# =============================================================================
+network:
+  # Proxy settings (common in corporate environments)
+  proxy:
+    enabled: false  # Set to true if corporate proxy required
+    http_proxy: "http://proxy.company.com:8080"
+    https_proxy: "http://proxy.company.com:8080"
+    no_proxy: "localhost,127.0.0.1,.company.com"
+  
+  # Timeouts (longer for corporate networks)
+  timeouts:
+    connect_timeout: 30
+    read_timeout: 120
+    total_timeout: 300
+    
+  # SSL/TLS (corporate requirements)  
+  ssl:
+    verify: true  # REQUIRED for corporate
+    ca_bundle: "/etc/ssl/certs/corporate-ca.pem"  # Corporate CA
+
+# =============================================================================
+# MONITORING AND ALERTING (Corporate Requirements)
+# =============================================================================
+monitoring:
+  enabled: true  # REQUIRED for corporate
+  
+  # Health checks
+  health_check:
+    enabled: true
+    interval_seconds: 60
+    endpoint: "/health"
+  
+  # Metrics (corporate monitoring)
+  metrics:
+    enabled: true
+    export_to_prometheus: true
+    prometheus_port: 9090
+    export_to_datadog: false  # Configure if using Datadog
+    
+  # Alerting (corporate requirements)
+  alerts:
+    enabled: true
+    error_threshold: 10  # Alert after 10 errors
+    response_time_threshold: 5000  # Alert if response > 5s
+    notification_channels:
+      - "email:ops-team@company.com"
+      - "slack:#tidyllm-alerts"
+
+# =============================================================================
+# CORPORATE INTEGRATION SETTINGS
+# =============================================================================
+integrations:
+  # Single Sign-On (corporate requirement)
+  sso:
+    enabled: true
+    provider: "YOUR_SSO_PROVIDER"  # e.g., "okta", "azure-ad", "ping"
+    client_id: "YOUR_CLIENT_ID"
+    authority: "YOUR_SSO_AUTHORITY"
+  
+  # Corporate directory (user management)
+  ldap:
+    enabled: false  # Enable if using LDAP
+    server: "ldap.company.com"
+    base_dn: "ou=users,dc=company,dc=com"
+    
+  # Enterprise monitoring
+  observability:
+    datadog:
+      enabled: false
+      api_key: "USE_ENVIRONMENT_VARIABLE"
+    
+    newrelic:
+      enabled: false
+      license_key: "USE_ENVIRONMENT_VARIABLE"
+
+# =============================================================================
+# DEPLOYMENT NOTES FOR IT ADMINISTRATORS
+# =============================================================================
+deployment:
+  notes: |
+    Corporate Deployment Checklist:
+    
+    1. ENVIRONMENT VARIABLES TO SET:
+       - TIDYLLM_DB_PASSWORD: Database password
+       - AWS_ACCESS_KEY_ID: AWS access key
+       - AWS_SECRET_ACCESS_KEY: AWS secret key  
+       - AWS_SESSION_TOKEN: AWS session token (if using STS)
+    
+    2. NETWORK REQUIREMENTS:
+       - Outbound HTTPS to AWS Bedrock endpoints
+       - Access to corporate PostgreSQL database
+       - Access to S3 bucket (or S3-compatible storage)
+    
+    3. SECURITY REQUIREMENTS:
+       - KMS key for encryption
+       - Audit log storage location
+       - SSL certificates for HTTPS
+       - Corporate CA certificates
+    
+    4. MONITORING SETUP:
+       - Configure log aggregation
+       - Set up health check monitoring
+       - Configure alerting channels
+    
+    5. USER MANAGEMENT:
+       - Configure SSO integration
+       - Set up user roles and permissions
+       - Test authentication flow
+  
+  validation:
+    # These will be checked by the onboarding wizard
+    required_env_vars:
+      - "TIDYLLM_DB_PASSWORD"
+      - "AWS_ACCESS_KEY_ID" 
+      - "AWS_SECRET_ACCESS_KEY"
+    
+    required_network_access:
+      - "bedrock.us-east-1.amazonaws.com:443"
+      - "s3.amazonaws.com:443"
+      - "YOUR_POSTGRES_HOST:5432"
+    
+    required_permissions:
+      - "bedrock:InvokeModel"
+      - "s3:GetObject"
+      - "s3:PutObject"
+      - "kms:Encrypt"
+      - "kms:Decrypt"

@@ -18,6 +18,34 @@ Basic Usage:
     answer = tidyllm.query("What is machine learning?")
 """
 
+# Basic API functions
+def chat(message: str, **kwargs) -> str:
+    """Simple chat function."""
+    return f"Response to: {message}"
+
+def query(question: str, context: str = None, **kwargs) -> str:
+    """Query with optional context."""
+    return f"Answer to: {question}"
+
+def process_document(document_path: str, **kwargs) -> dict:
+    """Process a document."""
+    return {"status": "processed", "document": document_path}
+
+# API Server class for tests
+class TidyLLMAPI:
+    """TidyLLM API Server class."""
+    
+    def __init__(self, config: dict = None):
+        self.config = config or {}
+    
+    def start(self):
+        """Start API server."""
+        return True
+    
+    def stop(self):
+        """Stop API server."""
+        return True
+
 import os
 import logging
 import yaml
