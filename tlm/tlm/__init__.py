@@ -1,5 +1,7 @@
 # tlm/__init__.py — NumPy-free API (pure Python, stdlib only)
 
+__version__ = "1.1.0"
+
 # Core list-based ops
 from .pure.ops import (
     array, shape, zeros, ones, eye,
@@ -8,6 +10,7 @@ from .pure.ops import (
     sum as asum, mean, var, std, max as amax, min as amin, argmax,
     exp, log, sqrt, clip, norm, l2_normalize,
     flatten, reshape, concatenate,
+    seed_rng, random_uniform, random_normal, random_choice,
 )
 
 # Activations / losses / metrics
@@ -61,6 +64,8 @@ __all__ = [
     'add','sub','mul','div','asum','mean','var','std','amax','amin','argmax',
     'exp','log','sqrt','clip','norm','l2_normalize',
     'flatten','reshape','concatenate',
+    # random (classic historical algorithms)
+    'seed_rng','random_uniform','random_normal','random_choice',
     # core
     'sigmoid','relu','leaky_relu','softmax','mse','mae','binary_cross_entropy','cross_entropy','confusion_matrix','accuracy',
     # linear models & clustering & selection
