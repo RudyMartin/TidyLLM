@@ -592,7 +592,7 @@ class UnifiedSessionManager:
             }
         }
     
-    def test_connection(self, service: str = "all") -> dict:
+    def test_connection(self, service: str = "all") -> Dict[str, Any]:
         """Test connections to specified services with detailed results."""
         import time
         results = {}
@@ -608,7 +608,7 @@ class UnifiedSessionManager:
         
         return results
 
-    def _test_s3_connection(self) -> dict:
+    def _test_s3_connection(self) -> Dict[str, Any]:
         """Test S3 connection with timing and details."""
         import time
         start_time = time.time()
@@ -633,7 +633,7 @@ class UnifiedSessionManager:
                 "message": f"S3 connection failed: {str(e)}"
             }
 
-    def _test_bedrock_connection(self) -> dict:
+    def _test_bedrock_connection(self) -> Dict[str, Any]:
         """Test Bedrock connection with timing and details."""
         import time
         start_time = time.time()
@@ -659,7 +659,7 @@ class UnifiedSessionManager:
                 "message": f"Bedrock connection failed: {str(e)}"
             }
 
-    def _test_postgres_connection(self) -> dict:
+    def _test_postgres_connection(self) -> Dict[str, Any]:
         """Test PostgreSQL connection with timing and details."""
         import time
         start_time = time.time()
@@ -688,6 +688,46 @@ class UnifiedSessionManager:
                 "error": str(e),
                 "message": f"PostgreSQL connection failed: {str(e)}"
             }
+    
+    def validate_session(self) -> Dict[str, Any]:
+        """
+        Validate current session status (compatibility wrapper).
+        
+        Returns:
+            Dict with session validation results
+        """
+        try:
+            # Check if all core services are healthy
+            health_status = self.is_healthy()
+            test_results = self.test_connection("all")
+            
+            all_services_healthy = all(
+                result.get("status") == "success" 
+                for result in test_results.values()
+            )
+            
+            return {
+                "valid": all_services_healthy and health_status,
+                "session_healthy": health_status,
+                "services": test_results,
+                "message": "Session valid" if all_services_healthy else "Session has connection issues"
+            }
+        except Exception as e:
+            return {
+                "valid": False,
+                "session_healthy": False,
+                "error": str(e),
+                "message": f"Session validation failed: {str(e)}"
+            }
+    
+    def test_postgres_connection(self) -> Dict[str, Any]:
+        """
+        Test PostgreSQL connection (compatibility wrapper).
+        
+        Returns:
+            Dict with postgres connection test results
+        """
+        return self._test_postgres_connection()
     
     def cleanup(self):
         """Clean up connections"""
