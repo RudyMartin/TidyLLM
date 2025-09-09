@@ -62,13 +62,11 @@
 # These WILL fail:
 from tidyllm.api_demo import something           # File deleted
 from tidyllm.simple_api_test import test_func   # File deleted  
-import tidyllm; models = tidyllm.list_models()  # Method doesn't exist
 ```
 
 ### ❌ **Method Call Errors** 
 ```python
 # These methods DO NOT exist:
-session_mgr.test_connection()           # No such method
 session_mgr.validate_session()         # No such method  
 session_mgr.test_postgres_connection()  # No such method
 ```
@@ -86,9 +84,7 @@ worker.health_check()                   # Async pattern inconsistent
 
 | File Path | Issue | Impact |
 |-----------|-------|--------|
-| `tidyllm/examples/api_examples.py` | Contains `tidyllm.list_models()` call | Will throw AttributeError |
-| `tidyllm/examples/executive_demo.py` | Contains `tidyllm.list_models()` call | Will throw AttributeError |
-| `tidyllm/knowledge_systems/s3_first_domain_rag.py` | Contains `s3_manager.test_connection()` call | Will throw AttributeError |
+| `tidyllm/knowledge_systems/s3_first_domain_rag.py` | Contains `s3_manager.test_connection()` call | Will throw AttributeError - use UnifiedSessionManager instead |
 
 ---
 
