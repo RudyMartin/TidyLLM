@@ -23,6 +23,8 @@ Basic Usage:
     answer = tidyllm.query("What is machine learning?")
 """
 
+from typing import List, Dict, Any
+
 # Basic API functions
 def chat(message: str, **kwargs) -> str:
     """Simple chat function."""
@@ -32,11 +34,11 @@ def query(question: str, context: str = None, **kwargs) -> str:
     """Query with optional context."""
     return f"Answer to: {question}"
 
-def process_document(document_path: str, **kwargs) -> dict:
+def process_document(document_path: str, **kwargs) -> Dict[str, Any]:
     """Process a document."""
     return {"status": "processed", "document": document_path}
 
-def list_models(**kwargs) -> list:
+def list_models(**kwargs) -> List[Dict[str, Any]]:
     """List all available AI models across backends."""
     try:
         from .gateways.ai_processing_gateway import AIProcessingGateway

@@ -13,6 +13,8 @@
 | `session_mgr.get_postgres_connection()` | Gets database connection from connection pool | `psycopg2.connection` | `conn = session_mgr.get_postgres_connection(); cursor = conn.cursor()` |
 | `session_mgr.return_postgres_connection(conn)` | Returns connection to pool (MUST call after use) | `None` | `session_mgr.return_postgres_connection(conn)` |
 | `session_mgr.test_connection(service)` | Test connections with timing and diagnostic details | `Dict[str, Dict]` | `results = session_mgr.test_connection("s3"); print(results["s3"]["duration_ms"])` |
+| `session_mgr.validate_session()` | Validates overall session health across all services | `Dict[str, Any]` | `result = session_mgr.validate_session(); print(result["valid"])` |
+| `session_mgr.test_postgres_connection()` | Test PostgreSQL connection specifically | `Dict[str, Any]` | `result = session_mgr.test_postgres_connection(); print(result["status"])` |
 
 **Critical Notes:**
 - Always call `return_postgres_connection()` after using database connections
