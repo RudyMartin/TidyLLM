@@ -150,6 +150,58 @@ Before suggesting or implementing changes:
 
 ---
 
+## 🔄 **AUTOMATIC SESSION RECOVERY**
+
+### **✅ CRITICAL: UnifiedSessionManager Auto-Recovery**
+The UnifiedSessionManager **automatically restores connections** when AWS sessions are restarted:
+
+#### **Auto-Recovery Process** (`tidyllm/infrastructure/session/unified.py`):
+```python
+# Line 292: _initialize_connections() - Runs on startup
+def _initialize_connections(self):
+    """Initialize all service connections"""
+    logger.info("[LAUNCH] Initializing service connections...")
+    self._init_s3()      # Fresh S3 client
+    self._init_bedrock() # Fresh Bedrock client  
+    self._init_postgresql() # Fresh PostgreSQL pool
+
+# Lines 439-449: Thread-safe client access
+def get_s3_client(self):
+    """Get S3 client (thread-safe)"""
+    return self._s3_client
+
+def get_bedrock_client(self):
+    """Get Bedrock client (thread-safe)"""
+    return self._bedrock_client
+```
+
+#### **Credential Discovery Priority** (Lines 75-81):
+1. **IAM Role** → **AWS Profile** → **Environment** → **Settings File**
+2. Automatically detects best available credentials on restart
+3. Health checks validate all connections (`check_health()` - Line 463)
+
+#### **Session Restart Process**:
+```bash
+# User runs this to restart AWS session:
+tidyllm\admin\set_aws_env.bat
+
+# UnifiedSessionManager automatically:
+# 1. Detects new environment variables
+# 2. Re-initializes S3 and Bedrock clients  
+# 3. Validates connections with health checks
+# 4. Provides thread-safe access to restored connections
+```
+
+### **🚨 DO NOT MODIFY THESE AUTO-RECOVERY FUNCTIONS**:
+- `_initialize_connections()` - **Core connection setup**
+- `get_s3_client()` / `get_bedrock_client()` - **Thread-safe access**
+- `check_health()` - **Connection validation**
+- `_health_check_service()` - **Service-specific health checks**
+
+**These functions enable automatic session recovery. Modifying them could break the credential restoration process that users depend on.**
+
+---
+
 ## 🔍 **ARCHITECTURAL UNDERSTANDING REQUIRED**
 
 ### **4-Gateway Chain Must Be Consistent**:
