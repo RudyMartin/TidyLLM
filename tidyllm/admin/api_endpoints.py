@@ -27,8 +27,12 @@ try:
 except ImportError:
     FASTAPI_AVAILABLE = False
 
-from .config_manager import ConfigManager, TidyLLMConfig
-from .gateway_control import GatewayController, GatewayMonitor
+from ..tidyllm.infrastructure import ConfigManager, GatewayController, GatewayMonitor
+# Legacy import for TidyLLMConfig - needs to be handled separately
+try:
+    from .config_manager import TidyLLMConfig
+except ImportError:
+    TidyLLMConfig = None
 
 logger = logging.getLogger(__name__)
 

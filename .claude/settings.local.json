@@ -118,7 +118,10 @@
       "Bash(set AWS_DEFAULT_REGION=us-east-1)",
       "Bash(git config:*)",
       "Bash(set PYTHONIOENCODING=utf-8)",
-      "Bash(admin/set_aws_env.bat)"
+      "Bash(admin/set_aws_env.bat)",
+      "Bash(tidyllm status:*)",
+      "Bash(dir:*)",
+      "Bash(tree:*)"
     ],
     "deny": [],
     "ask": []
