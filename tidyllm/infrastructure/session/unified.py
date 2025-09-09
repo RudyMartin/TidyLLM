@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 """
+################################################################################
+# *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
+# *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
+################################################################################
+
 TidyLLM Unified Session Management System
 =========================================
 
@@ -208,7 +213,9 @@ class UnifiedSessionManager:
         """Load from tidyllm settings files"""
         settings_paths = [
             Path("tidyllm/admin/settings.yaml"),  # Real admin settings file first
+            Path("../tidyllm/admin/settings.yaml"),  # From subdirectory (e.g., onboarding)
             Path("tidyllm/tidyllm/admin/settings.yaml"),  # Alternative path
+            Path("admin/settings.yaml"),  # Direct admin folder
             Path("tidyllm/admin/embeddings_settings.yaml"),  # Legacy fallback
             Path("settings.yaml"),  # Root level
             Path("config.yaml")  # Generic fallback
@@ -224,6 +231,14 @@ class UnifiedSessionManager:
                     aws_config = settings.get('aws', {})
                     if aws_config.get('default_bucket'):
                         self.config.s3_default_bucket = aws_config['default_bucket']
+                    
+                    # Load AWS credentials from settings if not in environment
+                    if not self.config.s3_access_key_id and aws_config.get('access_key_id'):
+                        self.config.s3_access_key_id = aws_config['access_key_id']
+                        self.config.s3_secret_access_key = aws_config.get('secret_access_key')
+                        self.config.s3_region = aws_config.get('region', 'us-east-1')
+                        self.config.credential_source = CredentialSource.SETTINGS_FILE
+                        logger.info("[OK] Loaded AWS credentials from settings file")
                     
                     # Extract PostgreSQL settings - check multiple possible config sections
                     db_config = settings.get('postgres', {}) or settings.get('database', {}) or settings.get('postgresql', {})
@@ -307,10 +322,12 @@ class UnifiedSessionManager:
             
             if self.config.credential_source == CredentialSource.IAM_ROLE:
                 session = boto3.Session()
-            elif self.config.credential_source == CredentialSource.ENVIRONMENT:
+            elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
+                # Use credentials from environment or settings file
                 session = boto3.Session(
                     aws_access_key_id=self.config.s3_access_key_id,
-                    aws_secret_access_key=self.config.s3_secret_access_key
+                    aws_secret_access_key=self.config.s3_secret_access_key,
+                    region_name=self.config.s3_region
                 )
             else:
                 # Try default profile
@@ -348,10 +365,12 @@ class UnifiedSessionManager:
             
             if self.config.credential_source == CredentialSource.IAM_ROLE:
                 session = boto3.Session()
-            elif self.config.credential_source == CredentialSource.ENVIRONMENT:
+            elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
+                # Use credentials from environment or settings file
                 session = boto3.Session(
                     aws_access_key_id=self.config.s3_access_key_id,
-                    aws_secret_access_key=self.config.s3_secret_access_key
+                    aws_secret_access_key=self.config.s3_secret_access_key,
+                    region_name=self.config.bedrock_region
                 )
             else:
                 session = boto3.Session(profile_name=self.config.aws_profile)
