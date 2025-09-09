@@ -29,6 +29,7 @@
 | `ai_gateway.process_ai_request(ai_request)` | Process AI request through configured backend | `GatewayResponse` | `response = ai_gateway.process_ai_request(AIRequest(prompt="Hello"))` |
 | `ai_gateway.process_chat(request_data)` | Generic chat processing wrapper (calls process_ai_request) | `GatewayResponse` | `response = ai_gateway.process_chat({"query": "Hello", "context": ""})` |
 | `ai_gateway.get_capabilities()` | Get available AI backends and models | `Dict[str, Any]` | `caps = ai_gateway.get_capabilities(); models = caps["models"]` |
+| `ai_gateway.health_check()` | Comprehensive health check with timing and dependencies | `Dict[str, Any]` | `health = ai_gateway.health_check(); print(health["status"])` |
 
 **Critical Notes:**
 - `process_chat()` is a convenience wrapper around `process_ai_request()`
