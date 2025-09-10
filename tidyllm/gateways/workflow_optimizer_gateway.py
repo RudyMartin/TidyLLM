@@ -212,7 +212,7 @@ class WorkflowOptimizerGateway(BaseGateway):
         try:
             from ..infrastructure.config import ConfigManager
             from ..infrastructure.session import UnifiedSessionManager
-            self.config_manager = ConfigManager()
+            self.config_manager = ConfigManager("config.yaml")  # Default config path
             self.session_manager = UnifiedSessionManager()
             logger.info("WorkflowOptimizerGateway: Infrastructure components integrated")
         except ImportError as e:
