@@ -1,0 +1,1085 @@
+SECTION LENGTH ANALYSIS RESULTS
+==================================================
+
+# RESEARCH PORTFOLIO ANALYSIS
+==================================================
+
+**Portfolio Size:** 18 research papers
+**Average Study Size:** 7,207 words (28.8 pages)
+**Average Thoroughness:** 97.2% (0-100 scale)
+
+## RESEARCH FOCUS DISTRIBUTION
+------------------------------
+- **Methodology:** 14 papers (77.8%)
+- **Results:** 3 papers (16.7%)
+- **Background:** 1 papers (5.6%)
+
+## INVESTMENT PATTERNS
+------------------------------
+- **High Methodology Investment:** 17/18 papers (94.4%)
+- **Strong Validation:** 4/18 papers (22.2%)
+- **Comprehensive Studies:** 17/18 papers (94.4%)
+
+## TOP THOROUGH STUDIES
+------------------------------
+**2004.09813_Making_Monolingual_Sentence_Embeddings_**
+  - Thoroughness: 100.0%
+  - Focus: Methodology
+  - Size: 7,865 words
+
+**2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfo**
+  - Thoroughness: 100.0%
+  - Focus: Methodology
+  - Size: 8,052 words
+
+**2208.08287_Noisy_Nonnegative_Tucker_Decomposition_**
+  - Thoroughness: 100.0%
+  - Focus: Methodology
+  - Size: 8,921 words
+
+
+DETAILED PAPER ANALYSES:
+==================================================
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua
+**Document Size:** 7,865 words (~31.5 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 61.5% of effort
+- **Validation Investment:** 14.8% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 61.5%
+- **Results:** 18.9%
+- **Background:** 14.2%
+- **Validation:** 5.4%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Model swe tha tur ukr urd | 529 | 6.7% | 2.1 |  | methodology |
+| Learning of Universal Sen | 322 | 4.1% | 1.3 |  | methodology |
+| had seen training data fo | 316 | 4.0% | 1.3 |  | methodology |
+| nual Meeting of the Assoc | 267 | 3.4% | 1.1 | * | methodology |
+| Appendix
+A Tatoeba Simila | 254 | 3.2% | 1.0 |  | validation |
+| Methods | 248 | 3.2% | 1.0 |  | methodology |
+| translated versions have  | 245 | 3.1% | 1.0 |  | results |
+| Model Expected Score Actu | 191 | 2.4% | 0.8 | * | methodology |
+| one of the source languag | 190 | 2.4% | 0.8 | ** | methodology |
+| a sentence in the source  | 187 | 2.4% | 0.7 |  | methodology |
+| In this section we evalua | 183 | 2.3% | 0.7 | * | methodology |
+| A Broad-Coverage Challeng | 179 | 2.3% | 0.7 |  | results |
+| results | 173 | 2.2% | 0.7 |  | results |
+| model is combined with me | 163 | 2.1% | 0.7 | * | methodology |
+| would have a language bia | 160 | 2.0% | 0.6 |  | methodology |
+| drawing for a mini batch  | 119 | 1.5% | 0.5 | * | methodology |
+| Other Systems | 119 | 1.5% | 0.5 |  | results |
+| encoder transformer archi | 114 | 1.4% | 0.5 | ** | methodology |
+| tor spaces such that sema | 105 | 1.3% | 0.4 |  | methodology |
+| Experiments | 102 | 1.3% | 0.4 |  | validation |
+| References | 94 | 1.2% | 0.4 | * | background |
+| Other Systems | 91 | 1.2% | 0.4 | * | methodology |
+| according to the embeddin | 88 | 1.1% | 0.4 |  | methodology |
+| These results stress the  | 86 | 1.1% | 0.3 |  | results |
+| this dataset by translati | 85 | 1.1% | 0.3 |  | background |
+| allows us to extend exist | 83 | 1.1% | 0.3 | ** | methodology |
+| assessing the similarity  | 81 | 1.0% | 0.3 |  | background |
+| extracting parallel sente | 80 | 1.0% | 0.3 |  | results |
+| Overview of the Third BUC | 80 | 1.0% | 0.3 |  | background |
+| ing data for making the s | 77 | 1.0% | 0.3 |  | methodology |
+| fers properties from the  | 76 | 1.0% | 0.3 | * | methodology |
+| International Conference  | 76 | 1.0% | 0.3 |  | results |
+| tion that maps them to a  | 75 | 1.0% | 0.3 |  | methodology |
+| preliminary sentence enco | 74 | 0.9% | 0.3 | * | methodology |
+| tilingual knowledge disti | 71 | 0.9% | 0.3 | ** | methodology |
+| Getting parallel sentence | 69 | 0.9% | 0.3 |  | validation |
+| Mapping sentences or shor | 66 | 0.8% | 0.3 | * | methodology |
+| LASER and LaBSE both have | 66 | 0.8% | 0.3 |  | results |
+| can degrade the performan | 65 | 0.8% | 0.3 |  | results |
+| Multilingual Semantic Tex | 63 | 0.8% | 0.3 |  | background |
+| done by nding for all sen | 62 | 0.8% | 0.2 |  | methodology |
+| for training only on the  | 60 | 0.8% | 0.2 | ** | methodology |
+| The presented approach ha | 58 | 0.7% | 0.2 |  | methodology |
+| ample sentences and trans | 58 | 0.7% | 0.2 |  | background |
+| Tatoeba: Similarity Searc | 57 | 0.7% | 0.2 |  | results |
+| the training data to the  | 57 | 0.7% | 0.2 |  | background |
+| order to measure a potent | 57 | 0.7% | 0.2 | * | methodology |
+| the cosine similarity of  | 55 | 0.7% | 0.2 |  | methodology |
+| cic language combinations | 53 | 0.7% | 0.2 |  | results |
+| racy points for low resou | 50 | 0.6% | 0.2 | * | methodology |
+| Student EN sentence vecto | 49 | 0.6% | 0.2 | * | methodology |
+| commentary crawled from t | 49 | 0.6% | 0.2 |  | background |
+| Results | 48 | 0.6% | 0.2 |  | results |
+| Model KA SW TL TT
+LASER | 47 | 0.6% | 0.2 | * | methodology |
+| produce vastly different  | 46 | 0.6% | 0.2 |  | results |
+| While LASER and LaBSE onl | 46 | 0.6% | 0.2 | * | methodology |
+| observe that LASER and La | 44 | 0.6% | 0.2 |  | background |
+| Sentence embeddings are a | 43 | 0.5% | 0.2 |  | methodology |
+| Knowledge Distillation | 42 | 0.5% | 0.2 |  | background |
+| results | 42 | 0.5% | 0.2 |  | results |
+| much better aligned vecto | 40 | 0.5% | 0.2 |  | background |
+| Other systems | 39 | 0.5% | 0.2 | * | methodology |
+| and the hardware requirem | 38 | 0.5% | 0.2 | * | methodology |
+| results | 38 | 0.5% | 0.2 |  | results |
+| representations have attr | 38 | 0.5% | 0.2 |  | background |
+| Acknowledgments | 37 | 0.5% | 0.1 |  | background |
+| Machine Translation Using | 37 | 0.5% | 0.1 |  | background |
+| for the source language a | 35 | 0.4% | 0.1 | ** | methodology |
+| gual knowledge distillati | 35 | 0.4% | 0.1 |  | methodology |
+| language bias would achie | 34 | 0.4% | 0.1 | * | methodology |
+| then be due to a better o | 33 | 0.4% | 0.1 | * | background |
+| clude that our strategy a | 32 | 0.4% | 0.1 |  | results |
+| the described approach is | 31 | 0.4% | 0.1 | **** | methodology |
+| a translated sentence sho | 30 | 0.4% | 0.1 | * | methodology |
+| Language Bias | 30 | 0.4% | 0.1 | *** | methodology |
+| Evaluation of Training Da | 29 | 0.4% | 0.1 | * | results |
+| BUCC: Bitext Retrieval | 28 | 0.4% | 0.1 |  | background |
+| search and the Hessen Sta | 27 | 0.3% | 0.1 |  | background |
+| Knowledge Distillation | 26 | 0.3% | 0.1 |  | background |
+| ulary and the language mo | 26 | 0.3% | 0.1 | * | methodology |
+| tence embeddings multilin | 26 | 0.3% | 0.1 |  | methodology |
+| gives a dictionary coveri | 25 | 0.3% | 0.1 |  | background |
+| to extend existing models | 23 | 0.3% | 0.1 | ** | methodology |
+| training works for variou | 23 | 0.3% | 0.1 |  | background |
+| Knowledge Distillation | 21 | 0.3% | 0.1 |  | background |
+| in one or more source lan | 21 | 0.3% | 0.1 |  | background |
+| method | 21 | 0.3% | 0.1 | ** | methodology |
+| and LaBSE were specically | 21 | 0.3% | 0.1 | ** | methodology |
+| issues assigning meaningf | 21 | 0.3% | 0.1 |  | methodology |
+| es the training procedure | 20 | 0.3% | 0.1 | ** | methodology |
+| sults based on the BUCC d | 18 | 0.2% | 0.1 |  | background |
+| English and Arabic are di | 18 | 0.2% | 0.1 |  | results |
+| The results for training  | 18 | 0.2% | 0.1 |  | results |
+| learning is difcult since | 17 | 0.2% | 0.1 |  | background |
+| SentencePiece model that  | 17 | 0.2% | 0.1 | ** | methodology |
+| Student | 16 | 0.2% | 0.1 | *** | methodology |
+| million parallel sentence | 16 | 0.2% | 0.1 |  | background |
+| Knowledge Distillation | 16 | 0.2% | 0.1 |  | background |
+| English and German are fa | 16 | 0.2% | 0.1 |  | background |
+| lingual versions from pre | 14 | 0.2% | 0.1 | *** | methodology |
+| translation ranking task  | 14 | 0.2% | 0.1 | *** | results |
+| are in the Wikipedia part | 14 | 0.2% | 0.1 |  | background |
+| tend existing sentence em | 13 | 0.2% | 0.1 | *** | methodology |
+| source language from the  | 13 | 0.2% | 0.1 | *** | methodology |
+| We extensively tested the | 13 | 0.2% | 0.1 |  | methodology |
+| Training Data | 12 | 0.2% | 0.0 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr
+**Document Size:** 8,052 words (~32.2 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 45.1% of effort
+- **Validation Investment:** 30.1% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 45.1%
+- **Results:** 23.6%
+- **Validation:** 18.3%
+- **Background:** 11.3%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| References | 1,339 | 16.6% | 5.4 |  | results |
+| minimize | 815 | 10.1% | 3.3 | * | methodology |
+| where [](k) | 646 | 8.0% | 2.6 | * | methodology |
+| we have | 646 | 8.0% | 2.6 |  | validation |
+| Theoretical results | 527 | 6.5% | 2.1 | * | results |
+| Introduction | 488 | 6.1% | 2.0 |  | background |
+| method | 451 | 5.6% | 1.8 | * | methodology |
+| YY Y r
+r Y Y Y | 362 | 4.5% | 1.4 | * | methodology |
+| ScaledGD | 312 | 3.9% | 1.2 |  | background |
+| minimize | 302 | 3.8% | 1.2 | * | methodology |
+| ALGORITHM AVERAGE INFEREN | 283 | 3.5% | 1.1 |  | methodology |
+| One can see FRMNN model e | 247 | 3.1% | 1.0 | ** | methodology |
+| Parameter learning | 244 | 3.0% | 1.0 | * | methodology |
+| and it holds | 191 | 2.4% | 0.8 | ** | validation |
+| The proof is nished | 168 | 2.1% | 0.7 |  | validation |
+| Conclusion and future wor | 136 | 1.7% | 0.5 |  | conclusion |
+| Numerical experiments | 124 | 1.5% | 0.5 |  | validation |
+| NAME SIZE NUMBER LRPCA Sc | 120 | 1.5% | 0.5 |  | validation |
+| then it holds | 117 | 1.5% | 0.5 | * | validation |
+| Abstract | 116 | 1.4% | 0.5 |  | methodology |
+| minimize | 71 | 0.9% | 0.3 |  | background |
+| then the following inequa | 55 | 0.7% | 0.2 |  | validation |
+| A Proofs | 49 | 0.6% | 0.2 | ***** | validation |
+| Broader impact | 46 | 0.6% | 0.2 |  | methodology |
+| model directly starts the | 35 | 0.4% | 0.1 | ** | methodology |
+| error bar for LRPCA and b | 35 | 0.4% | 0.1 |  | results |
+| mance of LRPCA with the p | 27 | 0.3% | 0.1 | *** | methodology |
+| Proposed method | 25 | 0.3% | 0.1 | ** | methodology |
+| FRMNN
+RNN
+FNN | 19 | 0.2% | 0.1 | ***** | methodology |
+| Jialin Liu
+Decision Intel | 15 | 0.2% | 0.1 |  | background |
+| Supplementary Material fo | 15 | 0.2% | 0.1 |  | methodology |
+| Department of Mathematics | 14 | 0.2% | 0.1 |  | background |
+| Decision Intelligence Lab | 12 | 0.1% | 0.0 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[GOOD] **STRONG VALIDATION** - Substantial testing and results analysis shows reliability
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse
+**Document Size:** 8,921 words (~35.7 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 67.7% of effort
+- **Validation Investment:** 3.7% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 67.7%
+- **Background:** 26.5%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Introduction | 1,735 | 19.4% | 6.9 |  | background |
+| with additive Gaussian no | 852 | 9.6% | 3.4 | * | methodology |
+| respect to Bis given by | 773 | 8.7% | 3.1 | * | methodology |
+| observations Yis given by | 746 | 8.4% | 3.0 | * | methodology |
+| ADMM Based Algorithm | 701 | 7.9% | 2.8 |  | methodology |
+| probability mass function | 676 | 7.6% | 2.7 | * | methodology |
+| Assume that the | 473 | 5.3% | 1.9 |  | methodology |
+| Methods Rank Order Noise  | 378 | 4.2% | 1.5 | * | methodology |
+| entries of the noisy obse | 317 | 3.6% | 1.3 | * | methodology |
+| whereis a constant satisf | 302 | 3.4% | 1.2 |  | methodology |
+| Preliminaries | 293 | 3.3% | 1.2 |  | results |
+| Abstract | 240 | 2.7% | 1.0 |  | methodology |
+| Sparse NTD and Completion | 216 | 2.4% | 0.9 |  | methodology |
+| Numerical Experiments | 151 | 1.7% | 0.6 |  | validation |
+| matrix are X | 133 | 1.5% | 0.5 | * | background |
+| Error Bounds | 121 | 1.4% | 0.5 | ** | methodology |
+| where the corresponding m | 112 | 1.3% | 0.4 |  | methodology |
+| Multilinear Operators | 104 | 1.2% | 0.4 |  | background |
+| Additive Laplace Noise | 104 | 1.2% | 0.4 | * | methodology |
+| following set | 74 | 0.8% | 0.3 |  | results |
+| Additive Gaussian Noise | 72 | 0.8% | 0.3 |  | background |
+| The optimal solution of ( | 66 | 0.7% | 0.3 |  | background |
+| risk [ 47], which is dene | 59 | 0.7% | 0.2 |  | background |
+| The Hellinger afnity betw | 47 | 0.5% | 0.2 |  | background |
+| Kullback-Leibler Divergen | 43 | 0.5% | 0.2 |  | background |
+| dened as | 42 | 0.5% | 0.2 | ** | background |
+| Minimax Lower Bounds | 39 | 0.4% | 0.2 |  | background |
+| Poisson Observations | 20 | 0.2% | 0.1 |  | background |
+| the observations are mode | 19 | 0.2% | 0.1 | ** | methodology |
+| the SNTFTP model is given | 13 | 0.1% | 0.1 | *** | methodology |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi
+**Document Size:** 6,278 words (~25.1 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 48.6% of effort
+- **Validation Investment:** 15.3% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 48.6%
+- **Background:** 24.4%
+- **Results:** 20.9%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Introduction | 904 | 14.4% | 3.6 |  | background |
+| We visually compare our d | 795 | 12.7% | 3.2 |  | results |
+| References | 781 | 12.4% | 3.1 |  | methodology |
+| Method
+Network Structure | 735 | 11.7% | 2.9 |  | methodology |
+| c
+cF
+h
+cF
+w | 559 | 8.9% | 2.2 |  | methodology |
+| Ablation Studies | 520 | 8.3% | 2.1 |  | results |
+| Color Gaussian Image Deno | 381 | 6.1% | 1.5 | * | methodology |
+| Related Work | 377 | 6.0% | 1.5 |  | background |
+| Abstract | 229 | 3.6% | 0.9 | * | methodology |
+| IDR: Self-Supervised Imag | 188 | 3.0% | 0.8 |  | methodology |
+| Experiments
+Experimental  | 181 | 2.9% | 0.7 | * | validation |
+| PyTorch framework and con | 124 | 2.0% | 0.5 | * | validation |
+| DatasetsNoise | 105 | 1.7% | 0.4 |  | methodology |
+| Beyond a gaussian denoise | 81 | 1.3% | 0.3 |  | background |
+| RNAN
+ SADNet
+ DeamNet
+ AD | 76 | 1.2% | 0.3 |  | methodology |
+| Conclusions | 74 | 1.2% | 0.3 |  | conclusion |
+| Acknowledgments | 49 | 0.8% | 0.2 |  | background |
+| Fw
+candFh | 43 | 0.7% | 0.2 |  | background |
+| Unfold Unfold Unfold | 31 | 0.5% | 0.1 |  | background |
+| Pooling Pooling Pooling
+S | 27 | 0.4% | 0.1 |  | background |
+| Deformable Conv
+Leaky ReL | 18 | 0.3% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati
+**Document Size:** 8,820 words (~35.3 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Background
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 31.3% of effort
+- **Validation Investment:** 16.6% of effort
+
+## EFFORT ALLOCATION
+- **Background:** 43.1%
+- **Methodology:** 31.3%
+- **Results:** 17.9%
+- **Validation:** 7.7%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Study 1: Understanding Pr | 1,923 | 21.8% | 7.7 |  | background |
+| Study 2: Writing Prompts | 1,397 | 15.8% | 5.6 |  | results |
+| Introduction | 1,360 | 15.4% | 5.4 |  | background |
+| Study 3: Improving Prompt | 1,106 | 12.5% | 4.4 |  | methodology |
+| Prompt Engineering for AI | 704 | 8.0% | 2.8 |  | methodology |
+| A shiny black horse with  | 595 | 6.7% | 2.4 |  | methodology |
+| their own promptsCan part | 458 | 5.2% | 1.8 |  | validation |
+| Prompt Engineering as a S | 231 | 2.6% | 0.9 |  | methodology |
+| RatingcountQuality
+High | 172 | 2.0% | 0.7 |  | validation |
+| Related Work | 167 | 1.9% | 0.7 | ** | background |
+| Abstract | 140 | 1.6% | 0.6 |  | background |
+| Educational Approaches to | 125 | 1.4% | 0.5 |  | methodology |
+| Divergence Between Search | 104 | 1.2% | 0.4 |  | results |
+| surreal sky castle | 83 | 0.9% | 0.3 |  | background |
+| Prior Work on Applying Sk | 81 | 0.9% | 0.3 |  | background |
+| Query Reformulation Strat | 75 | 0.9% | 0.3 | * | results |
+| of prompt qualityAre part | 28 | 0.3% | 0.1 |  | validation |
+| Knight holding a sword th | 28 | 0.3% | 0.1 |  | background |
+| Prompt Engineering | 23 | 0.3% | 0.1 |  | background |
+| promptsCan participants e | 20 | 0.2% | 0.1 |  | validation |
+
+## BUSINESS ASSESSMENT
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2308.02381_Non-Ideal_Measurement_Heat_Engines
+**Document Size:** 3,896 words (~15.6 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Results
+- **Study Thoroughness:** 99% (0-100 scale)
+- **Methodology Investment:** 11.2% of effort
+- **Validation Investment:** 25.7% of effort
+
+## EFFORT ALLOCATION
+- **Results:** 51.3%
+- **Discussion:** 24.5%
+- **Background:** 13.0%
+- **Methodology:** 11.2%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| ACKNOWLEDGMENTS | 956 | 24.5% | 3.8 |  | discussion |
+| WORK COST | 644 | 16.5% | 2.6 | * | results |
+| ence in the work extracte | 588 | 15.1% | 2.4 |  | results |
+| Here =np/nsis assumed to  | 391 | 10.0% | 1.6 | * | results |
+| the measurements more acc | 253 | 6.5% | 1.0 |  | methodology |
+| to the fact that measurem | 213 | 5.5% | 0.9 | * | results |
+| corr and Ucorr is the | 138 | 3.5% | 0.6 | ** | results |
+| measurement engines opera | 133 | 3.4% | 0.5 | * | background |
+| used to reset the system  | 120 | 3.1% | 0.5 | * | background |
+| Here EPA
+iandEPB | 104 | 2.7% | 0.4 | * | background |
+| two models of quantum eng | 102 | 2.6% | 0.4 |  | methodology |
+| third law of thermodynami | 80 | 2.1% | 0.3 | * | methodology |
+| can choose
+EB
+iEB | 69 | 1.8% | 0.3 |  | background |
+| is the local Hamiltonian  | 50 | 1.3% | 0.2 | * | background |
+| measurement engine and co | 25 | 0.6% | 0.1 |  | results |
+| amounts to | 17 | 0.4% | 0.1 |  | background |
+| correlating the system to | 13 | 0.3% | 0.1 | *** | background |
+
+## BUSINESS ASSESSMENT
+[WARNING] **LIMITED METHODOLOGY** - Low investment in explaining methods may indicate rushed research
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2308.03077_Gabor-based_learnable_sparse_representation_for_se
+**Document Size:** 7,389 words (~29.6 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 43.8% of effort
+- **Validation Investment:** 17.3% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 43.8%
+- **Results:** 34.6%
+- **Background:** 18.7%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| References | 2,379 | 32.2% | 9.5 |  | methodology |
+| Introduction | 1,338 | 18.1% | 5.4 |  | background |
+| Pseudo-random noise remov | 968 | 13.1% | 3.9 |  | results |
+| Ground roll removal | 714 | 9.7% | 2.9 |  | results |
+| Self-supervised training  | 366 | 5.0% | 1.5 |  | results |
+| Adapted GDLNet architectu | 280 | 3.8% | 1.1 |  | results |
+| The original GDLNet archi | 231 | 3.1% | 0.9 |  | results |
+| Loss MSE MSE MSE MSE | 227 | 3.1% | 0.9 |  | methodology |
+| Dictionary Learning (DL) | 213 | 2.9% | 0.9 |  | methodology |
+| Numerical Examples | 208 | 2.8% | 0.8 |  | methodology |
+| Conclusions | 150 | 2.0% | 0.6 |  | conclusion |
+| Abstract | 148 | 2.0% | 0.6 |  | methodology |
+| can be solved
+min | 60 | 0.8% | 0.2 |  | methodology |
+| Acknowledgment | 60 | 0.8% | 0.2 |  | discussion |
+| PR synthetic PR field GR  | 47 | 0.6% | 0.2 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2404.04870_Signal-noise_separation_using_unsupervised_reservo
+**Document Size:** 3,670 words (~14.7 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Results
+- **Study Thoroughness:** 97% (0-100 scale)
+- **Methodology Investment:** 32.2% of effort
+- **Validation Investment:** 31.4% of effort
+
+## EFFORT ALLOCATION
+- **Results:** 62.8%
+- **Methodology:** 32.2%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| signal as | 1,635 | 44.6% | 6.5 |  | results |
+| Competing interests | 474 | 12.9% | 1.9 |  | methodology |
+| filtering | 366 | 10.0% | 1.5 |  | methodology |
+| Evaluation of the approxi | 267 | 7.3% | 1.1 |  | results |
+| Highly oscillating sinuso | 225 | 6.1% | 0.9 |  | results |
+| or the model for multipli | 221 | 6.0% | 0.9 |  | methodology |
+| for further comparison fo | 131 | 3.6% | 0.5 |  | results |
+| number of the reservoir,  | 74 | 2.0% | 0.3 |  | conclusion |
+| by additive bimodal noise | 56 | 1.5% | 0.2 |  | methodology |
+| Methods | 55 | 1.5% | 0.2 | *** | methodology |
+| Training the predictor Pt | 37 | 1.0% | 0.1 |  | background |
+| Data availability | 31 | 0.8% | 0.1 |  | results |
+| Acknowledgements
+Author c | 27 | 0.7% | 0.1 |  | background |
+| WRN KX | 20 | 0.5% | 0.1 |  | background |
+| Evaluation of misfits : | 15 | 0.4% | 0.1 |  | results |
+| Approximation of the nois | 14 | 0.4% | 0.1 |  | background |
+| tional model for additive | 11 | 0.3% | 0.0 | **** | methodology |
+| Identification of additiv | 11 | 0.3% | 0.0 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **STRONG VALIDATION** - Substantial testing and results analysis shows reliability
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2405.18274_Signal-Plus-Noise_Decomposition_of_Nonlinear_Spike
+**Document Size:** 6,889 words (~27.6 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 74.1% of effort
+- **Validation Investment:** 17.1% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 74.1%
+- **Validation:** 16.4%
+- **Background:** 8.1%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| References | 1,432 | 20.8% | 5.7 |  | methodology |
+| Dotherwise | 894 | 13.0% | 3.6 | * | methodology |
+| Applications | 800 | 11.6% | 3.2 | * | methodology |
+| Experiments | 646 | 9.4% | 2.6 |  | validation |
+| Prior Works on Nonlinear  | 508 | 7.4% | 2.0 |  | methodology |
+| Examplar Applications | 400 | 5.8% | 1.6 | * | methodology |
+| Signal-Plus-Noise Decompo | 393 | 5.7% | 1.6 | * | methodology |
+| Introduction | 330 | 4.8% | 1.3 | * | background |
+| Using the fact that EW2mf | 289 | 4.2% | 1.2 | ** | validation |
+| Review of Spiked Wigner M | 260 | 3.8% | 1.0 | * | methodology |
+| Contributions | 211 | 3.1% | 0.8 |  | methodology |
+| A Proofs | 196 | 2.8% | 0.8 | ** | validation |
+| Transformed Stochastic Bl | 107 | 1.6% | 0.4 | * | methodology |
+| n(zI)1Pmsc(z), | 107 | 1.6% | 0.4 |  | background |
+| Abstract | 99 | 1.4% | 0.4 | ** | methodology |
+| n(zI111/n)1=1 | 61 | 0.9% | 0.2 |  | results |
+| n(zI111/n)1=1 | 49 | 0.7% | 0.2 |  | background |
+| n(u2)2= lim | 36 | 0.5% | 0.1 | * | results |
+| Acknowledgement | 21 | 0.3% | 0.1 | ** | background |
+| op
+can be upper bounded a | 18 | 0.3% | 0.1 |  | background |
+| n(zI111/n)1=1 | 18 | 0.3% | 0.1 | ** | background |
+| n(zI111/n)1=1 | 14 | 0.2% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2408.08073_Extracting_Sentence_Embeddings_from_Pretrained_Tra
+**Document Size:** 12,649 words (~50.6 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 82.8% of effort
+- **Validation Investment:** 4.1% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 82.8%
+- **Background:** 9.1%
+- **Results:** 8.1%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Composing Word Vectors | 4,930 | 39.0% | 19.7 |  | methodology |
+| Word Frequencies The auth | 2,351 | 18.6% | 9.4 |  | methodology |
+| Learning Sentence Embeddi | 1,833 | 14.5% | 7.3 | * | methodology |
+| Introduction | 1,093 | 8.6% | 4.4 | * | background |
+| results | 913 | 7.2% | 3.7 |  | results |
+| Token-Level Augmentations | 640 | 5.1% | 2.6 |  | methodology |
+| Reshaping Representation  | 477 | 3.8% | 1.9 |  | methodology |
+| Abstract | 242 | 1.9% | 1.0 | * | methodology |
+| mean with different power | 112 | 0.9% | 0.4 |  | results |
+| Related Work | 39 | 0.3% | 0.2 | ** | background |
+| Mantas Luko sevi cius | 19 | 0.2% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2409.19550_Tailored_Low-Rank_Matrix_Factorization_for_Similar
+**Document Size:** 10,755 words (~43.0 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Results
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 37.9% of effort
+- **Validation Investment:** 28.2% of effort
+
+## EFFORT ALLOCATION
+- **Results:** 42.6%
+- **Methodology:** 37.9%
+- **Background:** 12.6%
+- **Validation:** 6.8%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Smoothed analysis for low | 1,742 | 16.2% | 7.0 |  | results |
+| KEYWORDS | 706 | 6.6% | 2.8 | * | methodology |
+| RMSE Recall nDCG RMSE Rec | 676 | 6.3% | 2.7 |  | methodology |
+| RMSE Recall nDCG RMSE Rec | 659 | 6.1% | 2.6 |  | background |
+| RMSE Recall nDCG RMSE Rec | 613 | 5.7% | 2.5 |  | background |
+| B DETAILED DESCRIPTION | 613 | 5.7% | 2.5 |  | results |
+| RMSE Recall nDCG RMSE Rec | 592 | 5.5% | 2.4 |  | results |
+| DatasetsMissing | 562 | 5.2% | 2.2 | * | methodology |
+| result | 493 | 4.6% | 2.0 | * | results |
+| A PROOFS | 437 | 4.1% | 1.7 | * | validation |
+| Direct Incomplete MatrixC | 375 | 3.5% | 1.5 | * | methodology |
+| Lower-Rank via Nuclear No | 323 | 3.0% | 1.3 | * | methodology |
+| Lower-Rank MatrixProperty | 290 | 2.7% | 1.2 |  | results |
+| Similarity MatrixCompleti | 281 | 2.6% | 1.1 |  | methodology |
+| Evaluation Metric | 216 | 2.0% | 0.9 |  | results |
+| Complexity | 213 | 2.0% | 0.9 | ** | methodology |
+| REFERENCES | 194 | 1.8% | 0.8 |  | results |
+| MotivatingScenario | 190 | 1.8% | 0.8 |  | validation |
+| Low-Rankvia CholeskyFacto | 169 | 1.6% | 0.7 |  | results |
+| ABSTRACT | 158 | 1.5% | 0.6 |  | methodology |
+| C EXTENDED EVALUATION | 129 | 1.2% | 0.5 |  | results |
+| FGSR
+NNFN
+facNNFN
+SMCNN | 128 | 1.2% | 0.5 | * | methodology |
+| methods | 116 | 1.1% | 0.5 |  | methodology |
+| METHODOLOGY | 107 | 1.0% | 0.4 |  | methodology |
+| Direct MissingValueImputa | 103 | 1.0% | 0.4 |  | methodology |
+| Better Estimation Guarant | 98 | 0.9% | 0.4 | **** | methodology |
+| Experimental Settings | 92 | 0.9% | 0.4 |  | validation |
+| Ablation Study | 82 | 0.8% | 0.3 |  | methodology |
+| Method LoR PSD Regularize | 76 | 0.7% | 0.3 |  | methodology |
+| methods | 70 | 0.7% | 0.3 |  | methodology |
+| Eectiveness Evaluation | 58 | 0.5% | 0.2 |  | results |
+| SimilarityMatrixCompletio | 46 | 0.4% | 0.2 |  | background |
+| THEORETICAL ANALYSIS | 43 | 0.4% | 0.2 | **** | results |
+| results | 26 | 0.2% | 0.1 |  | results |
+| Eciency Evaluation | 21 | 0.2% | 0.1 |  | results |
+| reectsthattheobjective | 17 | 0.2% | 0.1 |  | validation |
+| XiaoChen
+TheHongKongPolyt | 16 | 0.1% | 0.1 |  | background |
+| Completion
+Changyi Ma | 14 | 0.1% | 0.1 |  | background |
+| FGSR
+NNFN
+facNNFN
+SMCNN | 11 | 0.1% | 0.0 |  | background |
+
+## BUSINESS ASSESSMENT
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2410.11842_MoH_Multi-Head_Attention_as_Mixture-of-Head_Atten
+**Document Size:** 12,230 words (~48.9 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 80.5% of effort
+- **Validation Investment:** 7.7% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 80.5%
+- **Results:** 11.7%
+- **Background:** 5.2%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| MoH: Multi-Head Attention | 762 | 6.2% | 3.0 |  | methodology |
+| MoH: Multi-Head Attention | 743 | 6.1% | 3.0 |  | methodology |
+| MoH: Multi-Head Attention | 715 | 5.8% | 2.9 |  | methodology |
+| References | 659 | 5.4% | 2.6 |  | methodology |
+| Methods | 632 | 5.2% | 2.5 |  | methodology |
+| MoH: Multi-Head Attention | 620 | 5.1% | 2.5 | * | methodology |
+| Routed Heads ID | 529 | 4.3% | 2.1 | * | methodology |
+| MoH: Multi-Head Attention | 448 | 3.7% | 1.8 |  | methodology |
+| MoH: Multi-Head Attention | 444 | 3.6% | 1.8 |  | methodology |
+| MoH: Multi-Head Attention | 436 | 3.6% | 1.7 |  | methodology |
+| Bookshop
+Jean
+Goldfish
+Ic | 405 | 3.3% | 1.6 |  | methodology |
+| HeadRouted Heads | 368 | 3.0% | 1.5 | * | methodology |
+| The First Stage The Secon | 352 | 2.9% | 1.4 |  | methodology |
+| Introduction | 348 | 2.8% | 1.4 |  | background |
+| Results | 337 | 2.8% | 1.3 | * | results |
+| Jean Jean | 330 | 2.7% | 1.3 |  | methodology |
+| MoH: Multi-Head Attention | 316 | 2.6% | 1.3 |  | methodology |
+| LogiQA WinoGrande | 312 | 2.6% | 1.2 |  | results |
+| MoH: Multi-Head Attention | 310 | 2.5% | 1.2 |  | methodology |
+| Sampling Ratio | 299 | 2.4% | 1.2 |  | methodology |
+| where Wi | 248 | 2.0% | 1.0 |  | methodology |
+| Experiments | 233 | 1.9% | 0.9 | * | validation |
+| Results | 225 | 1.8% | 0.9 | ** | results |
+| Results | 213 | 1.7% | 0.9 | * | results |
+| Methodology | 210 | 1.7% | 0.8 |  | methodology |
+| Accuracy
+Accuracy
+Accurac | 207 | 1.7% | 0.8 |  | results |
+| Related Work | 206 | 1.7% | 0.8 |  | background |
+| the insight that not all  | 172 | 1.4% | 0.7 |  | methodology |
+| MoH: Multi-Head Attention | 155 | 1.3% | 0.6 | * | methodology |
+| MoH: Multi-Head Attention | 153 | 1.3% | 0.6 |  | methodology |
+| accuracy on the ImageNet- | 149 | 1.2% | 0.6 | * | methodology |
+| Effect of the Shared Head | 107 | 0.9% | 0.4 |  | results |
+| irepresents the | 102 | 0.8% | 0.4 |  | methodology |
+| ViT LLM ViT LLM | 92 | 0.8% | 0.4 |  | discussion |
+| foundation for developing | 80 | 0.7% | 0.3 |  | methodology |
+| MoH: Multi-Head Attention | 61 | 0.5% | 0.2 |  | methodology |
+| Impact Statement | 52 | 0.4% | 0.2 | ** | methodology |
+| Abstract | 44 | 0.4% | 0.2 | ** | methodology |
+| Acknowledgements | 39 | 0.3% | 0.2 |  | background |
+| Extensive experiments acr | 35 | 0.3% | 0.1 | **** | methodology |
+| Results | 24 | 0.2% | 0.1 |  | results |
+| LogiQA
+PIQA
+WinoGrandeRou | 13 | 0.1% | 0.1 |  | background |
+| HeadHead | 12 | 0.1% | 0.0 |  | background |
+| method | 11 | 0.1% | 0.0 |  | methodology |
+| Basketball
+Bookshop
+JeanR | 11 | 0.1% | 0.0 |  | background |
+| Routed Heads ID
+Ice cream | 11 | 0.1% | 0.0 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2410.23534_Empirical_Wavelet_Transform
+**Document Size:** 6,972 words (~27.9 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 63.7% of effort
+- **Validation Investment:** 23.9% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 63.7%
+- **Validation:** 22.8%
+- **Discussion:** 6.8%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| kvary much slower | 1,089 | 15.6% | 4.4 |  | methodology |
+| NcolumnsPNcolumns | 977 | 14.0% | 3.9 |  | methodology |
+| and then | 930 | 13.3% | 3.7 |  | validation |
+| tive filtering | 847 | 12.1% | 3.4 |  | methodology |
+| extracted IMF and then pl | 715 | 10.3% | 2.9 |  | methodology |
+| we keep all the detected  | 530 | 7.6% | 2.1 |  | validation |
+| REFERENCES | 476 | 6.8% | 1.9 |  | discussion |
+| TABLE I | 435 | 6.2% | 1.7 |  | methodology |
+| if(1 +)n || (1)n+1 | 271 | 3.9% | 1.1 |  | methodology |
+| to 2010, he held a positi | 161 | 2.3% | 0.6 | * | results |
+| ifn+n || n+1n+1 | 109 | 1.6% | 0.4 |  | background |
+| Abstract | 106 | 1.5% | 0.4 |  | methodology |
+| is easy to see thatSN | 102 | 1.5% | 0.4 |  | background |
+| and then | 82 | 1.2% | 0.3 |  | validation |
+| Jerome Gilles Jerome Gill | 57 | 0.8% | 0.2 |  | background |
+| and then | 46 | 0.7% | 0.2 |  | validation |
+| NrowPNrow | 22 | 0.3% | 0.1 |  | background |
+| function which can be wri | 17 | 0.2% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2412.00553_A_novel_algorithm_for_the_decomposition_of_non-sta
+**Document Size:** 4,113 words (~16.5 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 86% (0-100 scale)
+- **Methodology Investment:** 86.0% of effort
+- **Validation Investment:** 1.5% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 86.0%
+- **Background:** 11.1%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| References | 523 | 12.7% | 2.1 |  | methodology |
+| Mpsqpxq L | 509 | 12.4% | 2.0 |  | methodology |
+| passes
+ptq arccos | 469 | 11.4% | 1.9 |  | methodology |
+| Proposed Approach | 397 | 9.7% | 1.6 |  | methodology |
+| Introduction | 380 | 9.2% | 1.5 |  | background |
+| IMFs
+Ground truth | 374 | 9.1% | 1.5 |  | methodology |
+| Abstract | 266 | 6.5% | 1.1 |  | methodology |
+| Multidimensional Fast Ite | 222 | 5.4% | 0.9 |  | methodology |
+| IMFs
+Ground truth | 167 | 4.1% | 0.7 |  | methodology |
+| First articial example | 139 | 3.4% | 0.6 |  | methodology |
+| Earths air temperature | 121 | 2.9% | 0.5 |  | results |
+| Multivariate Fast Iterati | 120 | 2.9% | 0.5 | * | methodology |
+| Acknowledgment | 119 | 2.9% | 0.5 |  | methodology |
+| Numerical Examples | 81 | 2.0% | 0.3 |  | methodology |
+| Second articial example | 79 | 1.9% | 0.3 |  | methodology |
+| ssIMFi
+end while | 51 | 1.2% | 0.2 | * | methodology |
+| whilethe stopping criteri | 22 | 0.5% | 0.1 |  | background |
+| ffIMFpiq
+t
+end while
+IMFs | 20 | 0.5% | 0.1 | ** | methodology |
+| ffIMFpiq
+s | 14 | 0.3% | 0.1 |  | background |
+| compute the lter wt | 14 | 0.3% | 0.1 |  | background |
+| compute the spatial lter  | 13 | 0.3% | 0.1 |  | background |
+| whilethe stopping criteri | 13 | 0.3% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2501.09174_Short-time_Variational_Mode_Decomposition
+**Document Size:** 7,429 words (~29.7 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 55.3% of effort
+- **Validation Investment:** 18.8% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 55.3%
+- **Results:** 37.7%
+- **Background:** 7.0%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| SIGNAL | 1,282 | 17.3% | 5.1 |  | results |
+| Parameters  init  window  | 1,172 | 15.8% | 4.7 |  | results |
+| Abstract | 1,092 | 14.7% | 4.4 |  | methodology |
+| REFERENCES | 591 | 8.0% | 2.4 | * | methodology |
+| signal can be expressed a | 526 | 7.1% | 2.1 |  | methodology |
+| given by | 470 | 6.3% | 1.9 |  | methodology |
+| end for
+end for | 414 | 5.6% | 1.7 |  | methodology |
+| signal is | 260 | 3.5% | 1.0 |  | results |
+| The proposed STVMD model  | 256 | 3.4% | 1.0 | * | methodology |
+| end for
+end for | 163 | 2.2% | 0.7 |  | methodology |
+| The inverse discrete Four | 143 | 1.9% | 0.6 |  | background |
+| and its inverse Fourier t | 130 | 1.7% | 0.5 |  | methodology |
+| the update of the frequen | 122 | 1.6% | 0.5 | ** | methodology |
+| form is given by | 111 | 1.5% | 0.4 | * | methodology |
+| end for | 94 | 1.3% | 0.4 |  | methodology |
+| is expressed as | 88 | 1.2% | 0.4 |  | background |
+| methods | 84 | 1.1% | 0.3 |  | methodology |
+| dynamic STVMD and VMD or  | 84 | 1.1% | 0.3 | * | results |
+| The above optimization pr | 40 | 0.5% | 0.2 | ***** | methodology |
+| problem for STVMD | 32 | 0.4% | 0.1 |  | background |
+| repeat | 32 | 0.4% | 0.1 |  | background |
+| repeat | 32 | 0.4% | 0.1 |  | background |
+| augmented Lagrangian func | 31 | 0.4% | 0.1 |  | background |
+| repeat | 30 | 0.4% | 0.1 |  | background |
+| end for
+end for
+end for | 29 | 0.4% | 0.1 |  | background |
+| end for
+end for
+end for | 27 | 0.4% | 0.1 |  | background |
+| end for
+end for | 23 | 0.3% | 0.1 |  | background |
+| end for
+end for | 21 | 0.3% | 0.1 |  | background |
+| end for | 19 | 0.3% | 0.1 |  | background |
+| end for | 16 | 0.2% | 0.1 |  | background |
+| Algorithm 2 Complete opti | 15 | 0.2% | 0.1 | ***** | methodology |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity
+**Document Size:** 2,207 words (~8.8 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 67% (0-100 scale)
+- **Methodology Investment:** 93.2% of effort
+- **Validation Investment:** 3.0% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 93.2%
+- **Results:** 6.0%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| guage model | 1,646 | 74.6% | 6.6 | * | methodology |
+| REFERENCES | 269 | 12.2% | 1.1 | * | methodology |
+| Abstract | 142 | 6.4% | 0.6 | * | methodology |
+| ABLATION STUDY RESULTS | 133 | 6.0% | 0.5 | * | results |
+| Lifu Gao
+Cornell Universi | 17 | 0.8% | 0.1 |  | background |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise
+**Document Size:** 5,815 words (~23.3 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 68.5% of effort
+- **Validation Investment:** 11.8% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 68.5%
+- **Results:** 12.7%
+- **Background:** 10.3%
+- **Validation:** 5.5%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| References | 742 | 12.8% | 3.0 |  | methodology |
+| strategies, such as utili | 696 | 12.0% | 2.8 |  | methodology |
+| Sentence-BERT [20], have  | 469 | 8.1% | 1.9 | * | methodology |
+| Related Work | 426 | 7.3% | 1.7 | * | background |
+| correlation values observ | 397 | 6.8% | 1.6 |  | methodology |
+| Dynamics | 279 | 4.8% | 1.1 |  | methodology |
+| Abstract | 249 | 4.3% | 1.0 | * | results |
+| Methodology | 244 | 4.2% | 1.0 | * | methodology |
+| Inference Time and GPU Me | 234 | 4.0% | 0.9 |  | validation |
+| MRPC Dataset | 229 | 3.9% | 0.9 |  | methodology |
+| Evaluation Metrics | 191 | 3.3% | 0.8 |  | results |
+| tion dataset where senten | 182 | 3.1% | 0.7 |  | methodology |
+| Limitations and Future Wo | 176 | 3.0% | 0.7 |  | discussion |
+| Theoretical Analysis | 172 | 3.0% | 0.7 | * | results |
+| Guidance for Future Impro | 148 | 2.5% | 0.6 |  | methodology |
+| Baseline Model: GloVe Emb | 142 | 2.4% | 0.6 | * | methodology |
+| RWKV-v6-Finch-1B6-HF mode | 136 | 2.3% | 0.5 |  | methodology |
+| Information-Theoretic Per | 94 | 1.6% | 0.4 | * | methodology |
+| Mixing | 85 | 1.5% | 0.3 |  | background |
+| Suggestions for Empirical | 84 | 1.4% | 0.3 |  | validation |
+| Hyperparameter Settings | 71 | 1.2% | 0.3 | ** | methodology |
+| and 5, which are labeled  | 63 | 1.1% | 0.3 |  | methodology |
+| Data Preprocessing | 60 | 1.0% | 0.2 |  | methodology |
+| Hardware and Software Env | 51 | 0.9% | 0.2 |  | background |
+| Experiments and Results | 49 | 0.8% | 0.2 |  | results |
+| Qualitative Analysis | 43 | 0.7% | 0.2 |  | results |
+| Introduction | 37 | 0.6% | 0.1 | * | background |
+| Quantitative Results: Spe | 36 | 0.6% | 0.1 |  | results |
+| Dataset and Task | 30 | 0.5% | 0.1 | * | methodology |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+
+# RESEARCH INVESTMENT ANALYSIS
+**Paper:** 2504.19124_Blind_Source_Separation_Based_on_Sparsity
+**Document Size:** 5,771 words (~23.1 pages)
+
+## KEY BUSINESS INSIGHTS
+- **Primary Research Focus:** Methodology
+- **Study Thoroughness:** 100% (0-100 scale)
+- **Methodology Investment:** 58.1% of effort
+- **Validation Investment:** 11.7% of effort
+
+## EFFORT ALLOCATION
+- **Methodology:** 58.1%
+- **Background:** 21.6%
+- **Results:** 17.2%
+
+## DETAILED SECTION ANALYSIS
+| Section | Word Count | Effort % | Pages | Complexity | Type |
+|---------|------------|----------|-------|------------|------|
+| Background 7 | 468 | 8.1% | 1.9 |  | background |
+| Sparse representations of | 424 | 7.3% | 1.7 | * | methodology |
+| Blind source separation b | 383 | 6.6% | 1.5 |  | methodology |
+| Applications of BSS | 372 | 6.4% | 1.5 |  | methodology |
+| BSS by sparsity | 335 | 5.8% | 1.3 |  | methodology |
+| Introduction | 328 | 5.7% | 1.3 |  | background |
+| Abstract | 314 | 5.4% | 1.3 |  | methodology |
+| Independent component ana | 228 | 4.0% | 0.9 | * | results |
+| Morphological component a | 224 | 3.9% | 0.9 | * | results |
+| Ambiguities of BSS proces | 219 | 3.8% | 0.9 |  | methodology |
+| FastGMCA algorithm (FGMCA | 213 | 3.7% | 0.9 | * | methodology |
+| Mutichannel morphological | 198 | 3.4% | 0.8 | * | results |
+| Experiments on Image Sour | 177 | 3.1% | 0.7 |  | validation |
+| Instantaneous linear mixt | 173 | 3.0% | 0.7 | *** | methodology |
+| rewritten in matrix form | 172 | 3.0% | 0.7 |  | methodology |
+| BSS performance measures | 167 | 2.9% | 0.7 |  | results |
+| Let w+=E{xg(wTx)E(g(wTx)} | 152 | 2.6% | 0.6 |  | methodology |
+| The product AScan be spli | 147 | 2.5% | 0.6 | * | methodology |
+| Structure of report | 129 | 2.2% | 0.5 |  | methodology |
+| Preprocessing of BSS tech | 127 | 2.2% | 0.5 |  | methodology |
+| Introduction 5 | 122 | 2.1% | 0.5 |  | background |
+| Block Sparse K-SVD algori | 119 | 2.1% | 0.5 | * | methodology |
+| result | 94 | 1.6% | 0.4 |  | results |
+| Generalised morphological | 81 | 1.4% | 0.3 |  | results |
+| PerformJtimes: | 69 | 1.2% | 0.3 |  | background |
+| sksT
+kDksT | 63 | 1.1% | 0.3 | ** | methodology |
+| Perform n times: | 63 | 1.1% | 0.3 |  | background |
+| Perform J times: | 58 | 1.0% | 0.2 |  | background |
+| Decompose the mixture in  | 45 | 0.8% | 0.2 |  | background |
+| Department of Electrical  | 40 | 0.7% | 0.2 |  | background |
+| Zero the garident with re | 19 | 0.3% | 0.1 | ** | background |
+| sksT
+kDksT | 18 | 0.3% | 0.1 |  | background |
+| The observed matrix x | 17 | 0.3% | 0.1 |  | background |
+| Algorithm 1 The basic Fas | 13 | 0.2% | 0.1 | ***** | methodology |
+
+## BUSINESS ASSESSMENT
+[GOOD] **THOROUGH METHODOLOGY** - Substantial investment in explaining approach shows rigor
+[WARNING] **WEAK VALIDATION** - Limited evidence/testing may indicate preliminary findings
+[EXCELLENT] **COMPREHENSIVE STUDY** - Extensive analysis with multiple perspectives and thorough coverage
+
+--------------------------------------------------------------------------------
+

@@ -1,0 +1,37 @@
+ The YRSN algorithm is located in:
+
+  tidyllm-compliance\tidyllm_compliance\sop_conflict_analysis\yrsn_analyzer.py
+
+  YRSN (Yes/Relevant/Specific/No-fluff) Algorithm Details 🎯
+
+  YRSN is a proprietary compliance validation algorithm that measures signal-to-noise ratio in guidance content:
+
+  Core Algorithm Components:
+
+  - Actionable Indicators Detection: Identifies specific guidance (use, must use, required, implement, configure)
+  - Noise Indicators Detection: Penalizes vague language (may be, could be, unclear, depends on)
+  - Quality Assessment Scoring: Calculates noise percentage and compliance risk levels
+  - Compliance Validation: Pass/Fail determination based on actionable content ratio
+
+  Algorithm Files:
+
+  1. yrsn_analyzer.py - Core YRSN noise analysis implementation
+  2. conflict_reporter.py - Integration with temporal conflict resolution
+  3. fallback_strategy.py - Fallback guidance when YRSN scores are high
+
+  Usage Throughout System:
+
+  - 64 files reference YRSN validation across the codebase
+  - Domain RAG builders use YRSN for quality control
+  - Compliance reporting integrates YRSN metrics
+  - SOP conflict resolution relies on YRSN scoring
+
+  Key Metrics:
+
+  - Noise Percentage: 0-100% (lower is better)
+  - Actionable Content Ratio: Weighted measurement of specific guidance
+  - Compliance Status: PASS (<50% noise) or FAIL (≥50% noise)
+  - Quality Assessment: CRITICAL/HIGH/MODERATE/ACCEPTABLE/EXCELLENT
+
+  This is definitely a critical proprietary asset that should be safeguarded - it's the core algorithm for
+  compliance validation across your entire TidyLLM system.

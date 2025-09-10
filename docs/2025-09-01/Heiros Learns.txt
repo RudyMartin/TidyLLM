@@ -1,0 +1,79 @@
+Workflow Node Types Available:
+
+  NodeType.SEQUENCE         # Execute children in order
+  NodeType.SELECTOR         # Execute first successful child
+  NodeType.PARALLEL         # Execute children simultaneously
+  NodeType.CONDITION        # Boolean evaluation
+  NodeType.ACTION           # Executable task
+  NodeType.SPARSE_DECISION  # Pre-documented decision
+  NodeType.DYNAMIC_FLOW     # AI-generated workflow
+
+  TidyLLM-HeirOS is your dedicated workflow management system - designed specifically for corporate compliance with
+  complete audit trails and hierarchical control!
+
+  Would you like me to help you run any of the workflow examples or check what's currently implemented?
+
+
+● Based on my analysis of the TidyLLM-HeirOS codebase, the system doesn't "learn" in the traditional machine
+  learning sense, but it captures and leverages behavioral patterns through several key mechanisms:
+
+  1. Execution History & Analytics
+
+  - Complete audit trails track every workflow execution with timing, results, and decision paths
+  - Performance metrics identify successful vs. failed patterns (success rates, execution times, error frequencies)
+  - Usage statistics track which workflows, nodes, and SPARSE agreements are most effective
+
+  2. SPARSE Agreement Evolution
+
+  - Execution statistics track how often agreements are used and their success rates
+  - Change history records all modifications and approvals over time
+  - Usage patterns identify which pre-approved decisions work best in practice
+
+  3. Template Usage Tracking
+
+  From heiros_node_templates table:
+  - Usage count increments each time a template is used
+  - Popular templates emerge based on actual usage patterns
+  - Template effectiveness measured by workflows that use them
+
+  4. Feedback Integration
+
+  The research notes mention:
+  - User feedback stored as vector embeddings for future reference
+  - Decision context storage in vector databases
+  - Feedback patterns improve system recommendations
+
+  5. AI-Powered Adaptation
+
+  The DynamicFlowNode shows:
+  - AI orchestrators generate new workflow patterns based on context
+  - Generated flows adapt to uncertain processes
+  - Context-aware decisions use historical patterns
+
+  6. Pattern Recognition Through Database Analytics
+
+  The SQL queries reveal sophisticated learning mechanisms:
+  - Error pattern analysis identifies common failure modes
+  - Performance optimization based on execution duration patterns
+  - Workflow complexity metrics correlate structure with success rates
+  - User behavior analysis tracks effective usage patterns
+
+  Real Learning Examples:
+
+  -- System learns which workflows perform best
+  SELECT name, success_rate, avg_duration_ms, usage_count
+  FROM workflow_performance_metrics
+  ORDER BY success_rate DESC, usage_count DESC;
+
+  -- System identifies problematic patterns
+  SELECT error_type, occurrence_count, affected_workflows
+  FROM error_pattern_analysis
+  ORDER BY occurrence_count DESC;
+
+  -- System tracks template effectiveness
+  SELECT template_name, usage_count, success_rate_of_workflows_using_template
+  FROM template_effectiveness_analysis;
+
+  HeirOS "learns" through data-driven optimization rather than neural networks - it uses execution history, usage
+  patterns, and performance metrics to continuously improve workflow effectiveness and guide future decisions. This
+  approach provides explainable learning suitable for corporate compliance requirements.

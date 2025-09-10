@@ -1,0 +1,3 @@
+TidyLLM: A Framework for Tidy Machine Learning
+
+Methodology and implementation details...

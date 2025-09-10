@@ -1,0 +1,17 @@
+REV12346 Validation Scoping Template
+===================================
+
+Document Type: VST (Validation Scoping Template)
+REV ID: REV12346
+Scope Date: 2024-01-10
+
+Validation Requirements:
+- Identity verification: Required
+- Address verification: Required
+- Employment verification: Optional
+
+Expected Discrepancies:
+- Minor address variations acceptable
+- Nickname variations acceptable
+
+Quality Threshold: 95%

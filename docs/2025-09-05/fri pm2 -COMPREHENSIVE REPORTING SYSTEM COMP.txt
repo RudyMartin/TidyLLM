@@ -1,0 +1,38 @@
+COMPREHENSIVE REPORTING SYSTEM COMPLETE!
+
+  Key Results Shown:
+
+  1. Leading Questions Impact (Now Visible):
+
+  - Leading Questions: 94.8% noise → "CRITICAL FAILURE"
+  - Neutral Questions: 72.3% noise → "MODERATE RISK"
+  - 22.5% difference just from how we ask!
+
+  2. Two Report Types Created:
+
+  Domain Report (Single Domain):
+  - Shows all questions asked
+  - Labels each as LEADING or NEUTRAL
+  - Calculates aggregate YRSN scores
+  - Key Finding: Leading questions artificially inflate noise by 22.5%
+
+  Cross-Domain Report (Conflict Detection):
+  - Compares guidance across checklist/SOP/modeling
+  - Identifies conflicts (e.g., quarterly vs annual validation)
+  - Shows resolution hierarchy (checklist > SOP > modeling)
+  - Provides authoritative source for each conflict
+
+  3. Plain English Summary:
+
+  - The System Works - It's finding and processing documents
+  - The Questions Matter - "What are..." assumes they exist (94.8% noise)
+  - Better Questions - "Are there specific..." allows for "No" (72.3% noise)
+  - Real Problem - Documents contain regulatory fluff, not specific guidance
+
+  4. Next Steps for AIGateway/DSPy Integration:
+
+  The infrastructure exists in tidyllm\domain_rag_workflow_builder.py and AIGateway files. Would need to connect the cross-domain reporter
+   to send optimized queries through the gateway for multi-domain analysis.
+
+  The disclaimer now clearly states: "Leading questions artificially increase noise scores because they force the system to find something
+   even when specifics don't exist."

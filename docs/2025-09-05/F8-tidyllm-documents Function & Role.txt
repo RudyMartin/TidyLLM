@@ -1,0 +1,58 @@
+tidyllm-documents Function & Role
+
+  tidyllm-documents is a business document processing toolkit that handles:
+
+  🎯 Core Functions:
+
+  1. Document Classification
+
+  - Multi-category document classification (invoice, contract, report, etc.)
+  - Confidence scoring for decisions
+  - Uses tidyllm-sentence embeddings for semantic matching
+
+  2. Text Extraction
+
+  - PDF text extraction (first N pages)
+  - DOCX document processing
+  - Plain text file handling
+  - Preserves metadata and structure
+
+  3. Business Templates
+
+  - 20+ business document patterns
+  - Invoice processing (numbers, amounts, dates)
+  - Contract analysis (terms, values, parties)
+  - Financial statement processing
+  - Legal document classification
+
+  🏗️ Architecture:
+
+  tidyllm_documents/
+  ├── classification/    # Document categorization
+  ├── extraction/        # Text & metadata extraction
+  ├── templates/         # Business document patterns
+  └── __init__.py       # 4 main classes
+
+  🔗 Ecosystem Role:
+
+  tidyllm-documents is a CONSUMER package:
+  - ✅ Uses tidyllm-sentence (embeddings) - import only
+  - ✅ Uses tlm (ML algorithms) - import only
+  - ✅ No duplication - pure consumer of core infrastructure
+
+  📊 Business Focus:
+
+  - Real-world documents: Invoices, contracts, purchase orders
+  - Pattern-based extraction: Regex patterns with ML enhancement
+  - Confidence scoring: Every extraction includes reliability assessment
+  - Audit-ready: Complete processing history and decisions
+
+  🎯 Use Cases:
+
+  1. Business Automation - Process invoices and contracts automatically
+  2. Document Management - Classify and route documents
+  3. Data Extraction - Extract structured data from PDFs/DOCX
+  4. Compliance Support - Process documents for regulatory analysis
+
+  tidyllm-documents is the business document processing layer of the tidyllm ecosystem - focused on real-world
+  document workflows while leveraging the core ML infrastructure.

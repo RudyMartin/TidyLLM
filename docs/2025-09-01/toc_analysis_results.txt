@@ -1,0 +1,163 @@
+TOC ANALYSIS REPORT
+==================================================
+
+Papers Analyzed: 18
+Average Methodology Depth: 0.06
+Average Organization Quality: 0.00
+
+SCALE DISTRIBUTION:
+--------------------
+  Brief communication or position paper: 18 papers (100.0%)
+
+SCOPE INDICATORS:
+--------------------
+  Implementation: 1 mentions
+  Novel: 1 mentions
+
+TOP ORGANIZED PAPERS:
+--------------------
+  2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua: 0.00 quality score
+    Scale: Brief communication or position paper
+    Sections: 0
+  2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr: 0.00 quality score
+    Scale: Brief communication or position paper
+    Sections: 0
+  2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse: 0.00 quality score
+    Scale: Brief communication or position paper
+    Sections: 0
+  2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi: 0.00 quality score
+    Scale: Brief communication or position paper
+    Sections: 0
+  2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati: 0.00 quality score
+    Scale: Brief communication or position paper
+    Sections: 0
+
+DETAILED ANALYSIS:
+==================================================
+
+PAPER: 2004.09813_Making_Monolingual_Sentence_Embeddings_Multilingua
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2110.05649_Learned_Robust_PCA_A_Scalable_Deep_Unfolding_Appr
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2208.08287_Noisy_Nonnegative_Tucker_Decomposition_with_Sparse
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2211.12051_Adaptive_Dynamic_Filtering_Network_for_Image_Denoi
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2303.13534_Prompting_AI_Art_An_Investigation_into_the_Creati
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2308.02381_Non-Ideal_Measurement_Heat_Engines
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2308.03077_Gabor-based_learnable_sparse_representation_for_se
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2404.04870_Signal-noise_separation_using_unsupervised_reservo
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2405.18274_Signal-Plus-Noise_Decomposition_of_Nonlinear_Spike
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2408.08073_Extracting_Sentence_Embeddings_from_Pretrained_Tra
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2409.19550_Tailored_Low-Rank_Matrix_Factorization_for_Similar
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2410.11842_MoH_Multi-Head_Attention_as_Mixture-of-Head_Atten
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2410.23534_Empirical_Wavelet_Transform
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2412.00553_A_novel_algorithm_for_the_decomposition_of_non-sta
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2501.09174_Short-time_Variational_Mode_Decomposition
+Scale: Brief communication or position paper
+Methodology Depth: 1.00
+Organization Quality: 0.00
+TOC Entries:
+  L1: Short-Time Variational Mode Decomposition Hao Jia, Pengfei Cao, Tong Liang, Cesar F. Caiafa, Zhe Sun, Yasuhiro Kushihashi, Antoni Grau, Yolanda Bolea, Feng Duan, Jordi Sol e-Casals School of Medicine, Nankai University, Tianjin, China Tianjin Key Laboratory of Interventional Brain-Computer Interface and Intelligent Rehabilitation, Tianjin, China Universitat Polit `ecnica de Catalunya, Barcelona, Spain Mechanical Systems Engineering, Nippon Institute of Technology, Saitama, Japan Instituto Argentino de Radioastronom a (CCT-CONICET La Plata/CIC-PBA/UNLP), Villa Elisa, Argentina Computational Bioengineering Laboratory, Faculty of Health Data Science, Juntendo University, Tokyo, Japan Data and Signal Processing Research Group, University of Vic-Central University of Catalonia, Vic, Spain Abstract Variational mode decomposition (VMD) and its extensions like Multivariate VMD (MVMD) decompose signals into ensembles of band-limited modes with narrow central fre- quencies. These methods utilize Fourier transformations to shift signals between time and frequency domains. However, since Fourier transformations span the entire time-domain signal, they are suboptimal for non-stationary time series. We introduce Short-Time Variational Mode Decomposition (STVMD), an innovative extension of the VMD algorithm that incorporates the Short-Time Fourier transform (STFT) to minimize the impact of local disturbances. STVMD segments signals into short time windows, converting these segments into the frequency domain. It then formulates a variational optimization problem to extract band-limited modes representing the windowed data. The optimization aims to minimize the sum of the bandwidths of these modes across the windowed data, extending the cost functions used in VMD and MVMD. Solutions are derived using the alternating direction method of multipliers, ensuring the extraction of modes with narrow bandwidths. STVMD is divided into dynamic and non-dynamic types, depending on whether the (methodology)
+
+
+PAPER: 2501.14288_A_Comprehensive_Framework_for_Semantic_Similarity
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2502.14620_Exploring_RWKV_for_Sentence_Embeddings_Layer-wise
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+
+
+PAPER: 2504.19124_Blind_Source_Separation_Based_on_Sparsity
+Scale: Brief communication or position paper
+Methodology Depth: 0.00
+Organization Quality: 0.00
+TOC Entries:
+

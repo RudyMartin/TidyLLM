@@ -1,0 +1,232 @@
+# Generic Domain RAG Creation Template
+# Fill-in-the-blanks template for creating domain-specific RAG workflows
+
+workflow_name: "{WORKFLOW_NAME}"
+workflow_id: "{WORKFLOW_ID}" 
+description: "{DESCRIPTION}"
+created_by: "TidyLLM"
+version: "1.0"
+
+# Global Configuration
+global_settings:
+  tidymart_storage: true
+  processing_trail: true
+  domain_collection_name: "{COLLECTION_NAME}"
+  embedding_dimension: {EMBEDDING_DIMENSION}
+  chunk_overlap: {CHUNK_OVERLAP}
+  chunk_size: {CHUNK_SIZE}
+  vector_search_enabled: true
+
+# Gateway Configuration  
+gateways:
+  primary: "{PRIMARY_GATEWAY}"
+  secondary: "{SECONDARY_GATEWAY}"
+  specialized:
+    document_processing: "{DOC_GATEWAY}"
+    embedding_generation: "{EMBED_GATEWAY}"
+    vector_storage: "{VECTOR_GATEWAY}"
+    quality_validation: "{QA_GATEWAY}"
+
+# 3-Stage Domain RAG Creation Workflow
+stages:
+  
+  # Stage 1: Document Ingest - Process and clean documents
+  ingest:
+    description: "Document ingestion, extraction, and preprocessing"
+    drop_zone: "01_input/"
+    file_patterns: {FILE_PATTERNS}
+    
+    operations:
+      - name: "scan_document_collection"
+        gateway: "{DOC_GATEWAY}"
+        instruction: "Scan all documents in input collection and create inventory"
+        timeout: {SCAN_TIMEOUT}
+        
+      - name: "extract_document_text"
+        gateway: "{DOC_GATEWAY}"
+        instruction: "Extract clean text from all supported document formats"
+        depends_on: ["scan_document_collection"]
+        parallel_execution: {PARALLEL_EXTRACTION}
+        timeout: {EXTRACTION_TIMEOUT}
+        
+      - name: "classify_document_types"
+        gateway: "{EMBED_GATEWAY}" 
+        instruction: "Classify documents by type: {DOCUMENT_TYPES}"
+        depends_on: ["extract_document_text"]
+        
+      - name: "extract_document_metadata"
+        gateway: "{EMBED_GATEWAY}"
+        instruction: "Extract title, author, date, document type, and key topics"
+        depends_on: ["extract_document_text"]
+        parallel_execution: {PARALLEL_METADATA}
+        
+      - name: "perform_quality_check"
+        gateway: "{QA_GATEWAY}"
+        instruction: "Validate text extraction quality and document completeness"
+        depends_on: ["extract_document_text", "extract_document_metadata"]
+        
+      - name: "create_document_chunks"
+        gateway: "{DOC_GATEWAY}"
+        instruction: "Chunk documents into {CHUNK_SIZE}-char segments with {CHUNK_OVERLAP}-char overlap"
+        depends_on: ["perform_quality_check"]
+        chunk_size: {CHUNK_SIZE}
+        chunk_overlap: {CHUNK_OVERLAP}
+        
+      - name: "store_preprocessing_results"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Store extracted text, metadata, and chunks in TidyMart"
+        depends_on: ["create_document_chunks", "classify_document_types"]
+    
+    # Routing Logic
+    routing:
+      - condition: "quality_check_passed == true AND chunks_created > 0"
+        destination: "../02_processed/"
+        action: "move_file"
+        
+      - condition: "quality_check_passed != true"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Quality check failed - manual review required"
+        
+      - condition: "chunks_created == 0"
+        destination: "../error_review/"
+        action: "move_file" 
+        reason: "No valid chunks created from document"
+
+  # Stage 2: Embedding Generation - Create vector embeddings
+  embed:
+    description: "Generate embeddings for all document chunks"
+    drop_zone: "02_processed/"
+    
+    operations:
+      - name: "load_embedding_provider"
+        gateway: "{EMBED_GATEWAY}"
+        instruction: "Initialize TidyLLM embedding provider with {EMBEDDING_DIMENSION}-dimension target"
+        timeout: {PROVIDER_TIMEOUT}
+        
+      - name: "generate_chunk_embeddings"
+        gateway: "{EMBED_GATEWAY}"
+        instruction: "Generate {EMBEDDING_DIMENSION}-dimension embeddings for all document chunks"
+        depends_on: ["load_embedding_provider"]
+        parallel_execution: {PARALLEL_EMBEDDING}
+        batch_size: {EMBEDDING_BATCH_SIZE}
+        timeout: {EMBEDDING_TIMEOUT}
+        
+      - name: "validate_embedding_quality"
+        gateway: "{QA_GATEWAY}"
+        instruction: "Validate embedding generation quality and consistency"
+        depends_on: ["generate_chunk_embeddings"]
+        
+      - name: "create_embedding_metadata"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Create metadata linking embeddings to source documents and chunks"
+        depends_on: ["generate_chunk_embeddings"]
+        
+      - name: "store_embeddings_tidymart"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Store embeddings and metadata in TidyMart"
+        depends_on: ["create_embedding_metadata", "validate_embedding_quality"]
+    
+    routing:
+      - condition: "embedding_quality_valid == true AND embeddings_generated > 0"
+        destination: "../03_analyzed/"
+        action: "move_file"
+        
+      - condition: "embedding_quality_valid != true OR embeddings_generated == 0"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Embedding generation failed or invalid quality"
+
+  # Stage 3: Vector Index Creation - Build searchable vector index
+  index:
+    description: "Create vector index and enable RAG search capabilities"
+    drop_zone: "03_analyzed/"
+    
+    operations:
+      - name: "initialize_vector_collection"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Initialize vector collection '{COLLECTION_NAME}' in vector database"
+        collection_name: "{COLLECTION_NAME}"
+        timeout: {COLLECTION_TIMEOUT}
+        
+      - name: "bulk_insert_embeddings"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Bulk insert all embeddings into vector collection with metadata"
+        depends_on: ["initialize_vector_collection"]
+        timeout: {INSERT_TIMEOUT}
+        batch_size: {INSERT_BATCH_SIZE}
+        
+      - name: "create_search_indexes"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Create optimized search indexes for vector similarity search"
+        depends_on: ["bulk_insert_embeddings"]
+        index_type: "{INDEX_TYPE}"
+        
+      - name: "validate_search_functionality"
+        gateway: "{QA_GATEWAY}"
+        instruction: "Test vector search functionality with sample queries"
+        depends_on: ["create_search_indexes"]
+        test_queries: {TEST_QUERIES}
+        
+      - name: "generate_collection_stats"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Generate collection statistics and health metrics"
+        depends_on: ["validate_search_functionality"]
+        
+      - name: "enable_rag_interface"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Enable RAG chat interface for {COLLECTION_NAME} collection"
+        depends_on: ["generate_collection_stats"]
+        
+      - name: "store_final_results"
+        gateway: "{VECTOR_GATEWAY}"
+        instruction: "Store final collection metadata and enable production access"
+        depends_on: ["enable_rag_interface"]
+    
+    routing:
+      - condition: "search_validation_passed == true AND rag_enabled == true"
+        destination: "../05_output/"
+        action: "move_file"
+        
+      - condition: "search_validation_passed != true"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Search validation failed"
+
+# Domain RAG Configuration
+domain_rag_settings:
+  collection_name: "{COLLECTION_NAME}"
+  embedding_provider: "{EMBEDDING_PROVIDER}"
+  vector_dimension: {EMBEDDING_DIMENSION}
+  similarity_threshold: {SIMILARITY_THRESHOLD}
+  max_search_results: {MAX_RESULTS}
+  enable_reranking: {ENABLE_RERANKING}
+  context_window: {CONTEXT_WINDOW}
+
+# Monitoring and Alerts
+monitoring:
+  progress_updates: {PROGRESS_UPDATES}
+  tidymart_logging: {TIDYMART_LOGGING}
+  vector_collection_metrics: {VECTOR_METRICS}
+  search_performance_tracking: {PERFORMANCE_TRACKING}
+  
+# Quality Assurance
+quality_gates:
+  document_extraction_completeness: {QA_EXTRACTION}
+  embedding_generation_success: {QA_EMBEDDING}
+  vector_index_integrity: {QA_INDEX}
+  search_functionality_validation: {QA_SEARCH}
+
+# Error Handling
+error_handling:
+  max_retries: {MAX_RETRIES}
+  fallback_gateway: "{FALLBACK_GATEWAY}"
+  error_queue: "{ERROR_QUEUE}"
+  notification_webhook: "{NOTIFICATION_WEBHOOK}"
+
+# Output Configuration
+output_formats:
+  collection_metadata: "{METADATA_FORMAT}"
+  processing_log: "{LOG_FORMAT}" 
+  search_test_results: "{TEST_FORMAT}"
+  performance_metrics: "{METRICS_FORMAT}"

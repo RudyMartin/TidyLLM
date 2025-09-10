@@ -1,0 +1,235 @@
+# Generic Domain RAG Creation Template
+# Fill-in-the-blanks template for creating domain-specific RAG workflows
+
+workflow_name: "testing_robots"
+workflow_id: "robots_20250904_115813" 
+description: ""
+created_by: "TidyLLM"
+version: "1.0"
+
+# Global Configuration
+global_settings:
+  tidymart_storage: true
+  processing_trail: true
+  domain_collection_name: "robots"
+  embedding_dimension: 1024
+  chunk_overlap: 200
+  chunk_size: 1000
+  vector_search_enabled: true
+
+# Gateway Configuration  
+gateways:
+  primary: "heiros"
+  secondary: "dspy"
+  specialized:
+    document_processing: "heiros"
+    embedding_generation: "dspy"
+    vector_storage: "heiros"
+    quality_validation: "llm"
+
+# 3-Stage Domain RAG Creation Workflow
+stages:
+  
+  # Stage 1: Document Ingest - Process and clean documents
+  ingest:
+    description: "Document ingestion, extraction, and preprocessing"
+    drop_zone: "01_input/"
+    file_patterns: 
+      - "*.pdf"
+    
+    operations:
+      - name: "scan_document_collection"
+        gateway: "heiros"
+        instruction: "Scan all documents in input collection and create inventory"
+        timeout: 60
+        
+      - name: "extract_document_text"
+        gateway: "heiros"
+        instruction: "Extract clean text from all supported document formats"
+        depends_on: ["scan_document_collection"]
+        parallel_execution: true
+        timeout: 300
+        
+      - name: "classify_document_types"
+        gateway: "dspy" 
+        instruction: "Classify documents by type: "
+        depends_on: ["extract_document_text"]
+        
+      - name: "extract_document_metadata"
+        gateway: "dspy"
+        instruction: "Extract title, author, date, document type, and key topics"
+        depends_on: ["extract_document_text"]
+        parallel_execution: true
+        
+      - name: "perform_quality_check"
+        gateway: "llm"
+        instruction: "Validate text extraction quality and document completeness"
+        depends_on: ["extract_document_text", "extract_document_metadata"]
+        
+      - name: "create_document_chunks"
+        gateway: "heiros"
+        instruction: "Chunk documents into 1000-char segments with 200-char overlap"
+        depends_on: ["perform_quality_check"]
+        chunk_size: 1000
+        chunk_overlap: 200
+        
+      - name: "store_preprocessing_results"
+        gateway: "heiros"
+        instruction: "Store extracted text, metadata, and chunks in TidyMart"
+        depends_on: ["create_document_chunks", "classify_document_types"]
+    
+    # Routing Logic
+    routing:
+      - condition: "quality_check_passed == true AND chunks_created > 0"
+        destination: "../02_processed/"
+        action: "move_file"
+        
+      - condition: "quality_check_passed != true"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Quality check failed - manual review required"
+        
+      - condition: "chunks_created == 0"
+        destination: "../error_review/"
+        action: "move_file" 
+        reason: "No valid chunks created from document"
+
+  # Stage 2: Embedding Generation - Create vector embeddings
+  embed:
+    description: "Generate embeddings for all document chunks"
+    drop_zone: "02_processed/"
+    
+    operations:
+      - name: "load_embedding_provider"
+        gateway: "dspy"
+        instruction: "Initialize TidyLLM embedding provider with 1024-dimension target"
+        timeout: 30
+        
+      - name: "generate_chunk_embeddings"
+        gateway: "dspy"
+        instruction: "Generate 1024-dimension embeddings for all document chunks"
+        depends_on: ["load_embedding_provider"]
+        parallel_execution: true
+        batch_size: 50
+        timeout: 600
+        
+      - name: "validate_embedding_quality"
+        gateway: "llm"
+        instruction: "Validate embedding generation quality and consistency"
+        depends_on: ["generate_chunk_embeddings"]
+        
+      - name: "create_embedding_metadata"
+        gateway: "heiros"
+        instruction: "Create metadata linking embeddings to source documents and chunks"
+        depends_on: ["generate_chunk_embeddings"]
+        
+      - name: "store_embeddings_tidymart"
+        gateway: "heiros"
+        instruction: "Store embeddings and metadata in TidyMart"
+        depends_on: ["create_embedding_metadata", "validate_embedding_quality"]
+    
+    routing:
+      - condition: "embedding_quality_valid == true AND embeddings_generated > 0"
+        destination: "../03_analyzed/"
+        action: "move_file"
+        
+      - condition: "embedding_quality_valid != true OR embeddings_generated == 0"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Embedding generation failed or invalid quality"
+
+  # Stage 3: Vector Index Creation - Build searchable vector index
+  index:
+    description: "Create vector index and enable RAG search capabilities"
+    drop_zone: "03_analyzed/"
+    
+    operations:
+      - name: "initialize_vector_collection"
+        gateway: "heiros"
+        instruction: "Initialize vector collection 'robots' in vector database"
+        collection_name: "robots"
+        timeout: 60
+        
+      - name: "bulk_insert_embeddings"
+        gateway: "heiros"
+        instruction: "Bulk insert all embeddings into vector collection with metadata"
+        depends_on: ["initialize_vector_collection"]
+        timeout: 300
+        batch_size: 100
+        
+      - name: "create_search_indexes"
+        gateway: "heiros"
+        instruction: "Create optimized search indexes for vector similarity search"
+        depends_on: ["bulk_insert_embeddings"]
+        index_type: "hnsw"
+        
+      - name: "validate_search_functionality"
+        gateway: "llm"
+        instruction: "Test vector search functionality with sample queries"
+        depends_on: ["create_search_indexes"]
+        test_queries: 
+      - "what is this collection about"
+      - "how many different graphics are there in the source"
+        
+      - name: "generate_collection_stats"
+        gateway: "heiros"
+        instruction: "Generate collection statistics and health metrics"
+        depends_on: ["validate_search_functionality"]
+        
+      - name: "enable_rag_interface"
+        gateway: "heiros"
+        instruction: "Enable RAG chat interface for robots collection"
+        depends_on: ["generate_collection_stats"]
+        
+      - name: "store_final_results"
+        gateway: "heiros"
+        instruction: "Store final collection metadata and enable production access"
+        depends_on: ["enable_rag_interface"]
+    
+    routing:
+      - condition: "search_validation_passed == true AND rag_enabled == true"
+        destination: "../05_output/"
+        action: "move_file"
+        
+      - condition: "search_validation_passed != true"
+        destination: "../error_review/"
+        action: "move_file"
+        reason: "Search validation failed"
+
+# Domain RAG Configuration
+domain_rag_settings:
+  collection_name: "robots"
+  embedding_provider: "tidyllm_sentence"
+  vector_dimension: 1024
+  similarity_threshold: 0.7
+  max_search_results: 10
+  enable_reranking: true
+  context_window: 4096
+
+# Monitoring and Alerts
+monitoring:
+  progress_updates: true
+  tidymart_logging: true
+  vector_collection_metrics: true
+  search_performance_tracking: true
+  
+# Quality Assurance
+quality_gates:
+  document_extraction_completeness: required
+  embedding_generation_success: required
+  vector_index_integrity: required
+  search_functionality_validation: required
+
+# Error Handling
+error_handling:
+  max_retries: 3
+  fallback_gateway: "llm"
+  error_queue: "error_review/"
+  notification_webhook: "tidymart://domain_rag_alerts"
+
+# Output Configuration
+output_formats:
+  collection_metadata: "json"
+  processing_log: "markdown" 
+  search_test_results: "json"
+  performance_metrics: "json"

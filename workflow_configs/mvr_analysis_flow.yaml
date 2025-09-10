@@ -1,0 +1,254 @@
+# MVR Analysis Flow Configuration
+# Complex 4-stage cascade workflow for Motor Vehicle Record analysis
+
+workflow_name: "MVR Analysis"
+workflow_id: "mvr_analysis_v1" 
+description: "4-stage document processing: tag → qa → peer → report"
+created_by: "TidyLLM"
+version: "1.0"
+
+# Global Configuration
+global_settings:
+  tidymart_storage: true
+  processing_trail: true
+  metadata_validation: "REV00000_format"  # REV + 5 alphanumeric
+  noise_threshold: 0.3
+  sentiment_analysis: true
+  domain_rag_required: true
+
+# Gateway Configuration  
+gateways:
+  primary: "dspy"
+  secondary: "llm"
+  specialized:
+    ynsr_analysis: "dspy"
+    sentiment_analysis: "llm"
+    domain_rag: "heiros"
+    report_generation: "llm"
+
+# 4-Stage Cascade Workflow
+stages:
+  
+  # Stage 1: MVR Tag - Initial Processing
+  mvr_tag:
+    description: "Initial classification and metadata extraction"
+    drop_zone: "mvr_tag/"
+    file_patterns:
+      - "*.pdf"
+      - "*.txt" 
+      - "*.doc"
+      - "*.docx"
+    
+    operations:
+      - name: "read_top_5_pages"
+        gateway: "dspy"
+        instruction: "Read and extract text from first 5 pages of document"
+        timeout: 120
+        
+      - name: "classify_document"
+        gateway: "dspy" 
+        instruction: "Classify document type: VST, MVR, or other based on content patterns"
+        depends_on: ["read_top_5_pages"]
+        
+      - name: "extract_metadata"
+        gateway: "dspy"
+        instruction: "Extract REV00000 format ID and document metadata"
+        depends_on: ["read_top_5_pages"]
+        
+      - name: "extract_table_of_contents"
+        gateway: "llm"
+        instruction: "Identify and extract table of contents or document structure"
+        depends_on: ["read_top_5_pages"]
+        
+      - name: "ynsr_noise_analysis"
+        gateway: "dspy"
+        instruction: "Run YNSR function to determine document noise factor"
+        depends_on: ["read_top_5_pages"]
+        
+      - name: "sentiment_analysis_initial"
+        gateway: "llm"
+        instruction: "Perform sentiment analysis on initial text content"
+        depends_on: ["read_top_5_pages"]
+        
+      - name: "create_digest_text"
+        gateway: "llm"
+        instruction: "Create concise digest summary of document content"
+        depends_on: ["read_top_5_pages", "classify_document"]
+        
+      - name: "store_in_tidymart"
+        gateway: "heiros"
+        instruction: "Store all extracted data and metadata in TidyMart"
+        depends_on: ["extract_metadata", "create_digest_text", "ynsr_noise_analysis", "sentiment_analysis_initial"]
+    
+    # Routing Logic
+    routing:
+      - condition: "classification == 'vst' OR classification == 'mvr'"
+        destination: "../mvr_qa/"
+        action: "move_file"
+        
+      - condition: "classification != 'vst' AND classification != 'mvr'"  
+        destination: "../que/"
+        action: "move_file"
+        reason: "Non-class documents queued for manual review"
+        
+      - condition: "noise_factor > 0.7"
+        destination: "../que/"
+        action: "move_file" 
+        reason: "High noise factor - manual review required"
+
+  # Stage 2: MVR QA - Comparison Analysis  
+  mvr_qa:
+    description: "MVR vs VST comparison and section-by-section analysis"
+    drop_zone: "mvr_qa/"
+    required_metadata: "REV00000 format matching"
+    
+    operations:
+      - name: "match_mvr_vst_by_metadata"
+        gateway: "dspy"
+        instruction: "Match MVR and VST documents with same REV00000 metadata ID"
+        timeout: 60
+        
+      - name: "section_by_section_review"
+        gateway: "llm"
+        instruction: "Perform detailed section-by-section comparison between MVR and VST"
+        depends_on: ["match_mvr_vst_by_metadata"]
+        timeout: 300
+        
+      - name: "create_digest_markdown"
+        gateway: "llm"
+        instruction: "Generate concise markdown summary of key differences and findings"
+        depends_on: ["section_by_section_review"]
+        output_format: "markdown"
+        
+      - name: "create_detail_markdown"
+        gateway: "llm" 
+        instruction: "Generate detailed markdown with comprehensive analysis and evidence"
+        depends_on: ["section_by_section_review"]
+        output_format: "markdown"
+        
+      - name: "process_markdown_chain"
+        gateway: "heiros"
+        instruction: "Process both markdown versions through analysis chain"
+        depends_on: ["create_digest_markdown", "create_detail_markdown"]
+        
+      - name: "store_results_tidymart"
+        gateway: "heiros"
+        instruction: "Store comparison results and analysis in TidyMart"
+        depends_on: ["process_markdown_chain"]
+    
+    routing:
+      - condition: "processing_complete == true AND quality_score > 0.8"
+        destination: "../mvr_peer/"
+        action: "move_file"
+        
+      - condition: "processing_complete != true OR quality_score <= 0.8"
+        destination: "../que/"
+        action: "move_file"
+        reason: "Incomplete processing or low quality score"
+
+  # Stage 3: MVR Peer - Domain RAG Analysis
+  mvr_peer:
+    description: "Domain RAG peer review of all three analysis texts"
+    drop_zone: "mvr_peer/"
+    
+    operations:
+      - name: "load_domain_rag"
+        gateway: "heiros"
+        instruction: "Load pre-created domain RAG for MVR analysis context"
+        timeout: 60
+        
+      - name: "analyze_mvr_text"
+        gateway: "heiros"
+        instruction: "Analyze original MVR document against domain knowledge"
+        depends_on: ["load_domain_rag"]
+        parallel_group: "domain_analysis"
+        
+      - name: "analyze_digest_review"
+        gateway: "heiros" 
+        instruction: "Analyze digest review against domain knowledge"
+        depends_on: ["load_domain_rag"]
+        parallel_group: "domain_analysis"
+        
+      - name: "analyze_stepwise_review"
+        gateway: "heiros"
+        instruction: "Analyze detailed stepwise review against domain knowledge"  
+        depends_on: ["load_domain_rag"]
+        parallel_group: "domain_analysis"
+        
+      - name: "triangulate_analysis"
+        gateway: "llm"
+        instruction: "Triangulate findings from all three domain analyses"
+        depends_on: ["analyze_mvr_text", "analyze_digest_review", "analyze_stepwise_review"]
+        timeout: 240
+        
+      - name: "store_in_tidymart"
+        gateway: "heiros"
+        instruction: "Store triangulated analysis results in TidyMart"
+        depends_on: ["triangulate_analysis"]
+        
+      - name: "save_to_database"
+        gateway: "heiros"
+        instruction: "Persist final analysis results to database"
+        depends_on: ["store_in_tidymart"]
+    
+    routing:
+      - condition: "triangulation_complete == true"
+        destination: "../mvr_report/"
+        action: "move_file"
+
+  # Stage 4: MVR Report - Final Output Generation
+  mvr_report:
+    description: "Final report generation in multiple formats"
+    drop_zone: "mvr_report/"
+    
+    operations:
+      - name: "create_full_analysis_markdown"
+        gateway: "llm"
+        instruction: "Create comprehensive markdown report with all analysis results"
+        timeout: 180
+        output_format: "markdown"
+        
+      - name: "generate_pdf_report"
+        gateway: "llm"
+        instruction: "Convert markdown analysis to formatted PDF report"
+        depends_on: ["create_full_analysis_markdown"]
+        timeout: 120
+        output_format: "pdf"
+        
+      - name: "generate_json_summary"
+        gateway: "dspy"
+        instruction: "Create structured JSON summary of all findings and metadata"
+        depends_on: ["create_full_analysis_markdown"]
+        output_format: "json"
+        
+      - name: "archive_final_outputs"
+        gateway: "heiros"
+        instruction: "Archive all final outputs and update processing status"
+        depends_on: ["generate_pdf_report", "generate_json_summary"]
+    
+    routing:
+      - condition: "all_outputs_generated == true"
+        destination: "../completed/"
+        action: "move_file"
+        cleanup: true
+
+# Monitoring and Alerts
+monitoring:
+  progress_updates: true
+  tidymart_logging: true
+  error_notifications: true
+  processing_metrics: true
+  
+# Quality Assurance
+quality_gates:
+  metadata_validation: required
+  noise_threshold_check: required
+  domain_rag_availability: required
+  output_format_validation: required
+
+# Error Handling
+error_handling:
+  max_retries: 3
+  fallback_gateway: "llm"
+  error_queue: "error_review/"
+  notification_webhook: "tidymart://alerts"

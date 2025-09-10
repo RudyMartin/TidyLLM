@@ -1,0 +1,86 @@
+SOFTWARE LICENSE AGREEMENT
+===========================
+
+This Software License Agreement ("Agreement") is entered into on January 15, 2024, between:
+
+LICENSOR: TechSolutions Inc.
+Address: 123 Innovation Drive, Tech City, TC 12345
+Contact: legal@techsolutions.com
+
+LICENSEE: Digital Enterprises LLC  
+Address: 456 Business Park Way, Commerce City, CC 67890
+Contact: procurement@digitalent.com
+
+RECITALS
+========
+WHEREAS, Licensor owns and operates proprietary software solutions;
+WHEREAS, Licensee desires to license said software for business operations;
+
+NOW THEREFORE, the parties agree as follows:
+
+1. GRANT OF LICENSE
+==================
+1.1 Subject to terms herein, Licensor grants Licensee a non-exclusive, non-transferable license to use the Software.
+
+1.2 License scope: Up to 100 concurrent users across Licensee's organization.
+
+1.3 Permitted Use: Internal business operations only. No resale or redistribution permitted.
+
+2. TERM AND TERMINATION
+======================
+2.1 Term: 3 years commencing January 15, 2024
+2.2 Automatic renewal: Additional 1-year terms unless either party provides 90-day written notice
+2.3 Termination for cause: Either party may terminate for material breach with 30-day cure period
+
+3. FINANCIAL TERMS
+==================
+3.1 License Fee: $50,000 annually, payable in advance
+3.2 Support Fee: $15,000 annually for standard support
+3.3 Payment Terms: Net 30 days from invoice date
+3.4 Late Payment: 1.5% monthly interest on overdue amounts
+
+4. INTELLECTUAL PROPERTY
+========================
+4.1 Licensor retains all rights, title, and interest in Software
+4.2 No source code or proprietary information disclosure
+4.3 Licensee shall not reverse engineer, decompile, or modify Software
+
+5. SUPPORT AND MAINTENANCE
+==========================
+5.1 Standard support: Business hours (9 AM - 5 PM EST), Monday-Friday
+5.2 Response times: Critical issues - 4 hours, Standard issues - 24 hours
+5.3 Updates and patches included in maintenance fee
+
+6. DATA AND CONFIDENTIALITY
+===========================
+6.1 Each party maintains confidential information in strict confidence
+6.2 Data sovereignty: Licensee data remains Licensee property
+6.3 GDPR compliance: Both parties warrant compliance with applicable data protection laws
+
+7. LIABILITY AND WARRANTIES
+===========================
+7.1 Limited Warranty: Software performs substantially as documented for 90 days
+7.2 Liability Cap: Neither party liable for indirect or consequential damages
+7.3 Maximum liability: Total fees paid in preceding 12 months
+
+8. COMPLIANCE AND REGULATORY
+============================
+8.1 Export Control: Software subject to U.S. export administration regulations
+8.2 Industry Standards: Software complies with SOX, HIPAA where applicable
+8.3 Security: Annual penetration testing and security certifications maintained
+
+9. GENERAL PROVISIONS
+====================
+9.1 Governing Law: State of Delaware
+9.2 Dispute Resolution: Binding arbitration under AAA Commercial Rules
+9.3 Force Majeure: Standard force majeure clause applies
+9.4 Severability: Invalid provisions do not affect remainder of agreement
+
+IN WITNESS WHEREOF, the parties execute this Agreement:
+
+TECHSOLUTIONS INC.                DIGITAL ENTERPRISES LLC
+By: John Smith                    By: Sarah Johnson  
+Title: CEO                        Title: CTO
+Date: January 15, 2024           Date: January 15, 2024
+
+This contract contains confidential and proprietary information. Distribution restricted.

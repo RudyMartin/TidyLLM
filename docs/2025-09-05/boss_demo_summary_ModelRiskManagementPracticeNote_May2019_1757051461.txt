@@ -1,0 +1,28 @@
+BOSS DEMO PRODUCTION RESULTS
+==================================================
+
+File: ModelRiskManagementPracticeNote_May2019.pdf
+Processed: 2025-09-05T00:51:01.577630
+Original size: 266337 bytes
+Text extracted: 56176 characters
+Evidence points: 21
+JSON results: 1972 bytes
+
+Y=R+S+N CONTENT DECOMPOSITION:
+-----------------------------------
+Relevant (R): 70.0%
+Superfluous (S): 2.1%
+Noise (N): 27.9%
+Signal-to-Noise: 2.578
+Processing Efficiency: 70.0%
+
+REAL EVIDENCE TRAIL:
+- File system operations verified
+- Text extraction with hash verification
+- Mathematical content decomposition (Y=R+S+N)
+- Compliance analysis performed
+- Peer review generated
+- Results saved with timestamps
+
+Tracking file: boss_demo_evidence\demo_tracking_1757051424.json
+Markdown report: boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md
