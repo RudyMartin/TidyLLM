@@ -16,6 +16,7 @@ def render_sidebar():
     # Navigation menu
     pages = [
         "Connection Config",
+        "System Setup",
         "Chat Test", 
         "Knowledge Management",
         "Workflows",

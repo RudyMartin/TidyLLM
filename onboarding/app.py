@@ -17,6 +17,7 @@ from core.session_manager import init_streamlit_session_state
 from ui.components.sidebar import render_sidebar
 from ui.pages import (
     render_connection_page,
+    render_setup_page,
     render_chat_page,
     render_knowledge_page,
     render_workflows_page,
@@ -87,6 +88,8 @@ def main():
     # Render main content based on selection
     if selected_page == "Connection Config":
         render_connection_page()
+    elif selected_page == "System Setup":
+        render_setup_page()
     elif selected_page == "Chat Test":
         render_chat_page()
     elif selected_page == "Knowledge Management":
