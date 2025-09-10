@@ -68,9 +68,12 @@ from datetime import datetime, timedelta
 import os
 import tempfile
 import shutil
+import logging
 from pathlib import Path
 
-from .base_gateway import BaseGateway, GatewayResponse
+logger = logging.getLogger(__name__)
+
+from .base_gateway import BaseGateway, GatewayResponse, GatewayDependencies
 
 
 @dataclass
@@ -107,16 +110,8 @@ class FileStorageGateway(BaseGateway):
     """
     
     def __init__(self, config: Optional[FileStorageConfig] = None):
-        # Create GatewayConfig for the base class
-        gateway_config = GatewayConfig(
-            base_url="file://local",  # File storage is local
-            timeout=30,
-            enable_audit_logging=True,
-            enable_rate_limiting=False,  # Files don't need rate limiting
-            enable_quota_management=True,
-            enable_health_monitoring=True
-        )
-        super().__init__(gateway_config)
+        # Initialize with centralized settings approach
+        super().__init__(config={})
         
         # Set our specific file storage config
         self.file_config = config or FileStorageConfig()
@@ -140,9 +135,14 @@ class FileStorageGateway(BaseGateway):
         operation = request.get('operation', 'unknown')
         return {"success": False, "error": f"Operation {operation} not supported through _execute_request"}
     
-    def _get_default_dependencies(self) -> List[str]:
+    def _get_default_dependencies(self) -> GatewayDependencies:
         """Get default dependencies for file storage gateway."""
-        return ["s3_client", "local_storage"]
+        return GatewayDependencies(
+            requires_ai_processing=False,
+            requires_corporate_llm=False,
+            requires_workflow_optimizer=False,
+            requires_knowledge_resources=False
+        )
     
     def process(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Process file storage request."""
@@ -188,7 +188,7 @@ class FileStorageGateway(BaseGateway):
             "s3_storage": self.s3_client is not None,
             "file_operations": ["store", "retrieve", "list", "delete"],
             "supported_formats": ["*"],
-            "max_file_size": self.file_config.max_file_size,
+            "max_file_size": self.file_config.max_file_size_mb,
             "retention_policies": True
         }
         
