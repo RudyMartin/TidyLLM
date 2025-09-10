@@ -116,6 +116,97 @@ def render_connection_page():
     
     st.markdown("---")
     
+    # AWS Credentials Configuration Section
+    st.markdown("### 🔑 AWS Credentials Configuration")
+    st.info("""
+    **Configure your AWS credentials for TidyLLM access.**
+    
+    These credentials will be used for all AWS services (S3, Bedrock, STS).
+    """)
+    
+    # Get current AWS credentials from settings
+    try:
+        settings_path = Path(__file__).parent.parent.parent.parent / "tidyllm" / "admin" / "settings.yaml"
+        current_aws_config = {}
+        
+        if settings_path.exists():
+            with open(settings_path, 'r') as f:
+                settings = yaml.safe_load(f) or {}
+            current_aws_config = settings.get("aws", {})
+        
+        # AWS credentials input
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            aws_access_key = st.text_input(
+                "AWS Access Key ID",
+                value=current_aws_config.get("access_key_id", ""),
+                type="password",
+                help="Your AWS access key ID"
+            )
+            
+            aws_region = st.selectbox(
+                "AWS Region",
+                options=["us-east-1", "us-west-2", "eu-west-1", "ap-southeast-1"],
+                index=0 if current_aws_config.get("region", "us-east-1") == "us-east-1" else 1,
+                help="AWS region for your services"
+            )
+        
+        with col2:
+            aws_secret_key = st.text_input(
+                "AWS Secret Access Key",
+                value=current_aws_config.get("secret_access_key", ""),
+                type="password",
+                help="Your AWS secret access key"
+            )
+            
+            # Show current region
+            if current_aws_config.get("region"):
+                st.info(f"Current region: `{current_aws_config.get('region')}`")
+        
+        # Update AWS credentials button
+        if aws_access_key and aws_secret_key:
+            if st.button("🔑 Update AWS Credentials", type="primary"):
+                try:
+                    # Load current settings
+                    if settings_path.exists():
+                        with open(settings_path, 'r') as f:
+                            settings = yaml.safe_load(f) or {}
+                    else:
+                        settings = {}
+                    
+                    # Update AWS configuration
+                    if "aws" not in settings:
+                        settings["aws"] = {}
+                    
+                    settings["aws"]["access_key_id"] = aws_access_key
+                    settings["aws"]["secret_access_key"] = aws_secret_key
+                    settings["aws"]["region"] = aws_region
+                    settings["aws"]["default_region"] = aws_region
+                    
+                    # Also update api_keys section for compatibility
+                    if "api_keys" not in settings:
+                        settings["api_keys"] = {}
+                    settings["api_keys"]["aws_access_key_id"] = aws_access_key
+                    settings["api_keys"]["aws_secret_access_key"] = aws_secret_key
+                    
+                    # Save settings
+                    with open(settings_path, 'w') as f:
+                        yaml.dump(settings, f, default_flow_style=False, sort_keys=False)
+                    
+                    st.success("✅ AWS credentials updated successfully!")
+                    st.info("🔄 Please refresh the page or restart the system to apply changes.")
+                    
+                except Exception as e:
+                    st.error(f"❌ Error updating AWS credentials: {e}")
+        else:
+            st.warning("⚠️ Please enter both AWS Access Key ID and Secret Access Key")
+    
+    except Exception as e:
+        st.error(f"❌ Error loading AWS configuration: {e}")
+    
+    st.markdown("---")
+    
     st.markdown("### 🚨 AWS Connection Required")
     st.error("""
     **⚠️ NOTHING WORKS WITHOUT AWS CONNECTION**

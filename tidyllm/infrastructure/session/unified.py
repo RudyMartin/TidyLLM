@@ -720,6 +720,8 @@ class UnifiedSessionManager:
         
         if service in ["all", "bedrock"]:
             results["bedrock"] = self._test_bedrock_connection()
+            # Also test runtime access (what's actually needed for AI processing)
+            results["bedrock_runtime"] = self._test_bedrock_runtime_access()
         
         if service in ["all", "postgres"]:
             results["postgres"] = self._test_postgres_connection()
@@ -758,6 +760,13 @@ class UnifiedSessionManager:
         
         try:
             bedrock_client = self.get_bedrock_client()
+            if bedrock_client is None:
+                return {
+                    "status": "no_client",
+                    "duration_ms": 0,
+                    "error": "Bedrock client not available",
+                    "message": "Bedrock client not initialized - check AWS credentials"
+                }
             # Test with a minimal model list call
             response = bedrock_client.list_foundation_models()
             duration_ms = (time.time() - start_time) * 1000
@@ -770,12 +779,104 @@ class UnifiedSessionManager:
             }
         except Exception as e:
             duration_ms = (time.time() - start_time) * 1000
-            return {
-                "status": "failed",
-                "duration_ms": round(duration_ms, 1),
-                "error": str(e),
-                "message": f"Bedrock connection failed: {str(e)}"
+            error_str = str(e)
+            
+            # Handle specific permission errors with helpful guidance
+            if "AccessDeniedException" in error_str and "bedrock:ListFoundationModels" in error_str:
+                return {
+                    "status": "corporate_restricted",
+                    "duration_ms": round(duration_ms, 1),
+                    "error": error_str,
+                    "message": "Bedrock connection: Corporate policy restricts ListFoundationModels",
+                    "solution": "This is normal in corporate environments. Bedrock runtime access may still work.",
+                    "user_arn": self._extract_user_arn_from_error(error_str),
+                    "corporate_mode": True
+                }
+            else:
+                return {
+                    "status": "failed",
+                    "duration_ms": round(duration_ms, 1),
+                    "error": error_str,
+                    "message": f"Bedrock connection failed: {error_str}"
+                }
+    
+    def _extract_user_arn_from_error(self, error_str: str) -> str:
+        """Extract user ARN from AccessDeniedException error message."""
+        import re
+        # Look for pattern: User: arn:aws:iam::account:user/username
+        match = re.search(r'User: (arn:aws:iam::\d+:user/[^\s]+)', error_str)
+        return match.group(1) if match else "Unknown"
+    
+    def _test_bedrock_runtime_access(self) -> Dict[str, Any]:
+        """Test Bedrock runtime access (what's actually needed for AI processing)."""
+        import time
+        import json
+        start_time = time.time()
+        
+        try:
+            # Test with bedrock-runtime client (what's actually used for AI processing)
+            bedrock_runtime_client = self.get_bedrock_runtime_client()
+            if bedrock_runtime_client is None:
+                return {
+                    "status": "no_client",
+                    "duration_ms": 0,
+                    "error": "Bedrock runtime client not available",
+                    "message": "Bedrock runtime client not initialized - check AWS credentials"
+                }
+            # Try a simple invoke_model call with a minimal payload
+            # This tests the actual permission needed for AI processing
+            test_payload = {
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 10,
+                "messages": [{"role": "user", "content": "test"}]
             }
+            
+            # This will fail with a model not found error, but that's OK - we're testing permissions
+            try:
+                bedrock_runtime_client.invoke_model(
+                    modelId="anthropic.claude-3-haiku-20240307-v1:0",
+                    body=json.dumps(test_payload),
+                    contentType="application/json"
+                )
+            except Exception as e:
+                error_str = str(e)
+                # If it's a model not found error, that means permissions are OK
+                if "ValidationException" in error_str and "model" in error_str.lower():
+                    duration_ms = (time.time() - start_time) * 1000
+                    return {
+                        "status": "success",
+                        "duration_ms": round(duration_ms, 1),
+                        "message": f"Bedrock runtime access confirmed ({duration_ms:.1f}ms)",
+                        "note": "Model validation error indicates permissions are OK"
+                    }
+                else:
+                    raise e
+            
+            duration_ms = (time.time() - start_time) * 1000
+            return {
+                "status": "success",
+                "duration_ms": round(duration_ms, 1),
+                "message": f"Bedrock runtime access confirmed ({duration_ms:.1f}ms)"
+            }
+            
+        except Exception as e:
+            duration_ms = (time.time() - start_time) * 1000
+            error_str = str(e)
+            
+            if "AccessDeniedException" in error_str:
+                return {
+                    "status": "permission_denied",
+                    "duration_ms": round(duration_ms, 1),
+                    "error": error_str,
+                    "message": "Bedrock runtime access denied - check bedrock:InvokeModel permission"
+                }
+            else:
+                return {
+                    "status": "failed",
+                    "duration_ms": round(duration_ms, 1),
+                    "error": error_str,
+                    "message": f"Bedrock runtime test failed: {error_str}"
+                }
 
     def _test_postgres_connection(self) -> Dict[str, Any]:
         """Test PostgreSQL connection with timing and details."""
