@@ -261,7 +261,7 @@ class DynamicModelDiscovery:
         # Use UnifiedSessionManager for bedrock-runtime client if available
         if self.session_manager:
             try:
-                bedrock_runtime = self.session_manager.get_bedrock_client()
+                bedrock_runtime = self.session_manager.get_bedrock_runtime_client()
                 logger.info("DynamicModelDiscovery: Using UnifiedSessionManager for Bedrock Runtime")
             except Exception as e:
                 logger.error(f"DynamicModelDiscovery: Failed to get Bedrock client from session manager: {e}")
