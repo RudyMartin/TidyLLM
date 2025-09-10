@@ -150,7 +150,17 @@ class ConnectionValidator:
             for name, gateway_class in gateways.items():
                 start_time = time.time()
                 try:
-                    gateway = gateway_class(session_manager=session_manager)
+                    # Create gateway with proper parameters
+                    if name == 'database':
+                        from tidyllm.gateways.database_gateway import DatabaseGatewayConfig
+                        config = DatabaseGatewayConfig()
+                        gateway = gateway_class(config)
+                    else:
+                        gateway = gateway_class()
+                    
+                    # Set session manager after creation
+                    gateway.session_manager = session_manager
+                    
                     result[name] = {
                         'status': 'success',
                         'message': f'{name} gateway initialized successfully',
