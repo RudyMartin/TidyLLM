@@ -8,7 +8,6 @@ unified vector storage in pgvector or FAISS.
 
 from dataclasses import dataclass
 from typing import Dict, List, Optional
-import numpy as np
 
 @dataclass
 class ModelEmbeddingConfig:

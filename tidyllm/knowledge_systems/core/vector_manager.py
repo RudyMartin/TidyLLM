@@ -17,7 +17,8 @@ import logging
 from typing import Dict, List, Any, Optional, Union, Tuple
 from dataclasses import dataclass
 from datetime import datetime
-import numpy as np
+import random
+import math
 
 # Import embedding standardization
 from .embedding_config import EmbeddingStandardizer, standardize_embedding, get_target_dimension
@@ -28,7 +29,7 @@ try:
     from pathlib import Path
     project_root = Path(__file__).parent.parent.parent.parent
     sys.path.insert(0, str(project_root))
-    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    from tidyllm.infrastructure.session.unified import UnifiedSessionManager
     UNIFIED_SESSION_AVAILABLE = True
 except ImportError:
     UNIFIED_SESSION_AVAILABLE = False
@@ -361,12 +362,17 @@ class VectorManager:
         
         # Mock embedding generation (replace with actual embedding service)
         # This would typically call OpenAI API or local embedding model
-        embedding = np.random.normal(0, 1, self.config.vector_dimension).tolist()
+        embedding = [random.gauss(0, 1) for _ in range(self.config.vector_dimension)]
         
-        # Normalize embedding
-        norm = np.linalg.norm(embedding)
-        if norm > 0:
-            embedding = (np.array(embedding) / norm).tolist()
+        # Normalize embedding using TLM
+        try:
+            import tlm
+            embedding = tlm.l2_normalize([embedding])[0]  # l2_normalize expects 2D, returns 2D
+        except ImportError:
+            # Fallback to manual normalization if TLM not available
+            norm = math.sqrt(sum(x*x for x in embedding))
+            if norm > 0:
+                embedding = [x / norm for x in embedding]
         
         # Cache result
         self._embedding_cache[text_hash] = embedding

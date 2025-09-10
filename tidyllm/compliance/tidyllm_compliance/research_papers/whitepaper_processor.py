@@ -354,12 +354,12 @@ class WhitepaperProcessor:
             
             # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
             try:
-                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
                 session_manager = UnifiedSessionManager()
                 s3_client = session_manager.get_s3_client()
             except ImportError:
-                # Fallback to direct boto3
-                s3_client = boto3.client('s3')
+                # NO FALLBACK - UnifiedSessionManager is required
+                raise RuntimeError("WhitepaperProcessor: UnifiedSessionManager is required for S3 access")
             
             # Upload PDF
             pdf_key = f"{prefix}papers/{Path(metadata.file_path).name}"

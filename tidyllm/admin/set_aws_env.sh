@@ -15,7 +15,7 @@ echo "Region: $AWS_DEFAULT_REGION"
 # Test S3 connectivity
 echo ""
 echo "Testing S3 connectivity..."
-python3 -c "import boto3; print('S3 buckets:', len(boto3.client('s3').list_buckets()['Buckets']))" 2>/dev/null && echo "S3 connection successful" || echo "S3 connection failed"
+python3 -c "from tidyllm.infrastructure.session.unified import UnifiedSessionManager; sm = UnifiedSessionManager(); client = sm.get_s3_client(); print('S3 buckets:', len(client.list_buckets()['Buckets']))" 2>/dev/null && echo "S3 connection successful" || echo "S3 connection failed"
 
 echo ""
 echo "To use these credentials, source this script before starting TidyLLM systems:"

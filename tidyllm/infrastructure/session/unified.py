@@ -449,6 +449,38 @@ class UnifiedSessionManager:
             )
             logger.warning(f"[ERROR] Bedrock connection failed: {e}")
     
+    def _init_sts(self):
+        """Initialize STS connection"""
+        try:
+            start_time = time.time()
+            
+            if self.config.credential_source == CredentialSource.IAM_ROLE:
+                session = boto3.Session()
+            elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
+                # Use credentials from environment or settings file
+                session = boto3.Session(
+                    aws_access_key_id=self.config.s3_access_key_id,
+                    aws_secret_access_key=self.config.s3_secret_access_key,
+                    region_name=self.config.bedrock_region
+                )
+            else:
+                session = boto3.Session(profile_name=self.config.aws_profile)
+            
+            self._sts_client = session.client('sts', region_name=self.config.bedrock_region)
+            
+            # Test with get_caller_identity
+            try:
+                self._sts_client.get_caller_identity()
+            except:
+                pass  # May not have permissions, but client works
+            
+            latency = (time.time() - start_time) * 1000
+            logger.info(f"[OK] STS connection established ({latency:.1f}ms)")
+            
+        except Exception as e:
+            logger.warning(f"[ERROR] STS connection failed: {e}")
+            self._sts_client = None
+    
     def _init_postgresql(self):
         """Initialize PostgreSQL connection pool"""
         try:
@@ -507,6 +539,12 @@ class UnifiedSessionManager:
     def get_bedrock_client(self):
         """Get Bedrock client (thread-safe)"""
         return self._bedrock_client
+    
+    def get_sts_client(self):
+        """Get STS client (thread-safe)"""
+        if not hasattr(self, '_sts_client'):
+            self._init_sts()
+        return self._sts_client
     
     def get_postgres_connection(self):
         """Get PostgreSQL connection from pool"""
@@ -666,6 +704,23 @@ class UnifiedSessionManager:
         
         try:
             conn = self.get_postgres_connection()
+            
+            # Better error message if connection is None
+            if conn is None:
+                duration_ms = (time.time() - start_time) * 1000
+                return {
+                    "status": "failed",
+                    "duration_ms": round(duration_ms, 1),
+                    "error": "get_postgres_connection() returned None",
+                    "message": "PostgreSQL connection failed: Connection pool not initialized or database credentials missing. Check settings.yaml for postgres_* configuration.",
+                    "troubleshooting": [
+                        "Verify postgres_host, postgres_port, postgres_database are set in settings.yaml",
+                        "Ensure postgres_user and postgres_password are configured",
+                        "Check if PostgreSQL server is running and accessible",
+                        "Verify network connectivity to database server"
+                    ]
+                }
+            
             cursor = conn.cursor()
             cursor.execute("SELECT 1")
             result = cursor.fetchone()
@@ -682,11 +737,42 @@ class UnifiedSessionManager:
             }
         except Exception as e:
             duration_ms = (time.time() - start_time) * 1000
+            error_message = str(e)
+            
+            # Provide more specific error messages based on common issues
+            troubleshooting = []
+            if "authentication failed" in error_message.lower():
+                troubleshooting = [
+                    "Check postgres_user and postgres_password in settings.yaml",
+                    "Verify user has access to the specified database",
+                    "Ensure password is correct and not expired"
+                ]
+            elif "could not connect" in error_message.lower() or "connection refused" in error_message.lower():
+                troubleshooting = [
+                    "Verify PostgreSQL server is running",
+                    "Check postgres_host and postgres_port in settings.yaml",
+                    "Ensure firewall allows connections to database port",
+                    "Verify database server is accepting connections"
+                ]
+            elif "database" in error_message.lower() and "does not exist" in error_message.lower():
+                troubleshooting = [
+                    "Check postgres_database name in settings.yaml",
+                    "Ensure the database exists on the server",
+                    "Create the database if it doesn't exist"
+                ]
+            else:
+                troubleshooting = [
+                    "Check all postgres_* settings in settings.yaml",
+                    "Verify PostgreSQL server is running and accessible",
+                    "Review connection logs for more details"
+                ]
+            
             return {
                 "status": "failed",
                 "duration_ms": round(duration_ms, 1),
-                "error": str(e),
-                "message": f"PostgreSQL connection failed: {str(e)}"
+                "error": error_message,
+                "message": f"PostgreSQL connection failed: {error_message}",
+                "troubleshooting": troubleshooting
             }
     
     def validate_session(self) -> Dict[str, Any]:

@@ -2,6 +2,22 @@
 # Comprehensive gitignore for Python projects with AI/ML focus
 
 # =============================================================================
+# DATABASE & SECURITY
+# =============================================================================
+
+# SQLite databases and backups
+data/*.db
+data/*.sqlite
+data/*.sqlite3
+data/backups/*.db*
+data/backups/*.sql
+
+# Environment files with secrets
+.env
+.env.local
+.env.production
+
+# =============================================================================
 # PYTHON
 # =============================================================================
 

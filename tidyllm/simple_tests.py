@@ -11,8 +11,10 @@ from pathlib import Path
 def test_s3_basic():
     """Test basic S3 connectivity."""
     try:
-        import boto3
-        client = boto3.client('s3')
+        # Use UnifiedSessionManager for S3 client
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+        session_mgr = UnifiedSessionManager()
+        client = session_mgr.get_s3_client()
         buckets = client.list_buckets()
         print(f"[SUCCESS] S3 connectivity: Found {len(buckets['Buckets'])} buckets")
         return True

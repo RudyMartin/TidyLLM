@@ -635,9 +635,13 @@ class BedrockAIBackend(AIBackendInterface):
         else:
             # Fallback availability check
             try:
-                import boto3
-                boto3.client('bedrock-runtime')
-                return True
+                # Use UnifiedSessionManager for availability check
+                if self.session_manager:
+                    bedrock = self.session_manager.get_bedrock_client()
+                    bedrock.list_foundation_models()
+                    return True
+                else:
+                    return False
             except Exception:
                 return False
     
@@ -648,9 +652,8 @@ class BedrockAIBackend(AIBackendInterface):
                 bedrock = self.session_manager.get_bedrock_client() 
                 logger.info("Using UnifiedSessionManager for Bedrock access")
             else:
-                import boto3
-                bedrock = boto3.client('bedrock-runtime')
-                logger.warning("Using direct boto3 for Bedrock (no session manager)")
+                # NO FALLBACK - UnifiedSessionManager is required
+                raise RuntimeError("AIProcessingGateway: UnifiedSessionManager is required for Bedrock access")
             
             # Bedrock API call implementation would go here
             return f"[BEDROCK] Processed: {request.prompt[:50]}..."

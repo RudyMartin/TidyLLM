@@ -11,11 +11,11 @@ Comprehensive system monitoring page for AI Dropzone Manager including:
 """
 
 import streamlit as st
-import pandas as pd
+import polars as pl
 import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
-import numpy as np
+import random
 from typing import Dict, List, Any
 
 st.set_page_config(
@@ -34,14 +34,14 @@ class SystemMonitor:
         """Get current system performance metrics."""
         # Simulate real metrics (replace with actual monitoring)
         return {
-            "cpu_usage": np.random.uniform(15, 45),
-            "memory_usage": np.random.uniform(25, 65),
-            "disk_usage": np.random.uniform(35, 75),
-            "network_io": np.random.uniform(10, 90),
-            "active_workers": np.random.randint(2, 8),
-            "queue_length": np.random.randint(0, 15),
-            "processing_rate": np.random.uniform(8, 25),
-            "error_rate": np.random.uniform(0, 5)
+            "cpu_usage": random.uniform(15, 45),
+            "memory_usage": random.uniform(25, 65),
+            "disk_usage": random.uniform(35, 75),
+            "network_io": random.uniform(10, 90),
+            "active_workers": random.randint(2, 8),
+            "queue_length": random.randint(0, 15),
+            "processing_rate": random.uniform(8, 25),
+            "error_rate": random.uniform(0, 5)
         }
     
     def get_worker_status(self) -> List[Dict[str, Any]]:
@@ -90,7 +90,7 @@ class SystemMonitor:
         ]
         return workers
     
-    def get_error_log(self) -> pd.DataFrame:
+    def get_error_log(self) -> pl.DataFrame:
         """Get recent system errors and warnings."""
         # Simulate error log (replace with actual log parsing)
         errors = []
@@ -99,29 +99,29 @@ class SystemMonitor:
         for i in range(10):
             errors.append({
                 "timestamp": base_time - timedelta(minutes=i*15),
-                "level": np.random.choice(["ERROR", "WARNING", "INFO"], p=[0.2, 0.3, 0.5]),
-                "component": np.random.choice(["AI Manager", "Worker", "Gateway", "Storage"]),
+                "level": random.choices(["ERROR", "WARNING", "INFO"], weights=[0.2, 0.3, 0.5])[0],
+                "component": random.choice(["AI Manager", "Worker", "Gateway", "Storage"]),
                 "message": f"Sample error message {i+1}",
-                "count": np.random.randint(1, 5)
+                "count": random.randint(1, 5)
             })
         
-        return pd.DataFrame(errors)
+        return pl.DataFrame(errors)
     
-    def get_performance_history(self) -> pd.DataFrame:
+    def get_performance_history(self) -> pl.DataFrame:
         """Get historical performance data."""
         # Generate sample performance data
-        times = pd.date_range(start=datetime.now() - timedelta(hours=4), periods=48, freq='5T')
+        times = [datetime.now() - timedelta(hours=4) + timedelta(minutes=5*i) for i in range(48)]
         
         data = {
             "timestamp": times,
-            "cpu_usage": np.random.uniform(10, 50, 48),
-            "memory_usage": np.random.uniform(20, 70, 48), 
-            "processing_rate": np.random.uniform(5, 30, 48),
-            "queue_length": np.random.randint(0, 20, 48),
-            "error_rate": np.random.uniform(0, 8, 48)
+            "cpu_usage": random.uniform(10, 50, 48),
+            "memory_usage": random.uniform(20, 70, 48), 
+            "processing_rate": random.uniform(5, 30, 48),
+            "queue_length": random.randint(0, 20, 48),
+            "error_rate": random.uniform(0, 8, 48)
         }
         
-        return pd.DataFrame(data)
+        return pl.DataFrame(data)
 
 def main():
     """Main system monitor page."""
@@ -153,28 +153,28 @@ def main():
         st.metric(
             "CPU Usage",
             f"{metrics['cpu_usage']:.1f}%",
-            delta=f"{np.random.uniform(-2, 2):.1f}%"
+            delta=f"{random.uniform(-2, 2):.1f}%"
         )
         
     with col2:
         st.metric(
             "Memory Usage", 
             f"{metrics['memory_usage']:.1f}%",
-            delta=f"{np.random.uniform(-1, 3):.1f}%"
+            delta=f"{random.uniform(-1, 3):.1f}%"
         )
         
     with col3:
         st.metric(
             "Active Workers",
             int(metrics['active_workers']),
-            delta=np.random.randint(-1, 2)
+            delta=random.randint(-1, 2)
         )
         
     with col4:
         st.metric(
             "Queue Length",
             int(metrics['queue_length']),
-            delta=np.random.randint(-3, 3)
+            delta=random.randint(-3, 3)
         )
     
     # Performance charts

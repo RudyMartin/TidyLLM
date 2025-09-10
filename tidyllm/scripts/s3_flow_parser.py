@@ -78,11 +78,16 @@ class S3FlowParser(UniversalFlowParser):
         self.s3_client = s3_client
         if self.s3_client is None:
             try:
-                self.s3_client = boto3.client('s3')
-                logger.info("Initialized S3 client")
+                # Use UnifiedSessionManager for S3 client
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+                session_mgr = UnifiedSessionManager()
+                self.s3_client = session_mgr.get_s3_client()
+                logger.info("Initialized S3 client via UnifiedSessionManager")
             except (NoCredentialsError, Exception) as e:
-                logger.warning(f"Could not initialize S3 client: {e}")
-                self.s3_client = None
+                logger.warning(f"Could not initialize S3 client via UnifiedSessionManager: {e}")
+                # NO FALLBACK - UnifiedSessionManager is required
+                logger.error(f"Could not initialize S3 client via UnifiedSessionManager: {e}")
+                raise RuntimeError("S3FlowParser: UnifiedSessionManager is required for S3 access")
         
         # S3 trigger configuration
         self.trigger_rules: List[S3TriggerRule] = []

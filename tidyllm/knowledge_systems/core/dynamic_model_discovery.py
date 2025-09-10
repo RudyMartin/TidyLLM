@@ -142,13 +142,11 @@ class DynamicModelDiscovery:
                             self.bedrock_client = session.client('bedrock', region_name=self.region)
                             logger.info("DynamicModelDiscovery: Using UnifiedSessionManager session for Bedrock")
                     else:
-                        # Fallback to direct boto3
-                        self.bedrock_client = boto3.client('bedrock', region_name=self.region)
-                        logger.warning("DynamicModelDiscovery: Using direct boto3 for Bedrock (no session manager)")
+                        # NO FALLBACK - UnifiedSessionManager is required
+                        raise RuntimeError("DynamicModelDiscovery: UnifiedSessionManager is required for Bedrock access")
                 else:
-                    # Fallback to direct boto3 when no session manager
-                    self.bedrock_client = boto3.client('bedrock', region_name=self.region)
-                    logger.info("DynamicModelDiscovery: Using direct boto3 for Bedrock (no UnifiedSessionManager)")
+                    # NO FALLBACK - UnifiedSessionManager is required
+                    raise RuntimeError("DynamicModelDiscovery: UnifiedSessionManager is required for Bedrock access")
             except Exception as e:
                 logger.error(f"Failed to create Bedrock client: {e}")
                 return None
@@ -266,11 +264,10 @@ class DynamicModelDiscovery:
                 bedrock_runtime = self.session_manager.get_bedrock_client()
                 logger.info("DynamicModelDiscovery: Using UnifiedSessionManager for Bedrock Runtime")
             except Exception as e:
-                logger.warning(f"DynamicModelDiscovery: Failed to get Bedrock client from session manager: {e}")
-                bedrock_runtime = boto3.client('bedrock-runtime', region_name=self.region)
+                logger.error(f"DynamicModelDiscovery: Failed to get Bedrock client from session manager: {e}")
+                raise RuntimeError("DynamicModelDiscovery: UnifiedSessionManager is required for Bedrock Runtime access")
         else:
-            bedrock_runtime = boto3.client('bedrock-runtime', region_name=self.region)
-            logger.info("DynamicModelDiscovery: Using direct boto3 for Bedrock Runtime (no UnifiedSessionManager)")
+            raise RuntimeError("DynamicModelDiscovery: UnifiedSessionManager is required for Bedrock Runtime access")
         
         test_text = "Hello world"
         

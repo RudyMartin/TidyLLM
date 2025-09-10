@@ -127,8 +127,10 @@ def load_admin_config_and_credentials():
         if not credentials_found and PLATFORM_INFO['is_sagemaker']:
             print("[INFO] SageMaker environment - checking for IAM role credentials")
             try:
-                import boto3
-                sts = boto3.client('sts')
+                # Use UnifiedSessionManager for STS client
+                from .session.unified import UnifiedSessionManager
+                session_mgr = UnifiedSessionManager()
+                sts = session_mgr.get_sts_client()
                 identity = sts.get_caller_identity()
                 print(f"[AUTO-LOADED] Using SageMaker IAM role: {identity['Arn']}")
                 credentials_found = True
@@ -228,9 +230,12 @@ def test_aws_credentials():
         
         start_time = time.time()
         
-        # Try to get caller identity
+        # Try to get caller identity using UnifiedSessionManager if available
         try:
-            sts = boto3.client('sts')
+            # Use UnifiedSessionManager for STS client
+            from .session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            sts = session_mgr.get_sts_client()
             identity = sts.get_caller_identity()
             response_time = (time.time() - start_time) * 1000
             

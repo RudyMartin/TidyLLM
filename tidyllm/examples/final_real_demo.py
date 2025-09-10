@@ -23,7 +23,10 @@ def real_enterprise_demo():
     os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
     
     try:
-        bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+        # Use UnifiedSessionManager for Bedrock client
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+        session_mgr = UnifiedSessionManager()
+        bedrock = session_mgr.get_bedrock_client()
         
         print("1. ENTERPRISE CHAT API - REAL AI")
         print("-" * 40)

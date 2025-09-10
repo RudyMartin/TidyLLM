@@ -162,9 +162,8 @@ class BaseGateway(ABC):
         if self.session_manager:
             return self.session_manager.get_s3_client()
         else:
-            # Fallback to direct boto3
-            import boto3
-            return boto3.client('s3')
+            # NO FALLBACK - UnifiedSessionManager is required
+            raise RuntimeError("BaseGateway: UnifiedSessionManager is required for S3 access")
     
     def get_postgres_connection(self):
         """Get PostgreSQL connection through UnifiedSessionManager if available."""

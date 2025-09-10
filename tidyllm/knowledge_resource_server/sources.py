@@ -81,7 +81,7 @@ class S3KnowledgeSource(KnowledgeSource):
                 from ...infrastructure.session import UnifiedSessionManager
             except ImportError:
                 # Try absolute import if relative fails
-                from tidyllm.infrastructure.session import UnifiedSessionManager
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
             self._session_manager = UnifiedSessionManager()
             self._s3_client = self._session_manager.get_s3_client()
             logger.info("[OK] S3 client initialized via UnifiedSessionManager")
@@ -446,7 +446,7 @@ class DatabaseKnowledgeSource(KnowledgeSource):
                 from ...infrastructure.session import UnifiedSessionManager
             except ImportError:
                 # Try absolute import if relative fails  
-                from tidyllm.infrastructure.session import UnifiedSessionManager
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
                 
             self._session_manager = UnifiedSessionManager()
             self._connection = self._session_manager.get_postgres_connection()

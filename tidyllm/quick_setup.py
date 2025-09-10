@@ -105,7 +105,7 @@ def main():
     # Test S3 connectivity
     test_s3_cmd = [
         sys.executable, "-c",
-        "import boto3; client = boto3.client('s3'); print('S3 buckets:', len(client.list_buckets()['Buckets']))"
+        "from tidyllm.infrastructure.session.unified import UnifiedSessionManager; sm = UnifiedSessionManager(); client = sm.get_s3_client(); print('S3 buckets:', len(client.list_buckets()['Buckets']))"
     ]
     success = run_command(test_s3_cmd, "Testing S3 connectivity", required=False)
     

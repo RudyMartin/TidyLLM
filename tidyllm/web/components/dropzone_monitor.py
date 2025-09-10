@@ -7,7 +7,7 @@ Provides real-time file detection, processing status, and interactive controls.
 """
 
 import streamlit as st
-import pandas as pd
+import polars as pl
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Any, Optional
