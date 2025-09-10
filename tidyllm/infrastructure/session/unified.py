@@ -211,7 +211,81 @@ class UnifiedSessionManager:
             logger.info("[OK] Found AWS credentials in environment")
     
     def _load_from_settings(self):
-        """Load from tidyllm settings files - search upward from current directory"""
+        """Load from centralized settings manager"""
+        try:
+            # Use centralized settings manager
+            from ..settings_manager import get_settings_manager
+            settings_manager = get_settings_manager()
+            settings = settings_manager.get_settings()
+            
+            if settings:
+                logger.info(f"[OK] Loaded settings from centralized manager: {settings_manager.settings_file}")
+                self._apply_settings_to_config(settings)
+                return
+        except ImportError:
+            logger.debug("Centralized settings manager not available, falling back to direct loading")
+        except Exception as e:
+            logger.warning(f"Failed to load from centralized settings manager: {e}")
+        
+        # Fallback: Direct settings loading (legacy)
+        self._load_from_settings_direct()
+    
+    def _apply_settings_to_config(self, settings: Dict[str, Any]):
+        """Apply centralized settings to USM config"""
+        # Apply AWS settings
+        aws_config = settings.get("aws", {})
+        if aws_config:
+            self.config.aws_access_key_id = aws_config.get("access_key_id")
+            self.config.aws_secret_access_key = aws_config.get("secret_access_key")
+            self.config.aws_region = aws_config.get("region", "us-east-1")
+            self.config.s3_access_key_id = aws_config.get("access_key_id")
+            self.config.s3_secret_access_key = aws_config.get("secret_access_key")
+            self.config.s3_region = aws_config.get("region", "us-east-1")
+            
+            # S3 specific settings
+            s3_config = settings.get("s3", {})
+            if s3_config:
+                self.config.s3_default_bucket = s3_config.get("default_bucket")
+                self.config.s3_default_prefix = s3_config.get("default_prefix")
+        
+        # Apply PostgreSQL settings
+        postgres_config = settings.get("postgres", {})
+        if postgres_config:
+            self.config.postgres_host = postgres_config.get("host")
+            self.config.postgres_port = postgres_config.get("port", 5432)
+            self.config.postgres_database = postgres_config.get("database")
+            self.config.postgres_username = postgres_config.get("username")
+            self.config.postgres_password = postgres_config.get("password")
+        
+        # Apply system settings
+        system_config = settings.get("system", {})
+        if system_config:
+            self.config.root_path = system_config.get("root_path")
+        
+        logger.info("[OK] Applied centralized settings to USM config")
+    
+    def refresh_from_centralized_settings(self):
+        """Refresh USM config from centralized settings manager"""
+        try:
+            from ..settings_manager import get_settings_manager
+            settings_manager = get_settings_manager()
+            
+            # Refresh settings if needed
+            if hasattr(settings_manager, 'refresh_settings'):
+                settings_manager.refresh_settings()
+            
+            # Get updated settings
+            settings = settings_manager.get_settings()
+            if settings:
+                self._apply_settings_to_config(settings)
+                logger.info("[OK] USM config refreshed from centralized settings")
+                return True
+        except Exception as e:
+            logger.warning(f"Failed to refresh USM from centralized settings: {e}")
+        return False
+    
+    def _load_from_settings_direct(self):
+        """Direct settings loading (legacy fallback)"""
         # Start from current directory and search upward for settings.yaml
         current_dir = Path.cwd()
         settings_file = None

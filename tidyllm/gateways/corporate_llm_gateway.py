@@ -25,7 +25,7 @@ Purpose: Acts as the secure entry point for all enterprise AI operations
 - Generates comprehensive audit logs for compliance and security
 
 DEPENDENCIES & REQUIREMENTS:
-- Infrastructure: ConfigManager (for corporate policies and model configurations)
+- Infrastructure: Centralized Settings Manager (for corporate policies and model configurations)
 - Infrastructure: UnifiedSessionManager (for secure credential management)
 - Data Processing: Polars DataFrames for usage analytics and reporting
 - External: AIProcessingGateway (downstream AI processing after approval)
@@ -243,14 +243,15 @@ class CorporateLLMGateway(BaseGateway):
             config: CorporateLLMConfig instance or dict of config parameters
             **config_kwargs: Configuration parameters for CorporateLLMConfig
         """
-        # Initialize infrastructure config manager
-        self.config_manager = None
+        # Initialize infrastructure using centralized settings
+        self.config_manager = None  # No longer needed - using centralized settings
         try:
-            from ..infrastructure.config import ConfigManager
-            self.config_manager = ConfigManager("config.yaml")  # Default config path
-            logger.info("CorporateLLMGateway: ConfigManager integrated for enterprise config")
+            from ..infrastructure.settings_manager import get_settings_manager
+            
+            settings_manager = get_settings_manager()
+            logger.info(f"CorporateLLMGateway: Using centralized settings from: {settings_manager.settings_file}")
         except (ImportError, Exception) as e:
-            logger.debug(f"CorporateLLMGateway: ConfigManager not available: {e}")
+            logger.debug(f"CorporateLLMGateway: Centralized settings not available: {e}")
         
         # Always create a proper CorporateLLMConfig object
         try:

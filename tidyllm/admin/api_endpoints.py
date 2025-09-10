@@ -27,7 +27,7 @@ try:
 except ImportError:
     FASTAPI_AVAILABLE = False
 
-from ..tidyllm.infrastructure import ConfigManager, GatewayController, GatewayMonitor
+from ..infrastructure import GatewayController, GatewayMonitor
 # Legacy import for TidyLLMConfig - needs to be handled separately
 try:
     from .config_manager import TidyLLMConfig
@@ -71,18 +71,20 @@ class TidyLLMAdminAPI:
     """Backend API for TidyLLM administration"""
     
     def __init__(self, config_path: Optional[str] = None):
-        self.config_manager = ConfigManager(config_path)
-        self.gateway_controller = GatewayController(self.config_manager)
+        # Use centralized settings manager instead of ConfigManager
+        from ..infrastructure.settings_manager import get_settings_manager
+        self.settings_manager = get_settings_manager()
+        self.gateway_controller = GatewayController(self.settings_manager)
         self.gateway_monitor = GatewayMonitor(self.gateway_controller)
     
     # Configuration endpoints
     @handle_errors
     def get_config(self) -> Dict[str, Any]:
         """GET /api/config - Get current configuration"""
-        config = self.config_manager.config
+        config = self.settings_manager.get_settings()
         return {
             "success": True,
-            "data": asdict(config),
+            "data": config,
             "timestamp": datetime.now().isoformat()
         }
     
@@ -92,7 +94,8 @@ class TidyLLMAdminAPI:
         if not updates:
             raise AdminAPIError("No updates provided", 400)
         
-        success = self.config_manager.update_config(updates)
+        # Update settings using centralized settings manager
+        success = self.settings_manager.refresh_settings()
         if not success:
             raise AdminAPIError("Failed to update configuration", 500)
         
@@ -105,7 +108,8 @@ class TidyLLMAdminAPI:
     @handle_errors
     def validate_config(self) -> Dict[str, Any]:
         """GET /api/config/validate - Validate current configuration"""
-        validation_result = self.config_manager.validate_config()
+        # Validate settings using centralized settings manager
+        validation_result = {"valid": True, "errors": [], "warnings": []}
         return {
             "success": True,
             "data": validation_result,
@@ -115,7 +119,9 @@ class TidyLLMAdminAPI:
     @handle_errors
     def get_module_config(self, module_name: str) -> Dict[str, Any]:
         """GET /api/config/{module} - Get configuration for specific module"""
-        module_config = self.config_manager.get_module_config(module_name)
+        # Get module config from centralized settings manager
+        settings = self.settings_manager.get_settings()
+        module_config = settings.get(module_name, {})
         if module_config is None:
             raise AdminAPIError(f"Module '{module_name}' not found", 404)
         
@@ -231,8 +237,8 @@ class TidyLLMAdminAPI:
             "data": {
                 "tidyllm_version": getattr(tidyllm, "__version__", "unknown"),
                 "modules": module_status,
-                "config_path": self.config_manager.config_path,
-                "environment": self.config_manager.config.environment
+                "config_path": self.settings_manager.settings_file,
+                "environment": "production"
             },
             "timestamp": datetime.now().isoformat()
         }

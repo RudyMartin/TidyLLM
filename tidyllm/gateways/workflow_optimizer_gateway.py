@@ -25,7 +25,7 @@ Purpose: Acts as the master workflow orchestrator for complex multi-step process
 - Generates comprehensive audit trails for regulatory compliance
 
 DEPENDENCIES & REQUIREMENTS:
-- Infrastructure: ConfigManager, UnifiedSessionManager (for persistence)
+- Infrastructure: Centralized Settings Manager, UnifiedSessionManager (for persistence)
 - Data Processing: Polars DataFrames for large-scale workflow analytics
 - External: CorporateLLMGateway (for AI-powered optimization suggestions)
 - External: DatabaseGateway (for workflow state persistence)
@@ -73,10 +73,12 @@ try:
         FLOW_AGREEMENTS_AVAILABLE
     )
     WORKFLOW_OPTIMIZER_AVAILABLE = HIERARCHICAL_DAG_AVAILABLE or FLOW_AGREEMENTS_AVAILABLE
-except ImportError:
+    logger.info("WorkflowOptimizerGateway: Real workflow optimization components loaded")
+except ImportError as e:
     WORKFLOW_OPTIMIZER_AVAILABLE = False
     HierarchicalDAGManager = None
     FlowAgreementManager = None
+    logger.warning(f"WorkflowOptimizerGateway: Workflow optimization components not available: {e}")
 
 
 class WorkflowOperation(Enum):
@@ -206,15 +208,20 @@ class WorkflowOptimizerGateway(BaseGateway):
         # Parse configuration BEFORE calling super()
         self.optimizer_config = self._parse_config(config)
         
-        # Initialize infrastructure components
-        self.config_manager = None
+        # Initialize infrastructure components using centralized settings
+        self.config_manager = None  # No longer needed - using centralized settings
         self.session_manager = None
         try:
-            from ..infrastructure.config import ConfigManager
             from ..infrastructure.session import UnifiedSessionManager
-            self.config_manager = ConfigManager("config.yaml")  # Default config path
+            from ..infrastructure.settings_manager import get_settings_manager
+            
+            # Get centralized settings manager
+            settings_manager = get_settings_manager()
+            logger.info(f"WorkflowOptimizerGateway: Using centralized settings from: {settings_manager.settings_file}")
+            
+            # Initialize session manager (which now uses centralized settings)
             self.session_manager = UnifiedSessionManager()
-            logger.info("WorkflowOptimizerGateway: Infrastructure components integrated")
+            logger.info("WorkflowOptimizerGateway: Infrastructure components integrated with centralized settings")
         except ImportError as e:
             logger.debug(f"WorkflowOptimizerGateway: Infrastructure not available: {e}")
         
@@ -227,11 +234,11 @@ class WorkflowOptimizerGateway(BaseGateway):
         
         if WORKFLOW_OPTIMIZER_AVAILABLE:
             if self.optimizer_config.enable_dag_manager and HierarchicalDAGManager:
-                self.dag_manager = HierarchicalDAGManager()
-                logger.info("Workflow DAG Manager initialized")
+                self.dag_manager = HierarchicalDAGManager(session_manager=self.session_manager)
+                logger.info("Workflow DAG Manager initialized with real infrastructure")
             
             if self.optimizer_config.enable_flow_agreements and FlowAgreementManager:
-                self.flow_manager = FlowAgreementManager()
+                self.flow_manager = FlowAgreementManager(session_manager=self.session_manager)
                 logger.info("Workflow Flow Agreement Manager initialized")
         else:
             logger.warning("Workflow optimization components not available - using analysis mode only")
@@ -259,12 +266,16 @@ class WorkflowOptimizerGateway(BaseGateway):
         """Parse configuration into WorkflowOptimizerConfig."""
         optimizer_config = WorkflowOptimizerConfig()
         
+        # Use centralized settings manager for workflow optimizer config
+        from ..infrastructure.settings_manager import get_workflow_optimizer_config
+        workflow_config = get_workflow_optimizer_config()
+        
         for key in ["enable_dag_manager", "enable_flow_agreements", 
                    "enable_auto_optimization", "optimization_level",
                    "compliance_mode", "audit_trail", "max_workflow_depth", 
                    "timeout", "performance_threshold"]:
-            if key in config:
-                setattr(optimizer_config, key, config[key])
+            if key in workflow_config:
+                setattr(optimizer_config, key, workflow_config[key])
         
         return optimizer_config
     

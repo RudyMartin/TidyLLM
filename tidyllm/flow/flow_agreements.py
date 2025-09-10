@@ -32,10 +32,10 @@ class FlowAgreement:
 class FlowAgreementManager:
     """Manages FLOW agreements for demo team interactions"""
     
-    def __init__(self, agreements_file: Optional[str] = None):
-        # Use the connection manager for storage
-        from ..connection_manager import get_connection_manager
-        self.connection_manager = get_connection_manager()
+    def __init__(self, agreements_file: Optional[str] = None, session_manager=None):
+        # Use USM database service for storage instead of old connection manager
+        self.session_manager = session_manager
+        self.connection_manager = None  # Will use USM database service
         
         self.agreements_file = agreements_file or "flow_agreements.json"
         self.agreements: Dict[str, FlowAgreement] = {}
@@ -232,7 +232,22 @@ class FlowAgreementManager:
                     'context': context or {}
                 }
             }
-            self.connection_manager.store_flow_command(command_data)
+            # Store using USM database service if available
+            if self.session_manager and hasattr(self.session_manager, 'get_postgres_connection'):
+                try:
+                    # Use USM database service for storage
+                    conn = self.session_manager.get_postgres_connection()
+                    if conn:
+                        with conn.cursor() as cursor:
+                            cursor.execute("""
+                                INSERT INTO flow_commands (command_data, timestamp) 
+                                VALUES (%s, %s)
+                            """, (json.dumps(command_data), datetime.now()))
+                        conn.commit()
+                except Exception as db_error:
+                    logger.warning(f"Failed to store FLOW command in USM database: {db_error}")
+            else:
+                logger.debug("USM database service not available, skipping database storage")
         except Exception as e:
             logger.warning(f"Failed to store FLOW command in database: {e}")
         

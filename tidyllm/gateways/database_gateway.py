@@ -34,7 +34,7 @@ Purpose: Secure database operations with enterprise governance and compliance
 
 DEPENDENCIES & REQUIREMENTS:
 - Infrastructure: UnifiedSessionManager (for secure database connections and credentials)
-- Infrastructure: ConfigManager (for database configurations and access policies)
+- Infrastructure: Centralized Settings Manager (for database configurations and access policies)
 - Data Processing: SQL query validation and sanitization
 - External: PostgreSQL, MySQL, SQL Server (through UnifiedSessionManager)
 - Security: Role-based access control and data classification enforcement
@@ -189,7 +189,7 @@ class DatabaseGateway(BaseGateway):
         
         logger.info("🗄️ Database Gateway initialized")
         logger.info(f"   UnifiedSessionManager: {'Available' if UNIFIED_SESSION_AVAILABLE else 'Fallback mode'}")
-        logger.info(f"   Available connections: {list(config.available_connections.keys())}")
+        logger.info(f"   Available connections: {list(self.db_config.available_connections.keys()) if self.db_config.available_connections else 'None'}")
     
     def _auto_configure_connections(self):
         """Auto-configure database connections from UnifiedSessionManager."""

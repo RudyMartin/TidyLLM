@@ -46,7 +46,7 @@ onboarding/
 - `start_onboarding.py` (replaced by launcher.py)
 - `unified_streamlit_manager.py` (replaced by core/session_manager.py)
 - `universal_preflight.py` (replaced by core/preflight.py)
-- `config_generator.py` (replaced by config/manager.py)
+- `config_generator.py` (replaced by centralized settings manager)
 - `tabs/` directory (replaced by ui/pages/)
 - `README_ONBOARDING_KIT.md` (replaced by README.md)
 - `requirements_onboarding_kit.txt` (replaced by requirements.txt)

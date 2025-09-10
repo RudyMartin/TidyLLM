@@ -42,7 +42,7 @@ class TemplateResult:
     risk_indicators: List[str]
 
 @dataclass
-class CoordinatorTask(TaskInput):
+class CoordinatorTask:
     document_path: str
     template_results: List[TemplateResult]
     synthesis_strategy: SynthesisStrategy
@@ -50,7 +50,7 @@ class CoordinatorTask(TaskInput):
     quality_requirements: Optional[Dict[str, float]] = None
 
 @dataclass
-class CoordinatorResult(TaskResult):
+class CoordinatorResult:
     synthesized_report: str
     consensus_areas: List[str]
     conflict_resolutions: List[Dict[str, Any]]
