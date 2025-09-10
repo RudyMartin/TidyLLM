@@ -121,14 +121,14 @@ class ProcessingDecision:
     quality_checks: List[str]
 
 @dataclass
-class AIManagerTask(TaskInput):
+class AIManagerTask:
     document_path: str
     user_context: Optional[Dict[str, Any]] = None
     business_priority: str = "normal"
     deadline: Optional[datetime] = None
 
 @dataclass
-class AIManagerResult(TaskResult):
+class AIManagerResult:
     processing_decision: ProcessingDecision
     worker_assignments: List[Dict[str, Any]]
     quality_metrics: Dict[str, float]
@@ -156,7 +156,7 @@ class AIDropzoneManager(BaseWorker[AIManagerTask, AIManagerResult]):
         llm_gateway: Optional[CorporateLLMGateway] = None,
         max_concurrent_analyses: int = 10
     ):
-        super().__init__()
+        super().__init__(worker_name="ai_dropzone_manager")
         self.templates_path = Path(templates_path)
         self.session_manager = session_manager
         self.max_concurrent_analyses = max_concurrent_analyses
@@ -306,6 +306,53 @@ class AIDropzoneManager(BaseWorker[AIManagerTask, AIManagerResult]):
             
         except Exception as e:
             logger.error(f"[SECURITY] Worker registration failed for {worker_id}: {e}")
+            return False
+    
+    def validate_input(self, task_input: AIManagerTask) -> bool:
+        """
+        Validate input task for AI Dropzone Manager.
+        
+        Args:
+            task_input: AIManagerTask to validate
+            
+        Returns:
+            bool: True if valid, False otherwise
+        """
+        try:
+            # Check if task_input is the correct type
+            if not isinstance(task_input, AIManagerTask):
+                logger.error(f"Invalid task input type: {type(task_input)}")
+                return False
+            
+            # Validate required fields
+            if not task_input.document_path:
+                logger.error("Document path is required")
+                return False
+            
+            # Validate document path exists (if it's a file path)
+            if not task_input.document_path.startswith(('http://', 'https://', 's3://')):
+                # It's a local file path
+                import os
+                if not os.path.exists(task_input.document_path):
+                    logger.warning(f"Document path does not exist: {task_input.document_path}")
+                    # Don't fail validation for non-existent paths, just warn
+            
+            # Validate business priority
+            valid_priorities = ["critical", "high", "normal", "low"]
+            if task_input.business_priority not in valid_priorities:
+                logger.error(f"Invalid business priority: {task_input.business_priority}")
+                return False
+            
+            # Validate deadline if provided
+            if task_input.deadline and task_input.deadline < datetime.now():
+                logger.warning("Deadline is in the past")
+                # Don't fail validation for past deadlines, just warn
+            
+            logger.debug(f"Task input validation successful for: {task_input.document_path}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Task input validation failed: {e}")
             return False
     
     async def process_task(self, task: AIManagerTask) -> AIManagerResult:

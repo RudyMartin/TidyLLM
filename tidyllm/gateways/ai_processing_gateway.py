@@ -26,7 +26,7 @@ Purpose: Core AI processing engine with multi-backend intelligence
 
 DEPENDENCIES & REQUIREMENTS:
 - Infrastructure: UnifiedSessionManager (for AI service credentials and sessions)
-- Infrastructure: ConfigManager (for AI model configurations and routing rules)
+- Infrastructure: Centralized Settings Manager (for AI model configurations and routing rules)
 - Data Processing: Polars DataFrames for large-scale AI result processing
 - Upstream: CorporateLLMGateway (receives approved requests from corporate gateway)
 - External: Multiple AI Backend Adapters (OpenAI, Anthropic, Bedrock, etc.)

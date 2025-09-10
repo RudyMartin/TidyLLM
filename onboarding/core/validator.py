@@ -128,7 +128,7 @@ class ConnectionValidator:
         return result
     
     def validate_gateways(self) -> Dict[str, Any]:
-        """Validate all TidyLLM gateways."""
+        """Validate all TidyLLM gateways - Updated for proper initialization."""
         result = {}
         
         try:

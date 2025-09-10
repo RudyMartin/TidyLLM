@@ -12,8 +12,111 @@ from core.validator import ConnectionValidator
 def render_connection_page():
     """Render the connection configuration page."""
     
-    st.markdown('<div class="section-header">🚨 CRITICAL: AWS Connection Required</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">🚨 CRITICAL: System Configuration Required</div>', unsafe_allow_html=True)
     
+    # Root Path Configuration Section
+    st.markdown("### 📁 Root Path Configuration")
+    st.info("""
+    **Configure the base path for TidyLLM operations.**
+    
+    This is especially important for corporate environments with deep folder structures.
+    The system will use this path to locate configuration files, data, and logs.
+    """)
+    
+    # Get current root path from settings
+    try:
+        import yaml
+        import os
+        from pathlib import Path
+        
+        # Try to load current settings
+        settings_path = Path(__file__).parent.parent.parent.parent / "tidyllm" / "admin" / "settings.yaml"
+        current_root_path = ""
+        
+        if settings_path.exists():
+            with open(settings_path, 'r') as f:
+                settings = yaml.safe_load(f) or {}
+            current_root_path = settings.get("system", {}).get("root_path", "")
+        
+        # Root path input
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            root_path = st.text_input(
+                "Root Path", 
+                value=current_root_path,
+                placeholder="C:/Users/username/projects or /home/user/projects",
+                help="Base directory for all TidyLLM operations"
+            )
+        
+        with col2:
+            if st.button("Auto-Detect", help="Automatically detect root path"):
+                # Auto-detect logic
+                current_dir = os.getcwd()
+                if "tidyllm" in current_dir:
+                    # Find parent directory containing tidyllm
+                    parts = Path(current_dir).parts
+                    for i, part in enumerate(parts):
+                        if part == "tidyllm":
+                            root_parts = parts[:i]
+                            root_path = str(Path(*root_parts)) if root_parts else "."
+                            st.rerun()
+        
+        # Update settings if changed
+        if root_path and root_path != current_root_path:
+            if st.button("Update Root Path", type="primary"):
+                try:
+                    # Load current settings
+                    if settings_path.exists():
+                        with open(settings_path, 'r') as f:
+                            settings = yaml.safe_load(f) or {}
+                    else:
+                        settings = {}
+                    
+                    # Update system configuration
+                    if "system" not in settings:
+                        settings["system"] = {}
+                    
+                    settings["system"]["root_path"] = root_path
+                    settings["system"]["config_folder"] = "tidyllm/admin"
+                    settings["system"]["data_folder"] = "tidyllm/data"
+                    settings["system"]["logs_folder"] = "tidyllm/logs"
+                    
+                    # Save settings
+                    with open(settings_path, 'w') as f:
+                        yaml.dump(settings, f, default_flow_style=False, sort_keys=False)
+                    
+                    st.success(f"✅ Root path updated to: {root_path}")
+                    st.rerun()
+                    
+                except Exception as e:
+                    st.error(f"❌ Error updating root path: {e}")
+        
+        # Show current configuration
+        if current_root_path:
+            st.success(f"✅ Current root path: `{current_root_path}`")
+        else:
+            st.warning("⚠️ No root path configured")
+        
+        # Refresh settings button
+        col1, col2, col3 = st.columns([1, 1, 1])
+        with col2:
+            if st.button("🔄 Refresh Settings", help="Reload settings from YAML file"):
+                try:
+                    from tidyllm.infrastructure.settings_manager import refresh_settings
+                    if refresh_settings():
+                        st.success("✅ Settings refreshed from YAML file!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Failed to refresh settings")
+                except Exception as e:
+                    st.error(f"❌ Error refreshing settings: {e}")
+    
+    except Exception as e:
+        st.error(f"❌ Error loading configuration: {e}")
+    
+    st.markdown("---")
+    
+    st.markdown("### 🚨 AWS Connection Required")
     st.error("""
     **⚠️ NOTHING WORKS WITHOUT AWS CONNECTION**
     

@@ -13,10 +13,20 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
+# Import FlowAgreement classes
+try:
+    from ..flow.flow_agreements import FlowAgreement, FlowAgreementConfig
+except ImportError:
+    # Fallback for when flow agreements are not available
+    class FlowAgreement:
+        def __init__(self, config): pass
+    class FlowAgreementConfig:
+        def __init__(self, **kwargs): pass
+
 # Import TidyLLM components
 try:
     from .rag2dag import RAG2DAGConverter, RAG2DAGConfig
-    from .flow_agreements import BaseFlowAgreement, FlowAgreementConfig
+    # FlowAgreement classes already imported above
     from .gateways import get_gateway
 except ImportError:
     # Placeholder imports for development
@@ -26,7 +36,7 @@ except ImportError:
             return {"pattern_name": "Mock Pattern", "dag_nodes": []}
 
 
-class MVRAnalysisFlow(BaseFlowAgreement):
+class MVRAnalysisFlow(FlowAgreement):
     """MVR Analysis Flow Agreement - 4-stage document processing workflow."""
     
     def __init__(self):
@@ -147,11 +157,13 @@ class MVRAnalysisFlow(BaseFlowAgreement):
 class WorkflowChatInterface:
     """Main chat interface with Flow Agreement sidebar."""
     
-    def __init__(self):
+    def __init__(self, ai_manager=None, llm_gateway=None):
+        self.ai_manager = ai_manager
+        self.llm_gateway = llm_gateway
         self.available_flows = self._load_flow_agreements()
         self.rag2dag_config = RAG2DAGConfig.create_default_config() if 'RAG2DAGConfig' in globals() else None
         
-    def _load_flow_agreements(self) -> Dict[str, BaseFlowAgreement]:
+    def _load_flow_agreements(self) -> Dict[str, FlowAgreement]:
         """Load available Flow Agreements."""
         flows = {
             "MVR Analysis": MVRAnalysisFlow(),
@@ -162,7 +174,7 @@ class WorkflowChatInterface:
         }
         return flows
     
-    def _create_research_flow(self) -> BaseFlowAgreement:
+    def _create_research_flow(self) -> FlowAgreement:
         """Create research synthesis flow agreement."""
         config = FlowAgreementConfig(
             agreement_id="research_synthesis_v1",
@@ -171,7 +183,7 @@ class WorkflowChatInterface:
             approved_gateways=["dspy", "llm"]
         )
         
-        class ResearchFlow(BaseFlowAgreement):
+        class ResearchFlow(FlowAgreement):
             def __init__(self, config):
                 super().__init__(config)
             def validate(self): return True
@@ -180,7 +192,7 @@ class WorkflowChatInterface:
         
         return ResearchFlow(config)
     
-    def _create_compliance_flow(self) -> BaseFlowAgreement:
+    def _create_compliance_flow(self) -> FlowAgreement:
         """Create compliance review flow agreement.""" 
         config = FlowAgreementConfig(
             agreement_id="compliance_review_v1", 
@@ -189,7 +201,7 @@ class WorkflowChatInterface:
             approved_gateways=["llm", "heiros"]
         )
         
-        class ComplianceFlow(BaseFlowAgreement):
+        class ComplianceFlow(FlowAgreement):
             def __init__(self, config):
                 super().__init__(config)
             def validate(self): return True
@@ -198,7 +210,7 @@ class WorkflowChatInterface:
         
         return ComplianceFlow(config)
     
-    def _create_classification_flow(self) -> BaseFlowAgreement:
+    def _create_classification_flow(self) -> FlowAgreement:
         """Create document classification flow agreement."""
         config = FlowAgreementConfig(
             agreement_id="doc_classification_v1",
@@ -207,7 +219,7 @@ class WorkflowChatInterface:
             approved_gateways=["dspy"]
         )
         
-        class ClassificationFlow(BaseFlowAgreement):
+        class ClassificationFlow(FlowAgreement):
             def __init__(self, config):
                 super().__init__(config)
             def validate(self): return True
@@ -257,7 +269,7 @@ class WorkflowChatInterface:
             else:
                 st.markdown("*No active workflows*")
     
-    def _add_flow_to_chat(self, flow_name: str, flow_agreement: BaseFlowAgreement):
+    def _add_flow_to_chat(self, flow_name: str, flow_agreement: FlowAgreement):
         """Add selected flow to chat conversation."""
         if "messages" not in st.session_state:
             st.session_state.messages = []
@@ -275,7 +287,7 @@ class WorkflowChatInterface:
             "content": flow_info
         })
     
-    def _get_flow_info(self, flow_agreement: BaseFlowAgreement) -> str:
+    def _get_flow_info(self, flow_agreement: FlowAgreement) -> str:
         """Get formatted information about a flow agreement."""
         config = flow_agreement.config
         

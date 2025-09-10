@@ -47,15 +47,32 @@ def render_sidebar():
         total_gateways = len(st.session_state.gateways)
         
         if successful_gateways == total_gateways:
-            st.sidebar.success(f"✅ All {total_gateways} Gateways Ready")
+            st.sidebar.success(f"✅ All {total_gateways} Core Gateways Ready")
         elif successful_gateways > 0:
-            st.sidebar.warning(f"⚠️ {successful_gateways}/{total_gateways} Gateways Ready")
+            st.sidebar.warning(f"⚠️ {successful_gateways}/{total_gateways} Core Gateways Ready")
+            
+            # Show which gateways are failing
+            st.sidebar.markdown("**Core Gateways:**")
+            for name, gateway in st.session_state.gateways.items():
+                if gateway is None:
+                    st.sidebar.error(f"❌ {name}")
+                else:
+                    st.sidebar.success(f"✅ {name}")
         else:
-            st.sidebar.error("❌ No Gateways Ready")
+            st.sidebar.error("❌ No Core Gateways Ready")
     else:
-        st.sidebar.error("🚨 CRITICAL: Gateways Not Initialized")
+        st.sidebar.error("🚨 CRITICAL: Core Gateways Not Initialized")
         st.sidebar.markdown("**AWS connection required!**")
         st.sidebar.markdown("Configure connections first →")
+    
+    # Check services separately
+    if hasattr(st.session_state, 'services') and st.session_state.services:
+        st.sidebar.markdown("**Utility Services:**")
+        for name, service in st.session_state.services.items():
+            if service is None:
+                st.sidebar.error(f"❌ {name}")
+            else:
+                st.sidebar.success(f"✅ {name}")
     
     st.sidebar.markdown("---")
     
@@ -63,6 +80,10 @@ def render_sidebar():
     st.sidebar.subheader("Quick Actions")
     
     if st.sidebar.button("🔄 Refresh System"):
+        # Force refresh gateways and services
+        from onboarding.core.session_manager import SessionManager
+        st.session_state.gateways = SessionManager.get_gateways()
+        st.session_state.services = SessionManager.get_services()
         st.rerun()
     
     if st.sidebar.button("🧪 Run Tests"):

@@ -23,7 +23,7 @@ Purpose: Enterprise file management with security, versioning, and compliance
 
 DEPENDENCIES & REQUIREMENTS:
 - Infrastructure: S3Manager (for cloud storage capability and scalability)
-- Infrastructure: ConfigManager (for storage policies and retention rules)
+- Infrastructure: Centralized Settings Manager (for storage policies and retention rules)
 - Local Storage: Corporate file systems with enterprise-grade security
 - Cloud Storage: AWS S3 integration for backup and disaster recovery
 - Security: File encryption, access control, and audit logging
@@ -121,17 +121,17 @@ class FileStorageGateway(BaseGateway):
         # Set our specific file storage config
         self.file_config = config or FileStorageConfig()
         
-        # Initialize S3Manager for cloud storage capability
-        self.s3_manager = None
-        try:
-            from ..infrastructure.session import S3Manager
-            self.s3_manager = S3Manager()
-            logger.info("FileStorageGateway: S3Manager integrated for cloud storage")
-        except ImportError as e:
-            logger.debug(f"FileStorageGateway: S3Manager not available, using local storage only: {e}")
+        # Initialize S3 client through USM (will be set by session_manager)
+        self.s3_client = None
+        logger.info("FileStorageGateway: Ready for USM S3 client integration")
         
         self._ensure_storage_directory()
         self._stored_files: Dict[str, StoredFile] = {}
+    
+    def set_s3_client(self, s3_client):
+        """Set S3 client from USM."""
+        self.s3_client = s3_client
+        logger.info("FileStorageGateway: S3 client set from USM")
         
     def _execute_request(self, request: Dict[str, Any]) -> Dict[str, Any]:
         """Implementation of abstract method from BaseGateway."""
@@ -139,6 +139,58 @@ class FileStorageGateway(BaseGateway):
         # Operations are called directly (store_file, retrieve_file, etc.)
         operation = request.get('operation', 'unknown')
         return {"success": False, "error": f"Operation {operation} not supported through _execute_request"}
+    
+    def _get_default_dependencies(self) -> List[str]:
+        """Get default dependencies for file storage gateway."""
+        return ["s3_client", "local_storage"]
+    
+    def process(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Process file storage request."""
+        operation = request.get('operation', 'unknown')
+        if operation == 'store_file':
+            return self.store_file(
+                request.get('file_path'),
+                request.get('original_name'),
+                request.get('tags')
+            ).to_dict()
+        elif operation == 'retrieve_file':
+            return self.retrieve_file(request.get('file_id')).to_dict()
+        elif operation == 'list_files':
+            return self.list_files(request.get('tags')).to_dict()
+        else:
+            return {"success": False, "error": f"Unknown operation: {operation}"}
+    
+    def process_sync(self, request: Dict[str, Any]) -> Dict[str, Any]:
+        """Synchronous processing (same as async for file operations)."""
+        return self.process(request)
+    
+    def validate_config(self) -> bool:
+        """Validate file storage configuration."""
+        try:
+            # Check storage root exists or can be created
+            if not os.path.exists(self.file_config.storage_root):
+                os.makedirs(self.file_config.storage_root, exist_ok=True)
+            
+            # Check S3 client if available
+            if self.s3_client:
+                # Test S3 connection
+                self.s3_client.list_buckets()
+            
+            return True
+        except Exception as e:
+            logger.error(f"FileStorageGateway: Config validation failed: {e}")
+            return False
+    
+    def get_capabilities(self) -> Dict[str, Any]:
+        """Get file storage capabilities."""
+        return {
+            "local_storage": True,
+            "s3_storage": self.s3_client is not None,
+            "file_operations": ["store", "retrieve", "list", "delete"],
+            "supported_formats": ["*"],
+            "max_file_size": self.file_config.max_file_size,
+            "retention_policies": True
+        }
         
     def _ensure_storage_directory(self):
         """Ensure storage directory exists."""

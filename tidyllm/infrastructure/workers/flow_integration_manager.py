@@ -68,14 +68,14 @@ class FlowToTemplateMapping:
     validation_rules: List[str]  # Additional validation requirements
     
 @dataclass
-class FlowIntegrationTask(TaskInput):
+class FlowIntegrationTask:
     bracket_command: str
     document_path: str
     flow_context: Optional[Dict[str, Any]] = None
     user_context: Optional[Dict[str, Any]] = None
 
 @dataclass  
-class FlowIntegrationResult(TaskResult):
+class FlowIntegrationResult:
     bracket_command: str
     mapped_templates: List[str]
     ai_manager_result: Any
@@ -101,7 +101,7 @@ class FlowIntegrationManager(BaseWorker[FlowIntegrationTask, FlowIntegrationResu
         flow_manager: Optional[FlowAgreementManager] = None,
         mapping_config_path: str = "C:/Users/marti/github/prompts/flow_mappings.json"
     ):
-        super().__init__()
+        super().__init__(worker_name="flow_integration_manager")
         
         # Core component integration
         self.ai_dropzone_manager = ai_dropzone_manager or AIDropzoneManager()
@@ -145,6 +145,48 @@ class FlowIntegrationManager(BaseWorker[FlowIntegrationTask, FlowIntegrationResu
         
         logger.info("Flow Integration Manager initialized successfully")
         logger.info(f"[SECURITY] Approved bracket commands: {len(self.bracket_command_registry)}")
+    
+    def validate_input(self, task_input: FlowIntegrationTask) -> bool:
+        """
+        Validate input task for Flow Integration Manager.
+        
+        Args:
+            task_input: FlowIntegrationTask to validate
+            
+        Returns:
+            bool: True if valid, False otherwise
+        """
+        try:
+            # Check if task_input is the correct type
+            if not isinstance(task_input, FlowIntegrationTask):
+                logger.error(f"Invalid task input type: {type(task_input)}")
+                return False
+            
+            # Validate required fields
+            if not task_input.bracket_command:
+                logger.error("Bracket command is required")
+                return False
+            
+            if not task_input.document_path:
+                logger.error("Document path is required")
+                return False
+            
+            # Validate bracket command format
+            if not task_input.bracket_command.startswith('[') or not task_input.bracket_command.endswith(']'):
+                logger.error(f"Invalid bracket command format: {task_input.bracket_command}")
+                return False
+            
+            # Validate bracket command is in approved registry
+            if task_input.bracket_command not in self.bracket_command_registry:
+                logger.error(f"Bracket command not in approved registry: {task_input.bracket_command}")
+                return False
+            
+            logger.debug(f"Task input validation successful for: {task_input.bracket_command}")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Task input validation failed: {e}")
+            return False
     
     async def process_task(self, task: FlowIntegrationTask) -> FlowIntegrationResult:
         """
