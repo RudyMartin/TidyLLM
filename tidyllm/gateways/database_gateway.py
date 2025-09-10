@@ -168,6 +168,9 @@ class DatabaseGateway(BaseGateway):
             self.session_mgr = UnifiedSessionManager()
         else:
             self.session_mgr = None
+        
+        # Auto-configure database connections from UnifiedSessionManager
+        self._auto_configure_connections()
             
         # Connection pools by connection name (legacy fallback)
         self.connection_pools: Dict[str, Any] = {}
@@ -187,6 +190,33 @@ class DatabaseGateway(BaseGateway):
         logger.info("🗄️ Database Gateway initialized")
         logger.info(f"   UnifiedSessionManager: {'Available' if UNIFIED_SESSION_AVAILABLE else 'Fallback mode'}")
         logger.info(f"   Available connections: {list(config.available_connections.keys())}")
+    
+    def _auto_configure_connections(self):
+        """Auto-configure database connections from UnifiedSessionManager."""
+        if not self.session_mgr or not self.session_mgr.config:
+            return
+        
+        # If no connections are configured, try to auto-configure from session manager
+        if not self.db_config.available_connections:
+            try:
+                config = self.session_mgr.config
+                if hasattr(config, 'postgres_host') and config.postgres_host:
+                    # Create a default PostgreSQL connection from session manager config
+                    connection_string = f"postgresql://{config.postgres_username}:{config.postgres_password}@{config.postgres_host}:{getattr(config, 'postgres_port', 5432)}/{config.postgres_database}"
+                    postgres_conn = DatabaseConnection(
+                        name="postgres",
+                        connection_type="postgres",
+                        connection_string=connection_string,
+                        max_connections=10,
+                        connection_timeout=30,
+                        query_timeout=300,
+                        read_only=True,  # Default to read-only for safety
+                        data_classification="internal"
+                    )
+                    self.db_config.available_connections = {"postgres": postgres_conn}
+                    logger.info("DatabaseGateway: Auto-configured PostgreSQL connection from UnifiedSessionManager")
+            except Exception as e:
+                logger.warning(f"DatabaseGateway: Failed to auto-configure connections: {e}")
     
     def _initialize_connection_pools(self):
         """Initialize connection pools for available connections"""
@@ -786,7 +816,7 @@ class DatabaseGateway(BaseGateway):
             
             # Validate connection parameters
             for name, conn in self.db_config.available_connections.items():
-                if not conn.host or not conn.database:
+                if not conn.connection_string or not conn.connection_type:
                     logger.warning(f"DatabaseGateway: Invalid connection config for {name}")
                     return False
             
