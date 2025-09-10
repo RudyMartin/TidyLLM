@@ -638,10 +638,10 @@ class BedrockAIBackend(AIBackendInterface):
                 # Use UnifiedSessionManager for availability check
                 if self.session_manager:
                     bedrock = self.session_manager.get_bedrock_client()
-                    bedrock.list_foundation_models()
-                    return True
-                else:
-                    return False
+                    if bedrock:
+                        bedrock.list_foundation_models()
+                        return True
+                return False
             except Exception:
                 return False
     

@@ -1,302 +1,212 @@
-# TidyLLM Corporate Onboarding
+# TidyLLM Corporate Onboarding System
 
-Complete onboarding solution for deploying TidyLLM in corporate environments with enterprise-grade security and compliance.
+## 🏢 **Clean, Normalized Corporate Onboarding Solution**
 
-## 📋 What's Included
+A comprehensive, enterprise-ready onboarding system for deploying TidyLLM in corporate environments with full security compliance and UnifiedSessionManager integration.
 
-This package provides everything you need to configure and deploy TidyLLM in your corporate environment:
+## 🚀 **Quick Start**
 
-### Core Files
-- `template.settings.yaml` - Corporate configuration template with security defaults
-- `config_generator.py` - Generates customized configurations from user input
-- `session_validator.py` - Validates AWS connectivity and corporate network requirements
-- `cli_onboarding.py` - Interactive CLI wizard
-- `streamlit_app.py` - Web-based GUI for configuration
-
-## 🚀 Quick Start
-
-### Option 1: Interactive CLI Wizard
+### **Single Entry Point**
 ```bash
-# Run the interactive wizard
-python cli_onboarding.py
-
-# Generate config only (no wizard)
-python cli_onboarding.py --config-only
-
-# Validate existing setup
-python cli_onboarding.py --validate
+# Launch the complete onboarding system
+python launcher.py
 ```
 
-### Option 2: Web Interface
-```bash
-# Install Streamlit first
-pip install streamlit pandas
+The system will automatically:
+- Configure AWS environment
+- Launch Streamlit application
+- Enable auto-reload for development
+- Open browser to http://localhost:8501
 
-# Launch web interface
-streamlit run streamlit_app.py
+## 📋 **System Architecture**
+
+### **Clean Structure**
+```
+onboarding/
+├── launcher.py              # Single entry point
+├── app.py                   # Main Streamlit application
+├── core/                    # Core functionality
+│   ├── session_manager.py   # Unified session management
+│   ├── validator.py         # Connection validation
+│   └── preflight.py         # Pre-flight tests
+├── config/                  # Configuration management
+│   ├── manager.py           # Config management
+│   └── templates.py         # Configuration templates
+├── ui/                      # User interface
+│   ├── components/          # Reusable UI components
+│   └── pages/               # Page components
+├── requirements.txt         # Dependencies
+└── README.md               # Documentation
 ```
 
-## 📦 Features
+## 🎯 **6-Section Interface**
 
-### 🏢 Corporate-Ready Defaults
-- **Security**: Encryption at rest, audit logging, data masking
-- **Authentication**: SSO integration (Okta, Azure AD, SAML)
+### **1. Connection Config** 🔗
+- **AWS Services**: S3, Bedrock, STS connectivity testing
+- **Database**: PostgreSQL connection validation
+- **Gateways**: All 4 TidyLLM gateways testing
+- **Real-time Validation**: Live connection status monitoring
+
+### **2. Chat Test** 💬
+- **AI Model Testing**: Live chat with multiple providers
+- **Model Selection**: Bedrock, OpenAI, local models
+- **File Upload**: Document analysis testing
+- **Performance Metrics**: Response times and cost tracking
+
+### **3. Knowledge Management** 🧠
+- **DomainRAG CRUD**: Complete knowledge base management
+- **Document Upload**: Multi-file document processing
+- **Semantic Search**: Vector-based search capabilities
+- **Metadata Management**: Comprehensive document tracking
+
+### **4. Workflows** ⚙️
+- **YAML Registry**: Convert Python workflows to editable YAML
+- **AI Managers**: Create custom AI managers with dual RAG
+- **Workflow Editor**: Live YAML editing with validation
+- **Dual RAG System**: Domain knowledge + work history
+
+### **5. Test Workflow** 🧪
+- **End-to-End Testing**: Complete workflow execution
+- **Document Processing**: Real document pipeline testing
+- **All 4 Gateways**: Test complete TidyLLM ecosystem
+- **Performance Monitoring**: Real-time metrics and logging
+
+### **6. Dashboard** 📊
+- **System Health**: Connection status and performance
+- **Usage Analytics**: AI model usage and cost tracking
+- **Performance Metrics**: Response times and throughput
+- **Resource Monitoring**: CPU, memory, storage usage
+
+## 🔒 **Security & Compliance**
+
+### **UnifiedSessionManager Integration**
+- **100% Compliance**: All AWS access through UnifiedSessionManager
+- **No boto3 Fallbacks**: Complete eradication of direct boto3 calls
+- **Credential Security**: Centralized credential management
+- **Audit Trail**: Complete request/response logging
+
+### **Enterprise Features**
+- **SSO Integration**: Okta, Azure AD, SAML support
+- **Proxy Support**: Corporate network compatibility
+- **Data Encryption**: S3 server-side encryption
+- **Access Controls**: Role-based permissions
 - **Compliance**: GDPR, SOX, HIPAA considerations
-- **Rate Limiting**: Corporate-appropriate API limits
-- **Network**: Proxy support, corporate CA certificates
 
-### 🔧 Configuration Management
-- **Template-Based**: Start with secure corporate defaults
-- **Validation**: Test AWS connectivity, database access, network requirements
-- **Deployment**: Generate Docker, Kubernetes, and Docker Compose files
-- **Environment**: Secure credential management via environment variables
+## 🛠️ **Installation & Setup**
 
-### 🎯 Deployment Options
-- **Docker Compose**: Development and staging environments
-- **Kubernetes**: Production container orchestration
-- **Standalone**: Single-server deployments
-
-## 📋 Requirements
-
-### Required Environment Variables
+### **Prerequisites**
 ```bash
-# Database (Required)
-TIDYLLM_DB_PASSWORD=your_secure_password
+# Python 3.8+ required
+python --version
 
-# AWS Credentials (Required if not using IAM roles)
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_DEFAULT_REGION=us-east-1
-
-# Optional: Session token for temporary credentials
-AWS_SESSION_TOKEN=your_session_token
+# Install dependencies
+pip install -r requirements.txt
 ```
 
-### Network Requirements
-Your corporate network must allow outbound HTTPS to:
-- `bedrock-runtime.{region}.amazonaws.com:443` (AWS Bedrock)
-- `s3.{region}.amazonaws.com:443` (S3 Storage)
-- Your PostgreSQL database host on port 5432
-
-### AWS Permissions
-The AWS credentials need these IAM permissions:
-```json
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "bedrock:InvokeModel",
-        "bedrock:ListFoundationModels",
-        "s3:GetObject",
-        "s3:PutObject", 
-        "s3:ListBucket",
-        "kms:Encrypt",
-        "kms:Decrypt"
-      ],
-      "Resource": "*"
-    }
-  ]
-}
-```
-
-## 🛠️ Installation
-
-### Python Dependencies
+### **Environment Setup**
 ```bash
-# Required
-pip install pyyaml boto3 psycopg2-binary
-
-# Optional (for CLI colors)
-pip install rich
-
-# Optional (for web interface)  
-pip install streamlit pandas
-```
-
-### Quick Setup
-```bash
-# Clone or download this onboarding folder
-cd onboarding
-
-# Set your credentials
-export AWS_ACCESS_KEY_ID="your_key"
-export AWS_SECRET_ACCESS_KEY="your_secret"
+# AWS credentials (automatically configured by launcher)
+export AWS_ACCESS_KEY_ID="your-access-key"
+export AWS_SECRET_ACCESS_KEY="your-secret-key"
 export AWS_DEFAULT_REGION="us-east-1"
-export TIDYLLM_DB_PASSWORD="your_db_password"
-
-# Run the wizard
-python cli_onboarding.py
 ```
 
-## 📖 Usage Guide
-
-### Step 1: Organization Setup
-- Enter your organization name
-- Choose deployment environment (production/staging/development)
-- Select AWS region
-
-### Step 2: Security Configuration
-- Configure Single Sign-On (SSO)
-- Set up audit logging
-- Enable data encryption
-- Configure rate limiting
-
-### Step 3: AI Model Selection
-- Choose default AI model (Claude 3 variants)
-- Set model parameters (tokens, temperature)
-- Configure corporate model aliases
-
-### Step 4: Environment Validation
-- Test environment variables
-- Validate AWS connectivity
-- Check network requirements
-- Verify permissions
-
-### Step 5: Generate Configuration
-- Create complete settings.yaml
-- Generate deployment files
-- Create environment templates
-
-### Step 6: Download & Deploy
-- Download configuration package
-- Extract to deployment server
-- Edit .env with real credentials
-- Deploy using provided scripts
-
-## 🔧 Generated Files
-
-After running the wizard, you'll get:
-
-```
-tidyllm-corporate-config/
-├── settings.yaml              # Main TidyLLM configuration
-├── .env.template             # Environment variables template
-├── Dockerfile                # Container image definition
-├── docker-compose.yml        # Local deployment
-├── kubernetes/               # K8s manifests
-│   ├── deployment.yaml
-│   └── service.yaml
-└── DEPLOYMENT_INSTRUCTIONS.md # Step-by-step deployment guide
-```
-
-## 🚀 Deployment Examples
-
-### Docker Compose (Recommended for Development)
+### **Launch System**
 ```bash
-cd tidyllm-corporate-config
-cp .env.template .env
-# Edit .env with your actual credentials
-docker-compose up -d
+# Single command launch
+python launcher.py
 ```
 
-### Kubernetes (Production)
-```bash
-cd tidyllm-corporate-config
-kubectl create namespace yourcompany
-kubectl create secret generic tidyllm-secrets --from-env-file=.env --namespace=yourcompany
-kubectl apply -f kubernetes/ --namespace=yourcompany
+## 📊 **Features**
+
+### **Core Capabilities**
+- **Real-time Testing**: Live connection validation
+- **Document Processing**: Multi-format document support
+- **AI Integration**: Multiple AI provider support
+- **Knowledge Management**: Complete CRUD operations
+- **Workflow Orchestration**: YAML-based workflow management
+- **Performance Monitoring**: Real-time metrics and analytics
+
+### **Enterprise Integration**
+- **Corporate Networks**: Proxy and firewall support
+- **Authentication**: SSO and corporate identity providers
+- **Compliance**: Audit logging and data protection
+- **Scalability**: Horizontal scaling support
+- **Monitoring**: Comprehensive system health monitoring
+
+## 🎯 **Usage Patterns**
+
+### **Corporate IT Administrator**
+1. **Connection Config** → Test corporate environment
+2. **Chat Test** → Validate AI model access
+3. **Knowledge Management** → Set up knowledge domains
+4. **Workflows** → Configure business processes
+5. **Test Workflow** → Validate end-to-end processing
+6. **Dashboard** → Monitor system health
+
+### **Business User**
+1. **Chat Test** → Quick AI interaction
+2. **Knowledge Management** → Search organizational knowledge
+3. **Test Workflow** → Process documents
+4. **Dashboard** → View results and status
+
+### **Developer**
+1. **Connection Config** → Validate development setup
+2. **Workflows** → Create custom AI managers
+3. **Knowledge Management** → Build knowledge domains
+4. **Dashboard** → Monitor performance and debug
+
+## 🆘 **Troubleshooting**
+
+### **Common Issues**
+
+**1. Import Errors**
 ```
-
-### Docker (Standalone)
-```bash
-cd tidyllm-corporate-config
-docker build -t yourcompany/tidyllm:latest .
-docker run -d --name tidyllm-corporate --env-file .env -p 8000:8000 yourcompany/tidyllm:latest
+Error: TidyLLM imports not available
 ```
+**Solution**: Ensure you're running from the correct directory and TidyLLM is properly installed.
 
-## 🔍 Validation & Testing
-
-### Health Check
-```bash
-curl http://localhost:8000/health
-# Should return: {"status": "healthy"}
+**2. AWS Connection Issues**
 ```
-
-### API Test
-```bash
-curl -X POST http://localhost:8000/api/v1/chat \
-     -H "Content-Type: application/json" \
-     -H "Authorization: Bearer your-token" \
-     -d '{"message": "Hello, TidyLLM!"}'
+Error: AWS credentials not found
 ```
+**Solution**: The launcher automatically configures AWS credentials. Check environment variables.
 
-### Environment Validation
-```bash
-python cli_onboarding.py --validate
+**3. Database Connection Issues**
 ```
-
-## 🏢 Corporate Security Features
-
-### Data Protection
-- **Encryption at Rest**: All cached data and logs encrypted
-- **Data Masking**: Automatic PII masking in logs
-- **Audit Logging**: Complete request/response audit trail
-- **Retention Policies**: Configurable data retention periods
-
-### Access Control
-- **SSO Integration**: Support for major enterprise identity providers
-- **Rate Limiting**: Prevent API abuse and ensure fair usage
-- **Authentication**: Multiple auth methods (OAuth2, LDAP, API keys)
-- **Authorization**: Role-based access control
-
-### Network Security
-- **Proxy Support**: Works with corporate HTTP proxies
-- **SSL/TLS**: Custom CA certificate support
-- **Network Restrictions**: Configurable endpoint whitelisting
-- **VPC Support**: Works within private networks
-
-### Compliance
-- **GDPR Ready**: Data privacy and right-to-delete support
-- **SOX Compliant**: Financial data handling best practices
-- **HIPAA Considerations**: Healthcare data protection features
-- **Audit Trails**: Complete activity logging for compliance
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**1. AWS Permission Errors**
+Error: PostgreSQL connection failed
 ```
-Error: User is not authorized to perform: bedrock:InvokeModel
-```
-**Solution**: Add required IAM permissions to your AWS user/role.
+**Solution**: Verify database configuration and network connectivity.
 
-**2. Database Connection Issues**
-```  
-Error: could not connect to server: Connection refused
-```
-**Solution**: Check database host, port, and network connectivity.
+### **Getting Help**
+- Check system status in Dashboard
+- Review connection test results in Connection Config
+- Validate workflow configurations in Workflows
+- Monitor performance metrics in Dashboard
 
-**3. Corporate Proxy Issues**
-```
-Error: ProxyError or SSL verification failed
-```
-**Solution**: Configure proxy settings and corporate CA certificates.
+## 📈 **Performance**
 
-**4. Model Not Available**
-```
-Error: Could not find model: anthropic.claude-3-sonnet
-```
-**Solution**: Verify model availability in your AWS region.
+### **Optimization Features**
+- **Auto-reload**: Development-friendly auto-refresh
+- **Session Management**: Efficient resource utilization
+- **Caching**: Intelligent caching for better performance
+- **Parallel Processing**: Multi-threaded operations
+- **Resource Monitoring**: Real-time performance tracking
 
-### Getting Help
-- **Documentation**: Comprehensive deployment guide included
-- **Validation**: Built-in connectivity and permission testing
-- **Support**: Contact your IT administrator or TidyLLM support
+## 🔄 **Development**
 
-## 📄 License
+### **Auto-reload Development**
+- **File Watching**: Automatic reload on file changes
+- **Session Persistence**: Maintains state across reloads
+- **Hot Reloading**: Instant updates without restart
+- **Development Mode**: Optimized for development workflow
 
-This onboarding package is part of TidyLLM and follows the same licensing terms.
-
-## 🤝 Support
-
-For corporate deployment assistance:
-- **Documentation**: See generated DEPLOYMENT_INSTRUCTIONS.md
-- **Issues**: Contact your IT administrator
-- **Enterprise Support**: Available for corporate customers
+### **Code Structure**
+- **Modular Design**: Clean separation of concerns
+- **Single Responsibility**: Each component has one purpose
+- **Reusable Components**: Shared UI components
+- **Clean Architecture**: Easy to maintain and extend
 
 ---
 
-**Generated by TidyLLM Corporate Onboarding v1.0**
+**TidyLLM Corporate Onboarding System** - Clean, normalized, enterprise-ready solution for corporate TidyLLM deployment.

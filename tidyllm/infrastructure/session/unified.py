@@ -135,6 +135,7 @@ class UnifiedSessionManager:
         self._s3_client = None
         self._s3_resource = None
         self._bedrock_client = None
+        self._bedrock_runtime_client = None
         self._postgres_pool = None
         
         # Health tracking
@@ -421,12 +422,13 @@ class UnifiedSessionManager:
             else:
                 session = boto3.Session(profile_name=self.config.aws_profile)
             
-            self._bedrock_client = session.client('bedrock-runtime', region_name=self.config.bedrock_region)
+            # Create both bedrock and bedrock-runtime clients
+            self._bedrock_client = session.client('bedrock', region_name=self.config.bedrock_region)
+            self._bedrock_runtime_client = session.client('bedrock-runtime', region_name=self.config.bedrock_region)
             
             # Test with a simple list models call (lightweight)
             try:
-                bedrock_client = session.client('bedrock', region_name=self.config.bedrock_region)
-                bedrock_client.list_foundation_models()
+                self._bedrock_client.list_foundation_models()
             except:
                 pass  # May not have permissions, but client works
             
@@ -539,6 +541,10 @@ class UnifiedSessionManager:
     def get_bedrock_client(self):
         """Get Bedrock client (thread-safe)"""
         return self._bedrock_client
+    
+    def get_bedrock_runtime_client(self):
+        """Get Bedrock Runtime client (thread-safe)"""
+        return self._bedrock_runtime_client
     
     def get_sts_client(self):
         """Get STS client (thread-safe)"""

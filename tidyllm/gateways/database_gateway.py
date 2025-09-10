@@ -5,10 +5,16 @@
 # *** IMPORTANT: READ docs/2025-09-08/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md ***
 # *** BEFORE PLANNING ANY CHANGES TO THIS FILE ***
 ################################################################################
+"""
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+"""
 Database Utility Service - Corporate-Controlled Database Access
 ==============================================================
-🔧 UTILITY SERVICE - NOT A CORE GATEWAY
+UTILITY SERVICE - NOT A CORE GATEWAY
 This is a specialized database access wrapper, not part of the main gateway workflow.
 
 LEGAL DOCUMENT ANALYSIS WORKFLOW EXAMPLE:
@@ -150,9 +156,12 @@ class DatabaseGateway(BaseGateway):
     Application → Database Gateway → Corporate IT → Database Servers
     """
     
-    def __init__(self, config: DatabaseGatewayConfig):
-        super().__init__(config)
-        self.db_config = config
+    def __init__(self, config: DatabaseGatewayConfig = None, **config_kwargs):
+        # Initialize with config kwargs for BaseGateway compatibility
+        super().__init__(**config_kwargs)
+        
+        # Set database-specific config
+        self.db_config = config or DatabaseGatewayConfig()
         
         # Use UnifiedSessionManager for database connections
         if UNIFIED_SESSION_AVAILABLE:
@@ -668,3 +677,147 @@ class DatabaseGateway(BaseGateway):
         stats["timestamp"] = datetime.utcnow().isoformat()
         
         return stats
+    
+    # Required abstract method implementations from BaseGateway
+    
+    def _get_default_dependencies(self) -> 'GatewayDependencies':
+        """
+        Get the default dependency configuration for this gateway.
+        
+        Database Gateway Dependencies:
+        - Requires UnifiedSessionManager for database connections
+        - No other gateway dependencies (standalone service)
+        """
+        from .base_gateway import GatewayDependencies
+        return GatewayDependencies(
+            requires_ai_processing=False,
+            requires_corporate_llm=False,
+            requires_workflow_optimizer=False,
+            requires_knowledge_resources=False
+        )
+    
+    async def process(self, input_data: Any, **kwargs) -> 'GatewayResponse':
+        """
+        Process database operations asynchronously.
+        
+        Args:
+            input_data: SQL query string or database operation dict
+            **kwargs: Additional parameters
+            
+        Returns:
+            GatewayResponse with query results
+        """
+        # Run sync version in executor
+        import asyncio
+        loop = asyncio.get_event_loop()
+        return await loop.run_in_executor(None, self.process_sync, input_data, **kwargs)
+    
+    def process_sync(self, input_data: Any, **kwargs) -> 'GatewayResponse':
+        """
+        Process database operations synchronously.
+        
+        Args:
+            input_data: SQL query string or database operation dict
+            **kwargs: Additional parameters
+            
+        Returns:
+            GatewayResponse with query results
+        """
+        from .base_gateway import GatewayResponse, GatewayStatus
+        from datetime import datetime
+        
+        try:
+            # Handle different input types
+            if isinstance(input_data, str):
+                # Direct SQL query
+                result = self.execute_query(input_data, **kwargs)
+                return GatewayResponse(
+                    status=GatewayStatus.SUCCESS,
+                    data=result,
+                    metadata={"query_type": "direct_sql", "timestamp": datetime.now()},
+                    gateway_name="DatabaseGateway"
+                )
+            elif isinstance(input_data, dict):
+                # Structured database operation
+                operation = input_data.get("operation", "SELECT")
+                query = input_data.get("query", "")
+                params = input_data.get("params", {})
+                
+                result = self.execute_query(query, **params)
+                return GatewayResponse(
+                    status=GatewayStatus.SUCCESS,
+                    data=result,
+                    metadata={"operation": operation, "timestamp": datetime.now()},
+                    gateway_name="DatabaseGateway"
+                )
+            else:
+                return GatewayResponse(
+                    status=GatewayStatus.FAILURE,
+                    data=None,
+                    errors=[f"Unsupported input type: {type(input_data)}"],
+                    gateway_name="DatabaseGateway"
+                )
+                
+        except Exception as e:
+            return GatewayResponse(
+                status=GatewayStatus.FAILURE,
+                data=None,
+                errors=[str(e)],
+                gateway_name="DatabaseGateway"
+            )
+    
+    def validate_config(self) -> bool:
+        """
+        Validate gateway configuration.
+        
+        Returns:
+            True if configuration is valid, False otherwise
+        """
+        try:
+            # Check if we have at least one database connection
+            if not self.db_config.available_connections:
+                logger.warning("DatabaseGateway: No database connections configured")
+                return False
+            
+            # Check if UnifiedSessionManager is available
+            if not self.session_mgr:
+                logger.warning("DatabaseGateway: UnifiedSessionManager not available")
+                return False
+            
+            # Validate connection parameters
+            for name, conn in self.db_config.available_connections.items():
+                if not conn.host or not conn.database:
+                    logger.warning(f"DatabaseGateway: Invalid connection config for {name}")
+                    return False
+            
+            return True
+            
+        except Exception as e:
+            logger.error(f"DatabaseGateway: Config validation failed: {e}")
+            return False
+    
+    def get_capabilities(self) -> Dict[str, Any]:
+        """
+        Get gateway capabilities and features.
+        
+        Returns:
+            Dictionary describing gateway capabilities
+        """
+        return {
+            "name": "DatabaseGateway",
+            "version": "1.0.0",
+            "description": "Corporate database access with security controls",
+            "supported_operations": ["SELECT", "INSERT", "UPDATE", "DELETE"],
+            "supported_databases": ["PostgreSQL", "MySQL", "SQL Server"],
+            "features": [
+                "Connection pooling",
+                "Query validation",
+                "Audit logging",
+                "PII protection",
+                "Role-based access control"
+            ],
+            "max_query_length": self.db_config.max_query_length,
+            "max_result_rows": self.db_config.max_result_rows,
+            "available_connections": len(self.db_config.available_connections),
+            "session_manager_available": self.session_mgr is not None
+        }
