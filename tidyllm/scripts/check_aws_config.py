@@ -78,10 +78,12 @@ def test_boto3_connection():
         import boto3
         print("[OK] Boto3 imported successfully")
         
-        # Test S3 client creation
+        # Test S3 client creation via UnifiedSessionManager
         try:
-            s3 = boto3.client('s3')
-            print("[OK] S3 client created")
+            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            s3 = session_mgr.get_s3_client()
+            print("[OK] S3 client created via UnifiedSessionManager")
             
             # Test actual AWS connection
             try:
@@ -114,7 +116,7 @@ def test_unified_session_manager():
     print("\n=== UnifiedSessionManager Test ===")
     
     try:
-        from tidyllm.infrastructure.session import UnifiedSessionManager
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
         print("[OK] UnifiedSessionManager imported")
         
         try:

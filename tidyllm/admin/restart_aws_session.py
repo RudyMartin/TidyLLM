@@ -302,7 +302,10 @@ class AWSSessionManager:
         print(f"\n[S3_TEST] Testing S3 operations on bucket: {bucket_name}")
         
         try:
-            s3_client = boto3.client('s3')
+            # Use UnifiedSessionManager for S3 client
+            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            s3_client = session_mgr.get_s3_client()
             
             # Test 1: Head bucket (basic access)
             s3_client.head_bucket(Bucket=bucket_name)
@@ -366,9 +369,11 @@ class AWSSessionManager:
                 'error': str(e)
             }
         
-        # Test S3 access
+        # Test S3 access using UnifiedSessionManager
         try:
-            s3_client = boto3.client('s3')
+            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            s3_client = session_mgr.get_s3_client()
             buckets_response = s3_client.list_buckets()
             buckets = [bucket['Name'] for bucket in buckets_response.get('Buckets', [])]
             

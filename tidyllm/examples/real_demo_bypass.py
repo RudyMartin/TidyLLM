@@ -26,8 +26,10 @@ def force_real_responses():
         os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
     
     try:
-        # Create Bedrock client
-        bedrock = boto3.client('bedrock-runtime', region_name='us-east-1')
+        # Create Bedrock client via UnifiedSessionManager
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+        session_mgr = UnifiedSessionManager()
+        bedrock = session_mgr.get_bedrock_client()
         
         print("1. REAL CHAT TEST")
         print("-" * 30)

@@ -329,9 +329,10 @@ class TidyLLMInfrastructureTests:
     def _test_s3_infrastructure(self) -> Dict[str, Any]:
         """Test S3 storage infrastructure."""
         try:
-            import boto3
-            # Test credentials
-            client = boto3.client('s3')
+            # Use UnifiedSessionManager for S3 client
+            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            client = session_mgr.get_s3_client()
             buckets = client.list_buckets()
             
             # Test with specific bucket
@@ -417,12 +418,14 @@ class TidyLLMInfrastructureTests:
     def _test_bedrock_infrastructure(self) -> Dict[str, Any]:
         """Test AWS Bedrock AI infrastructure.""" 
         try:
-            import boto3
-            client = boto3.client('bedrock-runtime', region_name='us-east-1')
+            # Use UnifiedSessionManager for Bedrock clients
+            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+            session_mgr = UnifiedSessionManager()
+            client = session_mgr.get_bedrock_client()
             
             # Try to list foundation models (this requires Bedrock permissions)
             try:
-                bedrock_client = boto3.client('bedrock', region_name='us-east-1')
+                bedrock_client = session_mgr.get_bedrock_client()
                 models = bedrock_client.list_foundation_models()
                 model_count = len(models.get('modelSummaries', []))
             except:

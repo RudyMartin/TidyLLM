@@ -12,7 +12,7 @@ Usage:
 """
 
 import streamlit as st
-import pandas as pd
+import polars as pl
 import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
@@ -153,7 +153,7 @@ class DropzoneDashboard:
         ]
         return commands
     
-    def get_processing_history(self) -> pd.DataFrame:
+    def get_processing_history(self) -> pl.DataFrame:
         """Get simulated processing history for demo."""
         # Simulate processing history
         history_data = []
@@ -169,7 +169,7 @@ class DropzoneDashboard:
                 "confidence": 0.85 + (i % 10) * 0.01
             })
         
-        return pd.DataFrame(history_data)
+        return pl.DataFrame(history_data)
 
 def main():
     """Main dashboard application."""
@@ -298,8 +298,9 @@ def main():
         st.header("📊 System Metrics")
         
         # Processing time chart
-        chart_data = pd.DataFrame({
-            'Time': pd.date_range(start=datetime.now() - timedelta(hours=1), periods=12, freq='5T'),
+        time_range = [(datetime.now() - timedelta(hours=1) + timedelta(minutes=5*i)) for i in range(12)]
+        chart_data = pl.DataFrame({
+            'Time': time_range,
             'Processing Speed': [45, 52, 48, 43, 50, 55, 47, 49, 53, 46, 51, 48]
         })
         

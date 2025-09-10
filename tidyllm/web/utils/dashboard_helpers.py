@@ -7,7 +7,7 @@ Includes data formatting, file operations, and common UI components.
 """
 
 import streamlit as st
-import pandas as pd
+import polars as pl
 import json
 from pathlib import Path
 from datetime import datetime, timedelta
@@ -70,12 +70,12 @@ class DashboardUtils:
         return icons.get(status.lower(), "⚪")
     
     @staticmethod
-    def create_download_link(data: Union[str, bytes, pd.DataFrame], 
+    def create_download_link(data: Union[str, bytes, pl.DataFrame], 
                            filename: str, 
                            text: str = "Download") -> str:
         """Create a download link for data."""
-        if isinstance(data, pd.DataFrame):
-            data = data.to_csv(index=False)
+        if isinstance(data, pl.DataFrame):
+            data = data.to_csv()
             
         if isinstance(data, str):
             data = data.encode()
@@ -227,9 +227,9 @@ class DataExporter:
     """Data export utilities for dashboard."""
     
     @staticmethod
-    def export_processing_history(history_df: pd.DataFrame) -> str:
+    def export_processing_history(history_df: pl.DataFrame) -> str:
         """Export processing history as CSV."""
-        return history_df.to_csv(index=False)
+        return history_df.to_csv()
     
     @staticmethod  
     def export_system_metrics(metrics: Dict[str, Any]) -> str:
@@ -245,7 +245,7 @@ class DataExporter:
     def create_system_report(
         metrics: Dict[str, Any],
         workers: List[Dict[str, Any]], 
-        processing_history: pd.DataFrame
+        processing_history: pl.DataFrame
     ) -> str:
         """Create comprehensive system report."""
         report = {
@@ -253,9 +253,9 @@ class DataExporter:
             "system_metrics": metrics,
             "worker_status": workers,
             "processing_summary": {
-                "total_processed": len(processing_history),
-                "success_rate": (processing_history['status'] == 'completed').mean() * 100,
-                "avg_processing_time": processing_history['processing_time'].str.replace('s', '').astype(float).mean()
+                "total_processed": processing_history.height,
+                "success_rate": (processing_history.filter(pl.col('status') == 'completed').height / processing_history.height) * 100,
+                "avg_processing_time": processing_history.select(pl.col('processing_time').str.replace('s', '').cast(pl.Float64)).mean().item()
             }
         }
         

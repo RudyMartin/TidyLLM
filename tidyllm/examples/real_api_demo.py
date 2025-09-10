@@ -25,8 +25,10 @@ def test_real_ai():
     os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
     
     try:
-        # Initialize Bedrock client
-        client = boto3.client('bedrock-runtime', region_name='us-east-1')
+        # Initialize Bedrock client via UnifiedSessionManager
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+        session_mgr = UnifiedSessionManager()
+        client = session_mgr.get_bedrock_client()
         
         print(f"AWS Credentials: {os.environ.get('AWS_ACCESS_KEY_ID', 'Not set')[:10]}...")
         print(f"AWS Region: {os.environ.get('AWS_DEFAULT_REGION', 'Not set')}")

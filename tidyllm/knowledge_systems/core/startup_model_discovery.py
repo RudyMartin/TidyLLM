@@ -254,12 +254,12 @@ class StartupModelDiscovery:
         try:
             # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
             try:
-                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
                 session_manager = UnifiedSessionManager()
                 bedrock = session_manager.get_bedrock_client()
             except ImportError:
-                # Fallback to direct boto3
-                bedrock = boto3.client('bedrock', region_name='us-east-1')
+                # NO FALLBACK - UnifiedSessionManager is required
+                raise RuntimeError("StartupModelDiscovery: UnifiedSessionManager is required for Bedrock access")
             response = bedrock.list_foundation_models()
             
             discovered = {}

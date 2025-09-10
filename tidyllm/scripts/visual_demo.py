@@ -16,7 +16,7 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, List, Optional
 import plotly.graph_objects as go
 import plotly.express as px
-import pandas as pd
+import polars as pl
 
 # Import our standalone demo systems
 from sparse_agreements import SparseAgreementManager, execute_sparse_command
@@ -216,7 +216,7 @@ class VisualDemoInterface:
         
         # Error type breakdown chart
         if summary['error_type_breakdown']:
-            error_df = pd.DataFrame(list(summary['error_type_breakdown'].items()), 
+            error_df = pl.DataFrame(list(summary['error_type_breakdown'].items()), 
                                   columns=['Error Type', 'Count'])
             fig = px.bar(error_df, x='Error Type', y='Count', 
                         title="Error Types (Last 24 Hours)")

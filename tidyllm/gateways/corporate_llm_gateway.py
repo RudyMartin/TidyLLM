@@ -387,13 +387,8 @@ class CorporateLLMGateway(BaseGateway):
                 bedrock = self.session_manager.get_bedrock_client()
                 logger.info("CorporateLLMGateway: Using UnifiedSessionManager for Bedrock access")
             else:
-                # Fallback to direct boto3 (like other gateways do)
-                import boto3
-                bedrock = boto3.client(
-                    'bedrock-runtime',
-                    region_name=os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
-                )
-                logger.warning("CorporateLLMGateway: Using direct boto3 for Bedrock (no session manager)")
+                # NO FALLBACK - UnifiedSessionManager is required
+                raise RuntimeError("CorporateLLMGateway: UnifiedSessionManager is required for Bedrock access")
             
             # Prepare request
             body = {

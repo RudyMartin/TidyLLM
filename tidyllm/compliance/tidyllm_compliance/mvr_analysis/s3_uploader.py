@@ -33,7 +33,7 @@ import mimetypes
 
 # Import UnifiedSessionManager for audit-compliant session management
 try:
-    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    from tidyllm.infrastructure.session.unified import UnifiedSessionManager
     UNIFIED_SESSION_AVAILABLE = True
 except ImportError:
     # Fallback to direct boto3 import if UnifiedSessionManager not available
@@ -58,9 +58,8 @@ class S3MVRUploader:
             self.session_manager = UnifiedSessionManager()
             self.s3_client = self.session_manager.get_s3_client()
         else:
-            print("[UPLOADER] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
-            import boto3
-            self.s3_client = boto3.client('s3')
+            print("[UPLOADER] NO FALLBACK - UnifiedSessionManager is required")
+            raise RuntimeError("S3Uploader: UnifiedSessionManager is required for S3 access")
         
         # S3 path organization
         self.paths = {

@@ -1,0 +1,188 @@
+api_keys:
+  aws_access_key_id: REMOVED_AWS_KEY
+  aws_secret_access_key: REMOVED_AWS_SECRET
+aws:
+  access_key_id: REMOVED_AWS_KEY
+  bedrock:
+    default_model: anthropic.claude-3-sonnet-20240229-v1:0
+    model_mapping:
+      claude-3-haiku: anthropic.claude-3-haiku-20240307-v1:0
+      claude-3-sonnet: anthropic.claude-3-sonnet-20240229-v1:0
+    region: us-east-1
+  default_region: us-east-1
+  region: us-east-1
+  secret_access_key: REMOVED_AWS_SECRET
+configuration:
+  deployment:
+    backup:
+      enabled: true
+      format: settings_backup_{timestamp}.yaml
+      location: ./admin/backups/
+      retention_days: 30
+    mode: development
+    search_paths:
+    - description: Official admin config with credentials
+      path: tidyllm/admin/settings.yaml
+      permissions: '0600'
+    - description: Local development config
+      path: ./settings.yaml
+      permissions: '0600'
+    - description: Repository-level config
+      path: ../settings.yaml
+      permissions: '0600'
+    - description: User profile config
+      path: ~/.tidyllm/settings.yaml
+      permissions: '0600'
+  official:
+    contains_credentials: true
+    is_template_source: true
+    last_updated: '2025-09-09'
+    location: tidyllm/admin/settings.yaml
+    version: 1.0.4
+  onboarding:
+    allow_updates: true
+    backup_before_update: true
+    template_source: true
+  security:
+    audit_changes: true
+    encrypt_at_rest: false
+    file_permissions: '0600'
+    validate_on_load: true
+  template_generation:
+    add_placeholders: true
+    credential_fields:
+    - aws.access_key_id
+    - aws.secret_access_key
+    - api_keys.*
+    - postgres.db_password
+    - '*password*'
+    - '*secret*'
+    - '*key*'
+    mask_sensitive: true
+    output_template: onboarding/template.settings.yaml
+    strip_credentials: true
+databases:
+  backup:
+    auto_create: true
+    backup_rotation:
+      enabled: true
+      location: ./data/backups/
+      retention_days: 7
+    connection_pool_size: 1
+    db_name: ./data/backup.db
+    db_password: test
+    db_path: ./data/backup.db
+    db_port: 3306
+    db_user: backup_user
+    engine: sqlite
+    host: ./data/backup.db
+    max_retries: 3
+    retry_delay: 2.0
+    security:
+      file_permissions: '0600'
+      secure_delete: true
+      wal_mode: true
+    type: backup
+  primary:
+    connection_pool_size: 5
+    db_name: vectorqa
+    db_password: REMOVED_PASSWORD
+    db_port: 5432
+    db_user: vectorqa_user
+    engine: postgresql
+    host: vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com
+    max_retries: 3
+    retry_delay: 2.0
+    ssl_mode: require
+    type: standard
+  secondary:
+    connection_pool_size: 3
+    db_name: backup_db
+    db_password: ''
+    db_port: 5432
+    db_user: backup_user
+    engine: postgresql
+    host: localhost
+    max_retries: 3
+    retry_delay: 2.0
+    ssl_mode: prefer
+    type: standard
+deployment_type: development
+environment: development
+integrations:
+  ldap:
+    enabled: false
+  observability:
+    datadog:
+      enabled: false
+    newrelic:
+      enabled: false
+  sso:
+    enabled: false
+logging:
+  format: simple
+  handlers:
+    file:
+      backup_count: 3
+      enabled: true
+      max_size_mb: 50
+      path: ./logs/tidyllm.log
+  include_request_id: true
+  include_session_id: true
+  include_user_id: false
+  level: INFO
+monitoring:
+  alerts:
+    enabled: false
+  enabled: true
+  health_check:
+    enabled: true
+    endpoint: /health
+    interval_seconds: 120
+  metrics:
+    enabled: true
+    export_to_prometheus: false
+network:
+  proxy:
+    enabled: false
+  ssl:
+    verify: true
+  timeouts:
+    connect_timeout: 15
+    read_timeout: 60
+    total_timeout: 120
+organization: TidyLLM Testing
+postgres:
+  connection_pool_size: 5
+  db_name: vectorqa
+  db_password: REMOVED_PASSWORD
+  db_user: vectorqa_user
+  host: vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com
+  max_retries: 3
+  port: 5432
+  retry_delay: 2.0
+  ssl_mode: require
+s3:
+  bucket: nsc-mvp1
+  connection_timeout: 30
+  max_retries: 3
+  prefix: onboarding-test/
+  region: us-east-1
+  test_marker: test_marker_1757467241
+security:
+  access:
+    rate_limit:
+      enabled: true
+      requests_per_hour: 1000
+      requests_per_minute: 100
+    require_auth: false
+  audit:
+    audit_all_requests: false
+    audit_retention_days: 7
+    enabled: true
+  data:
+    cache_retention_days: 1
+    encrypt_cache: false
+    encrypt_logs: false
+    log_retention_days: 7
+    mask_sensitive_data: true

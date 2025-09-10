@@ -31,7 +31,7 @@ import time
 
 # Import UnifiedSessionManager for audit-compliant session management
 try:
-    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    from tidyllm.infrastructure.session.unified import UnifiedSessionManager
     UNIFIED_SESSION_AVAILABLE = True
 except ImportError:
     # Fallback to direct boto3 import if UnifiedSessionManager not available
@@ -75,9 +75,8 @@ class S3FirstMVRProcessor:
             self.session_manager = UnifiedSessionManager()
             self.s3_client = self.session_manager.get_s3_client()
         else:
-            print("[MVR] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
-            import boto3
-            self.s3_client = boto3.client('s3')
+            print("[MVR] NO FALLBACK - UnifiedSessionManager is required")
+            raise RuntimeError("S3FirstProcessor: UnifiedSessionManager is required for S3 access")
         
         # Initialize compliance validators
         self.yrsn_analyzer = YRSNNoiseAnalyzer() if YRSNNoiseAnalyzer and enable_yrsn_validation else None

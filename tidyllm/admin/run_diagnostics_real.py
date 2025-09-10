@@ -127,8 +127,10 @@ def load_admin_config_and_credentials():
         if not credentials_found and PLATFORM_INFO['is_sagemaker']:
             print("[INFO] SageMaker environment - checking for IAM role credentials")
             try:
-                import boto3
-                sts = boto3.client('sts')
+                # Use UnifiedSessionManager for STS client
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
+                session_mgr = UnifiedSessionManager()
+                sts = session_mgr.get_sts_client()
                 identity = sts.get_caller_identity()
                 print(f"[AUTO-LOADED] Using SageMaker IAM role: {identity['Arn']}")
                 credentials_found = True
@@ -221,12 +223,12 @@ def test_aws_credentials():
         try:
             # AUDIT COMPLIANCE: Use UnifiedSessionManager instead of direct boto3
             try:
-                from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
                 session_manager = UnifiedSessionManager()
                 sts = session_manager._create_boto3_session().client('sts')
             except ImportError:
-                # Fallback to direct boto3
-                sts = boto3.client('sts')
+                # NO FALLBACK - UnifiedSessionManager is required
+                raise RuntimeError("RunDiagnostics: UnifiedSessionManager is required for STS access")
                 
             identity = sts.get_caller_identity()
             response_time = (time.time() - start_time) * 1000

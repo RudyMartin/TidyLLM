@@ -162,7 +162,7 @@ def main():
                         try:
                             # Import UnifiedSessionManager - THE OFFICIAL WAY
                             sys.path.insert(0, str(admin_dir.parent.parent))
-                            from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+                            from tidyllm.infrastructure.session.unified import UnifiedSessionManager
                             
                             print(f"[SUCCESS] AWS credentials loaded from admin folder")
                             print()
@@ -171,10 +171,10 @@ def main():
                             # Initialize UnifiedSessionManager
                             session_mgr = UnifiedSessionManager()
                             
-                            # Test AWS identity via STS
+                            # Test AWS identity via STS using UnifiedSessionManager
                             try:
-                                import boto3
-                                sts = boto3.client('sts')
+                                # Use UnifiedSessionManager for STS client
+                                sts = session_mgr.get_sts_client()
                                 identity = sts.get_caller_identity()
                                 print(f"[SUCCESS] AWS Account: {identity['Account']}")
                                 print(f"[SUCCESS] User: {identity['Arn'].split('/')[-1]}")
@@ -200,11 +200,9 @@ def main():
                             bedrock_client = session_mgr.get_bedrock_client()
                             if bedrock_client:
                                 try:
-                                    # Try to list available foundation models using UnifiedSessionManager session
-                                    # Get the same session that UnifiedSessionManager is using
-                                    import boto3
-                                    bedrock_list_client = boto3.client('bedrock')
-                                    models = bedrock_list_client.list_foundation_models()
+                                    # Try to list available foundation models using UnifiedSessionManager
+                                    # Use the same client that UnifiedSessionManager provides
+                                    models = bedrock_client.list_foundation_models()
                                     
                                     # Filter for available models (no hardcoding)
                                     available_models = models['modelSummaries'][:3]  # Just show top 3

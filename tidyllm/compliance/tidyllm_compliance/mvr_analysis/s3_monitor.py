@@ -34,7 +34,7 @@ from .s3_first_processor import S3FirstMVRProcessor
 
 # Import UnifiedSessionManager for audit-compliant session management
 try:
-    from scripts.infrastructure.start_unified_sessions import UnifiedSessionManager
+    from tidyllm.infrastructure.session.unified import UnifiedSessionManager
     UNIFIED_SESSION_AVAILABLE = True
 except ImportError:
     # Fallback to direct boto3 import if UnifiedSessionManager not available
@@ -62,9 +62,8 @@ class S3MVRMonitor:
             self.session_manager = UnifiedSessionManager()
             self.s3_client = self.session_manager.get_s3_client()
         else:
-            print("[MONITOR] Fallback to direct boto3 (UnifiedSessionManager unavailable)")
-            import boto3
-            self.s3_client = boto3.client('s3')
+            print("[MONITOR] NO FALLBACK - UnifiedSessionManager is required")
+            raise RuntimeError("S3Monitor: UnifiedSessionManager is required for S3 access")
         
         # Initialize MVR processor with compliance validation
         self.processor = S3FirstMVRProcessor(
