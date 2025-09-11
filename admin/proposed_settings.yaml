@@ -1,0 +1,321 @@
+# PROPOSED SETTINGS.YAML - Optimized for Polars + Credential Matrix
+# =================================================================
+# Based on your actual data, restructured for efficiency
+# Key improvements:
+# - Consolidated credentials section
+# - Functional grouping 
+# - Explicit null values for Polars
+# - Better integration with credential matrix
+
+# ===== CREDENTIALS SECTION =====
+# All authentication data consolidated here
+credentials:
+  aws:
+    access_key_id: "***REMOVED***"
+    secret_access_key: "***REMOVED***"
+    default_region: "us-east-1"
+    profile: null  # Explicit null for Polars
+
+  postgresql:
+    host: "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com"
+    port: 5432
+    database: "vectorqa"
+    username: "vectorqa_user"
+    password: "Fujifuji500!"
+    ssl_mode: "require"
+
+  backup_db:
+    host: "./data/backup.db"
+    database: "./data/backup.db"
+    username: "backup_user"
+    password: "test"
+    engine: "sqlite"
+
+# ===== SERVICES SECTION =====
+# Non-credential service configurations
+services:
+  aws:
+    region: "us-east-1"  # Can override credentials.aws.default_region
+    bedrock:
+      default_model: "anthropic.claude-3-sonnet-20240229-v1:0"
+      region: "us-east-1"
+      model_mapping:
+        claude-3-haiku: "anthropic.claude-3-haiku-20240307-v1:0"
+        claude-3-sonnet: "anthropic.claude-3-sonnet-20240229-v1:0"
+
+  s3:
+    bucket: "nsc-mvp1"
+    prefix: "onboarding-test/"
+    region: "us-east-1"
+    connection_timeout: 30
+    max_retries: 3
+    test_marker: "test_marker_1757467241"
+
+  postgresql:
+    connection_pool_size: 5
+    max_retries: 3
+    retry_delay: 2.0
+    # Connection info comes from credentials.postgresql
+
+  mlflow:
+    enabled: true
+    tracking_uri: "http://localhost:5000"
+    backend_store_uri: "postgresql://vectorqa_user:Fujifuji500!@vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com:5432/vectorqa?sslmode=require"
+    artifact_store: "s3://nsc-mvp1/onboarding-test/mlflow/"
+    server:
+      host: "0.0.0.0"
+      port: 5000
+
+# ===== SYSTEM SECTION =====
+# System-level configuration
+system:
+  root_path: "C:\\Users\\marti\\github"
+  config_folder: "tidyllm/admin"
+  data_folder: "tidyllm/data"
+  logs_folder: "tidyllm/logs"
+  onboarding_folder: "onboarding"
+  temp_folder: "tidyllm/temp"
+  cache_folder: "tidyllm/cache"
+  
+  corporate_mode: false
+  deep_folder_support: true
+  path_separator: "\\\\"  # Windows: \\\\, Linux/Mac: /
+  
+  environment: "development"  # development, staging, production
+  deployment_type: "development"
+  organization: "TidyLLM Testing"
+
+# ===== DATABASES SECTION =====
+# Database configurations (references credentials section)
+databases:
+  primary:
+    type: "standard"
+    engine: "postgresql"
+    connection_pool_size: 5
+    max_retries: 3
+    retry_delay: 2.0
+    ssl_mode: "require"
+    # Connection details from credentials.postgresql
+
+  secondary:
+    type: "standard"
+    engine: "postgresql"
+    host: "localhost"
+    port: 5432
+    database: "backup_db"
+    username: "backup_user"
+    password: ""  # Empty for local development
+    connection_pool_size: 3
+    max_retries: 3
+    retry_delay: 2.0
+    ssl_mode: "prefer"
+
+  backup:
+    type: "backup"
+    engine: "sqlite"
+    db_path: "./data/backup.db"
+    auto_create: true
+    connection_pool_size: 1
+    max_retries: 3
+    retry_delay: 2.0
+    security:
+      file_permissions: "0600"
+      secure_delete: true
+      wal_mode: true
+    backup_rotation:
+      enabled: true
+      location: "./data/backups/"
+      retention_days: 7
+
+# ===== FEATURES SECTION =====
+# Feature flags and component settings
+features:
+  gateways:
+    corporate_llm:
+      enabled: true
+      timeout: 30.0
+      retry_attempts: 3
+    ai_processing:
+      enabled: true
+      timeout: 45.0
+      retry_attempts: 2
+    workflow_optimizer:
+      enabled: true
+      timeout: 60.0
+      retry_attempts: 2
+    knowledge_mcp:
+      enabled: true
+      timeout: 30.0
+      retry_attempts: 3
+
+  workflow_optimizer:
+    enable_dag_manager: true
+    enable_flow_agreements: true
+    enable_auto_optimization: false
+    optimization_level: 1
+    compliance_mode: true
+    audit_trail: true
+    max_workflow_depth: 10
+    timeout: 60.0
+    performance_threshold: 0.8
+
+  security:
+    access:
+      rate_limit:
+        enabled: true
+        requests_per_hour: 1000
+        requests_per_minute: 100
+      require_auth: false
+    audit:
+      enabled: true
+      audit_all_requests: false
+      audit_retention_days: 7
+    data:
+      encrypt_cache: false
+      encrypt_logs: false
+      mask_sensitive_data: true
+      cache_retention_days: 1
+      log_retention_days: 7
+
+# ===== OPERATIONS SECTION =====
+# Logging, monitoring, networking
+operations:
+  logging:
+    level: "INFO"
+    format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    file_rotation: true
+    max_file_size: "10MB"
+    backup_count: 5
+    handlers:
+      file:
+        enabled: true
+        path: "./logs/tidyllm.log"
+        max_size_mb: 50
+        backup_count: 3
+    include_request_id: true
+    include_session_id: true
+    include_user_id: false
+
+  monitoring:
+    enabled: true
+    health_check:
+      enabled: true
+      endpoint: "/health"
+      interval_seconds: 120
+    metrics:
+      enabled: true
+      export_to_prometheus: false
+    alerts:
+      enabled: false
+
+  network:
+    ssl:
+      verify: true
+    timeouts:
+      connect_timeout: 15
+      read_timeout: 60
+      total_timeout: 120
+    proxy:
+      enabled: false
+
+# ===== INTEGRATIONS SECTION =====
+# External service integrations
+integrations:
+  ldap:
+    enabled: false
+  sso:
+    enabled: false
+  observability:
+    datadog:
+      enabled: false
+    newrelic:
+      enabled: false
+
+# ===== CONFIGURATION METADATA =====
+# For Polars processing and versioning
+configuration:
+  version: "1.0.5"
+  last_updated: "2025-09-11"
+  loaded_by: "config_loader_polars"
+  
+  # Official configuration metadata
+  official:
+    contains_credentials: true
+    is_template_source: true
+    location: "tidyllm/admin/settings.yaml"
+  
+  # Credential detection patterns for Polars
+  credential_patterns:
+    - "*password*"
+    - "*secret*"
+    - "*key*"
+    - "api_keys.*"
+    - "credentials.*"
+    - "postgres.db_password"
+    - "aws.access_key_id"
+    - "aws.secret_access_key"
+  
+  # Template generation settings
+  template_generation:
+    add_placeholders: true
+    mask_sensitive: true
+    strip_credentials: true
+    output_template: "onboarding/template.settings.yaml"
+  
+  # Security settings
+  security:
+    audit_changes: true
+    encrypt_at_rest: false
+    file_permissions: "0600"
+    validate_on_load: true
+
+  # Environment-specific overrides
+  environment_overrides:
+    development:
+      s3_prefix: "dev/"
+      log_level: "DEBUG"
+    staging:
+      s3_prefix: "staging/"
+      log_level: "INFO"
+    production:
+      s3_prefix: "prod/"
+      log_level: "WARNING"
+    local:
+      s3_prefix: "staging/"
+      log_level: "INFO"
+
+# ===== DEPLOYMENT SECTION =====
+# Configuration management and deployment settings
+deployment:
+  mode: "development"
+  backup:
+    enabled: true
+    format: "settings_backup_{timestamp}.yaml"
+    location: "./admin/backups/"
+    retention_days: 30
+  
+  search_paths:
+    - description: "Official admin config with credentials"
+      path: "tidyllm/admin/settings.yaml"
+      permissions: "0600"
+    - description: "Local development config"
+      path: "./settings.yaml"
+      permissions: "0600"
+    - description: "Repository-level config"
+      path: "../settings.yaml"
+      permissions: "0600"
+    - description: "User profile config"
+      path: "~/.tidyllm/settings.yaml"
+      permissions: "0600"
+
+# ===== ONBOARDING SECTION =====
+# User onboarding settings
+onboarding:
+  auto_detect_root_path: true
+  show_debug_info: false
+  enable_health_checks: true
+  refresh_interval: 5  # seconds
+  max_retry_attempts: 3
+  allow_updates: true
+  backup_before_update: true
+  template_source: true

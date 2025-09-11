@@ -106,6 +106,7 @@ class CredentialLoader:
             aws_config = settings.get('aws', {})
             bedrock_config = aws_config.get('bedrock', {})
             credentials_config = bedrock_config.get('credentials', {})
+            api_keys = settings.get('api_keys', {})
             
             # Extract region from multiple locations
             region = (
@@ -118,7 +119,7 @@ class CredentialLoader:
             
             credentials = {'AWS_DEFAULT_REGION': region}
             
-            # Extract credentials if available
+            # Method 1: Check bedrock.credentials section (original approach)
             for yaml_key, env_key in [
                 ('access_key_id', 'AWS_ACCESS_KEY_ID'),
                 ('secret_access_key', 'AWS_SECRET_ACCESS_KEY'),
@@ -128,6 +129,20 @@ class CredentialLoader:
                 value = credentials_config.get(yaml_key)
                 if value:
                     credentials[env_key] = value
+            
+            # Method 2: Check aws section directly (USM approach)
+            if aws_config.get('access_key_id') and aws_config.get('secret_access_key'):
+                credentials['AWS_ACCESS_KEY_ID'] = aws_config['access_key_id']
+                credentials['AWS_SECRET_ACCESS_KEY'] = aws_config['secret_access_key']
+                if verbose:
+                    print("  [YAML] Found AWS credentials in aws section")
+            
+            # Method 3: Check api_keys section (USM approach)
+            if api_keys.get('aws_access_key_id') and api_keys.get('aws_secret_access_key'):
+                credentials['AWS_ACCESS_KEY_ID'] = api_keys['aws_access_key_id']
+                credentials['AWS_SECRET_ACCESS_KEY'] = api_keys['aws_secret_access_key']
+                if verbose:
+                    print("  [YAML] Found AWS credentials in api_keys section")
             
             return credentials
             

@@ -62,8 +62,8 @@ def install_mermaid_cli():
         return False
 
 
-def convert_mermaid_to_png(mermaid_content, output_path):
-    """Convert mermaid content to PNG using mermaid-cli."""
+def convert_mermaid_to_png(mermaid_content, output_path, width=1600, height=1200):
+    """Convert mermaid content to high-resolution PNG using mermaid-cli."""
     
     # Create temporary mermaid file
     with tempfile.NamedTemporaryFile(mode='w', suffix='.mmd', delete=False) as f:
@@ -71,10 +71,19 @@ def convert_mermaid_to_png(mermaid_content, output_path):
         temp_mermaid = f.name
     
     try:
-        # Convert to PNG
-        cmd = ['mmdc', '-i', temp_mermaid, '-o', str(output_path), '-t', 'neutral', '-b', 'white']
+        # Convert to high-resolution PNG
+        cmd = [
+            'mmdc', 
+            '-i', temp_mermaid, 
+            '-o', str(output_path), 
+            '-t', 'neutral', 
+            '-b', 'white',
+            '-w', str(width),      # High resolution width
+            '-H', str(height),     # High resolution height
+            '--scale', '2'         # 2x scale factor for even higher quality
+        ]
         subprocess.run(cmd, check=True)
-        print(f"Successfully converted to {output_path}")
+        print(f"Successfully converted to high-resolution PNG: {output_path} ({width}x{height}, 2x scale)")
         return True
         
     except subprocess.CalledProcessError as e:
@@ -92,6 +101,8 @@ def main():
     parser.add_argument('-i', '--input', dest='input_file', help='Input markdown file')
     parser.add_argument('-o', '--output', help='Output PNG file (default: same name as input with .png extension)')
     parser.add_argument('--install', action='store_true', help='Install mermaid-cli if not present')
+    parser.add_argument('--width', type=int, default=1600, help='Output width in pixels (default: 1600)')
+    parser.add_argument('--height', type=int, default=1200, help='Output height in pixels (default: 1200)')
     
     args = parser.parse_args()
     
@@ -129,7 +140,7 @@ def main():
         output_path = input_path.with_suffix('.png')
     
     # Convert to PNG
-    if convert_mermaid_to_png(mermaid_content, output_path):
+    if convert_mermaid_to_png(mermaid_content, output_path, args.width, args.height):
         return 0
     else:
         return 1
