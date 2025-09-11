@@ -24,22 +24,17 @@ from .base_gateway import BaseGateway, GatewayResponse, GatewayStatus
 from .ai_processing_gateway import AIProcessingGateway
 from .workflow_optimizer_gateway import WorkflowOptimizerGateway
 from .corporate_llm_gateway import CorporateLLMGateway
-try:
-    from ..knowledge_resource_server import KnowledgeMCPServer
-    KNOWLEDGE_SERVER_AVAILABLE = True
-except ImportError:
-    KnowledgeMCPServer = None
-    KNOWLEDGE_SERVER_AVAILABLE = False
+from .context_gateway import ContextGateway
 
 logger = logging.getLogger("gateway_registry")
 
 
 class ServiceType(Enum):
     """Service types available in the gateway registry."""
-    AI_PROCESSING = "ai_processing"
     CORPORATE_LLM = "corporate_llm"
+    AI_PROCESSING = "ai_processing"
     WORKFLOW_OPTIMIZER = "workflow_optimizer"
-    KNOWLEDGE_RESOURCES = "knowledge_resources"
+    CONTEXT = "context"
 
 
 @dataclass
@@ -80,7 +75,7 @@ class GatewayRegistry:
     1. CorporateLLMGateway - Foundation access control layer (no dependencies)
     2. AIProcessingGateway - AI model orchestration layer (requires corporate_llm)
     3. WorkflowOptimizerGateway - Workflow intelligence layer (requires ai_processing + corporate_llm)
-    4. KnowledgeResourceServer - Knowledge & context layer (independent MCP server)
+    4. ContextGateway - Context orchestration layer (depends on all other gateways)
     
     🔧 UTILITY SERVICES (Not registered here - used independently):
     - DatabaseUtilityService - Database access wrapper
@@ -170,14 +165,13 @@ class GatewayRegistry:
             dependencies=[ServiceType.AI_PROCESSING, ServiceType.CORPORATE_LLM]
         )
         
-        # Knowledge Resource Server - Independent MCP server
-        if KNOWLEDGE_SERVER_AVAILABLE:
-            self._services[ServiceType.KNOWLEDGE_RESOURCES] = ServiceInfo(
-                service_type=ServiceType.KNOWLEDGE_RESOURCES,
-                service_class=KnowledgeMCPServer,  # Note: Not a BaseGateway
-                description="MCP resource server for knowledge, documents, and contexts",
-                dependencies=[]  # Independent
-            )
+        # Context Gateway - Final orchestrator (depends on ALL other gateways)
+        self._services[ServiceType.CONTEXT] = ServiceInfo(
+            service_type=ServiceType.CONTEXT,
+            service_class=ContextGateway,
+            description="Context orchestration gateway - final layer that coordinates all other gateways",
+            dependencies=[ServiceType.CORPORATE_LLM, ServiceType.AI_PROCESSING, ServiceType.WORKFLOW_OPTIMIZER]
+        )
     
     def auto_configure(self, config: Dict[str, Any] = None) -> None:
         """
@@ -197,13 +191,8 @@ class GatewayRegistry:
                 service_config = config.get(service_type.value, {})
                 
                 try:
-                    # Initialize the service
-                    if service_type == ServiceType.KNOWLEDGE_RESOURCES:
-                        # Special handling for MCP server
-                        instance = service_info.service_class(config=service_config.get('mcp_config'))
-                    else:
-                        # Standard gateway initialization
-                        instance = service_info.service_class(**service_config)
+                    # Initialize the service - standard gateway initialization for all
+                    instance = service_info.service_class(**service_config)
                     
                     # INTEGRATION: Inject UnifiedSessionManager into each gateway
                     if self.session_manager and hasattr(instance, 'set_session_manager'):
@@ -219,6 +208,9 @@ class GatewayRegistry:
                     logger.error(f"❌ Failed to initialize {service_type.value}: {e}")
                     logger.info(f"Service will be unavailable: {service_info.description}")
                     continue
+            
+            # DEPENDENCY INJECTION: Inject gateway dependencies after all are initialized
+            self._inject_gateway_dependencies()
             
             self._initialized = True
             logger.info(f"🚀 Gateway Registry auto-configuration complete")
@@ -255,6 +247,27 @@ class GatewayRegistry:
         
         return ordered
     
+    def _inject_gateway_dependencies(self):
+        """Inject gateway dependencies after all services are initialized."""
+        try:
+            # Get gateway instances
+            corporate_llm = self._services.get(ServiceType.CORPORATE_LLM)
+            ai_processing = self._services.get(ServiceType.AI_PROCESSING)
+            workflow_optimizer = self._services.get(ServiceType.WORKFLOW_OPTIMIZER)
+            context = self._services.get(ServiceType.CONTEXT)
+            
+            # Inject dependencies into ContextGateway
+            if context and context.initialized and hasattr(context.instance, 'set_gateway_dependencies'):
+                context.instance.set_gateway_dependencies(
+                    corporate_llm=corporate_llm.instance if corporate_llm and corporate_llm.initialized else None,
+                    ai_processing=ai_processing.instance if ai_processing and ai_processing.initialized else None,
+                    workflow_optimizer=workflow_optimizer.instance if workflow_optimizer and workflow_optimizer.initialized else None
+                )
+                logger.info("✅ Context Gateway dependencies injected")
+            
+        except Exception as e:
+            logger.warning(f"Dependency injection failed: {e}")
+    
     def get(self, service_name: str) -> Optional[BaseGateway]:
         """
         Get gateway by service name.
@@ -274,8 +287,9 @@ class GatewayRegistry:
                 "corporate_llm": ServiceType.CORPORATE_LLM,
                 "workflow": ServiceType.WORKFLOW_OPTIMIZER,
                 "workflow_optimizer": ServiceType.WORKFLOW_OPTIMIZER,
-                "knowledge": ServiceType.KNOWLEDGE_RESOURCES,
-                "knowledge_resources": ServiceType.KNOWLEDGE_RESOURCES
+                "context": ServiceType.CONTEXT,
+                "knowledge": ServiceType.CONTEXT,  # Backward compatibility
+                "knowledge_resources": ServiceType.CONTEXT  # Backward compatibility
             }
             
             service_type = service_type_map.get(service_name)
@@ -305,7 +319,8 @@ class GatewayRegistry:
                 "ai_processing": ServiceType.AI_PROCESSING,
                 "corporate_llm": ServiceType.CORPORATE_LLM, 
                 "workflow_optimizer": ServiceType.WORKFLOW_OPTIMIZER,
-                "knowledge_resources": ServiceType.KNOWLEDGE_RESOURCES
+                "context": ServiceType.CONTEXT,
+                "knowledge_resources": ServiceType.CONTEXT  # Backward compatibility
             }
             service_type = service_type_map.get(service_name)
             if service_type:

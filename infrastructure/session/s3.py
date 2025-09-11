@@ -65,8 +65,9 @@ class S3Manager:
         
         self.config = config or S3Config()
         
-        # Use official UnifiedSessionManager
-        self.session_mgr = UnifiedSessionManager()
+        # Use official global UnifiedSessionManager instance  
+        from .unified import get_global_session_manager
+        self.session_mgr = get_global_session_manager()
         
         logger.info("[OK] S3Manager initialized with UnifiedSessionManager")
     
@@ -90,8 +91,10 @@ class S3Manager:
                 timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
                 s3_key = f"{prefix}knowledge-systems-{timestamp}-{file_path.name}"
             
-            # Use UnifiedSessionManager for upload
-            success = self.session_mgr.upload_to_s3(bucket, s3_key, str(file_path))
+            # Use UnifiedSessionManager S3 client for upload
+            s3_client = self.session_mgr.get_s3_client()
+            s3_client.upload_file(str(file_path), bucket, s3_key, ExtraArgs=metadata or {})
+            success = True
             
             upload_duration = (datetime.now() - start_time).total_seconds()
             
@@ -119,8 +122,10 @@ class S3Manager:
     def download_file(self, bucket: str, s3_key: str, local_path: Union[str, Path] = None) -> Dict[str, Any]:
         """Download file from S3 via UnifiedSessionManager"""
         try:
-            # Use UnifiedSessionManager to download
-            content = self.session_mgr.download_from_s3(bucket, s3_key)
+            # Use UnifiedSessionManager S3 client to download
+            s3_client = self.session_mgr.get_s3_client()
+            response = s3_client.get_object(Bucket=bucket, Key=s3_key)
+            content = response['Body'].read()
             
             if local_path:
                 with open(local_path, 'wb') as f:
@@ -179,6 +184,56 @@ class S3Manager:
         except Exception as e:
             logger.error(f"Delete failed: {e}")
             return False
+    
+    def get_status(self) -> Dict[str, Any]:
+        """Get S3Manager status via UnifiedSessionManager"""
+        try:
+            # Test S3 connection via UnifiedSessionManager
+            test_result = self.session_mgr.test_connection("s3")
+            
+            return {
+                "initialized": True,
+                "config": {
+                    "region": self.config.region,
+                    "default_bucket": self.config.default_bucket,
+                    "default_prefix": self.config.default_prefix
+                },
+                "connection": {
+                    "s3_client": test_result.get("s3", {}).get("success", False),
+                    "status": "connected" if test_result.get("s3", {}).get("success", False) else "disconnected"
+                },
+                "unified_session_manager": True,
+                "via": "UnifiedSessionManager"
+            }
+        except Exception as e:
+            return {
+                "initialized": True,
+                "config": {
+                    "region": self.config.region,
+                    "default_bucket": self.config.default_bucket,
+                    "default_prefix": self.config.default_prefix
+                },
+                "connection": {
+                    "s3_client": False,
+                    "status": "error",
+                    "error": str(e)
+                },
+                "unified_session_manager": True,
+                "via": "UnifiedSessionManager"
+            }
+    
+    def test_connection(self) -> Dict[str, Any]:
+        """Test S3 connection via UnifiedSessionManager"""
+        try:
+            # Use UnifiedSessionManager to test connection
+            return self.session_mgr.test_connection("s3")
+        except Exception as e:
+            return {
+                "success": False,
+                "error": str(e),
+                "service": "s3",
+                "via": "UnifiedSessionManager"
+            }
 
 def get_s3_manager(config: S3Config = None) -> S3Manager:
     """Get S3Manager instance (knowledge systems compatibility)"""

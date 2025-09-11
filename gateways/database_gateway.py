@@ -74,9 +74,9 @@ from datetime import datetime
 from dataclasses import dataclass
 from .base_gateway import BaseGateway, GatewayResponse
 
-# Use UnifiedSessionManager for all database connections
+# Use global UnifiedSessionManager for all database connections (universal architecture)
 try:
-    from ..infrastructure.session import UnifiedSessionManager
+    from ..infrastructure.session.unified import get_global_session_manager
     UNIFIED_SESSION_AVAILABLE = True
 except ImportError:
     UNIFIED_SESSION_AVAILABLE = False
@@ -163,9 +163,9 @@ class DatabaseGateway(BaseGateway):
         # Set database-specific config
         self.db_config = config or DatabaseGatewayConfig()
         
-        # Use UnifiedSessionManager for database connections
+        # Use global UnifiedSessionManager for database connections (universal architecture)
         if UNIFIED_SESSION_AVAILABLE:
-            self.session_mgr = UnifiedSessionManager()
+            self.session_mgr = get_global_session_manager()
         else:
             self.session_mgr = None
         

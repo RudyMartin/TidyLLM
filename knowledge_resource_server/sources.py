@@ -76,13 +76,17 @@ class S3KnowledgeSource(KnowledgeSource):
     def initialize(self) -> None:
         """Initialize real S3 connection and load document index."""
         try:
-            # ALWAYS try UnifiedSessionManager first (it handles credentials properly)
+            # ALWAYS use global UnifiedSessionManager instance (universal architecture)
             try:
-                from ...infrastructure.session import UnifiedSessionManager
-            except ImportError:
-                # Try absolute import if relative fails
-                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
-            self._session_manager = UnifiedSessionManager()
+                from tidyllm.infrastructure.session.unified import get_global_session_manager
+                self._session_manager = get_global_session_manager()
+            except ImportError as ie:
+                # Fallback for absolute import issues
+                try:
+                    from ...infrastructure.session.unified import get_global_session_manager
+                    self._session_manager = get_global_session_manager()
+                except ImportError:
+                    raise ImportError(f"Cannot import get_global_session_manager: {ie}")
             self._s3_client = self._session_manager.get_s3_client()
             logger.info("[OK] S3 client initialized via UnifiedSessionManager")
             
@@ -441,14 +445,17 @@ class DatabaseKnowledgeSource(KnowledgeSource):
     def initialize(self) -> None:
         """Initialize real database connection."""
         try:
-            # Import and initialize UnifiedSessionManager
+            # Import and use global UnifiedSessionManager instance (universal architecture)
             try:
-                from ...infrastructure.session import UnifiedSessionManager
-            except ImportError:
-                # Try absolute import if relative fails  
-                from tidyllm.infrastructure.session.unified import UnifiedSessionManager
-                
-            self._session_manager = UnifiedSessionManager()
+                from tidyllm.infrastructure.session.unified import get_global_session_manager
+                self._session_manager = get_global_session_manager()
+            except ImportError as ie:
+                # Try relative import fallback
+                try:
+                    from ...infrastructure.session.unified import get_global_session_manager
+                    self._session_manager = get_global_session_manager()
+                except ImportError:
+                    raise ImportError(f"Cannot import get_global_session_manager: {ie}")
             self._connection = self._session_manager.get_postgres_connection()
             logger.info("[OK] Database connection established via UnifiedSessionManager")
             

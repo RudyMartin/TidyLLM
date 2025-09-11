@@ -90,16 +90,26 @@ class KnowledgeMCPServer:
     """
     
     def __init__(self, config: MCPServerConfig = None):
-        """Initialize Knowledge MCP Server."""
+        """Initialize Knowledge MCP Server (no AWS connection required for basic server)."""
         self.config = config or MCPServerConfig()
-        self.resources = KnowledgeResourceManager()
-        self.mcp_interface = MCPResourceInterface(self.resources)
         
-        # Track registered domains and resources
-        self.registered_domains: Dict[str, KnowledgeSource] = {}
-        self.resource_cache: Dict[str, Any] = {}
-        
-        logger.info(f"Knowledge MCP Server '{self.config.server_name}' initialized")
+        try:
+            self.resources = KnowledgeResourceManager()
+            self.mcp_interface = MCPResourceInterface(self.resources)
+            
+            # Track registered domains and resources
+            self.registered_domains: Dict[str, KnowledgeSource] = {}
+            self.resource_cache: Dict[str, Any] = {}
+            
+            logger.info(f"Knowledge MCP Server '{self.config.server_name}' initialized successfully")
+            
+        except Exception as e:
+            logger.error(f"Failed to initialize Knowledge MCP Server: {e}")
+            # Don't raise - allow server to start but mark as degraded
+            self.resources = None
+            self.mcp_interface = None
+            self.registered_domains = {}
+            self.resource_cache = {}
     
     def register_domain(self, domain_name: str, source: KnowledgeSource) -> None:
         """

@@ -148,8 +148,8 @@ class UnifiedSessionManager:
         # Auto-discover credentials
         self._discover_credentials()
         
-        # Initialize connections
-        self._initialize_connections()
+        # Initialize connections LAZILY - only when actually needed
+        # self._initialize_connections()  # Disabled for performance
     
     def _discover_credentials(self):
         """Discover credentials from environment and settings"""
@@ -192,7 +192,7 @@ class UnifiedSessionManager:
         # AWS credentials
         self.config.s3_access_key_id = os.getenv('AWS_ACCESS_KEY_ID')
         self.config.s3_secret_access_key = os.getenv('AWS_SECRET_ACCESS_KEY')
-        self.config.aws_profile = os.getenv('AWS_PROFILE', 'default')
+        self.config.aws_profile = os.getenv('AWS_PROFILE')
         
         # PostgreSQL credentials
         postgres_password = os.getenv('POSTGRES_PASSWORD') or os.getenv('POSTGRESQL_PASSWORD')
@@ -605,7 +605,9 @@ class UnifiedSessionManager:
     
     # Service Client Access Methods
     def get_s3_client(self):
-        """Get S3 client (thread-safe)"""
+        """Get S3 client (thread-safe) - lazy initialization"""
+        if self._s3_client is None:
+            self._init_s3()
         return self._s3_client
     
     def get_s3_resource(self):
@@ -613,7 +615,9 @@ class UnifiedSessionManager:
         return self._s3_resource
     
     def get_bedrock_client(self):
-        """Get Bedrock client (thread-safe)"""
+        """Get Bedrock client (thread-safe) - lazy initialization"""
+        if self._bedrock_client is None:
+            self._init_bedrock()
         return self._bedrock_client
     
     def get_bedrock_runtime_client(self):

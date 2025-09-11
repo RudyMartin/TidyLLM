@@ -30,7 +30,15 @@ dependencies = [
 ]
 
 [tool.setuptools]
-packages = ["tidyllm"]
+package-dir = {"tidyllm" = "."}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["tidyllm*"]
+exclude = ["tests*"]
+
+[tool.setuptools.package-data]
+"tidyllm" = ["*.yaml", "*.yml", "*.json", "*.txt", "*.md", "admin/*", "data/*", "logs/*"]
 
 [project.optional-dependencies]
 dev = [

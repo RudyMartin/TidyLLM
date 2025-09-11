@@ -39,18 +39,40 @@ class GatewayStatus(Enum):
     RATE_LIMITED = "rate_limited"
 
 
+class GatewayState(Enum):
+    """Gateway operational state for infrastructure control."""
+    ENABLED = "enabled"           # Normal operation
+    DISABLED = "disabled"         # Completely disabled
+    PAUSED = "paused"            # Temporarily paused
+    MAINTENANCE = "maintenance"   # Under maintenance
+    CIRCUIT_OPEN = "circuit_open" # Circuit breaker open
+    DEGRADED = "degraded"        # Running with limited functionality
+
+
+class ControlSignal(Enum):
+    """Control signals that can be sent to gateways."""
+    ENABLE = "enable"
+    DISABLE = "disable"
+    PAUSE = "pause"
+    RESUME = "resume"
+    ENTER_MAINTENANCE = "enter_maintenance"
+    EXIT_MAINTENANCE = "exit_maintenance"
+    RESET_CIRCUIT = "reset_circuit"
+    FORCE_DEGRADED = "force_degraded"
+
+
 @dataclass
 class GatewayDependencies:
     """
     Defines gateway dependency requirements.
     
     Dependency Chain:
-    CorporateLLMGateway (base) → AIProcessingGateway → WorkflowOptimizerGateway → KnowledgeResourceServer
+    CorporateLLMGateway (base) → AIProcessingGateway → WorkflowOptimizerGateway → ContextGateway
     """
     requires_ai_processing: bool = False    # Needs AI/ML model capabilities
     requires_corporate_llm: bool = False    # Needs corporate LLM access control
     requires_workflow_optimizer: bool = False  # Needs workflow optimization
-    requires_knowledge_resources: bool = False  # Needs knowledge/context access
+    requires_context: bool = False  # Needs context/knowledge access
     
     def get_required_services(self) -> List[str]:
         """Return list of required service names."""
@@ -58,7 +80,7 @@ class GatewayDependencies:
         if self.requires_ai_processing: services.append("ai_processing")
         if self.requires_corporate_llm: services.append("corporate_llm")
         if self.requires_workflow_optimizer: services.append("workflow_optimizer")
-        if self.requires_knowledge_resources: services.append("knowledge_resources")
+        if self.requires_context: services.append("context")
         return services
 
 
@@ -139,6 +161,12 @@ class BaseGateway(ABC):
         """
         self.config = config
         self.name = self.__class__.__name__
+        
+        # CONTROL: Gateway operational state
+        self._state = GatewayState.ENABLED
+        self._maintenance_reason = None
+        self._circuit_breaker_failures = 0
+        self._circuit_breaker_threshold = config.get('circuit_breaker_threshold', 5)
         
         # INTEGRATION: UnifiedSessionManager support
         self.session_manager = None
@@ -388,7 +416,7 @@ class BaseGateway(ABC):
         - AIProcessingGateway requires CorporateLLMGateway
         - WorkflowOptimizerGateway requires AIProcessingGateway + CorporateLLMGateway
         - CorporateLLMGateway has no dependencies
-        - KnowledgeResourceServer is independent
+        - ContextGateway depends on all other gateways (final orchestrator)
         """
         pass
     
@@ -498,6 +526,143 @@ class BaseGateway(ABC):
         except Exception as e:
             raise ValueError(f"Invalid configuration for {self.name}: {e}")
     
+    def send_control_signal(self, signal: ControlSignal, reason: str = None) -> bool:
+        """
+        Send control signal to change gateway state.
+        
+        Args:
+            signal: Control signal to send
+            reason: Optional reason for state change
+            
+        Returns:
+            True if signal was processed successfully
+        """
+        try:
+            # CORPORATE SAFETY: Check if control signals are enabled
+            if not self._is_control_signals_enabled():
+                logger.warning(f"{self.name}: Control signals disabled in settings")
+                return False
+            
+            # CORPORATE SAFETY: Check for protected interfaces
+            if self._is_protected_interface(signal):
+                logger.warning(f"{self.name}: Attempt to disable protected interface blocked")
+                return False
+            
+            # CORPORATE SAFETY: Require reason for shutdown operations
+            if signal in [ControlSignal.DISABLE, ControlSignal.ENTER_MAINTENANCE] and not reason:
+                if self.config.get('corporate_control', {}).get('require_reason_for_shutdown', True):
+                    logger.error(f"{self.name}: Shutdown operation requires reason")
+                    return False
+            
+            old_state = self._state
+            
+            if signal == ControlSignal.ENABLE:
+                self._state = GatewayState.ENABLED
+                self._maintenance_reason = None
+                
+            elif signal == ControlSignal.DISABLE:
+                self._state = GatewayState.DISABLED
+                
+            elif signal == ControlSignal.PAUSE:
+                if self._state == GatewayState.ENABLED:
+                    self._state = GatewayState.PAUSED
+                    
+            elif signal == ControlSignal.RESUME:
+                if self._state == GatewayState.PAUSED:
+                    self._state = GatewayState.ENABLED
+                    
+            elif signal == ControlSignal.ENTER_MAINTENANCE:
+                self._state = GatewayState.MAINTENANCE
+                self._maintenance_reason = reason or "Scheduled maintenance"
+                
+            elif signal == ControlSignal.EXIT_MAINTENANCE:
+                if self._state == GatewayState.MAINTENANCE:
+                    self._state = GatewayState.ENABLED
+                    self._maintenance_reason = None
+                    
+            elif signal == ControlSignal.RESET_CIRCUIT:
+                self._circuit_breaker_failures = 0
+                if self._state == GatewayState.CIRCUIT_OPEN:
+                    self._state = GatewayState.ENABLED
+                    
+            elif signal == ControlSignal.FORCE_DEGRADED:
+                self._state = GatewayState.DEGRADED
+            
+            logger.info(f"{self.name}: State changed from {old_state.value} to {self._state.value} (signal: {signal.value})")
+            return True
+            
+        except Exception as e:
+            logger.error(f"{self.name}: Failed to process control signal {signal.value}: {e}")
+            return False
+    
+    def get_state(self) -> Dict[str, Any]:
+        """Get current gateway state and control information."""
+        return {
+            "state": self._state.value,
+            "maintenance_reason": self._maintenance_reason,
+            "circuit_breaker_failures": self._circuit_breaker_failures,
+            "circuit_breaker_threshold": self._circuit_breaker_threshold,
+            "is_operational": self._state in [GatewayState.ENABLED, GatewayState.DEGRADED]
+        }
+    
+    def _check_circuit_breaker(self, error_occurred: bool = False) -> bool:
+        """
+        Check circuit breaker status and update if needed.
+        
+        Args:
+            error_occurred: Whether an error just occurred
+            
+        Returns:
+            True if circuit is closed (operational), False if open
+        """
+        if error_occurred:
+            self._circuit_breaker_failures += 1
+            if self._circuit_breaker_failures >= self._circuit_breaker_threshold:
+                self._state = GatewayState.CIRCUIT_OPEN
+                logger.warning(f"{self.name}: Circuit breaker opened ({self._circuit_breaker_failures} failures)")
+                return False
+        
+        return self._state != GatewayState.CIRCUIT_OPEN
+    
+    def _can_process(self) -> bool:
+        """Check if gateway can process requests based on current state."""
+        return self._state in [GatewayState.ENABLED, GatewayState.DEGRADED]
+    
+    def _is_control_signals_enabled(self) -> bool:
+        """Check if control signals are enabled in corporate settings."""
+        return self.config.get('features', {}).get('security', {}).get('corporate_control', {}).get('enable_control_signals', True)
+    
+    def _is_protected_interface(self, signal: ControlSignal) -> bool:
+        """Check if this gateway is a protected interface that cannot be disabled."""
+        if signal not in [ControlSignal.DISABLE, ControlSignal.FORCE_DEGRADED]:
+            return False
+            
+        protected_interfaces = self.config.get('features', {}).get('security', {}).get('corporate_control', {}).get('protected_interfaces', [])
+        gateway_type = self.name.lower().replace('gateway', '')
+        
+        return gateway_type in protected_interfaces or self.name.lower() in protected_interfaces
+    
+    def emergency_override(self, master_key: str) -> bool:
+        """Emergency override to restore gateway functionality."""
+        try:
+            expected_key = self.config.get('features', {}).get('security', {}).get('corporate_control', {}).get('master_override_key', 'CORPORATE_MASTER_2025')
+            
+            if master_key != expected_key:
+                logger.error(f"{self.name}: Invalid master override key")
+                return False
+            
+            # Force enable the gateway
+            self._state = GatewayState.ENABLED
+            self._maintenance_reason = None
+            self._circuit_breaker_failures = 0
+            
+            logger.critical(f"{self.name}: EMERGENCY OVERRIDE ACTIVATED - Gateway force enabled")
+            return True
+            
+        except Exception as e:
+            logger.error(f"{self.name}: Emergency override failed: {e}")
+            return False
+
     def health_check(self) -> Dict[str, Any]:
         """
         Check gateway health and availability.
@@ -507,7 +672,8 @@ class BaseGateway(ABC):
         """
         return {
             "gateway": self.name,
-            "status": "healthy",
+            "status": "healthy" if self._can_process() else self._state.value,
+            "state": self.get_state(),
             "timestamp": datetime.now().isoformat(),
             "capabilities": self.get_capabilities()
         }

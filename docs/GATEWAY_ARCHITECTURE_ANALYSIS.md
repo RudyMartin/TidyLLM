@@ -8,7 +8,7 @@
 1. ✅ **CorporateLLMGateway** - Enterprise AI access control & governance
 2. ✅ **AIProcessingGateway** - Multi-model AI processing engine  
 3. ✅ **WorkflowOptimizerGateway** - Workflow intelligence & optimization
-4. ✅ **KnowledgeMCPServer** - Knowledge resource provider (MCP protocol)
+4. ✅ **ContextGateway** - Context orchestration and gateway coordination
 
 **SPECIALTY SERVICE MODULES** (inherit from BaseGateway but not centrally managed):
 5. ❓ **DatabaseGateway** - Database access wrapper (not in registry)
@@ -20,7 +20,7 @@ class ServiceType(Enum):
     AI_PROCESSING = "ai_processing"           # ✅ Core
     CORPORATE_LLM = "corporate_llm"           # ✅ Core  
     WORKFLOW_OPTIMIZER = "workflow_optimizer" # ✅ Core
-    KNOWLEDGE_RESOURCES = "knowledge_resources" # ✅ Core
+    CONTEXT = "context" # ✅ Core
     # No DATABASE or MVR service types defined
 ```
 
@@ -74,9 +74,9 @@ User Request → CorporateLLMGateway → AIProcessingGateway → WorkflowOptimiz
                       ↓                      ↓                        ↓
                 Access Control          AI Processing           Workflow Intelligence
                       ↓                      ↓                        ↓
-                      └────────────── KnowledgeMCPServer ──────────────┘
+                      └────────────── ContextGateway ──────────────┘
                                              ↓
-                                    Knowledge & Context
+                                    Context & Orchestration
                                              ↓
                          ┌─────────────────────────────────────┐
                          │        Utility Services            │
@@ -93,7 +93,7 @@ User Request → CorporateLLMGateway → AIProcessingGateway → WorkflowOptimiz
 1. **CorporateLLMGateway** - Foundation access control
 2. **AIProcessingGateway** - AI model orchestration  
 3. **WorkflowOptimizerGateway** - Process intelligence
-4. **KnowledgeMCPServer** - Context provision
+4. **ContextGateway** - Context provision and orchestration
 
 ### **UTILITY SERVICES (3)**:
 5. **DatabaseGateway** - Data access wrapper
@@ -103,13 +103,13 @@ User Request → CorporateLLMGateway → AIProcessingGateway → WorkflowOptimiz
 ## **Why This Matters for MCP Integration**
 
 ### **MCP Integration Status**:
-✅ **4 Core Gateways**: Fully integrated with MCP Knowledge Server
+✅ **4 Core Gateways**: ContextGateway orchestrates and coordinates all others
 ❓ **3 Utility Services**: Can use MCP but not part of main workflow
 
 ### **Real-World Usage**:
 - **Enterprise Workflows**: Use the 4 core gateways in sequence
 - **Specialized Tasks**: Call utility services directly when needed
-- **MCP Knowledge**: Available to all services through standardized interface
+- **MCP Context**: Available to all services through ContextGateway orchestration
 
 ## **Conclusion**
 
@@ -117,6 +117,6 @@ User Request → CorporateLLMGateway → AIProcessingGateway → WorkflowOptimiz
 
 - **4 Core Enterprise Gateways** (registered, managed, interdependent)
 - **3 Utility Services** (standalone, specialized, optional)
-- **1 Knowledge Server** (MCP protocol, serves all gateways)
+- **1 Context Gateway** (orchestrates all gateways, provides MCP server internally)
 
 This is actually a **cleaner architecture** than "6 equal gateways" - it shows proper separation between core workflow processing and utility services!
