@@ -25,6 +25,7 @@ from .ai_processing_gateway import AIProcessingGateway
 from .workflow_optimizer_gateway import WorkflowOptimizerGateway
 from .corporate_llm_gateway import CorporateLLMGateway
 from .context_gateway import ContextGateway
+# Note: DatabaseGateway, FileStorageGateway, MVRAnalysisGateway are utility services, not core gateways
 
 logger = logging.getLogger("gateway_registry")
 
@@ -35,6 +36,10 @@ class ServiceType(Enum):
     AI_PROCESSING = "ai_processing"
     WORKFLOW_OPTIMIZER = "workflow_optimizer"
     CONTEXT = "context"
+    # Note: Removed utility services from core gateway registry
+    # DATABASE = "database"
+    # FILE_STORAGE = "file_storage" 
+    # MVR_DOCUMENT = "mvr_document"
 
 
 @dataclass
@@ -192,6 +197,7 @@ class GatewayRegistry:
                 
                 try:
                     # Initialize the service - standard gateway initialization for all
+                    # Pass config as kwargs, not as first parameter
                     instance = service_info.service_class(**service_config)
                     
                     # INTEGRATION: Inject UnifiedSessionManager into each gateway
@@ -205,7 +211,9 @@ class GatewayRegistry:
                     logger.info(f"✅ Initialized {service_type.value}: {service_info.description}")
                     
                 except Exception as e:
+                    import traceback
                     logger.error(f"❌ Failed to initialize {service_type.value}: {e}")
+                    logger.error(f"Traceback: {traceback.format_exc()}")
                     logger.info(f"Service will be unavailable: {service_info.description}")
                     continue
             

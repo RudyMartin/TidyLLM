@@ -259,7 +259,7 @@ class WorkflowOptimizerGateway(BaseGateway):
             requires_ai_processing=True,      # REQUIRED: Uses AI for workflow analysis
             requires_corporate_llm=True,      # REQUIRED: Corporate environments need governance
             requires_workflow_optimizer=False, # Self-reference not needed
-            requires_knowledge_resources=False # Optional: Can use knowledge but not required
+            requires_context=False  # Optional: Can use context but not required
         )
     
     def _parse_config(self, config: Dict[str, Any]) -> WorkflowOptimizerConfig:

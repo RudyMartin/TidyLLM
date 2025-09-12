@@ -141,7 +141,7 @@ class FileStorageGateway(BaseGateway):
             requires_ai_processing=False,
             requires_corporate_llm=False,
             requires_workflow_optimizer=False,
-            requires_knowledge_resources=False
+            requires_context=False
         )
     
     def process(self, request: Dict[str, Any]) -> Dict[str, Any]:

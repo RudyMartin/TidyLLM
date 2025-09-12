@@ -251,7 +251,7 @@ class AIProcessingGateway(BaseGateway):
             requires_ai_processing=False,  # Self-reference not needed
             requires_corporate_llm=True,   # REQUIRED: AI needs corporate LLM access
             requires_workflow_optimizer=False,  # Optional: Can be optimized but not required
-            requires_knowledge_resources=False  # Optional: Can use knowledge but not required
+            requires_context=False  # Optional: Can use context but not required
         )
     
     def _parse_config(self, config: Dict[str, Any]) -> AIProcessingConfig:

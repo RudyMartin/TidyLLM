@@ -374,7 +374,7 @@ class ContextGateway(BaseGateway):
             requires_corporate_llm=True,
             requires_ai_processing=True,
             requires_workflow_optimizer=True,
-            requires_knowledge_resources=False  # Uses internal MCP server
+            requires_context=False  # Self-reference not needed
         )
     
     def process_sync(self, request_data: Dict[str, Any]) -> GatewayResponse:

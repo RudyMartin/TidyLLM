@@ -159,7 +159,10 @@ class BaseGateway(ABC):
         Args:
             **config: Gateway-specific configuration
         """
-        self.config = config
+        # ARCHITECTURAL FIX: Respect structured config set by child classes
+        # If child class already set self.config (e.g., to a dataclass), don't overwrite it
+        if not hasattr(self, 'config'):
+            self.config = config
         self.name = self.__class__.__name__
         
         # CONTROL: Gateway operational state

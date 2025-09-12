@@ -74,13 +74,13 @@ except ImportError:
 
 logger = logging.getLogger(__name__)
 
-# MLFlow integration for corporate gateway
+# MLFlow integration moved to dedicated service
 try:
-    import mlflow
-    from mlflow.gateway import MlflowGatewayClient
-    MLFLOW_AVAILABLE = True
+    from ..services.mlflow_integration_service import MLflowIntegrationService, MLflowConfig
+    MLFLOW_SERVICE_AVAILABLE = True
 except ImportError:
-    MLFLOW_AVAILABLE = False
+    MLFLOW_SERVICE_AVAILABLE = False
+    logger.debug("MLflowIntegrationService not available")
 
 
 class LLMProvider(Enum):
@@ -243,6 +243,7 @@ class CorporateLLMGateway(BaseGateway):
             config: CorporateLLMConfig instance or dict of config parameters
             **config_kwargs: Configuration parameters for CorporateLLMConfig
         """
+        logger.info(f"🔍 DEBUG: CorporateLLMGateway.__init__ called with config type: {type(config)}, kwargs: {config_kwargs}")
         # Initialize infrastructure using centralized settings
         self.config_manager = None  # No longer needed - using centralized settings
         try:
@@ -254,34 +255,70 @@ class CorporateLLMGateway(BaseGateway):
             logger.debug(f"CorporateLLMGateway: Centralized settings not available: {e}")
         
         # Always create a proper CorporateLLMConfig object
+        # Initialize with defaults first to ensure self.config is always a CorporateLLMConfig
+        self.config = CorporateLLMConfig()
+        
         try:
             if isinstance(config, CorporateLLMConfig):
                 self.config = config
             elif isinstance(config, dict):
                 # Merge config dict with kwargs
                 merged_config = {**config, **config_kwargs}
-                self.config = CorporateLLMConfig(**merged_config)
+                # Filter to only include valid dataclass fields to handle dynamic config
+                valid_config = {
+                    k: v for k, v in merged_config.items() 
+                    if k in CorporateLLMConfig.__dataclass_fields__
+                }
+                self.config = CorporateLLMConfig(**valid_config)
             elif config is None and config_kwargs:
-                # Use kwargs only
-                self.config = CorporateLLMConfig(**config_kwargs)
-            else:
-                # Default configuration
-                self.config = CorporateLLMConfig()
-        except TypeError as e:
-            # If initialization fails, use defaults and log
+                # Use kwargs only - filter to valid dataclass fields
+                valid_config = {
+                    k: v for k, v in config_kwargs.items() 
+                    if k in CorporateLLMConfig.__dataclass_fields__
+                }
+                self.config = CorporateLLMConfig(**valid_config)
+            # else: keep the default CorporateLLMConfig() we already created
+        except (TypeError, Exception) as e:
+            # If initialization fails, keep the default config and log
             logger.warning(f"Config initialization failed: {e}, using defaults")
-            self.config = CorporateLLMConfig()
-            # Apply any valid parameters manually
-            if isinstance(config, dict):
-                for key, value in config.items():
+            # Try to apply any valid parameters manually
+            source_config = config if isinstance(config, dict) else config_kwargs
+            if source_config:
+                for key, value in source_config.items():
                     if hasattr(self.config, key):
-                        setattr(self.config, key, value)
+                        try:
+                            setattr(self.config, key, value)
+                        except Exception:
+                            pass  # Skip any attributes that can't be set
+        
+        # TIDY FIX: Auto-load mlflow_gateway_uri from centralized settings
+        # This ensures MLflow configuration is always pulled from centralized settings.yaml (updated)
+        # CRITICAL: Must happen BEFORE super().__init__() which overwrites self.config!
+        try:
+            from ..infrastructure.settings_manager import get_settings_manager
+            settings_manager = get_settings_manager()
+            settings = settings_manager.get_settings()
+            
+            # Try services.mlflow first, then integrations.mlflow
+            mlflow_config = None
+            if 'services' in settings and 'mlflow' in settings['services']:
+                mlflow_config = settings['services']['mlflow']
+            elif 'integrations' in settings and 'mlflow' in settings['integrations']:
+                mlflow_config = settings['integrations']['mlflow']
+            
+            if mlflow_config and 'mlflow_gateway_uri' in mlflow_config:
+                self.config.mlflow_gateway_uri = mlflow_config['mlflow_gateway_uri']
+                logger.info(f"✅ TIDY FIX: Auto-loaded mlflow_gateway_uri from centralized settings: {self.config.mlflow_gateway_uri}")
+            else:
+                logger.debug(f"TIDY FIX: No mlflow_gateway_uri found in centralized settings, using default: {self.config.mlflow_gateway_uri}")
+        except Exception as e:
+            logger.warning(f"TIDY FIX: Could not auto-load mlflow_gateway_uri from settings: {e}, using default: {self.config.mlflow_gateway_uri}")
         
         super().__init__()
-        
-        # Initialize MLFlow Gateway client
-        self.mlflow_client = None
-        self._init_mlflow_client()
+
+        # Initialize MLFlow Integration Service
+        self.mlflow_service = None
+        self._init_mlflow_service()
         
         # Initialize cost tracking with persistence
         self.cost_tracker = CostTracker()
@@ -446,22 +483,34 @@ class CorporateLLMGateway(BaseGateway):
             requires_ai_processing=False,      # Independent: Base layer
             requires_corporate_llm=False,      # Self-reference not needed
             requires_workflow_optimizer=False, # Independent: Doesn't need workflow optimization
-            requires_knowledge_resources=False # Independent: Doesn't need knowledge resources
+            requires_context=False  # Independent: Doesn't need context resources
         )
     
-    def _init_mlflow_client(self):
-        """Initialize MLFlow Gateway client."""
-        if MLFLOW_AVAILABLE:
+    def _init_mlflow_service(self):
+        """Initialize MLFlow Integration Service."""
+        if MLFLOW_SERVICE_AVAILABLE:
             try:
-                self.mlflow_client = MlflowGatewayClient(
+                mlflow_config = MLflowConfig(
                     gateway_uri=self.config.mlflow_gateway_uri
                 )
-                logger.info(f"🔗 MLFlow Gateway connected: {self.config.mlflow_gateway_uri}")
+                self.mlflow_service = MLflowIntegrationService(mlflow_config)
+                if self.mlflow_service.is_available():
+                    logger.info(f"🔗 MLFlow Integration Service connected: {self.config.mlflow_gateway_uri}")
+                else:
+                    logger.warning(f"⚠️ MLFlow Service initialized but not connected: {self.mlflow_service.get_status()}")
             except Exception as e:
-                logger.warning(f"⚠️ MLFlow Gateway unavailable: {e}")
+                logger.warning(f"⚠️ MLFlow Service initialization failed: {e}")
                 logger.info("Operating in fallback mode")
         else:
-            logger.debug("MLFlow not available - using direct integration mode")
+            logger.debug("MLFlow Integration Service not available - using direct integration mode")
+    
+    def set_mlflow_service(self, mlflow_service: 'MLflowIntegrationService'):
+        """Set MLflow Integration Service (dependency injection)."""
+        self.mlflow_service = mlflow_service
+        if mlflow_service and mlflow_service.is_available():
+            logger.info("MLflow Integration Service injected successfully")
+        else:
+            logger.warning("MLflow Integration Service injected but not available")
     
     def _load_cost_data(self):
         """Load cost tracking data from persistence."""
@@ -568,8 +617,8 @@ class CorporateLLMGateway(BaseGateway):
             # 3. Apply security controls
             filtered_request = self._apply_security_controls(request)
             
-            # 4. Execute through MLFlow Gateway
-            if self.mlflow_client:
+            # 4. Execute through MLFlow Integration Service
+            if self.mlflow_service and self.mlflow_service.is_available():
                 llm_response = self._execute_mlflow_request(filtered_request)
             else:
                 llm_response = self._execute_fallback_request(filtered_request)
@@ -699,14 +748,14 @@ class CorporateLLMGateway(BaseGateway):
         return filtered_request
     
     def _execute_mlflow_request(self, request: LLMRequest) -> str:
-        """Execute request through MLFlow Gateway."""
+        """Execute request through MLFlow Integration Service."""
         
         provider = request.provider or self.config.default_provider
         model = request.model_id or self._get_default_model(provider)
         
         try:
-            # Call MLFlow Gateway
-            mlflow_response = self.mlflow_client.query(
+            # Call MLFlow through the integration service
+            mlflow_response = self.mlflow_service.query(
                 route=f"{provider}-{model}",
                 data={
                     "messages": [{"role": "user", "content": request.prompt}],
@@ -715,10 +764,14 @@ class CorporateLLMGateway(BaseGateway):
                 }
             )
             
-            return mlflow_response.get("choices", [{}])[0].get("message", {}).get("content", "")
+            if mlflow_response:
+                return mlflow_response.get("choices", [{}])[0].get("message", {}).get("content", "")
+            else:
+                logger.warning("MLFlow service returned no response, using fallback")
+                return self._execute_fallback_request(request)
             
         except Exception as e:
-            logger.error(f"MLFlow Gateway error: {e}")
+            logger.error(f"MLFlow service error: {e}")
             # Fallback to mock response
             return self._execute_fallback_request(request)
     
@@ -818,7 +871,7 @@ class CorporateLLMGateway(BaseGateway):
             "max_tokens": self.config.max_tokens_per_request,
             "supports_streaming": False,
             "supports_async": True,
-            "mlflow_enabled": self.mlflow_client is not None,
+            "mlflow_enabled": self.mlflow_service and self.mlflow_service.is_available(),
             "cost_tracking_enabled": True,
             "audit_logging_enabled": self.config.log_all_requests,
             "content_filtering_enabled": self.config.enable_content_filtering,
