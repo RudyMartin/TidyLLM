@@ -264,19 +264,19 @@ class CorporateLLMGateway(BaseGateway):
             elif isinstance(config, dict):
                 # Merge config dict with kwargs
                 merged_config = {**config, **config_kwargs}
-                # Filter to only include valid dataclass fields to handle dynamic config
-                valid_config = {
-                    k: v for k, v in merged_config.items() 
-                    if k in CorporateLLMConfig.__dataclass_fields__
-                }
-                self.config = CorporateLLMConfig(**valid_config)
+                # Create config instance with merged parameters
+                self.config = CorporateLLMConfig()
+                # Apply valid parameters to the config instance
+                for key, value in merged_config.items():
+                    if hasattr(self.config, key):
+                        setattr(self.config, key, value)
             elif config is None and config_kwargs:
-                # Use kwargs only - filter to valid dataclass fields
-                valid_config = {
-                    k: v for k, v in config_kwargs.items() 
-                    if k in CorporateLLMConfig.__dataclass_fields__
-                }
-                self.config = CorporateLLMConfig(**valid_config)
+                # Use kwargs only - create config instance and apply parameters
+                self.config = CorporateLLMConfig()
+                # Apply valid parameters to the config instance
+                for key, value in config_kwargs.items():
+                    if hasattr(self.config, key):
+                        setattr(self.config, key, value)
             # else: keep the default CorporateLLMConfig() we already created
         except (TypeError, Exception) as e:
             # If initialization fails, keep the default config and log

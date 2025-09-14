@@ -15,7 +15,7 @@ logger = logging.getLogger("mlflow_integration")
 # Try to import MLflow
 try:
     import mlflow
-    from mlflow.gateway import MlflowGatewayClient
+    from mlflow.tracking import MlflowClient
     MLFLOW_AVAILABLE = True
 except ImportError:
     MLFLOW_AVAILABLE = False
@@ -44,14 +44,63 @@ class MLflowIntegrationService:
     """
     
     def __init__(self, config: Optional[MLflowConfig] = None):
-        """Initialize MLflow Integration Service."""
-        self.config = config or MLflowConfig()
+        """Initialize MLflow Integration Service using unified sessions system."""
+        # Use unified sessions system for configuration, fallback to hardcoded config
+        self._load_config_from_unified_sessions()
+        
+        # Allow override with explicit config
+        if config:
+            self.config = config
+        
         self.client = None
         self.is_connected = False
         self.last_error = None
         
         # Try to initialize MLflow client
         self._initialize_client()
+    
+    def _load_config_from_unified_sessions(self):
+        """Load MLflow configuration from unified sessions system."""
+        try:
+            # First try to get session manager from GatewayRegistry (injected)
+            session_manager = None
+            try:
+                from tidyllm.gateways.gateway_registry import get_global_registry
+                registry = get_global_registry()
+                if hasattr(registry, 'session_manager') and registry.session_manager:
+                    session_manager = registry.session_manager
+                    logger.info("✅ Using injected session manager from GatewayRegistry")
+            except Exception:
+                pass
+            
+            # Fallback to global session manager
+            if not session_manager:
+                from tidyllm.infrastructure.session.unified import get_global_session_manager
+                session_manager = get_global_session_manager()
+                logger.info("📝 Using global session manager")
+            
+            if session_manager and hasattr(session_manager, 'get_mlflow_config'):
+                # Get MLflow configuration from unified sessions
+                mlflow_config = session_manager.get_mlflow_config()
+                
+                if mlflow_config:
+                    self.config = MLflowConfig(
+                        gateway_uri=mlflow_config.get('tracking_uri', 'http://localhost:5000'),
+                        timeout=mlflow_config.get('timeout', 30),
+                        retry_count=mlflow_config.get('retry_count', 3),
+                        enable_caching=mlflow_config.get('enable_caching', True)
+                    )
+                    logger.info("✅ MLflow configuration loaded from unified sessions system")
+                else:
+                    self.config = MLflowConfig()
+                    logger.info("📝 Using default MLflow configuration (unified sessions returned None)")
+            else:
+                self.config = MLflowConfig()
+                logger.info("📝 Using default MLflow configuration (session manager not available or not extended)")
+                
+        except Exception as e:
+            self.config = MLflowConfig()
+            logger.warning(f"⚠️ Failed to load MLflow config from unified sessions, using defaults: {e}")
         
     def _initialize_client(self):
         """Initialize MLflow Gateway client."""
@@ -61,8 +110,8 @@ class MLflowIntegrationService:
             return
             
         try:
-            self.client = MlflowGatewayClient(
-                gateway_uri=self.config.gateway_uri
+            self.client = MlflowClient(
+                tracking_uri=self.config.gateway_uri
             )
             # Test connection
             self._test_connection()
@@ -74,12 +123,12 @@ class MLflowIntegrationService:
             logger.warning(f"⚠️ MLflow Gateway unavailable: {e}")
             
     def _test_connection(self):
-        """Test MLflow Gateway connection."""
+        """Test MLflow connection."""
         if self.client:
             try:
-                # Try to list routes as a connection test
-                routes = self.client.list_routes()
-                logger.debug(f"MLflow routes available: {len(routes) if routes else 0}")
+                # Try to list experiments as a connection test
+                experiments = self.client.search_experiments()
+                logger.debug(f"MLflow experiments available: {len(experiments) if experiments else 0}")
                 return True
             except Exception as e:
                 logger.debug(f"MLflow connection test failed: {e}")
@@ -101,55 +150,33 @@ class MLflowIntegrationService:
             logger.debug(f"MLflow not connected: {self.last_error}")
             return None
             
-        try:
-            response = self.client.query(
-                route=route,
-                data=data
-            )
-            return response
-        except Exception as e:
-            logger.error(f"MLflow query failed: {e}")
-            self.last_error = str(e)
-            # Try to reconnect for next request
-            self._initialize_client()
-            return None
+        # Note: Standard MLflow tracking server doesn't support LLM Gateway query functionality
+        # This method is maintained for API compatibility but will log a warning
+        logger.warning(f"Query functionality not available with standard MLflow tracking server (route: {route})")
+        return None
             
     def list_routes(self) -> list:
         """
-        List available MLflow Gateway routes.
+        List available MLflow routes (not applicable for tracking server).
         
         Returns:
-            List of available routes or empty list if unavailable
+            Empty list since standard MLflow tracking server doesn't have routes
         """
-        if not self.is_connected or not self.client:
-            return []
-            
-        try:
-            routes = self.client.list_routes()
-            return routes if routes else []
-        except Exception as e:
-            logger.error(f"Failed to list MLflow routes: {e}")
-            return []
+        # Standard MLflow tracking server doesn't have Gateway routes
+        return []
             
     def get_route_info(self, route: str) -> Optional[Dict[str, Any]]:
         """
-        Get information about a specific route.
+        Get information about a specific route (not applicable for tracking server).
         
         Args:
             route: Route name
             
         Returns:
-            Route information or None if unavailable
+            None since standard MLflow tracking server doesn't have routes
         """
-        if not self.is_connected or not self.client:
-            return None
-            
-        try:
-            info = self.client.get_route(route)
-            return info
-        except Exception as e:
-            logger.error(f"Failed to get route info for {route}: {e}")
-            return None
+        # Standard MLflow tracking server doesn't have Gateway routes
+        return None
             
     def health_check(self) -> Dict[str, Any]:
         """
@@ -168,7 +195,7 @@ class MLflowIntegrationService:
             "connected": self.is_connected,
             "gateway_uri": self.config.gateway_uri,
             "last_error": self.last_error,
-            "routes_available": len(self.list_routes()) if connection_ok else 0
+            "routes_available": 0  # Standard MLflow tracking server doesn't have routes
         }
         
     def get_status(self) -> str:

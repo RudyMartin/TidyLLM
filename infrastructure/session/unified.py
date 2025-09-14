@@ -186,6 +186,33 @@ class UnifiedSessionManager:
         
         # Test IAM role availability
         self._test_iam_role()
+        
+        # Apply discovered credentials to environment for reuse
+        self._apply_credentials_to_environment()
+    
+    def _apply_credentials_to_environment(self):
+        """Apply discovered credentials to environment variables for reuse by other components"""
+        # Only set environment variables if they're not already set
+        if self.config.s3_access_key_id and not os.getenv('AWS_ACCESS_KEY_ID'):
+            os.environ['AWS_ACCESS_KEY_ID'] = self.config.s3_access_key_id
+            logger.info("[APPLIED] AWS_ACCESS_KEY_ID to environment")
+        
+        if self.config.s3_secret_access_key and not os.getenv('AWS_SECRET_ACCESS_KEY'):
+            os.environ['AWS_SECRET_ACCESS_KEY'] = self.config.s3_secret_access_key
+            logger.info("[APPLIED] AWS_SECRET_ACCESS_KEY to environment")
+        
+        if self.config.s3_region and not os.getenv('AWS_DEFAULT_REGION'):
+            os.environ['AWS_DEFAULT_REGION'] = self.config.s3_region
+            logger.info(f"[APPLIED] AWS_DEFAULT_REGION to environment: {self.config.s3_region}")
+        
+        if self.config.aws_profile and not os.getenv('AWS_PROFILE'):
+            os.environ['AWS_PROFILE'] = self.config.aws_profile
+            logger.info(f"[APPLIED] AWS_PROFILE to environment: {self.config.aws_profile}")
+        
+        # Apply PostgreSQL credentials
+        if self.config.postgres_password and not os.getenv('POSTGRES_PASSWORD'):
+            os.environ['POSTGRES_PASSWORD'] = self.config.postgres_password
+            logger.info("[APPLIED] POSTGRES_PASSWORD to environment")
     
     def _load_from_environment(self):
         """Load credentials from environment variables"""
@@ -211,9 +238,24 @@ class UnifiedSessionManager:
             logger.info("[OK] Found AWS credentials in environment")
     
     def _load_from_settings(self):
-        """Load from centralized settings manager"""
+        """Load from Polars-based credential system"""
         try:
-            # Use centralized settings manager
+            # Use Polars-based config loader for credentials
+            from scripts.infrastructure.config_loader_polars import ConfigLoaderPolars
+            loader = ConfigLoaderPolars()
+            dataframes = loader.load_full_config()
+            
+            if 'credentials' in dataframes and len(dataframes['credentials']) > 0:
+                logger.info("[OK] Loaded credentials from Polars config loader")
+                self._apply_polars_credentials_to_config(dataframes['credentials'])
+                return
+        except ImportError:
+            logger.debug("Polars config loader not available, falling back to settings manager")
+        except Exception as e:
+            logger.warning(f"Failed to load from Polars config loader: {e}")
+        
+        # Fallback: Use centralized settings manager
+        try:
             from ..settings_manager import get_settings_manager
             settings_manager = get_settings_manager()
             settings = settings_manager.get_settings()
@@ -227,20 +269,77 @@ class UnifiedSessionManager:
         except Exception as e:
             logger.warning(f"Failed to load from centralized settings manager: {e}")
         
-        # Fallback: Direct settings loading (legacy)
+        # Final fallback: Direct settings loading (legacy)
         self._load_from_settings_direct()
+    
+    def _apply_polars_credentials_to_config(self, credentials_df):
+        """Apply credentials from Polars DataFrame to USM config"""
+        try:
+            import polars as pl
+            
+            # Get AWS credentials
+            aws_creds = credentials_df.filter(pl.col('service') == 'aws')
+            
+            if len(aws_creds) > 0:
+                # Extract credentials by key
+                access_key = aws_creds.filter(pl.col('credential_key').str.contains('access_key_id')).select('credential_value').to_series().to_list()
+                secret_key = aws_creds.filter(pl.col('credential_key').str.contains('secret_access_key')).select('credential_value').to_series().to_list()
+                region = aws_creds.filter(pl.col('credential_key').str.contains('default_region')).select('credential_value').to_series().to_list()
+                profile = aws_creds.filter(pl.col('credential_key').str.contains('profile')).select('credential_value').to_series().to_list()
+                
+                # Apply to config
+                if access_key:
+                    self.config.s3_access_key_id = access_key[0]
+                if secret_key:
+                    self.config.s3_secret_access_key = secret_key[0]
+                if region:
+                    self.config.s3_region = region[0]
+                    self.config.bedrock_region = region[0]
+                if profile and profile[0] != 'None':
+                    self.config.aws_profile = profile[0]
+                
+                self.config.credential_source = CredentialSource.SETTINGS_FILE
+                logger.info("[OK] Applied AWS credentials from Polars")
+            
+            # Get PostgreSQL credentials
+            postgres_creds = credentials_df.filter(pl.col('service') == 'postgresql')
+            
+            if len(postgres_creds) > 0:
+                # Extract PostgreSQL credentials
+                host = postgres_creds.filter(pl.col('credential_key').str.contains('host')).select('credential_value').to_series().to_list()
+                port = postgres_creds.filter(pl.col('credential_key').str.contains('port')).select('credential_value').to_series().to_list()
+                database = postgres_creds.filter(pl.col('credential_key').str.contains('database')).select('credential_value').to_series().to_list()
+                username = postgres_creds.filter(pl.col('credential_key').str.contains('username')).select('credential_value').to_series().to_list()
+                password = postgres_creds.filter(pl.col('credential_key').str.contains('password')).select('credential_value').to_series().to_list()
+                
+                # Apply to config
+                if host:
+                    self.config.postgres_host = host[0]
+                if port:
+                    self.config.postgres_port = int(port[0])
+                if database:
+                    self.config.postgres_database = database[0]
+                if username:
+                    self.config.postgres_username = username[0]
+                if password:
+                    self.config.postgres_password = password[0]
+                
+                logger.info("[OK] Applied PostgreSQL credentials from Polars")
+                
+        except Exception as e:
+            logger.warning(f"Failed to apply Polars credentials: {e}")
     
     def _apply_settings_to_config(self, settings: Dict[str, Any]):
         """Apply centralized settings to USM config"""
-        # Apply AWS settings
-        aws_config = settings.get("aws", {})
+        # Apply AWS settings from credentials section
+        credentials = settings.get("credentials", {})
+        aws_config = credentials.get("aws", {})
         if aws_config:
-            self.config.aws_access_key_id = aws_config.get("access_key_id")
-            self.config.aws_secret_access_key = aws_config.get("secret_access_key")
-            self.config.aws_region = aws_config.get("region", "us-east-1")
             self.config.s3_access_key_id = aws_config.get("access_key_id")
             self.config.s3_secret_access_key = aws_config.get("secret_access_key")
-            self.config.s3_region = aws_config.get("region", "us-east-1")
+            self.config.s3_region = aws_config.get("default_region", "us-east-1")
+            self.config.bedrock_region = aws_config.get("default_region", "us-east-1")
+            self.config.aws_profile = aws_config.get("profile")
             
             # S3 specific settings
             s3_config = settings.get("s3", {})
@@ -248,8 +347,8 @@ class UnifiedSessionManager:
                 self.config.s3_default_bucket = s3_config.get("default_bucket")
                 self.config.s3_default_prefix = s3_config.get("default_prefix")
         
-        # Apply PostgreSQL settings
-        postgres_config = settings.get("postgres", {})
+        # Apply PostgreSQL settings from credentials section
+        postgres_config = credentials.get("postgresql", {})
         if postgres_config:
             self.config.postgres_host = postgres_config.get("host")
             self.config.postgres_port = postgres_config.get("port", 5432)
@@ -1023,6 +1122,56 @@ class UnifiedSessionManager:
             "active": True,
             "healthy": self.is_healthy()
         }
+    
+    def get_gateways(self) -> Dict[str, Any]:
+        """
+        Get all available gateways through GatewayRegistry.
+        
+        This maintains the ONE SESSION MANAGER RULE by providing
+        gateway access through USM rather than bypassing it.
+        
+        Returns:
+            Dictionary of gateway instances keyed by service name
+        """
+        try:
+            from ...gateways.gateway_registry import get_global_registry
+            registry = get_global_registry()
+            registry.auto_configure()
+            
+            # Get gateways from registry
+            available_services = registry.get_available_services()
+            gateways = {}
+            
+            for service_name in available_services:
+                try:
+                    gateway = registry.get(service_name)
+                    if gateway:
+                        gateways[service_name] = gateway
+                except Exception as e:
+                    logger.warning(f"Failed to get gateway {service_name}: {e}")
+            
+            logger.info(f"USM: Retrieved {len(gateways)} gateways: {list(gateways.keys())}")
+            return gateways
+            
+        except Exception as e:
+            logger.error(f"USM: Failed to get gateways: {e}")
+            return {}
+    
+    def get_services(self) -> List[str]:
+        """
+        Get list of available service names.
+        
+        Returns:
+            List of service names available through GatewayRegistry
+        """
+        try:
+            from ...gateways.gateway_registry import get_global_registry
+            registry = get_global_registry()
+            registry.auto_configure()
+            return registry.get_available_services()
+        except Exception as e:
+            logger.error(f"USM: Failed to get services: {e}")
+            return []
 
 # Global session manager instance
 _global_session_manager = None
