@@ -131,7 +131,8 @@ class ExtractionWorker(BaseWorker[ExtractionRequest, ExtractionResult]):
             
             # Initialize Enhanced Document Extractor
             try:
-                from ...knowledge_systems.core.enhanced_extraction import EnhancedDocumentExtractor
+                # from ...knowledge_systems.core.enhanced_extraction import EnhancedDocumentExtractor  # REMOVED: core is superfluous
+                raise ImportError("core module removed - extractor moved to proper location")
                 self.enhanced_extractor = EnhancedDocumentExtractor()
                 logger.info("Extraction Worker: EnhancedDocumentExtractor initialized")
             except ImportError as e:

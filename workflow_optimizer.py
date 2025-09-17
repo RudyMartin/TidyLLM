@@ -25,7 +25,7 @@ try:
     from .flow.flow_agreements import FlowAgreementManager
     from .gateways.corporate_llm_gateway import CorporateLLMGateway
     from .infrastructure.session.unified import UnifiedSessionManager
-    from .knowledge_systems.core.domain_rag import DomainRAG, DomainRAGConfig, RAGQuery
+    from .knowledge_systems.domain_rag import DomainRAG, DomainRAGConfig, RAGQuery
     from .knowledge_systems.interfaces.knowledge_interface import KnowledgeInterface
     
     # Check availability
@@ -281,7 +281,7 @@ class HierarchicalDAGManager:
         
         return workflow
     
-    def _initialize_domain_rag_system(self) -> Dict[str, DomainRAG]:
+    def _initialize_domain_rag_system(self) -> Dict[str, "DomainRAG"]:
         """Initialize DomainRAG system with document stacks from S3."""
         domain_rags = {}
         

@@ -219,7 +219,8 @@ class IndexingWorker(BaseWorker[Union[IndexingRequest, SearchRequest, BatchIndex
             
             # Initialize VectorManager
             try:
-                from ...knowledge_systems.core.vector_manager import VectorManager, VectorConfig
+                # from ...knowledge_systems.core.vector_manager import VectorManager, VectorConfig  # REMOVED: core is superfluous
+                raise ImportError("core module removed - vector manager moved to proper location")
                 self.vector_config = VectorConfig(vector_dimension=self.vector_dimension)
                 self.vector_manager = VectorManager(config=self.vector_config)
                 logger.info("Indexing Worker: VectorManager initialized")

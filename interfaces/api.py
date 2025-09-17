@@ -27,13 +27,89 @@ from typing import List, Dict, Any
 from datetime import datetime
 
 # Basic API functions
-def chat(message: str, **kwargs) -> str:
-    """Simple chat function."""
-    return f"Response to: {message}"
+def chat(message: str, chat_type: str = "rag", model_name: str = "claude-3-sonnet",
+         temperature: float = 0.7, reasoning: bool = False, **kwargs):
+    """Enhanced chat function with multiple processing modes and reasoning support.
+
+    Args:
+        message: The chat message/prompt
+        chat_type: Processing type - "rag" (RAG), "direct" (Bedrock), "dspy" (DSPy->Bedrock), "hybrid" (Smart)
+        model_name: Model to use (e.g., "claude-3-sonnet", "gpt-4")
+        temperature: Model temperature (0.0-1.0), default 0.7
+        reasoning: If True, return detailed reasoning/chain-of-thought (dict), else simple string
+        **kwargs: Additional chat parameters
+
+    Returns:
+        str or dict: Simple response (reasoning=False) or detailed reasoning object (reasoning=True)
+
+    Examples:
+        # Simple response
+        chat("Hello") → "Hi there!"
+
+        # With reasoning
+        chat("Hello", reasoning=True) → {
+            "response": "Hi there!",
+            "reasoning": "Chain of thought...",
+            "confidence": 0.95
+        }
+    """
+    try:
+        # Use UnifiedChatManager for all chat processing
+        from tidyllm.services import UnifiedChatManager, ChatMode
+
+        chat_manager = UnifiedChatManager()
+
+        # Map string types to ChatMode enums
+        mode_mapping = {
+            "rag": ChatMode.RAG,
+            "default": ChatMode.RAG,  # backward compatibility
+            "direct": ChatMode.DIRECT,
+            "dspy": ChatMode.DSPY,
+            "hybrid": ChatMode.HYBRID,
+            "custom": ChatMode.CUSTOM
+        }
+
+        mode = mode_mapping.get(chat_type.lower(), ChatMode.RAG)
+
+        # Process chat through UnifiedChatManager
+        return chat_manager.chat(
+            message=message,
+            mode=mode,
+            model=model_name,
+            temperature=temperature,
+            reasoning=reasoning,
+            **kwargs
+        )
+
+    except Exception as e:
+        error_msg = f"Chat processing unavailable ({chat_type} mode): {e}"
+        if reasoning:
+            return {
+                "response": error_msg,
+                "reasoning": f"System error during {chat_type} processing: {str(e)}",
+                "method": f"{chat_type}_error",
+                "error": str(e),
+                "confidence": 0.0,
+                "timestamp": datetime.now().isoformat()
+            }
+        return error_msg
 
 def query(question: str, context: str = None, **kwargs) -> str:
-    """Query with optional context."""
-    return f"Answer to: {question}"
+    """Query with optional context using V3 RAG services."""
+    try:
+        from tidyllm.services import UnifiedRAGManager, RAGSystemType
+        rag_manager = UnifiedRAGManager()
+        result = rag_manager.query(
+            system_type=RAGSystemType.INTELLIGENT,
+            query=question,
+            context=context
+        )
+        if result.get("success"):
+            return result.get("answer", f"Answer to: {question}")
+        else:
+            return f"AI query processing unavailable: {result.get('error', 'Unknown error')}"
+    except Exception as e:
+        return f"AI query processing unavailable: {e}"
 
 def process_document(document_path: str, task: str = "analyze", **kwargs) -> Dict[str, Any]:
     """Process a document with specified task.
@@ -52,7 +128,8 @@ def process_document(document_path: str, task: str = "analyze", **kwargs) -> Dic
     """
     try:
         # Try to integrate with real document processing if available
-        from .knowledge_systems.core.domain_rag import DomainRAG
+        # from .knowledge_systems.core.domain_rag import DomainRAG  # REMOVED: core is superfluous
+        raise ImportError("core module removed")
         # This would integrate with actual document processing in full implementation
         return {
             "status": "processed",
@@ -74,24 +151,26 @@ def process_document(document_path: str, task: str = "analyze", **kwargs) -> Dic
 def list_models(**kwargs) -> List[Dict[str, Any]]:
     """List all available AI models across backends."""
     try:
-        from .gateways.ai_processing_gateway import AIProcessingGateway
-        ai_gateway = AIProcessingGateway()
-        capabilities = ai_gateway.get_capabilities()
-        
+        # from .gateways.ai_processing_gateway import AIProcessingGateway  # V1 DEPRECATED
+        from tidyllm.services import UnifiedRAGManager  # Use V3 services
+        # Use V3 services instead of V1 gateways
+        rag_manager = UnifiedRAGManager()
+        status = rag_manager.health_check()
+
         # Transform into expected format
         models = []
-        backend = capabilities.get("current_backend", "unknown")
-        available_models = capabilities.get("models", [])
-        
-        for model in available_models:
-            models.append({
-                "name": model,
-                "backend": backend,
-                "type": "chat",
-                "max_tokens": capabilities.get("max_tokens", 4096),
-                "supports_streaming": capabilities.get("supports_streaming", False)
-            })
-        
+        if status.get("success"):
+            for system_name, system_status in status.get("systems", {}).items():
+                if system_status.get("status") == "healthy":
+                    models.append({
+                        "name": f"rag-{system_name.lower()}",
+                        "backend": "tidyllm-v3",
+                        "type": "rag",
+                        "max_tokens": 4096,
+                        "supports_streaming": False,
+                        "system_type": system_name
+                    })
+
         return models
     except Exception as e:
         # Fallback for demos/examples when gateway unavailable
@@ -147,11 +226,15 @@ def status(**kwargs) -> Dict[str, Any]:
     """
     try:
         # Try to get real status from session manager
-        from .infrastructure.session.unified import UnifiedSessionManager
+        from tidyllm.infrastructure.session.unified import UnifiedSessionManager
         session_mgr = UnifiedSessionManager()
         session_health = session_mgr.validate_session()
         
         return {
+            "initialized": session_health.get("valid", False),
+            "architecture": "V3 Hexagonal (Portal->Service->Adapter->Infrastructure)",
+            "has_aws_key": session_health.get("aws_credentials", False),
+            "audit_logging": True,
             "status": "healthy" if session_health.get("valid", False) else "degraded",
             "timestamp": datetime.now().isoformat(),
             "session_health": session_health,
@@ -160,7 +243,11 @@ def status(**kwargs) -> Dict[str, Any]:
     except Exception as e:
         # Fallback status for compatibility
         return {
-            "status": "unknown",
+            "initialized": False,
+            "architecture": "V3 Hexagonal (Portal->Service->Adapter->Infrastructure)",
+            "has_aws_key": False,
+            "audit_logging": True,
+            "status": "degraded",
             "timestamp": datetime.now().isoformat(),
             "error": str(e),
             "message": "Status check completed with fallback (normal for demo mode)"

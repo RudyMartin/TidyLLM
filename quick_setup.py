@@ -112,7 +112,7 @@ def main():
     # Test basic TidyLLM import
     test_import_cmd = [
         sys.executable, "-c",
-        "import sys; sys.path.insert(0, '.'); import tidyllm; print('TidyLLM import successful')"
+        "import tidyllm; print('TidyLLM import successful')"
     ]
     success = run_command(test_import_cmd, "Testing TidyLLM import", required=False)
     

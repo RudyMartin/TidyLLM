@@ -720,7 +720,9 @@ class UnifiedSessionManager:
         return self._bedrock_client
     
     def get_bedrock_runtime_client(self):
-        """Get Bedrock Runtime client (thread-safe)"""
+        """Get Bedrock Runtime client (thread-safe) - lazy initialization"""
+        if self._bedrock_runtime_client is None:
+            self._init_bedrock()
         return self._bedrock_runtime_client
     
     def get_sts_client(self):

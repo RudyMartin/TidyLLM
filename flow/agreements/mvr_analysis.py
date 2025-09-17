@@ -60,7 +60,8 @@ class MVRAnalysisFlowAgreement(BaseFlowAgreement):
     
     def _initialize_report_generators(self):
         """Initialize the report generator instances."""
-        from ..knowledge_systems.core.domain_rag import DomainRAG
+        # from ..knowledge_systems.core.domain_rag import DomainRAG  # REMOVED: core is superfluous
+        pass  # Components moved to proper locations
         
         # Initialize generators for each report type
         self.report_generators = {

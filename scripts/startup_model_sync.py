@@ -25,7 +25,8 @@ def startup_sync():
     print("=" * 50)
     
     try:
-        from knowledge_systems.core.startup_model_discovery import run_startup_model_discovery
+        # from knowledge_systems.core.startup_model_discovery import run_startup_model_discovery  # REMOVED: core is superfluous
+        raise ImportError("core module removed - model discovery moved to proper location")
         
         # Run one-time startup discovery
         result = run_startup_model_discovery()
@@ -76,7 +77,8 @@ def startup_sync():
         print(f"\nBackup & Recovery Information:")
         print("-" * 30)
         
-        from knowledge_systems.core.startup_model_discovery import get_startup_discovery
+        # from knowledge_systems.core.startup_model_discovery import get_startup_discovery  # REMOVED: core is superfluous
+        raise ImportError("core module removed")
         discovery = get_startup_discovery()
         
         if discovery:
@@ -178,7 +180,8 @@ def restore_config(method: str = "backup", backup_date: str = None):
     print(f"Restoring configuration using method: {method}")
     
     try:
-        from knowledge_systems.core.startup_model_discovery import restore_embedding_config
+        # from knowledge_systems.core.startup_model_discovery import restore_embedding_config  # REMOVED: core is superfluous
+        raise ImportError("core module removed")
         
         success = restore_embedding_config(method, backup_date)
         
@@ -196,11 +199,13 @@ def restore_config(method: str = "backup", backup_date: str = None):
 def list_backups():
     """List available configuration backups"""
     try:
-        from knowledge_systems.core.startup_model_discovery import get_startup_discovery
+        # from knowledge_systems.core.startup_model_discovery import get_startup_discovery  # REMOVED: core is superfluous
+        raise ImportError("core module removed")
         
         discovery = get_startup_discovery()
         if not discovery:
-            from knowledge_systems.core.startup_model_discovery import StartupModelDiscovery
+            # from knowledge_systems.core.startup_model_discovery import StartupModelDiscovery  # REMOVED: core is superfluous
+            pass  # Module removed
             discovery = StartupModelDiscovery()
         
         backup_folder = discovery.backup_folder

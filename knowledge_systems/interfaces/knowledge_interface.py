@@ -32,11 +32,12 @@ This is the main interface used by chat interfaces, workflows, and applications.
 """
 
 import logging
+from datetime import datetime
 from typing import Dict, List, Any, Optional, Union
 from pathlib import Path
 
-from ..core.knowledge_manager import KnowledgeManager, KnowledgeSystemConfig
-from ..core.domain_rag import RAGQuery, RAGResponse
+from ..knowledge_manager import KnowledgeManager, KnowledgeSystemConfig
+from ..domain_rag import RAGQuery, RAGResponse
 
 logger = logging.getLogger("knowledge_interface")
 
@@ -241,20 +242,23 @@ class KnowledgeInterface:
         }
     
     # Query Operations
-    
-    def query(self, query: str, domain: str = None, max_results: int = 5, 
-              similarity_threshold: float = 0.7) -> RAGResponse:
+
+    def query(self, query: str, domain: str = None, max_results: int = 5,
+              similarity_threshold: float = 0.7, authority_tier: int = None,
+              collection_name: str = None) -> RAGResponse:
         """
         Query knowledge base(s) with natural language.
-        
+
         Args:
             query: Natural language question
             domain: Specific domain to query (None for best across all domains)
             max_results: Maximum number of source documents to return
             similarity_threshold: Minimum similarity score for results
-            
+            authority_tier: Authority level for compliance queries (1=Regulatory, 2=SOP, 3=Technical)
+            collection_name: Specific collection to query within domain
+
         Returns:
-            RAGResponse with answer, sources, and metadata
+            RAGResponse with answer, sources, and metadata (enhanced with authority info if applicable)
         """
         try:
             if domain:
@@ -286,6 +290,261 @@ class KnowledgeInterface:
     def query_all_domains(self, query: str, **kwargs) -> Dict[str, RAGResponse]:
         """Query all domains and return responses from each"""
         return self.manager.query_all_domains(query, **kwargs)
+
+    # ═══════════════════════════════════════════════════════════════════════════════
+    # FIVE RAG SYSTEMS - Authority-Based Query Methods (Postgres Integration)
+    # ═══════════════════════════════════════════════════════════════════════════════
+
+    def query_compliance_rag(self, query: str, domain: str, authority_tier: int = None,
+                           confidence_threshold: float = 0.8) -> RAGResponse:
+        """
+        [RAG 1/5] ComplianceRAG query with authority-based precedence.
+
+        Authority-based regulatory decisions with tiered compliance:
+        - Tier 1: Regulatory (highest precedence)
+        - Tier 2: Standard Operating Procedures
+        - Tier 3: Technical guidance
+
+        Args:
+            query: Natural language question
+            domain: Domain name for compliance context
+            authority_tier: Specific authority tier (None for highest available)
+            confidence_threshold: Minimum confidence for results
+
+        Returns:
+            RAGResponse with authority metadata
+        """
+        try:
+            # Use existing query method with authority tier
+            response = self.query(
+                query=query,
+                domain=domain,
+                authority_tier=authority_tier,
+                similarity_threshold=confidence_threshold
+            )
+
+            # Enhance response metadata with authority information
+            response.metadata = response.metadata or {}
+            response.metadata.update({
+                "query_type": "compliance_rag",
+                "authority_tier": authority_tier,
+                "precedence_level": 1.0 if authority_tier == 1 else (0.8 if authority_tier == 2 else 0.6),
+                "compliance_context": True
+            })
+
+            return response
+
+        except Exception as e:
+            logger.error(f"ComplianceRAG query failed: {e}")
+            return RAGResponse(
+                query=query,
+                answer=f"No authoritative guidance found for this compliance query: {str(e)}",
+                sources=[],
+                confidence=0.0,
+                processing_time=0.0,
+                metadata={
+                    "error": str(e),
+                    "query_type": "compliance_rag",
+                    "authority_tier": 0
+                }
+            )
+
+    def query_postgres_rag(self, query: str, collection_name: str = None,
+                          confidence_threshold: float = 0.7) -> RAGResponse:
+        """
+        [RAG 5/5] PostgresRAG query for direct database vector search.
+
+        Direct postgres+pgvector search without domain restrictions.
+        Uses postgres_rag_adapter for raw vector similarity search.
+
+        Args:
+            query: Natural language search query
+            collection_name: Specific collection to search
+            confidence_threshold: Minimum confidence score
+
+        Returns:
+            RAGResponse with postgres vector search results
+        """
+        from ..adapters.postgres_rag import PostgresRAGAdapter, RAGQuery
+
+        try:
+            adapter = PostgresRAGAdapter()
+            rag_query = RAGQuery(
+                query=query,
+                collection_name=collection_name,
+                confidence_threshold=confidence_threshold
+            )
+
+            response = adapter.query_collection(rag_query)
+            return response
+
+        except Exception as e:
+            logger.error(f"PostgresRAG query failed: {e}")
+            from ..core.domain_rag import RAGResponse
+            return RAGResponse(
+                query=query,
+                response=f"PostgresRAG error: {str(e)}",
+                sources=[],
+                confidence=0.0,
+                collection_name=collection_name or "postgres_error",
+                authority_tier=5
+            )
+
+    def query_document_rag(self, query: str, domain: str = None, collection_name: str = None,
+                          confidence_threshold: float = 0.8) -> RAGResponse:
+        """
+        [RAG 2/5] DocumentRAG query for general document search and retrieval.
+
+        Simple semantic search across document collections for information discovery.
+
+        Args:
+            query: Natural language question
+            domain: Domain to search (None for all domains)
+            collection_name: Specific collection to query
+            confidence_threshold: Minimum confidence for results
+
+        Returns:
+            RAGResponse with document search results
+        """
+        try:
+            # Use existing query method for document search
+            response = self.query(
+                query=query,
+                domain=domain,
+                collection_name=collection_name,
+                similarity_threshold=confidence_threshold,
+                max_results=10  # More results for document discovery
+            )
+
+            # Enhance response metadata
+            response.metadata = response.metadata or {}
+            response.metadata.update({
+                "query_type": "document_rag",
+                "search_scope": collection_name or domain or "all_domains",
+                "document_discovery": True
+            })
+
+            return response
+
+        except Exception as e:
+            logger.error(f"DocumentRAG query failed: {e}")
+            return RAGResponse(
+                query=query,
+                answer=f"No relevant knowledge found for this document query: {str(e)}",
+                sources=[],
+                confidence=0.0,
+                processing_time=0.0,
+                metadata={
+                    "error": str(e),
+                    "query_type": "document_rag"
+                }
+            )
+
+    def query_expert_rag(self, query: str, domain: str = None, collection_name: str = None,
+                        confidence_threshold: float = 0.8) -> RAGResponse:
+        """
+[RAG 3/5] ExpertRAG query for specialized subject matter expertise.
+
+        Leverages expert knowledge collections for high-level analysis and recommendations.
+
+        Args:
+            query: Natural language question requiring expert analysis
+            domain: Domain for expert knowledge
+            collection_name: Specific expert collection
+            confidence_threshold: Minimum confidence for expert opinions
+
+        Returns:
+            RAGResponse with expert analysis and high precedence level
+        """
+        try:
+            # Use existing query method for expert knowledge
+            response = self.query(
+                query=query,
+                domain=domain,
+                collection_name=collection_name,
+                similarity_threshold=confidence_threshold,
+                max_results=5  # Focused expert responses
+            )
+
+            # Enhance response with expert context
+            if response.sources and len(response.sources) > 0:
+                expert_analysis = f"Expert Analysis: {response.answer}"
+            else:
+                expert_analysis = "No expert knowledge available for this query."
+
+            response.answer = expert_analysis
+            response.metadata = response.metadata or {}
+            response.metadata.update({
+                "query_type": "expert_rag",
+                "authority_tier": 99,  # Expert level but not regulatory authority
+                "precedence_level": 0.9,  # High expertise precedence
+                "expert_analysis": True
+            })
+
+            return response
+
+        except Exception as e:
+            logger.error(f"ExpertRAG query failed: {e}")
+            return RAGResponse(
+                query=query,
+                answer=f"No expert knowledge available for this query: {str(e)}",
+                sources=[],
+                confidence=0.0,
+                processing_time=0.0,
+                metadata={
+                    "error": str(e),
+                    "query_type": "expert_rag",
+                    "authority_tier": 99
+                }
+            )
+
+    def query_unified_rag(self, query: str, domain: str = None, authority_tier: int = None,
+                         collection_name: str = None, confidence_threshold: float = 0.8) -> RAGResponse:
+        """
+[RAG 4/5] Unified RAG query that automatically selects the best approach.
+
+        Logic:
+        1. If authority_tier specified -> ComplianceRAG
+        2. If collection_name specified -> DocumentRAG/ExpertRAG based on metadata
+        3. Otherwise -> Try ComplianceRAG first, fallback to DocumentRAG
+
+        Args:
+            query: Natural language question
+            domain: Domain context
+            authority_tier: Authority level (triggers ComplianceRAG)
+            collection_name: Specific collection (triggers DocumentRAG/ExpertRAG)
+            confidence_threshold: Minimum confidence threshold
+
+        Returns:
+            RAGResponse from the most appropriate RAG type
+        """
+        logger.info(f"Unified RAG Query: {query}")
+
+        try:
+            # Route to appropriate RAG type
+            if authority_tier:
+                return self.query_compliance_rag(query, domain, authority_tier, confidence_threshold)
+            elif collection_name:
+                # For now, default to DocumentRAG - could be enhanced to detect expert collections
+                return self.query_document_rag(query, domain, collection_name, confidence_threshold)
+            else:
+                # Try compliance first (authoritative), fallback to document
+                compliance_response = self.query_compliance_rag(query, domain, None, confidence_threshold)
+                if compliance_response.confidence > 0.3:
+                    return compliance_response
+                else:
+                    return self.query_document_rag(query, domain, None, confidence_threshold)
+
+        except Exception as e:
+            logger.error(f"Unified RAG query failed: {e}")
+            return RAGResponse(
+                query=query,
+                answer=f"Unified query processing failed: {str(e)}",
+                sources=[],
+                confidence=0.0,
+                processing_time=0.0,
+                metadata={"error": str(e), "query_type": "unified_rag"}
+            )
     
     # Chat Interface Integration
     
@@ -379,8 +638,182 @@ class KnowledgeInterface:
         except Exception as e:
             return {"success": False, "error": str(e)}
     
+    # Domain Registration (Migrated Systems Integration)
+
+    def register_migrated_domain(self, domain_name: str, domain_config: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Register a migrated domain RAG system with the unified interface.
+
+        This allows migrated systems from tidyllm/knowledge_systems/migrated/ to
+        integrate with the unified KnowledgeInterface while maintaining their
+        specific configurations.
+
+        Args:
+            domain_name: Unique domain identifier (e.g., "compliance_regulatory", "model_risk")
+            domain_config: Domain configuration including:
+                - source: Path to migrated system
+                - authority_tier: Authority level (1-3 for compliance, 99 for expert)
+                - s3_config: S3 bucket and prefix info
+                - description: Human readable description
+                - adapter_class: Class reference for the migrated adapter
+
+        Returns:
+            Dict with registration results
+        """
+        try:
+            # Validate domain config
+            required_fields = ["source", "description"]
+            missing_fields = [f for f in required_fields if f not in domain_config]
+            if missing_fields:
+                return {
+                    "success": False,
+                    "error": f"Missing required fields: {missing_fields}"
+                }
+
+            # Store domain configuration for future use
+            if not hasattr(self, '_migrated_domains'):
+                self._migrated_domains = {}
+
+            self._migrated_domains[domain_name] = {
+                "config": domain_config,
+                "registered_at": datetime.now().isoformat(),
+                "status": "registered"
+            }
+
+            logger.info(f"Registered migrated domain: {domain_name}")
+            return {
+                "success": True,
+                "domain_name": domain_name,
+                "registration_time": datetime.now().isoformat(),
+                "available_via": [
+                    "query_compliance_rag()" if domain_config.get("authority_tier") else None,
+                    "query_expert_rag()" if domain_config.get("authority_tier") == 99 else None,
+                    "query_document_rag()",
+                    "query_unified_rag()"
+                ]
+            }
+
+        except Exception as e:
+            logger.error(f"Failed to register migrated domain '{domain_name}': {e}")
+            return {
+                "success": False,
+                "domain_name": domain_name,
+                "error": str(e)
+            }
+
+    def list_migrated_domains(self) -> Dict[str, Any]:
+        """List all registered migrated domains"""
+        if not hasattr(self, '_migrated_domains'):
+            return {"migrated_domains": {}, "count": 0}
+
+        return {
+            "migrated_domains": self._migrated_domains,
+            "count": len(self._migrated_domains),
+            "registration_summary": {
+                domain_name: {
+                    "description": config["config"].get("description", ""),
+                    "authority_tier": config["config"].get("authority_tier"),
+                    "source": config["config"].get("source", ""),
+                    "status": config["status"]
+                }
+                for domain_name, config in self._migrated_domains.items()
+            }
+        }
+
+    def get_available_domain_configs(self) -> List[Dict[str, Any]]:
+        """
+        Get pre-defined domain configurations for common migrated systems.
+
+        This provides standard configurations for integrating common migrated
+        RAG systems without requiring manual configuration.
+
+        Returns:
+            List of domain configuration templates
+        """
+        return [
+            {
+                "domain_name": "regulatory_compliance",
+                "description": "Regulatory compliance and authoritative guidance",
+                "authority_tier": 1,
+                "source": "knowledge_systems.migrated.compliance.domain_rag.authoritative_rag",
+                "s3_config": {
+                    "bucket": "nsc-mvp1",
+                    "prefix": "knowledge_base/regulatory"
+                },
+                "adapter_type": "compliance_rag"
+            },
+            {
+                "domain_name": "business_analysis",
+                "description": "Business analysis and regulatory research",
+                "authority_tier": 2,
+                "source": "knowledge_systems.migrated.compliance.research_papers.business_analysis_rag",
+                "s3_config": {
+                    "bucket": "nsc-mvp1",
+                    "prefix": "knowledge_base/business_analysis"
+                },
+                "adapter_type": "document_rag"
+            },
+            {
+                "domain_name": "intelligent_document_processing",
+                "description": "Intelligent document processing with Bedrock embeddings",
+                "authority_tier": None,
+                "source": "knowledge_systems.migrated.scattered_rag.adapters.intelligent_rag_adapter",
+                "s3_config": {
+                    "bucket": "dsai-2025-asu",
+                    "prefix": "knowledge_base/documents"
+                },
+                "adapter_type": "document_rag"
+            },
+            {
+                "domain_name": "ai_powered_expert_analysis",
+                "description": "AI-powered expert analysis and recommendations",
+                "authority_tier": 99,
+                "source": "knowledge_systems.migrated.scattered_rag.adapters.ai_powered_rag_adapter",
+                "s3_config": {
+                    "bucket": "dsai-2025-asu",
+                    "prefix": "knowledge_base/expert"
+                },
+                "adapter_type": "expert_rag"
+            },
+            {
+                "domain_name": "unified_postgres_rag",
+                "description": "Unified PostgreSQL-based RAG with authority tiers",
+                "authority_tier": None,  # Supports all tiers
+                "source": "knowledge_systems.migrated.scattered_rag.adapters.postgres_rag_adapter",
+                "s3_config": {
+                    "bucket": "dsai-2025-asu",
+                    "prefix": "knowledge_base/unified"
+                },
+                "adapter_type": "unified_rag"
+            }
+        ]
+
+    def register_standard_domains(self) -> Dict[str, Any]:
+        """
+        Register all standard domain configurations.
+
+        This is a convenience method to register common migrated systems
+        with their standard configurations.
+
+        Returns:
+            Dict with registration results for all standard domains
+        """
+        results = {}
+        domain_configs = self.get_available_domain_configs()
+
+        for config in domain_configs:
+            domain_name = config.pop("domain_name")
+            result = self.register_migrated_domain(domain_name, config)
+            results[domain_name] = result
+
+        return {
+            "registered_count": len([r for r in results.values() if r["success"]]),
+            "failed_count": len([r for r in results.values() if not r["success"]]),
+            "results": results
+        }
+
     # System Management
-    
+
     def get_system_status(self) -> Dict[str, Any]:
         """Get comprehensive system status"""
         return self.manager.get_system_status()

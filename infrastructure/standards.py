@@ -228,27 +228,28 @@ def resolve_model_id(model_id: str, settings_config: Dict[str, Any] = None, warn
     """
     # Default model mappings (fallback if settings not available)
     default_mappings = {
-        # Claude models
+        # Claude models (updated Bedrock identifiers)
         "claude-3-sonnet": "anthropic.claude-3-sonnet-20240229-v1:0",
-        "claude-3-haiku": "anthropic.claude-3-haiku-20240307-v1:0", 
+        "claude-3-haiku": "anthropic.claude-3-haiku-20240307-v1:0",
+        "claude-3-5-sonnet": "anthropic.claude-3-5-sonnet-20241022-v2:0",
         "claude-3-opus": "anthropic.claude-3-opus-20240229-v1:0",
         "claude-v2": "anthropic.claude-v2:1",
         "claude-instant": "anthropic.claude-instant-v1",
-        
+
+        # GPT models (fallback to Claude via Bedrock)
+        "gpt-4": "anthropic.claude-3-sonnet-20240229-v1:0",
+        "gpt-4-turbo": "anthropic.claude-3-sonnet-20240229-v1:0",
+        "gpt-3.5-turbo": "anthropic.claude-3-haiku-20240307-v1:0",
+
         # Titan models
         "titan-text-express": "amazon.titan-text-express-v1",
         "titan-text-lite": "amazon.titan-text-lite-v1",
         "titan-embed-text": "amazon.titan-embed-text-v1",
-        
+
         # Llama models
         "llama-2-13b": "meta.llama2-13b-chat-v1",
-        "llama-2-70b": "meta.llama2-70b-chat-v1", 
+        "llama-2-70b": "meta.llama2-70b-chat-v1",
         "llama-2-7b": "meta.llama2-7b-chat-v1",
-        
-        # OpenAI models (pass-through)
-        "gpt-4": "gpt-4",
-        "gpt-4-turbo": "gpt-4-turbo-preview",
-        "gpt-3.5": "gpt-3.5-turbo",
     }
     
     # Use settings config if provided

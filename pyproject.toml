@@ -26,7 +26,6 @@ dependencies = [
     "requests",
     "pyyaml",
     "tlm>=1.0.1",
-    "tidyllm-sentence>=0.1.0",
 ]
 
 [tool.setuptools]

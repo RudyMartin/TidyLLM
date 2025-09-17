@@ -114,11 +114,11 @@ class SystemMonitor:
         
         data = {
             "timestamp": times,
-            "cpu_usage": random.uniform(10, 50, 48),
-            "memory_usage": random.uniform(20, 70, 48), 
-            "processing_rate": random.uniform(5, 30, 48),
-            "queue_length": random.randint(0, 20, 48),
-            "error_rate": random.uniform(0, 8, 48)
+            "cpu_usage": [random.uniform(10, 50) for _ in range(48)],
+            "memory_usage": [random.uniform(20, 70) for _ in range(48)],
+            "processing_rate": [random.uniform(5, 30) for _ in range(48)],
+            "queue_length": [random.randint(0, 20) for _ in range(48)],
+            "error_rate": [random.uniform(0, 8) for _ in range(48)]
         }
         
         return pl.DataFrame(data)
@@ -285,14 +285,14 @@ def main():
         )
     
     # Apply filters
-    filtered_errors = error_df[
-        (error_df['level'].isin(level_filter)) &
-        (error_df['component'].isin(component_filter))
-    ].sort_values('timestamp', ascending=False)
+    filtered_errors = error_df.filter(
+        (pl.col('level').is_in(level_filter)) &
+        (pl.col('component').is_in(component_filter))
+    ).sort('timestamp', descending=True)
     
     # Display error log
-    for _, error in filtered_errors.iterrows():
-        
+    for error in filtered_errors.iter_rows(named=True):
+
         # Color based on error level
         if error['level'] == 'ERROR':
             st.error(f"🔴 **{error['level']}** | {error['component']} | {error['timestamp'].strftime('%H:%M:%S')}")
@@ -300,9 +300,9 @@ def main():
             st.warning(f"🟡 **{error['level']}** | {error['component']} | {error['timestamp'].strftime('%H:%M:%S')}")
         else:
             st.info(f"🔵 **{error['level']}** | {error['component']} | {error['timestamp'].strftime('%H:%M:%S')}")
-            
+
         st.write(f"   {error['message']}")
-        
+
         if error['count'] > 1:
             st.write(f"   *Occurred {error['count']} times*")
     

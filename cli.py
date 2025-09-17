@@ -14,6 +14,13 @@ import sys
 from pathlib import Path
 from . import __version__
 
+# Import portal functionality
+try:
+    from .portals import AVAILABLE_PORTALS, launch_portal, list_portals
+    PORTALS_AVAILABLE = True
+except ImportError:
+    PORTALS_AVAILABLE = False
+
 def show_ecosystem_help():
     """Show comprehensive ecosystem help with available functions."""
     help_text = f"""
@@ -107,18 +114,29 @@ Testing & Validation:
 
 Workflow Management:
     workflow            Workflow management commands
+    workflow list       List all registered workflows
+    workflow info       Show workflow information
+    workflow create     Create new workflow
     demo                Launch demo interface
-    
+
+Portal Management:
+    portal              Launch and manage TidyLLM portals
+    portal list         List available portals
+    portal boss         Launch Boss Portal
+    portal onboarding   Launch Onboarding Portal
+
 Development:
     debug               Debug and diagnostic commands
     admin               Administrative commands
 
 EXAMPLES:
     tidyllm help                    # Show this help
-    tidyllm qa --help              # QA processing help  
+    tidyllm qa --help              # QA processing help
     tidyllm chat-pdf document.pdf  # Chat with PDF
     tidyllm test --all             # Run all tests
     tidyllm demo                   # Launch demo interface
+    tidyllm portal list            # List available portals
+    tidyllm portal boss            # Launch Boss Portal
     tidyllm status                 # System health check
 
 For detailed help on any command:
@@ -252,16 +270,8 @@ def launch_qa_processor():
     
     # Import and run qa_processor
     try:
-        # Try to import from the parent directory
-        import sys
-        from pathlib import Path
-        
-        # Add parent directory to path
-        parent_dir = Path(__file__).parent.parent
-        sys.path.insert(0, str(parent_dir))
-        
-        # Import and run main from qa_processor
-        import qa_processor
+        # Import from parent directory using proper package import
+        from .. import qa_processor
         qa_processor.main()
         
     except ImportError as e:
@@ -274,15 +284,8 @@ def launch_test_runner():
     print("[LAUNCH] Starting QA Test Runner...")
     
     try:
-        import sys
-        from pathlib import Path
-        
-        # Add parent directory to path
-        parent_dir = Path(__file__).parent.parent
-        sys.path.insert(0, str(parent_dir))
-        
-        # Import and run main from qa_test_runner
-        import qa_test_runner
+        # Import from parent directory using proper package import
+        from .. import qa_test_runner
         qa_test_runner.main()
         
     except ImportError as e:
@@ -322,6 +325,43 @@ def show_config():
         print(f"\nNo configuration file found at: {config_path}")
         print("Run 'tidyllm init' to create default configuration")
 
+def handle_portal(args):
+    """Handle portal commands."""
+    if not PORTALS_AVAILABLE:
+        print("[ERROR] Portal functionality not available")
+        print("Please ensure tidyllm.portals package is properly installed")
+        return 1
+
+    if args.portal_action == 'list':
+        print("Available TidyLLM Portals:")
+        for portal_name in list_portals():
+            portal_info = AVAILABLE_PORTALS[portal_name]
+            print(f"  [PORTAL] {portal_name}: {portal_info['description']}")
+            print(f"     Default port: {portal_info['default_port']}")
+        return 0
+
+    elif args.portal_action in AVAILABLE_PORTALS:
+        print(f"[LAUNCH] Starting {args.portal_action} portal...")
+        try:
+            # Launch the portal
+            launch_portal(
+                args.portal_action,
+                port=getattr(args, 'port', None) or AVAILABLE_PORTALS[args.portal_action]['default_port'],
+                host=getattr(args, 'host', 'localhost')
+            )
+            return 0
+        except Exception as e:
+            print(f"[ERROR] Failed to launch portal: {e}")
+            return 1
+
+    else:
+        print(f"[ERROR] Unknown portal: {args.portal_action}")
+        print("Available portals:")
+        for portal_name in list_portals():
+            print(f"  - {portal_name}")
+        return 1
+
+
 def main():
     """Main CLI entry point."""
     parser = argparse.ArgumentParser(
@@ -329,7 +369,7 @@ def main():
         description='TidyLLM - The Great Walled City of Enterprise AI',
         add_help=False  # We'll handle help ourselves
     )
-    
+
     # If no arguments provided, show help
     if len(sys.argv) == 1:
         show_main_help()
@@ -372,7 +412,53 @@ def main():
         launch_qa_processor()
     elif command == 'demo':
         launch_demo()
+    elif command == 'portal':
+        # Handle portal commands
+        if len(sys.argv) < 3:
+            print("Available portal commands:")
+            print("  tidyllm portal list              # List available portals")
+            print("  tidyllm portal boss              # Launch Boss Portal")
+            print("  tidyllm portal onboarding        # Launch Onboarding Portal")
+            return
+
+        # Create a sub-parser for portal commands
+        portal_parser = argparse.ArgumentParser(prog='tidyllm portal')
+        portal_parser.add_argument('portal_action', choices=['list', 'boss', 'onboarding'])
+        portal_parser.add_argument('--port', type=int, help='Port to run on')
+        portal_parser.add_argument('--host', default='localhost', help='Host to bind to')
+
+        try:
+            # Parse just the portal arguments
+            portal_args = portal_parser.parse_args(sys.argv[2:])
+            return handle_portal(portal_args)
+        except SystemExit:
+            return 1
+
     elif command == 'workflow':
+        # Handle workflow commands
+        if len(sys.argv) < 3:
+            print("Available workflow commands:")
+            print("  tidyllm workflow list              # List all workflows")
+            print("  tidyllm workflow info <id>         # Show workflow details")
+            print("  tidyllm workflow create            # Create new workflow")
+            print("  tidyllm workflow generate-readme   # Generate workflow READMEs")
+            return
+
+        # Import workflow functionality
+        try:
+            from .workflows.cli import WorkflowCLI
+            workflow_cli = WorkflowCLI()
+
+            # Remove 'tidyllm workflow' from args and pass to workflow CLI
+            workflow_args = sys.argv[2:]
+            return workflow_cli.main(workflow_args)
+
+        except ImportError as e:
+            print(f"[ERROR] Workflow functionality not available: {e}")
+            print("Ensure tidyllm.workflows package is properly installed")
+            return 1
+
+    elif command == 'workflow' and False:  # Original workflow placeholder
         print("[INFO] Workflow management commands coming soon!")
         print("For now, use: python -m tidyllm.workflows")
     elif command == 'debug':

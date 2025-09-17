@@ -1,3 +1,0 @@
-Machine Learning Best Practices
-
-Research on effective ML implementation...

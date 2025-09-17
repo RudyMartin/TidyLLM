@@ -162,7 +162,7 @@ class ConfigManager:
         """Load configuration from file"""
         try:
             if os.path.exists(self.config_path):
-                with open(self.config_path, 'r') as f:
+                with open(self.config_path, 'r', encoding='utf-8') as f:
                     data = yaml.safe_load(f)
                 self._config = self._dict_to_config(data)
                 logger.info(f"Loaded configuration from {self.config_path}")

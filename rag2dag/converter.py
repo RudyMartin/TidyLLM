@@ -1,6 +1,42 @@
 """
 RAG2DAG Converter - Transform RAG patterns into optimized DAG workflows
 ======================================================================
+
+CORE IMPLEMENTATION - Pattern Recognition & DAG Generation Engine
+
+This module contains the foundational algorithms for:
+- Defining and recognizing 7 distinct RAG optimization patterns
+- Converting linear RAG workflows into parallel DAG execution plans
+- Pattern matching with intelligent optimization recommendations
+
+ARCHITECTURE POSITION:
+---------------------
+CORE LAYER (this file) -> SERVICE LAYER (tidyllm/services/rag2dag/)
+
+The service layer imports and orchestrates this core converter:
+```python
+from ...rag2dag.converter import RAG2DAGConverter, RAGPatternType
+converter = RAG2DAGConverter(config)
+```
+
+PATTERN DEFINITIONS:
+-------------------
+1. MULTI_SOURCE - Parallel retrieval from multiple sources (3.5x speedup)
+2. RESEARCH_SYNTHESIS - Extract & synthesize findings (2.8x speedup)
+3. COMPARATIVE_ANALYSIS - Compare across documents (3.2x speedup)
+4. FACT_CHECKING - Validate claims against sources (2.5x speedup)
+5. KNOWLEDGE_EXTRACTION - Extract structured info (2.2x speedup)
+6. DOCUMENT_PIPELINE - Sequential processing (1.8x speedup)
+7. SIMPLE_QA - Basic Q&A (1.0x - no optimization)
+
+PRESERVATION NOTICE:
+-------------------
+⚠️ CRITICAL DEPENDENCY - Required by service layer and enterprise integrations.
+Do not modify pattern definitions without updating service layer accordingly.
+
+Version: 2.0.0 (Core Implementation)
+Service Layer: tidyllm/services/rag2dag/ v2.0.0
+Last Updated: 2025-09-15
 """
 
 import json

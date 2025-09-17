@@ -99,7 +99,7 @@ class CredentialLoader:
             if verbose:
                 print(f"  [YAML] Reading: {self.settings_file}")
             
-            with open(self.settings_file, 'r') as f:
+            with open(self.settings_file, 'r', encoding='utf-8') as f:
                 settings = yaml.safe_load(f)
             
             # Navigate YAML structure
@@ -163,7 +163,7 @@ class CredentialLoader:
             
             credentials = {}
             
-            with open(self.credential_script, 'r') as f:
+            with open(self.credential_script, 'r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     
@@ -274,7 +274,7 @@ class CredentialLoader:
             if not self.settings_file.exists():
                 return self._get_default_s3_config()
             
-            with open(self.settings_file, 'r') as f:
+            with open(self.settings_file, 'r', encoding='utf-8') as f:
                 settings = yaml.safe_load(f)
             
             s3_config = settings.get('s3', {})

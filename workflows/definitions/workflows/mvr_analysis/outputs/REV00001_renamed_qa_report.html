@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>QA Gap Analysis - REV00001_renamed — LLM Judge Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root {
+      --fg: #111; --muted:#555; --line:#ddd; --ok:#0a7; --warn:#d78b00; --fail:#c0392b;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: Inter, Arial, sans-serif; color: var(--fg); margin: 32px; }
+    header { border-bottom: 2px solid var(--line); padding-bottom: 12px; margin-bottom: 18px; }
+    h1 { font-size: 22px; margin: 0 0 6px 0; }
+    .meta { font-size: 12px; color: var(--muted); }
+    .badge { display:inline-block; padding:2px 8px; border-radius:12px; font-size:12px; vertical-align:middle; }
+    .pass { background:#e7f8f1; color:#0a7; }
+    .warning { background:#fff4e0; color:#9a6b00; }
+    .fail { background:#fdecea; color:#b03a2e; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    section { margin: 18px 0; }
+    table { width:100%; border-collapse: collapse; margin-top:6px; }
+    th, td { border:1px solid var(--line); padding:8px; font-size: 13px; }
+    th { background:#f7f7f7; text-align:left; }
+    .small { font-size: 12px; color: var(--muted); }
+    .finding h4 { margin: 0 0 4px 0; }
+    .sev-high { border-left: 4px solid var(--fail); padding-left: 10px; }
+    .sev-medium { border-left: 4px solid var(--warn); padding-left: 10px; }
+    .sev-low { border-left: 4px solid #6495ed; padding-left: 10px; }
+    .sev-note { border-left: 4px solid #bbb; padding-left: 10px; }
+    footer { border-top: 1px solid var(--line); margin-top: 24px; padding-top: 8px; font-size: 11px; color: var(--muted); }
+    .chart { width: 100%; text-align: center; margin: 10px 0; }
+    img.chart { max-width: 100%; height: auto; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>LLM Judge Report — QA Gap Analysis - REV00001_renamed</h1>
+    <div class="meta">
+      Model ID: <strong>REV00001_renamed</strong> &nbsp;|&nbsp;
+      Judge: <strong>MVR-QA-v1.0</strong> &nbsp;|&nbsp;
+      Timestamp: <strong>2025-09-12T14:24:00.946305Z</strong>
+    </div>
+  </header>
+
+  <section class="grid">
+    <div>
+      <h2>Overall</h2>
+      <p>
+        <strong>Weighted Score:</strong> 27.5 / 100
+        &nbsp;&nbsp;
+        <span class="badge fail">FAIL</span>
+      </p>
+      
+      
+      <h3>Top Remediations (Next 30 Days)</h3>
+      <ol>
+        
+        <li>Finalize A: Planning & Scoping - resolve TODO items and obtain reviewer sign-off</li>
+        
+        <li>Finalize B: Stakeholders & Governance Setup - resolve TODO items and obtain reviewer sign-off</li>
+        
+        <li>Finalize C: Regulatory & Policy Alignment - resolve TODO items and obtain reviewer sign-off</li>
+        
+      </ol>
+      
+    </div>
+
+    <div>
+      <h2>Score by Criterion</h2>
+      <table>
+        <thead>
+          <tr><th>Criterion</th><th>Score (0–5)</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Compliance</td><td>5</td></tr>
+          <tr><td>Coverage</td><td>11</td></tr>
+          <tr><td>Clarity</td><td>3</td></tr>
+          <tr><td>Challenge</td><td>2</td></tr>
+        </tbody>
+      </table>
+      <div class="chart">
+        <!-- Optional: embed a radar/bar chart as base64 image -->
+        
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Justifications & Evidence</h2>
+    <table>
+      <thead>
+        <tr><th>Criterion</th><th>Justification</th><th>Evidence Refs</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Compliance</td>
+          <td>Model validation shows 0 missing required sections and 9 incomplete sections, indicating gaps in regulatory compliance.</td>
+          <td>
+            <ul>
+              
+              <li>Missing: 0 sections</li>
+              
+              <li>Incomplete: 9 sections</li>
+              
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Coverage</td>
+          <td>Validation covers 222.2% of required sections based on model characteristics. Coverage analysis shows systematic gaps in validation scope.</td>
+          <td>
+            <ul>
+              
+              <li>Coverage rate: 222.2%</li>
+              
+              <li>Expected sections: 9</li>
+              
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Clarity</td>
+          <td>Review structure follows standard format. Some sections lack sufficient detail or contain TODO items affecting clarity.</td>
+          <td>
+            <ul>
+              
+              <li>Incomplete sections: 9</li>
+              
+            </ul>
+          </td>
+        </tr>
+        <tr>
+          <td>Challenge</td>
+          <td>Limited evidence of independent challenge and validation. Missing sections suggest insufficient depth in validation approach.</td>
+          <td>
+            <ul>
+              
+              <li>Missing validation sections: 0</li>
+              
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Findings</h2>
+    
+    <div class="finding sev-medium">
+      <h4>[MEDIUM] Incomplete Validation in 9 Sections</h4>
+      <p>Found 9 sections with incomplete validation work. Sections contain TODO items, lack sufficient detail, or are missing reviewer signatures.</p>
+      <p class="small"><strong>Evidence:</strong>
+        
+          <code>Section A</code>, 
+        
+          <code>Section B</code>, 
+        
+          <code>Section C</code>
+        
+      </p>
+      <p><strong>Remediation:</strong> Review flagged sections for completeness. Ensure all TODO items are resolved and proper reviewer sign-off is obtained.</p>
+    </div>
+    
+  </section>
+
+  <footer>
+    Generated by LLM-as-Judge (MVR-QA-v1.0). This report summarizes rubric-based evaluation and cited evidence.
+  </footer>
+</body>
+</html>
