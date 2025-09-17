@@ -738,7 +738,11 @@ class FlowCreatorV3Portal:
                             # Copy workflow as template for new workflow
                             result = self._copy_workflow_as_template(workflow)
                             if result['success']:
-                                st.success(f"OK: Workflow copied as '{result['new_name']}'")
+                                success_msg = f"OK: Workflow copied as '{result['new_name']}'"
+                                success_msg += f" (saved to {result.get('destination', 'templates directory')})"
+                                if result.get('target_status'):
+                                    success_msg += f" with status '{result['target_status']}'"
+                                st.success(success_msg)
                                 st.info("+ Navigate to 'Create Flow' tab to customize the copied workflow")
                                 st.rerun()
                             else:
@@ -749,7 +753,10 @@ class FlowCreatorV3Portal:
                             # Update workflow with new version and timestamp
                             result = self._update_workflow(workflow)
                             if result['success']:
-                                success_msg = f"OK: Workflow updated to version {result['new_version']}"
+                                success_msg = f"OK: {result.get('workflow_type', 'Workflow')} updated"
+                                success_msg += f" from v{result.get('previous_version', '1.0')} → v{result['new_version']}"
+                                if result.get('new_status'):
+                                    success_msg += f" (status: {result['new_status']})"
                                 if result.get('created_new_file'):
                                     success_msg += " (new file created)"
                                 elif result.get('files_updated', 0) > 1:
@@ -1774,36 +1781,66 @@ class FlowCreatorV3Portal:
 
             original_id = workflow.get('workflow_id', 'unknown')
             original_name = workflow.get('workflow_name', 'Unknown Workflow')
+            workflow_type = workflow.get('workflow_type', workflow.get('template', {}).get('workflow_type', 'unknown'))
 
-            # Generate new workflow details
+            # Generate new workflow details based on type
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            new_id = f"copy_{original_id}_{timestamp}"
-            new_name = f"Copy of {original_name}"
 
-            # Create new workflow structure
+            # Create type-specific copy naming
+            if workflow_type in ['template', 'registry']:
+                new_id = f"custom_{original_id}_{timestamp}"
+                new_name = f"Custom {original_name}"
+                target_status = 'custom_template'
+            elif workflow_type == 'analysis':
+                new_id = f"analysis_copy_{timestamp}"
+                new_name = f"My {original_name}"
+                target_status = 'draft'
+            else:
+                new_id = f"copy_{original_id}_{timestamp}"
+                new_name = f"Copy of {original_name}"
+                target_status = 'template'
+
+            # Create new workflow structure with enhanced metadata
             new_workflow = workflow.copy()
             new_workflow.update({
                 'workflow_id': new_id,
                 'workflow_name': new_name,
                 'created_at': datetime.now().isoformat() + 'Z',
-                'status': 'template',
+                'status': target_status,
                 'description': f"Copy of {original_name} - {workflow.get('description', '')}",
                 'copied_from': original_id,
-                'copy_timestamp': datetime.now().isoformat() + 'Z'
+                'copy_timestamp': datetime.now().isoformat() + 'Z',
+                'copy_metadata': {
+                    'original_type': workflow_type,
+                    'copy_method': 'portal_copy_button',
+                    'user_initiated': True
+                }
             })
 
-            # Save to templates directory
-            templates_dir = Path("tidyllm/workflows/definitions/workflows/templates")
-            templates_dir.mkdir(parents=True, exist_ok=True)
+            # Determine save location based on workflow type
+            if workflow_type in ['template', 'registry']:
+                # Save to templates directory for easy discovery
+                save_dir = Path("tidyllm/workflows/definitions/workflows/templates")
+                save_dir.mkdir(parents=True, exist_ok=True)
+                copy_file = save_dir / f"{new_id}_flow.json"
+                destination = "templates directory"
+            else:
+                # Save to a custom copies directory
+                save_dir = Path("tidyllm/workflows/definitions/workflows/custom_copies")
+                save_dir.mkdir(parents=True, exist_ok=True)
+                copy_file = save_dir / f"{new_id}_flow.json"
+                destination = "custom copies directory"
 
-            copy_file = templates_dir / f"{new_id}_flow.json"
             save_json(new_workflow, copy_file)
 
             return {
                 'success': True,
                 'new_id': new_id,
                 'new_name': new_name,
-                'file_path': str(copy_file)
+                'file_path': str(copy_file),
+                'destination': destination,
+                'workflow_type': workflow_type,
+                'target_status': target_status
             }
 
         except Exception as e:
@@ -1818,6 +1855,7 @@ class FlowCreatorV3Portal:
             from datetime import datetime
 
             workflow_id = workflow.get('workflow_id', 'unknown')
+            workflow_type = workflow.get('workflow_type', workflow.get('template', {}).get('workflow_type', 'unknown'))
 
             # Update workflow metadata
             current_version = workflow.get('version', '1.0')
@@ -1828,10 +1866,26 @@ class FlowCreatorV3Portal:
             except:
                 new_version = "1.1"
 
+            # Determine appropriate status based on workflow type
+            if workflow_type == 'template':
+                new_status = 'updated_template'
+            elif workflow_type == 'analysis':
+                new_status = 'updated_analysis'
+            elif workflow_type == 'registry':
+                new_status = 'updated_registry'
+            else:
+                new_status = 'updated'
+
             workflow.update({
                 'version': new_version,
                 'last_updated': datetime.now().isoformat() + 'Z',
-                'status': 'updated'
+                'status': new_status,
+                'update_metadata': {
+                    'update_method': 'portal_update_button',
+                    'previous_version': current_version,
+                    'workflow_type': workflow_type,
+                    'update_timestamp': datetime.now().isoformat() + 'Z'
+                }
             })
 
             # Find and update the original workflow file
@@ -1860,7 +1914,10 @@ class FlowCreatorV3Portal:
                     'success': True,
                     'new_version': new_version,
                     'file_path': str(workflow_file),
-                    'files_updated': len(workflow_files)
+                    'files_updated': len(workflow_files),
+                    'workflow_type': workflow_type,
+                    'new_status': new_status,
+                    'previous_version': current_version
                 }
             else:
                 # If still no files found, create a new workflow file in the workflow directory
@@ -1874,7 +1931,10 @@ class FlowCreatorV3Portal:
                     'success': True,
                     'new_version': new_version,
                     'file_path': str(new_workflow_file),
-                    'created_new_file': True
+                    'created_new_file': True,
+                    'workflow_type': workflow_type,
+                    'new_status': new_status,
+                    'previous_version': current_version
                 }
 
         except Exception as e:
