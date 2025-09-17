@@ -117,7 +117,7 @@ class WorkflowRAGKnowledgeBase:
                                 "language": {"enum": ["en", "es", "fr"], "default": "en"},
                                 "pages_max": {"range": [1, 100], "default": 20},
                                 "quality_threshold": {"range": [0.0, 1.0], "default": 0.85},
-                                "review_id": {"pattern": "REV[0-9]{8}_[0-9]{6}", "required": true}
+                                "review_id": {"pattern": "REV[0-9]{8}_[0-9]{6}", "required": True}
                             },
                             "benefits": "Prevents invalid configurations and ensures consistent processing"
                         },

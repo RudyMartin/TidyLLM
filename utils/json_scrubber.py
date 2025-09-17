@@ -250,7 +250,22 @@ class JSONScrubber:
             fixed_text = re.sub(excessive_whitespace_pattern, '\n\n', fixed_text)
             fixes_applied.append('Normalized excessive whitespace')
 
-        # Fix 5: Remove control characters that are invalid in JSON
+        # Fix 5: Convert JSON boolean literals to Python boolean literals (for mixed JSON/Python files)
+        # This prevents "name 'true' is not defined" errors when JSON booleans are used in Python context
+        boolean_fixes = 0
+        if ': true' in fixed_text:
+            count = fixed_text.count(': true')
+            fixed_text = fixed_text.replace(': true', ': True')
+            boolean_fixes += count
+            fixes_applied.append(f'Converted {count} JSON "true" to Python "True"')
+
+        if ': false' in fixed_text:
+            count = fixed_text.count(': false')
+            fixed_text = fixed_text.replace(': false', ': False')
+            boolean_fixes += count
+            fixes_applied.append(f'Converted {count} JSON "false" to Python "False"')
+
+        # Fix 6: Remove control characters that are invalid in JSON
         control_chars = re.findall(r'[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]', fixed_text)
         if control_chars:
             for char in set(control_chars):

@@ -19,6 +19,9 @@ from datetime import datetime
 from typing import Dict, List, Any, Optional
 import traceback
 
+# Import clean JSON I/O utilities
+from tidyllm.utils.clean_json_io import load_json, save_json
+
 # Import TidyLLM components
 try:
     from tidyllm.services.unified_rag_manager import UnifiedRAGManager, RAGSystemType
@@ -33,8 +36,19 @@ class WorkflowRegistry:
     """Manages the comprehensive workflow registry with 17+ workflow definitions."""
 
     def __init__(self):
-        self.workflows_base_path = Path("tidyllm/workflows/definitions/workflows")
-        self.workflow_registry_path = Path("tidyllm/workflows/workflow_registry")
+        # Find the base path by looking for AI-Shipping directory
+        current = Path.cwd()
+        if "AI-Shipping" in str(current):
+            # Navigate to AI-Shipping root
+            while current.name != "AI-Shipping" and current.parent != current:
+                current = current.parent
+            base_path = current
+        else:
+            # Fallback to current directory
+            base_path = Path.cwd()
+
+        self.workflows_base_path = base_path / "tidyllm" / "workflows" / "definitions" / "workflows"
+        self.workflow_registry_path = base_path / "tidyllm" / "workflows" / "workflow_registry"
         self.workflows = self._load_workflow_registry()
 
     def _load_workflow_registry(self) -> Dict[str, Any]:
@@ -42,21 +56,31 @@ class WorkflowRegistry:
         try:
             workflows = {}
 
+            # Debug: Print the path being checked
+            print(f"DEBUG: Looking for workflows in: {self.workflows_base_path}")
+            print(f"DEBUG: Path exists: {self.workflows_base_path.exists()}")
+
             # Scan workflow project directories
             if self.workflows_base_path.exists():
                 for project_dir in self.workflows_base_path.iterdir():
                     if project_dir.is_dir() and project_dir.name != "__pycache__":
+                        print(f"DEBUG: Found project directory: {project_dir.name}")
                         workflow_data = self._load_project_workflow(project_dir)
                         if workflow_data:
                             workflows[project_dir.name] = workflow_data
+                            print(f"DEBUG: Loaded workflow: {project_dir.name}")
 
             # If no workflows found, use defaults
             if not workflows:
+                print("DEBUG: No workflows found, using defaults")
                 workflows = self._create_default_registry()
+            else:
+                print(f"DEBUG: Loaded {len(workflows)} workflows total")
 
             return workflows
 
         except Exception as e:
+            print(f"DEBUG ERROR: {e}")
             st.warning(f"WARNING: Could not load workflow registry: {e}")
             return self._create_default_registry()
 
@@ -79,12 +103,17 @@ class WorkflowRegistry:
                 "flow_encoding": f"@{project_dir.name}#process!analyze@output"
             }
 
-            # Load criteria if available
+            # Load workflow definition file (either *_flow.json or *_criteria.json)
+            flow_file = project_dir / f"{project_dir.name}_flow.json"
             criteria_file = project_dir / f"{project_dir.name}_criteria.json"
-            if criteria_file.exists():
-                with open(criteria_file, 'r', encoding='utf-8') as f:
-                    criteria_data = json.load(f)
-                    workflow_data["criteria"] = criteria_data
+
+            if flow_file.exists():
+                flow_data = load_json(flow_file)
+                workflow_data.update(flow_data)
+                workflow_data["has_flow_definition"] = True
+            elif criteria_file.exists():
+                criteria_data = load_json(criteria_file)
+                workflow_data["criteria"] = criteria_data
 
             return workflow_data
 
@@ -235,9 +264,44 @@ class WorkflowManager:
         """Deploy workflow with RAG system integration."""
         return self.flow_manager.deploy_workflow(workflow_id)
 
+    def _format_date(self, iso_date: str) -> str:
+        """Format ISO date to readable format."""
+        if not iso_date:
+            return 'Unknown'
+        try:
+            from datetime import datetime
+            # Parse ISO format
+            dt = datetime.fromisoformat(iso_date.replace('Z', '+00:00'))
+            # Format as readable date
+            return dt.strftime('%Y-%m-%d %H:%M')
+        except Exception:
+            return iso_date
+
     def get_active_workflows(self) -> List[Dict[str, Any]]:
         """Get list of active workflows."""
-        return self.flow_manager.get_all_workflows()
+        # Get workflows from our registry instead of flow_manager
+        workflows = self.registry.workflows
+        active_workflows = []
+
+        for workflow_id, workflow_data in workflows.items():
+            if workflow_data.get('status', 'active') != 'disabled':
+                # Convert to expected format
+                workflow_info = {
+                    'workflow_id': workflow_id,  # Changed from 'id' to 'workflow_id'
+                    'workflow_name': workflow_data.get('workflow_name', workflow_id),
+                    'name': workflow_data.get('workflow_name', workflow_id),
+                    'type': workflow_data.get('workflow_type', 'unknown'),
+                    'status': workflow_data.get('status', 'active'),
+                    'description': workflow_data.get('description', ''),
+                    'has_flow_definition': workflow_data.get('has_flow_definition', False),
+                    'created_at': self._format_date(workflow_data.get('created_at', '')),
+                    'version': workflow_data.get('version', '1.0'),
+                    'config': workflow_data,  # Add the full config data
+                    'template': workflow_data  # For backward compatibility
+                }
+                active_workflows.append(workflow_info)
+
+        return active_workflows
 
     def get_workflow_health(self) -> Dict[str, Any]:
         """Get workflow system health status."""
@@ -632,13 +696,19 @@ class FlowCreatorV3Portal:
         st.markdown(f"**Found {len(filtered_workflows)} workflows**")
 
         for workflow in filtered_workflows:
-            with st.expander(f"+ {workflow.get('config', {}).get('name', workflow['workflow_id'])}", expanded=False):
+            with st.expander(f"+ {workflow.get('name', workflow.get('workflow_id', 'Unknown'))}", expanded=False):
                 col1, col2 = st.columns([2, 1])
 
                 with col1:
                     st.markdown(f"**ID:** `{workflow['workflow_id']}`")
                     st.markdown(f"**Status:** {workflow.get('status', 'unknown')}")
                     st.markdown(f"**Created:** {workflow.get('created_at', 'unknown')}")
+
+                    # Show Type and Description prominently
+                    workflow_type = workflow.get('workflow_type', workflow.get('template', {}).get('workflow_type', 'unknown'))
+                    workflow_description = workflow.get('description', workflow.get('template', {}).get('description', 'No description'))
+                    st.markdown(f"**Type:** `{workflow_type}` - {workflow_description}")
+
                     st.markdown(f"**Template:** {workflow.get('template', {}).get('workflow_name', 'unknown')}")
                     st.markdown(f"**Domain:** {workflow.get('config', {}).get('domain', 'general')}")
 
@@ -661,8 +731,37 @@ class FlowCreatorV3Portal:
                     if st.button(f"^ Monitor", key=f"monitor_{workflow['workflow_id']}"):
                         st.info("+ Monitoring functionality coming soon...")
 
-                    if st.button(f"🗑️ Delete", key=f"delete_{workflow['workflow_id']}"):
-                        st.warning("WARNING: Delete confirmation needed")
+                    col_actions = st.columns(3)
+
+                    with col_actions[0]:
+                        if st.button(f"📋 Copy", key=f"copy_{workflow['workflow_id']}"):
+                            # Copy workflow as template for new workflow
+                            result = self._copy_workflow_as_template(workflow)
+                            if result['success']:
+                                st.success(f"OK: Workflow copied as '{result['new_name']}'")
+                                st.info("+ Navigate to 'Create Flow' tab to customize the copied workflow")
+                                st.rerun()
+                            else:
+                                st.error(f"ERROR: Copy failed: {result.get('error')}")
+
+                    with col_actions[1]:
+                        if st.button(f"🔄 Update", key=f"update_{workflow['workflow_id']}"):
+                            # Update workflow with new version and timestamp
+                            result = self._update_workflow(workflow)
+                            if result['success']:
+                                success_msg = f"OK: Workflow updated to version {result['new_version']}"
+                                if result.get('created_new_file'):
+                                    success_msg += " (new file created)"
+                                elif result.get('files_updated', 0) > 1:
+                                    success_msg += f" ({result['files_updated']} files updated)"
+                                st.success(success_msg)
+                                st.rerun()
+                            else:
+                                st.error(f"ERROR: Update failed: {result.get('error')}")
+
+                    with col_actions[2]:
+                        if st.button(f"🗑️ Delete", key=f"delete_{workflow['workflow_id']}"):
+                            st.warning("WARNING: Delete confirmation needed")
 
                 # RAG deployment status
                 if workflow.get("rag_deployment"):
@@ -874,7 +973,7 @@ class FlowCreatorV3Portal:
                 "error": "RED:"
             }.get(workflow.get("status"), "WHITE:")
 
-            with st.expander(f"{status_color} {workflow.get('config', {}).get('name', workflow['workflow_id'])}"):
+            with st.expander(f"{status_color} {workflow.get('name', workflow.get('workflow_id', 'Unknown'))}"):
 
                 # Basic info
                 col1, col2 = st.columns(2)
@@ -882,6 +981,12 @@ class FlowCreatorV3Portal:
                 with col1:
                     st.markdown(f"**Status:** {workflow.get('status', 'unknown')}")
                     st.markdown(f"**Created:** {workflow.get('created_at', 'unknown')}")
+
+                    # Show Type and Description prominently
+                    workflow_type = workflow.get('workflow_type', workflow.get('template', {}).get('workflow_type', 'unknown'))
+                    workflow_description = workflow.get('description', workflow.get('template', {}).get('description', 'No description'))
+                    st.markdown(f"**Type:** `{workflow_type}` - {workflow_description}")
+
                     st.markdown(f"**Template:** {workflow.get('template', {}).get('workflow_name', 'unknown')}")
 
                 with col2:
@@ -1173,8 +1278,7 @@ class FlowCreatorV3Portal:
                 for i, result_file in enumerate(result_files[:5]):  # Show last 5
                     with st.expander(f"{result_file.name} ({datetime.fromtimestamp(result_file.stat().st_mtime).strftime('%Y-%m-%d %H:%M')})", expanded=False):
                         try:
-                            with open(result_file, 'r', encoding='utf-8') as f:
-                                result_data = json.load(f)
+                            result_data = load_json(result_file)
 
                             # Show summary
                             summary = result_data.get('summary', {})
@@ -1206,7 +1310,16 @@ class FlowCreatorV3Portal:
         # Import the workflow advisor
         try:
             import sys
-            sys.path.append(str(Path("tidyllm/workflows/ai_advisor")))
+            # Find the AI-Shipping root directory
+            current = Path.cwd()
+            if "AI-Shipping" in str(current):
+                while current.name != "AI-Shipping" and current.parent != current:
+                    current = current.parent
+                advisor_path = current / "tidyllm" / "workflows" / "ai_advisor"
+            else:
+                advisor_path = Path("tidyllm/workflows/ai_advisor")
+
+            sys.path.append(str(advisor_path))
             from workflow_advisor import workflow_advisor
             advisor_available = True
         except ImportError as e:
@@ -1388,6 +1501,18 @@ class FlowCreatorV3Portal:
 
             # Get AI response
             try:
+                # Import should already be available from _render_ai_advisor_tab
+                import sys
+                current = Path.cwd()
+                if "AI-Shipping" in str(current):
+                    while current.name != "AI-Shipping" and current.parent != current:
+                        current = current.parent
+                    advisor_path = current / "tidyllm" / "workflows" / "ai_advisor"
+                else:
+                    advisor_path = Path("tidyllm/workflows/ai_advisor")
+
+                if str(advisor_path) not in sys.path:
+                    sys.path.append(str(advisor_path))
                 from workflow_advisor import workflow_advisor
 
                 with st.spinner("AI is analyzing your workflow..."):
@@ -1440,14 +1565,12 @@ class FlowCreatorV3Portal:
             criteria_file = Path(f"tidyllm/workflows/definitions/workflows/{workflow_name}/criteria/criteria.json")
 
             if criteria_file.exists():
-                with open(criteria_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
+                return load_json(criteria_file)
             else:
                 # Try the templates directory as fallback
                 criteria_file = Path("tidyllm/workflows/definitions/workflows/templates/criteria/criteria.json")
                 if criteria_file.exists():
-                    with open(criteria_file, 'r', encoding='utf-8') as f:
-                        return json.load(f)
+                    return load_json(criteria_file)
         except Exception:
             pass
 
@@ -1493,8 +1616,7 @@ class FlowCreatorV3Portal:
                     # Get most recent file
                     latest_file = max(result_files, key=lambda x: x.stat().st_mtime)
 
-                    with open(latest_file, 'r', encoding='utf-8') as f:
-                        return json.load(f)
+                    return load_json(latest_file)
         except Exception:
             pass
 
@@ -1642,6 +1764,124 @@ class FlowCreatorV3Portal:
         - Alert history
         - System reliability metrics
         """)
+
+    def _copy_workflow_as_template(self, workflow: Dict[str, Any]) -> Dict[str, Any]:
+        """Copy an existing workflow as a new template."""
+        try:
+            import uuid
+            from datetime import datetime
+            import shutil
+
+            original_id = workflow.get('workflow_id', 'unknown')
+            original_name = workflow.get('workflow_name', 'Unknown Workflow')
+
+            # Generate new workflow details
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            new_id = f"copy_{original_id}_{timestamp}"
+            new_name = f"Copy of {original_name}"
+
+            # Create new workflow structure
+            new_workflow = workflow.copy()
+            new_workflow.update({
+                'workflow_id': new_id,
+                'workflow_name': new_name,
+                'created_at': datetime.now().isoformat() + 'Z',
+                'status': 'template',
+                'description': f"Copy of {original_name} - {workflow.get('description', '')}",
+                'copied_from': original_id,
+                'copy_timestamp': datetime.now().isoformat() + 'Z'
+            })
+
+            # Save to templates directory
+            templates_dir = Path("tidyllm/workflows/definitions/workflows/templates")
+            templates_dir.mkdir(parents=True, exist_ok=True)
+
+            copy_file = templates_dir / f"{new_id}_flow.json"
+            save_json(new_workflow, copy_file)
+
+            return {
+                'success': True,
+                'new_id': new_id,
+                'new_name': new_name,
+                'file_path': str(copy_file)
+            }
+
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
+
+    def _update_workflow(self, workflow: Dict[str, Any]) -> Dict[str, Any]:
+        """Update workflow with current timestamp and version increment."""
+        try:
+            from datetime import datetime
+
+            workflow_id = workflow.get('workflow_id', 'unknown')
+
+            # Update workflow metadata
+            current_version = workflow.get('version', '1.0')
+            try:
+                version_parts = current_version.split('.')
+                minor_version = int(version_parts[1]) + 1
+                new_version = f"{version_parts[0]}.{minor_version}"
+            except:
+                new_version = "1.1"
+
+            workflow.update({
+                'version': new_version,
+                'last_updated': datetime.now().isoformat() + 'Z',
+                'status': 'updated'
+            })
+
+            # Find and update the original workflow file
+            # First try exact match for workflow_id
+            workflow_files = list(Path("tidyllm/workflows/definitions/workflows").rglob(f"*{workflow_id}*.json"))
+
+            # If not found, try looking for flow files in the specific directory
+            if not workflow_files and workflow_id:
+                workflow_dir = Path(f"tidyllm/workflows/definitions/workflows/{workflow_id}")
+                if workflow_dir.exists():
+                    # Look for flow files in the workflow directory
+                    flow_files = list(workflow_dir.glob("*_flow.json"))
+                    if flow_files:
+                        workflow_files = flow_files
+                    else:
+                        # Try to find any JSON file that might be the workflow definition
+                        json_files = list(workflow_dir.glob("*.json"))
+                        workflow_files = [f for f in json_files if 'flow' in f.name.lower()]
+
+            if workflow_files:
+                # Update the first matching file
+                workflow_file = workflow_files[0]
+                save_json(workflow, workflow_file)
+
+                return {
+                    'success': True,
+                    'new_version': new_version,
+                    'file_path': str(workflow_file),
+                    'files_updated': len(workflow_files)
+                }
+            else:
+                # If still no files found, create a new workflow file in the workflow directory
+                workflow_dir = Path(f"tidyllm/workflows/definitions/workflows/{workflow_id}")
+                workflow_dir.mkdir(parents=True, exist_ok=True)
+
+                new_workflow_file = workflow_dir / f"{workflow_id}_flow.json"
+                save_json(workflow, new_workflow_file)
+
+                return {
+                    'success': True,
+                    'new_version': new_version,
+                    'file_path': str(new_workflow_file),
+                    'created_new_file': True
+                }
+
+        except Exception as e:
+            return {
+                'success': False,
+                'error': str(e)
+            }
 
 
 def main():
