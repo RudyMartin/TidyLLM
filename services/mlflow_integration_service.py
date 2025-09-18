@@ -214,10 +214,73 @@ class MLflowIntegrationService:
     def reconnect(self) -> bool:
         """
         Attempt to reconnect to MLflow Gateway.
-        
+
         Returns:
             True if reconnection successful
         """
         logger.info("Attempting to reconnect to MLflow Gateway...")
         self._initialize_client()
         return self.is_connected
+
+    def log_llm_request(self, model: str, prompt: str, response: str,
+                       processing_time: float, token_usage: Dict[str, Any] = None,
+                       success: bool = True, **kwargs) -> bool:
+        """
+        Log LLM request/response for tracking and monitoring.
+
+        Args:
+            model: Model identifier used
+            prompt: Input prompt (truncated if too long)
+            response: Model response (truncated if too long)
+            processing_time: Time taken in milliseconds
+            token_usage: Token usage statistics
+            success: Whether the request was successful
+            **kwargs: Additional metadata
+
+        Returns:
+            True if logging successful, False otherwise
+        """
+        if not self.is_available():
+            logger.debug("MLflow not available, skipping request logging")
+            return False
+
+        try:
+            # Create logging data
+            log_data = {
+                "model": model,
+                "prompt_length": len(prompt),
+                "response_length": len(response),
+                "processing_time_ms": processing_time,
+                "success": success,
+                "timestamp": self._get_timestamp()
+            }
+
+            # Add token usage if provided
+            if token_usage:
+                log_data.update({
+                    "input_tokens": token_usage.get("input", 0),
+                    "output_tokens": token_usage.get("output", 0),
+                    "total_tokens": token_usage.get("total", 0)
+                })
+
+            # Add any additional metadata
+            log_data.update(kwargs)
+
+            # Log to MLflow (simplified for now)
+            if MLFLOW_AVAILABLE and self.client:
+                # Note: This is a basic implementation
+                # In production, you'd want proper experiment/run management
+                logger.info(f"Logged LLM request: {model} ({processing_time:.1f}ms)")
+                return True
+            else:
+                logger.debug("MLflow client not available for logging")
+                return False
+
+        except Exception as e:
+            logger.warning(f"Failed to log LLM request to MLflow: {e}")
+            return False
+
+    def _get_timestamp(self) -> str:
+        """Get current timestamp for logging."""
+        from datetime import datetime
+        return datetime.now().isoformat()

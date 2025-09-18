@@ -352,10 +352,12 @@ class WorkflowRAGKnowledgeBase:
 
         # Search workflow patterns
         for pattern in self.knowledge_base["workflow_patterns"]:
+            # Get use_cases safely - some patterns may not have this key
+            use_cases = pattern.get("use_cases", [])
             if any(keyword in query_lower for keyword in [
                 pattern["pattern"].lower(),
                 pattern["description"].lower()
-            ] + [use_case.lower() for use_case in pattern["use_cases"]]):
+            ] + [use_case.lower() for use_case in use_cases]):
                 relevant_docs.append({
                     "type": "workflow_pattern",
                     "content": pattern,
@@ -392,10 +394,12 @@ class WorkflowRAGKnowledgeBase:
 
         # Search optimization patterns
         for pattern in self.knowledge_base["optimization_patterns"]:
+            # Get use_cases safely - some patterns may not have this key
+            use_cases = pattern.get("use_cases", [])
             if any(keyword in query_lower for keyword in [
                 pattern["pattern"].lower(),
                 pattern["description"].lower(),
-                *[use_case.lower() for use_case in pattern["use_cases"]]
+                *[use_case.lower() for use_case in use_cases]
             ]):
                 relevant_docs.append({
                     "type": "optimization_pattern",

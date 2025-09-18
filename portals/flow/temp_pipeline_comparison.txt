@@ -1,0 +1,29 @@
+
+Dual AI Pipeline Comparison Report
+================================
+
+STAGE 1 (Initial AI):
+- Model: claude-3-haiku
+- Confidence: 0.60
+- Processing Time: 5505.6ms
+- Word Count: 207
+- Tokens Used: 269.1
+
+STAGE 2 (Enhancement AI):
+- Model: claude-3-sonnet
+- Confidence: 0.90
+- Processing Time: 28094.0ms
+- Word Count: 495
+- Tokens Used: 643.5
+
+IMPROVEMENTS:
+- Confidence Gain: +0.30 (50.0%)
+- Content Growth: +288 words (139.1%)
+- Total Processing Time: 34375.9ms
+- Summary: Significantly expanded content; Increased confidence by 0.3; Added specific recommendations; Enhanced with detailed steps
+
+EFFICIENCY METRICS:
+- Total Tokens: 912.6
+- Tokens per Final Word: 1.84
+- Time per Final Word: 69.45ms
+- Stage 2 Efficiency: 97.55ms per new word

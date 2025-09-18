@@ -1,0 +1,3 @@
+Analyze the QA/QC workflow for data quality assessment.
+        Focus on metadata extraction, analysis steps, results aggregation, and recording questions.
+        Provide specific recommendations for template ordering and execution strategy.

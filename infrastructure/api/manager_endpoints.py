@@ -1,5 +1,5 @@
 # AI-Assisted Manager API Endpoints
-# 🚀 CORE ENTERPRISE API - Manager Integration & External Triggers
+# CORE ENTERPRISE API - Manager Integration & External Triggers
 #
 # This component provides:
 # - REST API endpoints for external systems to trigger AI Manager

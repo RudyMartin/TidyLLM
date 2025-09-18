@@ -49,11 +49,11 @@ class TidyLLMWebInterface:
         """Render the main TidyLLM web interface."""
         st.set_page_config(
             page_title="TidyLLM Enterprise Platform",
-            page_icon="🚀",
+            page_icon="⭐",
             layout="wide"
         )
         
-        st.title("🚀 TidyLLM Enterprise Platform")
+        st.title("TidyLLM Enterprise Platform")
         st.markdown("**Unified Gateway Management & AI Processing**")
         
         # Sidebar navigation
@@ -196,7 +196,7 @@ class TidyLLMWebInterface:
             ])
             content = st.text_area("Content to process:", placeholder="Enter content here...")
             
-            if st.button("🚀 Process", type="primary"):
+            if st.button("Process", type="primary"):
                 if content:
                     with st.spinner(f"Processing {task}..."):
                         try:

@@ -161,5 +161,225 @@ def show_last_5_mlflow_records():
     print(f"Database Location: AWS RDS PostgreSQL")
     print(f"Connection: {mlflow_uri[:50]}...")
 
+def export_project_mlflow_csv(project_name: str, output_path: str = None):
+    """Export MLflow records for a specific project to CSV for verification"""
+    import csv
+    import pandas as pd
+    import json
+
+    print(f"EXPORTING MLFLOW DATA FOR PROJECT: {project_name}")
+    print("=" * 60)
+
+    # Load project configuration for dynamic step mapping
+    step_mapping = {}
+    try:
+        project_config_path = Path(f"tidyllm/workflows/projects/{project_name}/project_config.json")
+        if project_config_path.exists():
+            with open(project_config_path, 'r', encoding='utf-8') as f:
+                project_config = json.load(f)
+
+            print(f"✓ Loaded project config: {project_config_path}")
+
+            # Create step mapping from config
+            for step in project_config.get('steps', []):
+                step_id = step.get('step_id', '')
+                step_number = step.get('step_number', 'auto')
+                step_name = step.get('step_name', step_id)
+
+                step_mapping[step_id] = {
+                    'number': step_number,
+                    'name': step_name,
+                    'type': step.get('step_type', 'unknown')
+                }
+
+            print(f"✓ Mapped {len(step_mapping)} steps from config")
+            for step_id, info in step_mapping.items():
+                print(f"  - {step_id}: {info['number']} ({info['name']})")
+        else:
+            print(f"⚠ No project config found at {project_config_path}")
+            print("  Using fallback step detection")
+    except Exception as e:
+        print(f"⚠ Error loading project config: {e}")
+        print("  Using fallback step detection")
+
+    # Load credentials and connect
+    settings_path = Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
+    with open(settings_path, 'r') as f:
+        config = yaml.safe_load(f)
+
+    mlflow_uri = config['services']['mlflow']['backend_store_uri']
+    mlflow.set_tracking_uri(mlflow_uri)
+
+    client = mlflow.tracking.MlflowClient()
+
+    # Get all experiments and runs
+    all_experiments = client.search_experiments()
+    all_runs = []
+
+    for exp in all_experiments:
+        runs = client.search_runs(
+            experiment_ids=[exp.experiment_id],
+            order_by=["start_time DESC"],
+            max_results=1000  # Get more runs for project analysis
+        )
+        all_runs.extend(runs)
+
+    # Filter runs for specific project (check user_id, audit_reason, parameters)
+    project_runs = []
+    for run in all_runs:
+        params = run.data.params
+        metrics = run.data.metrics
+
+        # Check if run belongs to this project
+        is_project_run = False
+
+        # Check parameters for project indicators
+        if any(project_name.lower() in str(v).lower() for v in params.values()):
+            is_project_run = True
+
+        # Check for QAQC-specific audit reasons
+        if project_name == "alex_qaqc":
+            qaqc_indicators = ['qaqc', 'metadata_extraction', 'analysis_steps',
+                             'results_aggregation', 'recording_questions']
+            if any(indicator in str(params.get('audit_reason', '')).lower()
+                   for indicator in qaqc_indicators):
+                is_project_run = True
+
+        if is_project_run:
+            project_runs.append(run)
+
+    print(f"Found {len(project_runs)} runs for project {project_name}")
+
+    if not project_runs:
+        print("No runs found for this project. Create CSV template for future runs.")
+        # Create empty template
+        csv_data = [{
+            'run_id': 'template',
+            'timestamp': datetime.now().isoformat(),
+            'step_name': 'sample_step',
+            'step_number': '1.0',
+            'step_type': 'template',
+            'user_id': 'sample_user',
+            'audit_reason': f'{project_name}_template',
+            'processing_time_ms': 0,
+            'success': True,
+            'confidence_score': 0.0,
+            'model': 'claude-3-sonnet',
+            'input_tokens': 0,
+            'output_tokens': 0,
+            'total_tokens': 0
+        }]
+    else:
+        # Extract data for CSV
+        csv_data = []
+        for run in project_runs:
+            params = run.data.params
+            metrics = run.data.metrics
+
+            # Extract step information from audit_reason using dynamic mapping
+            audit_reason = params.get('audit_reason', '')
+            step_name = 'unknown'
+            step_number = 'auto'
+            step_type = 'unknown'
+
+            # Try to match against configured steps first
+            step_matched = False
+            if step_mapping:
+                for step_id, step_info in step_mapping.items():
+                    if step_id in audit_reason:
+                        step_name = step_id
+                        step_number = step_info['number']
+                        step_type = step_info['type']
+                        step_matched = True
+                        break
+
+            # Fallback to hardcoded detection if no mapping found
+            if not step_matched:
+                if 'metadata_extraction' in audit_reason:
+                    step_name = 'metadata_extraction'
+                    step_number = 1
+                elif 'analysis_steps' in audit_reason:
+                    step_name = 'analysis_steps'
+                    step_number = 2
+                elif 'results_aggregation' in audit_reason:
+                    step_name = 'results_aggregation'
+                    step_number = 3
+                elif 'recording_questions' in audit_reason:
+                    step_name = 'recording_questions'
+                    step_number = 4
+
+            csv_row = {
+                'run_id': run.info.run_id,
+                'timestamp': datetime.fromtimestamp(run.info.start_time/1000).isoformat(),
+                'step_name': step_name,
+                'step_number': step_number,
+                'step_type': step_type,
+                'user_id': params.get('user_id', 'unknown'),
+                'audit_reason': audit_reason,
+                'processing_time_ms': metrics.get('processing_time_ms', 0),
+                'success': metrics.get('success', 1.0) == 1.0,
+                'confidence_score': metrics.get('confidence_score', 0.0),
+                'model': params.get('model', 'unknown'),
+                'input_tokens': metrics.get('input_tokens', 0),
+                'output_tokens': metrics.get('output_tokens', 0),
+                'total_tokens': metrics.get('total_tokens', 0),
+                'experiment_name': client.get_experiment(run.info.experiment_id).name
+            }
+            csv_data.append(csv_row)
+
+    def _sort_by_step_number(row):
+        """Sort by step_number, handling hierarchical numbers like 1.1.1"""
+        step_num = row['step_number']
+        if isinstance(step_num, str) and step_num != 'auto':
+            # Convert "1.2.3" to [1, 2, 3] for proper sorting
+            try:
+                return [int(x) for x in step_num.split('.')]
+            except:
+                return [999, 0]  # Put unparseable numbers at end
+        elif isinstance(step_num, (int, float)):
+            return [int(step_num), 0]
+        else:
+            # Fallback to timestamp for 'auto' or unknown
+            return [999, 1]
+
+    # Sort by step_number first, then by timestamp
+    csv_data.sort(key=lambda x: (_sort_by_step_number(x), x['timestamp']))
+
+    # Set output path
+    if output_path is None:
+        output_path = f"mlflow_{project_name}.csv"
+
+    # Write CSV
+    with open(output_path, 'w', newline='', encoding='utf-8') as csvfile:
+        if csv_data:
+            fieldnames = csv_data[0].keys()
+            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(csv_data)
+
+    print(f"✓ Exported {len(csv_data)} records to: {output_path}")
+    print("\nCSV Columns:")
+    if csv_data:
+        for col in csv_data[0].keys():
+            print(f"  - {col}")
+
+    # Show sample data
+    print(f"\nSample Records (first 3):")
+    for i, row in enumerate(csv_data[:3]):
+        print(f"\nRecord {i+1}:")
+        print(f"  Step: {row['step_name']} (#{row['step_number']})")
+        print(f"  Time: {row['timestamp']}")
+        print(f"  User: {row['user_id']}")
+        print(f"  Audit: {row['audit_reason']}")
+        print(f"  Success: {row['success']}")
+        print(f"  Tokens: {row['total_tokens']}")
+
+    return output_path
+
 if __name__ == "__main__":
-    show_last_5_mlflow_records()
+    import sys
+    if len(sys.argv) > 1 and sys.argv[1] == "export":
+        project = sys.argv[2] if len(sys.argv) > 2 else "alex_qaqc"
+        export_project_mlflow_csv(project)
+    else:
+        show_last_5_mlflow_records()

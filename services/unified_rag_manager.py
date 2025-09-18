@@ -148,7 +148,7 @@ class UnifiedRAGManager:
 
     def __init__(self, auto_load_credentials: bool = True):
         """Initialize unified RAG manager."""
-        print("🚀 Initializing Unified RAG Manager...")
+        print("Initializing Unified RAG Manager...")
 
         # Auto-load USM credentials
         if auto_load_credentials and USM_AVAILABLE:
@@ -205,7 +205,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.AI_POWERED] = AIPoweredRAGAdapter()
                 logger.info("AI-Powered RAG adapter initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize AI-Powered RAG: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"AI-Powered RAG not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize AI-Powered RAG: {e}")
 
         # Initialize Postgres RAG
         if POSTGRES_RAG_AVAILABLE:
@@ -213,7 +216,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.POSTGRES] = PostgresRAGAdapter()
                 logger.info("Postgres RAG adapter initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize Postgres RAG: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"Postgres RAG not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize Postgres RAG: {e}")
 
         # Initialize Judge RAG
         if JUDGE_RAG_AVAILABLE:
@@ -221,7 +227,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.JUDGE] = JudgeRAGAdapter()
                 logger.info("Judge RAG adapter initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize Judge RAG: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"Judge RAG not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize Judge RAG: {e}")
 
         # Initialize Intelligent RAG
         if INTELLIGENT_RAG_AVAILABLE:
@@ -229,7 +238,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.INTELLIGENT] = IntelligentRAGAdapter()
                 logger.info("Intelligent RAG adapter initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize Intelligent RAG: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"Intelligent RAG not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize Intelligent RAG: {e}")
 
         # Initialize SME RAG
         if SME_RAG_AVAILABLE:
@@ -237,7 +249,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.SME] = SMERAGSystem()
                 logger.info("SME RAG system initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize SME RAG: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"SME RAG not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize SME RAG: {e}")
 
         # Initialize DSPy Service
         if DSPY_SERVICE_AVAILABLE:
@@ -245,7 +260,10 @@ class UnifiedRAGManager:
                 self.rag_systems[RAGSystemType.DSPY] = DSPyService()
                 logger.info("DSPy Service initialized")
             except Exception as e:
-                logger.error(f"Failed to initialize DSPy Service: {e}")
+                if "No such file or directory" in str(e) and "settings.yaml" in str(e):
+                    logger.info(f"DSPy Service not configured - settings file not found: {e}")
+                else:
+                    logger.error(f"Failed to initialize DSPy Service: {e}")
 
         logger.info(f"Initialized {len(self.rag_systems)}/6 RAG systems")
 
@@ -658,6 +676,80 @@ class UnifiedRAGManager:
     # QUERY OPERATIONS
     # ============================================================================
 
+    def query(self, query: str, system_type=None, model_preference=None, temperature=None, domain: str = "general", **kwargs) -> Dict[str, Any]:
+        """
+        Query interface for chat integration.
+
+        Args:
+            query: The question/query string
+            system_type: RAG system type to use (optional)
+            model_preference: Preferred model (passed through metadata)
+            temperature: Temperature setting (passed through metadata)
+            domain: Domain for the query (default: "general")
+            **kwargs: Additional query parameters
+
+        Returns:
+            Dict[str, Any]: Response dict with success, answer, sources, etc.
+        """
+        try:
+            # Create unified query
+            unified_query = UnifiedRAGQuery(
+                query=query,
+                domain=domain,
+                system_type=system_type,
+                confidence_threshold=kwargs.get('confidence_threshold', 0.7),
+                max_results=kwargs.get('max_results', 5),
+                collection_id=kwargs.get('collection_id'),
+                authority_tier=kwargs.get('authority_tier'),
+                enable_rag2dag_optimization=kwargs.get('enable_rag2dag_optimization', True),
+                source_files=kwargs.get('source_files'),
+                metadata={
+                    'model_preference': model_preference,
+                    'temperature': temperature,
+                    **kwargs.get('metadata', {})
+                }
+            )
+
+            # Execute unified query (handle async in sync context)
+            import asyncio
+            try:
+                # Try to run in existing event loop
+                loop = asyncio.get_event_loop()
+                if loop.is_running():
+                    # Create new event loop in thread for async call
+                    import concurrent.futures
+                    with concurrent.futures.ThreadPoolExecutor() as executor:
+                        future = executor.submit(asyncio.run, self.query_unified(unified_query))
+                        response = future.result()
+                else:
+                    response = asyncio.run(self.query_unified(unified_query))
+            except RuntimeError:
+                # No event loop, create one
+                response = asyncio.run(self.query_unified(unified_query))
+
+            # Return expected dict format for chat integration
+            return {
+                "success": True,
+                "answer": response.response,
+                "sources": response.sources,
+                "confidence": response.confidence,
+                "processing_time": response.processing_time_ms,
+                "system_type": response.system_type.value,
+                "collection_id": response.collection_id,
+                "authority_tier": response.authority_tier
+            }
+
+        except Exception as e:
+            logger.error(f"RAG query failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "answer": f"RAG query failed: {e}",
+                "sources": [],
+                "confidence": 0.0,
+                "processing_time": 0
+            }
+
     async def query_unified(self, query: UnifiedRAGQuery) -> UnifiedRAGResponse:
         """Query across RAG systems with unified interface and optional RAG2DAG optimization."""
         start_time = datetime.now()
@@ -858,6 +950,52 @@ class UnifiedRAGManager:
 
         return systems
 
+    def is_system_available(self, system_type: RAGSystemType) -> bool:
+        """Check if a specific RAG system type is available and functional."""
+        try:
+            # Check if system is in registry and marked as available
+            if system_type not in self.system_registry:
+                return False
+
+            registry_info = self.system_registry[system_type]
+            if not registry_info.get("available", False):
+                return False
+
+            # Check if system is initialized
+            if system_type not in self.rag_systems:
+                return False
+
+            # Basic health check for the system
+            system = self.rag_systems[system_type]
+
+            # Simple availability test - try to access basic properties
+            if system_type == RAGSystemType.POSTGRES:
+                # Try to list collections as a health check
+                collections = system.list_collections()
+                return True
+            elif system_type == RAGSystemType.INTELLIGENT:
+                collections = system.list_collections()
+                return True
+            elif system_type == RAGSystemType.SME:
+                collections = system.get_collections()
+                return True
+            elif system_type == RAGSystemType.AI_POWERED:
+                # Check if the system has required components
+                return hasattr(system, 'corporate_llm_gateway')
+            elif system_type == RAGSystemType.JUDGE:
+                # Judge system is available if initialized
+                return True
+            elif system_type == RAGSystemType.DSPY:
+                # DSPy system is available if initialized
+                return True
+            else:
+                return False
+
+        except Exception as e:
+            # If any error occurs, consider system unavailable
+            logger.warning(f"System availability check failed for {system_type.value}: {e}")
+            return False
+
     def get_performance_metrics(self) -> Dict[str, Any]:
         """Get performance metrics across all RAG systems."""
         metrics = {
@@ -898,7 +1036,7 @@ class UnifiedRAGManager:
 
 def main():
     """Test the Unified RAG Manager."""
-    print("🧪 Testing Unified RAG Manager")
+    print("Testing Unified RAG Manager")
     print("=" * 50)
 
     # Initialize manager

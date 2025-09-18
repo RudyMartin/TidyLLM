@@ -17,6 +17,12 @@ data/backups/*.sql
 .env.local
 .env.production
 
+# Content 
+review
+presentation
+pending
+migrated
+
 # =============================================================================
 # PYTHON
 # =============================================================================

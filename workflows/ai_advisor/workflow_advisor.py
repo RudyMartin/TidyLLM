@@ -15,6 +15,17 @@ from typing import Dict, List, Any, Optional
 from pathlib import Path
 from datetime import datetime
 import dspy
+from tidyllm.services.dspy_service import CorporateDSPyLM
+
+# Use existing DSPy service instead of configuring DSPy directly
+try:
+    from tidyllm.services.dspy_service import DSPyService
+    dspy_service = DSPyService()
+    dspy_service.configure_lm("claude-3-sonnet")
+    print("DSPy configured via DSPyService")
+except Exception as e:
+    print(f"Warning: Could not configure DSPy via DSPyService: {e}")
+    # Will use fallback response if DSPy unavailable
 
 class WorkflowContextAnalyzer(dspy.Signature):
     """Analyze workflow context to provide intelligent recommendations."""
@@ -23,7 +34,7 @@ class WorkflowContextAnalyzer(dspy.Signature):
     template_fields = dspy.InputField(desc="Template fields configuration with validation rules and defaults")
     recent_activity = dspy.InputField(desc="Recent workflow executions, test results, and user interactions")
     final_results = dspy.InputField(desc="Latest workflow execution results and performance metrics")
-    user_question = dspy.InputField(desc="User's specific question or request for workflow advice")
+    user_question = dspy.InputField(desc="User's specific question or request for workflow advice with use case context")
 
     advisor_response = dspy.OutputField(desc="Comprehensive workflow advice with specific recommendations, insights, and actionable suggestions")
 
@@ -41,7 +52,6 @@ class TemplateFieldAdvisor(dspy.Signature):
 
     current_fields = dspy.InputField(desc="Current template field definitions and configurations")
     validation_errors = dspy.InputField(desc="Recent validation errors or field-related issues")
-    use_cases = dspy.InputField(desc="Intended use cases and document types for the workflow")
 
     field_recommendations = dspy.OutputField(desc="Template field improvement suggestions with validation rules and default values")
 
@@ -49,7 +59,7 @@ class WorkflowAIAdvisor:
     """AI-powered workflow advisor using DSPy for intelligent recommendations."""
 
     def __init__(self):
-        # Initialize DSPy modules
+        # Initialize DSPy modules (DSPy is configured globally at module level)
         self.context_analyzer = dspy.ChainOfThought(WorkflowContextAnalyzer)
         self.optimizer = dspy.ChainOfThought(WorkflowOptimizer)
         self.field_advisor = dspy.ChainOfThought(TemplateFieldAdvisor)
@@ -89,31 +99,53 @@ Focus on practical, implementable solutions that improve workflow efficiency, re
                           template_fields: Dict[str, Any],
                           recent_activity: List[Dict[str, Any]],
                           final_results: Dict[str, Any],
-                          user_question: str) -> Dict[str, Any]:
+                          user_question: str,
+                          use_cases: List[str] = None,
+                          max_retries: int = 3) -> Dict[str, Any]:
         """Get comprehensive workflow advice based on current context."""
 
-        try:
-            # Enhance with RAG knowledge if available
-            rag_context = ""
-            if self.rag_enabled and self.knowledge_base:
-                # Query knowledge base for relevant information
-                relevant_docs = self.knowledge_base.query_knowledge_base(user_question)
+        # Import DataNormalizer for robust data handling
+        from tidyllm.utils.data_normalizer import DataNormalizer
 
-                if relevant_docs:
-                    rag_context = "\n\nRelevant Knowledge Base Information:\n"
-                    for doc in relevant_docs:
-                        rag_context += f"\n{doc['type'].title()}: {json.dumps(doc['content'], indent=2)}\n"
+        # Normalize use_cases with proper defaults
+        use_cases = DataNormalizer.ensure_list(use_cases, ['general workflow', 'document processing'])
 
-            # Prepare context data
-            criteria_json = json.dumps(criteria, indent=2) if criteria else "No criteria defined"
-            fields_json = json.dumps(template_fields, indent=2) if template_fields else "No template fields defined"
-            activity_json = json.dumps(recent_activity[-5:], indent=2) if recent_activity else "No recent activity"
-            results_json = json.dumps(final_results, indent=2) if final_results else "No recent results"
+        for attempt in range(max_retries):
+            try:
+                print(f"DEBUG - Attempt {attempt + 1}: Starting workflow advice generation")
+                print(f"DEBUG - use_cases parameter: {use_cases} (type: {type(use_cases)})")
 
-            # Get AI advice with RAG enhancement
-            enhanced_user_question = f"{self.system_context}\n\nUser Question: {user_question}{rag_context}"
+                # Enhance with RAG knowledge if available
+                rag_context = ""
+                print(f"DEBUG - RAG enabled: {self.rag_enabled}")
+                if self.rag_enabled and self.knowledge_base:
+                    try:
+                        print("DEBUG - Querying RAG knowledge base...")
+                        # Query knowledge base for relevant information
+                        relevant_docs = self.knowledge_base.query_knowledge_base(user_question)
+                        print(f"DEBUG - RAG query returned {len(relevant_docs) if relevant_docs else 0} documents")
 
-            with dspy.context(lm=dspy.LM(model="claude-3-sonnet-20240229")):
+                        if relevant_docs:
+                            rag_context = "\n\nRelevant Knowledge Base Information:\n"
+                            for doc in relevant_docs:
+                                rag_context += f"\n{doc['type'].title()}: {json.dumps(doc['content'], indent=2)}\n"
+                    except Exception as rag_error:
+                        print(f"DEBUG - RAG query failed: {rag_error}")
+                        rag_context = ""
+
+                print("DEBUG - Preparing context data...")
+                # Prepare context data
+                criteria_json = json.dumps(criteria, indent=2) if criteria else "No criteria defined"
+                fields_json = json.dumps(template_fields, indent=2) if template_fields else "No template fields defined"
+                activity_json = json.dumps(recent_activity[-5:], indent=2) if recent_activity else "No recent activity"
+                results_json = json.dumps(final_results, indent=2) if final_results else "No recent results"
+
+                print("DEBUG - Building enhanced user question...")
+                # Get AI advice with RAG enhancement and use cases context
+                use_cases_context = f"\n\nWorkflow Use Cases: {', '.join(use_cases)}"
+                enhanced_user_question = f"{self.system_context}\n\nUser Question: {user_question}{use_cases_context}{rag_context}"
+
+                print("DEBUG - Calling DSPy context_analyzer...")
                 response = self.context_analyzer(
                     workflow_criteria=criteria_json,
                     template_fields=fields_json,
@@ -121,36 +153,57 @@ Focus on practical, implementable solutions that improve workflow efficiency, re
                     final_results=results_json,
                     user_question=enhanced_user_question
                 )
+                print("DEBUG - DSPy call completed successfully")
 
-            # Store interaction for learning (for future RAG improvements)
-            if self.rag_enabled:
-                self._store_interaction_for_learning(user_question, response.advisor_response, {
-                    "criteria": criteria,
-                    "template_fields": template_fields,
-                    "recent_activity": recent_activity,
-                    "final_results": final_results
-                })
+                # Store interaction for learning (for future RAG improvements)
+                if self.rag_enabled:
+                    self._store_interaction_for_learning(user_question, response.advisor_response, {
+                        "criteria": criteria,
+                        "template_fields": template_fields,
+                        "recent_activity": recent_activity,
+                        "final_results": final_results
+                    })
 
-            return {
-                "success": True,
-                "advice": response.advisor_response,
-                "context_analyzed": {
-                    "criteria_provided": bool(criteria),
-                    "fields_analyzed": len(template_fields) if template_fields else 0,
-                    "recent_executions": len(recent_activity) if recent_activity else 0,
-                    "results_available": bool(final_results),
-                    "rag_enhanced": self.rag_enabled and bool(rag_context)
-                },
-                "timestamp": datetime.now().isoformat()
-            }
+                return {
+                    "success": True,
+                    "advice": response.advisor_response,
+                    "context_analyzed": {
+                        "criteria_provided": bool(criteria),
+                        "fields_analyzed": len(template_fields) if template_fields else 0,
+                        "recent_executions": len(recent_activity) if recent_activity else 0,
+                        "results_available": bool(final_results),
+                        "rag_enhanced": self.rag_enabled and bool(rag_context),
+                        "attempt": attempt + 1
+                    },
+                    "timestamp": datetime.now().isoformat()
+                }
 
-        except Exception as e:
-            return {
-                "success": False,
-                "error": str(e),
-                "advice": f"I apologize, but I encountered an error while analyzing your workflow. Error: {str(e)}. Please try asking a more specific question or check your workflow configuration.",
-                "timestamp": datetime.now().isoformat()
-            }
+            except Exception as e:
+                # Log the full error for debugging
+                import traceback
+                error_details = f"Error type: {type(e).__name__}, Message: {str(e)}, Traceback: {traceback.format_exc()}"
+                print(f"DEBUG - Attempt {attempt + 1} failed: {error_details}")
+
+                if attempt == max_retries - 1:  # Last attempt
+                    return {
+                        "success": False,
+                        "error": str(e),
+                        "advice": f"I apologize, but I encountered an error while analyzing your workflow after {max_retries} attempts. Error: {str(e)}. Please try asking a more specific question or check your workflow configuration.",
+                        "attempts_made": max_retries,
+                        "timestamp": datetime.now().isoformat(),
+                        "debug_info": error_details
+                    }
+                # Continue to next attempt if not the last one
+                continue
+
+        # This should never be reached, but adding as safety
+        return {
+            "success": False,
+            "error": "Maximum retries exceeded",
+            "advice": f"I apologize, but I was unable to analyze your workflow after {max_retries} attempts. Please try asking a more specific question or check your workflow configuration.",
+            "attempts_made": max_retries,
+            "timestamp": datetime.now().isoformat()
+        }
 
     def optimize_workflow(self,
                          workflow_config: Dict[str, Any],
@@ -162,12 +215,11 @@ Focus on practical, implementable solutions that improve workflow efficiency, re
             bottlenecks = self._identify_bottlenecks(performance_data)
             usage_patterns = self._analyze_usage_patterns(performance_data)
 
-            with dspy.context(lm=dspy.LM(model="claude-3-sonnet-20240229")):
-                response = self.optimizer(
-                    current_workflow=json.dumps(workflow_config, indent=2),
-                    bottlenecks=json.dumps(bottlenecks, indent=2),
-                    usage_patterns=json.dumps(usage_patterns, indent=2)
-                )
+            response = self.optimizer(
+                current_workflow=json.dumps(workflow_config, indent=2),
+                bottlenecks=json.dumps(bottlenecks, indent=2),
+                usage_patterns=json.dumps(usage_patterns, indent=2)
+            )
 
             return {
                 "success": True,
@@ -189,13 +241,17 @@ Focus on practical, implementable solutions that improve workflow efficiency, re
                               use_cases: List[str]) -> Dict[str, Any]:
         """Get template field configuration advice."""
 
+        # Import DataNormalizer for robust data handling
+        from tidyllm.utils.data_normalizer import DataNormalizer
+
+        # Normalize use_cases
+        use_cases = DataNormalizer.ensure_list(use_cases, ['general workflow'])
+
         try:
-            with dspy.context(lm=dspy.LM(model="claude-3-sonnet-20240229")):
-                response = self.field_advisor(
-                    current_fields=json.dumps(current_fields, indent=2),
-                    validation_errors=json.dumps(validation_issues, indent=2),
-                    use_cases=json.dumps(use_cases, indent=2)
-                )
+            response = self.field_advisor(
+                current_fields=json.dumps(current_fields, indent=2),
+                validation_errors=json.dumps(validation_issues, indent=2)
+            )
 
             return {
                 "success": True,

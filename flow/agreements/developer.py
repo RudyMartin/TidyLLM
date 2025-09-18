@@ -156,7 +156,7 @@ class DeveloperAgreement(BaseFlowAgreement):
     def get_welcome_message(self) -> str:
         """Developer welcome message."""
         return f"""
-        🚀 Welcome to TidyLLM Developer Service
+        Welcome to TidyLLM Developer Service
         
         Your {self.config.agreement_type} agreement is now active.
         
@@ -175,7 +175,7 @@ class DeveloperAgreement(BaseFlowAgreement):
         return [
             f"📁 Drop zone ready at: ./dev_drop_zones/{self.config.agreement_type.lower().replace(' ', '_')}",
             "📄 Supported files: TXT, MD, JSON, CSV, PY",
-            "🚀 Development mode: Fast iteration enabled",
+            "Development mode: Fast iteration enabled",
             "📊 Experiment tracking: Performance metrics logged",
             f"💰 Budget: ${self.config.max_cost_per_month}/month for experimentation",
             f"⚡ Processing: {self.config.max_files_per_day} files/day",

@@ -69,8 +69,9 @@ logger.setLevel(logging.INFO)
 class ServiceType(Enum):
     """Supported service types"""
     S3 = "s3"
-    BEDROCK = "bedrock" 
+    BEDROCK = "bedrock"
     POSTGRESQL = "postgresql"
+    PROJECT_PATHS = "project_paths"
 
 class CredentialSource(Enum):
     """Sources for credentials (ordered by security priority)"""
@@ -103,7 +104,12 @@ class ServiceConfig:
     
     # AWS Profile
     aws_profile: Optional[str] = None
-    
+
+    # Project Path Configuration
+    root_path: Optional[str] = None
+    workflows_path: Optional[str] = None
+    projects_path: Optional[str] = None
+
     # Credential source tracking
     credential_source: CredentialSource = CredentialSource.NOT_FOUND
 
@@ -142,7 +148,8 @@ class UnifiedSessionManager:
         self.health_status: Dict[ServiceType, ConnectionHealth] = {
             ServiceType.S3: ConnectionHealth(ServiceType.S3),
             ServiceType.BEDROCK: ConnectionHealth(ServiceType.BEDROCK),
-            ServiceType.POSTGRESQL: ConnectionHealth(ServiceType.POSTGRESQL)
+            ServiceType.POSTGRESQL: ConnectionHealth(ServiceType.POSTGRESQL),
+            ServiceType.PROJECT_PATHS: ConnectionHealth(ServiceType.PROJECT_PATHS)
         }
         
         # Auto-discover credentials
@@ -741,7 +748,68 @@ class UnifiedSessionManager:
         """Return PostgreSQL connection to pool"""
         if self._postgres_pool and conn:
             self._postgres_pool.putconn(conn)
-    
+
+    # Project Path Service Methods
+    def get_project_outputs_path(self, project_name: str):
+        """Get portable project outputs path using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / "tidyllm" / "workflows" / "projects" / project_name / "outputs"
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path("tidyllm/workflows/projects") / project_name / "outputs"
+
+    def get_project_root_path(self, project_name: str):
+        """Get portable project root path using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / "tidyllm" / "workflows" / "projects" / project_name
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path("tidyllm/workflows/projects") / project_name
+
+    def get_workflows_root_path(self):
+        """Get portable workflows root path using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / "tidyllm" / "workflows"
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path("tidyllm/workflows")
+
+    def get_portals_root_path(self):
+        """Get portable portals root path using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / "tidyllm" / "portals"
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path("tidyllm/portals")
+
+    def get_portal_path(self, portal_name: str):
+        """Get portable specific portal path using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / "tidyllm" / "portals" / portal_name
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path("tidyllm/portals") / portal_name
+
+    def ensure_project_outputs_exist(self, project_name: str):
+        """Ensure project outputs folder exists and return portable path."""
+        outputs_path = self.get_project_outputs_path(project_name)
+        outputs_path.mkdir(parents=True, exist_ok=True)
+        return outputs_path
+
+    def get_portable_path(self, relative_path: str):
+        """Convert relative path to absolute using USM root_path."""
+        from pathlib import Path
+        if self.config.root_path:
+            return Path(self.config.root_path) / relative_path
+        else:
+            logger.warning("USM root_path not available - using relative path")
+            return Path(relative_path)
+
     # Health Check Methods
     def check_health(self, service: ServiceType = None) -> Dict[ServiceType, ConnectionHealth]:
         """Check health of services"""
@@ -773,7 +841,15 @@ class UnifiedSessionManager:
                         cursor.fetchone()
                 finally:
                     self.return_postgres_connection(conn)
-            
+            elif service == ServiceType.PROJECT_PATHS:
+                # Health check for project paths service
+                test_path = self.get_workflows_root_path()
+                if test_path.exists() or self.config.root_path:
+                    # Paths service is healthy if root_path is available or workflows exist
+                    pass
+                else:
+                    raise Exception("No root_path available and workflows directory not found")
+
             latency = (time.time() - start_time) * 1000
             self.health_status[service].healthy = True
             self.health_status[service].last_check = datetime.now()

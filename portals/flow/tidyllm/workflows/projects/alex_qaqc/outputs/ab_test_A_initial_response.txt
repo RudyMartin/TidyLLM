@@ -1,0 +1,27 @@
+Here is a quick initial analysis for the QA/QC workflow question:
+
+The key aspects to focus on are:
+
+Metadata Extraction:
+- Identify all relevant metadata fields that need to be captured (e.g. data source, collection date, sensor info, etc.)
+- Ensure a standardized, automated process to extract this metadata consistently
+
+Analysis Steps:
+- Define a set of data quality checks and validation rules to apply (e.g. range checks, completeness, outlier detection)
+- Implement these checks in a modular, reusable analysis workflow
+
+Results Aggregation:
+- Consolidate the results of the various data quality checks into a central report or dashboard
+- Summarize pass/fail rates, data quality scores, and any identified issues
+
+Recording Questions:
+- Establish a system to log any data quality questions or issues that arise
+- Link these back to the original data and analysis for future reference
+
+Recommendations:
+- Design the workflow as a set of independent, interchangeable modules for flexibility
+- Leverage existing QA/QC frameworks and libraries where possible to accelerate development
+- Implement robust error handling and logging to aid in troubleshooting
+- Consider using a workflow orchestration tool to manage the end-to-end process
+
+This should provide a good starting point. Let me know if you need any clarification or have additional questions!

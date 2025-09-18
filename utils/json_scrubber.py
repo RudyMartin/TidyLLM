@@ -64,7 +64,7 @@ UNICODE_TO_ASCII = {
     # Emojis - Tools and Objects
     '🔧': '[TOOL]',
     '📋': '[DOC]',
-    '🚀': '[ROCKET]',
+    # '🚀': '[ROCKET]',  # Removed for Windows compatibility
     '📊': '[CHART]',
     '📈': '[UP]',
     '📉': '[DOWN]',
@@ -427,6 +427,40 @@ class JSONScrubber:
                 'error': str(e),
                 'file_path': str(file_path)
             }
+
+def convert_json_to_python_values(data):
+    """
+    Convert JSON standard values to Python equivalents.
+
+    Converts:
+    - "false" string to False boolean
+    - "true" string to True boolean
+    - "null" string to None
+    - "none" string to None (case insensitive)
+
+    Args:
+        data: JSON data (dict, list, or primitive value)
+
+    Returns:
+        Data with converted boolean and null values
+    """
+    if isinstance(data, dict):
+        return {key: convert_json_to_python_values(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_json_to_python_values(item) for item in data]
+    elif isinstance(data, str):
+        # Convert string representations to Python values
+        lower_data = data.lower()
+        if lower_data == "false":
+            return False
+        elif lower_data == "true":
+            return True
+        elif lower_data in ["null", "none"]:
+            return None
+        else:
+            return data
+    else:
+        return data
 
 def safe_load_json_with_scrubbing(file_path: str, auto_fix: bool = True) -> Dict[str, any]:
     """

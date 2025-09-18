@@ -405,7 +405,7 @@ def render_file_upload_interface():
             if selected_template.startswith("---"):
                 st.warning("Please select an actual template, not a category header")
             elif st.button(
-                f"🚀 Process {len(uploaded_files)} Files with {selected_template.split(' - ')[0]}",
+                f"Process {len(uploaded_files)} Files with {selected_template.split(' - ')[0]}",
                 type="primary",
                 use_container_width=True
             ):
@@ -745,7 +745,7 @@ def main():
         
         # Quick Actions
         st.markdown("**⚡ Quick Actions:**")
-        if st.button("🚀 Quick Upload", use_container_width=True):
+        if st.button("Quick Upload", use_container_width=True):
             st.session_state.quick_upload = True
         if st.button("💬 Emergency SME", use_container_width=True):
             st.session_state.emergency_sme = True
@@ -824,7 +824,7 @@ def render_dashboard_home():
         )
     
     # Quick access cards
-    st.markdown("### 🚀 Quick Access")
+    st.markdown("### Quick Access")
     
     col1, col2, col3 = st.columns(3)
     

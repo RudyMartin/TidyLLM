@@ -89,6 +89,7 @@ class SettingsManager:
         
         # Strategy 3: Try common locations
         common_paths = [
+            Path("C:/Users/marti/AI-Shipping/tidyllm/admin/settings.yaml"),  # Current project
             Path.home() / "github" / "tidyllm" / "admin" / "settings.yaml",
             Path("C:/Users/marti/github/tidyllm/admin/settings.yaml"),
             Path("/opt/tidyllm/admin/settings.yaml"),

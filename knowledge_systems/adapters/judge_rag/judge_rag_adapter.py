@@ -10,7 +10,7 @@ Integrates with existing Boss Portal + PostgresRAGAdapter architecture:
 - ComplianceRAG (our postgres-based authority system)
 - DocumentRAG (our document search)
 - ExpertRAG (our subject matter expertise)
-- JudgeRAG (JB's external AWS RAG) ← NEW
+- JudgeRAG (JB's external AWS RAG) NEW
 
 Features:
 - Clean adapter pattern (no external dependencies leaked)
@@ -88,7 +88,7 @@ class JudgeRAGAdapter:
             jb_endpoint_url: JB's RAG endpoint URL (provided by JB)
             fallback_adapter: Local PostgresRAGAdapter for fallback
         """
-        print("⚖️ Initializing Judge RAG Adapter...")
+        print("Initializing Judge RAG Adapter...")
 
         self.aws_region = aws_region
         self.jb_endpoint_url = jb_endpoint_url or "https://jb-rag-api.your-aws-domain.com/v1/query"
@@ -102,15 +102,15 @@ class JudgeRAGAdapter:
             usm = st.session_state.get('tidyllm_session_manager')
             if usm and hasattr(usm, 'get_aws_session'):
                 self.aws_session = usm.get_aws_session()
-                print("✅ AWS session initialized via MEGA USM for JB's RAG system")
+                print("AWS session initialized via MEGA USM for JB's RAG system")
             elif AWS_AVAILABLE:
                 self.aws_session = boto3.Session()
-                print("✅ AWS session initialized via direct boto3 (fallback)")
+                print("AWS session initialized via direct boto3 (fallback)")
             else:
                 self.aws_session = None
-                print("⚠️ AWS not available - will use fallback adapter only")
+                print("WARNING: AWS not available - will use fallback adapter only")
         except Exception as e:
-            print(f"⚠️ USM integration failed ({e}) - using direct boto3 fallback")
+            print(f"WARNING: USM integration failed ({e}) - using direct boto3 fallback")
             if AWS_AVAILABLE:
                 self.aws_session = boto3.Session()
             else:
@@ -122,7 +122,7 @@ class JudgeRAGAdapter:
 
     async def health_check(self) -> Dict[str, Any]:
         """Check if JB's RAG system is available."""
-        print("🏥 Checking JB LLM Judge system health...")
+        print("Checking JB LLM Judge system health...")
 
         try:
             if not AWS_AVAILABLE:
@@ -158,7 +158,7 @@ class JudgeRAGAdapter:
             }
 
         except Exception as e:
-            print(f"❌ JB system health check failed: {e}")
+            print(f"ERROR: JB system health check failed: {e}")
             self.jb_system_available = False
 
             return {
@@ -178,7 +178,7 @@ class JudgeRAGAdapter:
         Returns:
             JBRAGResponse with JB's system results
         """
-        print(f"🤖 Querying JB LLM Judge: {request.query[:50]}...")
+        print(f"Querying JB LLM Judge: {request.query[:50]}...")
 
         try:
             if not self.jb_system_available:
@@ -232,7 +232,7 @@ class JudgeRAGAdapter:
             )
 
         except Exception as e:
-            print(f"❌ JB RAG query failed: {e}")
+            print(f"ERROR: JB RAG query failed: {e}")
             raise Exception(f"JB LLM Judge system error: {e}")
 
     def query_judge_rag(self, query: RAGQuery) -> RAGResponse:
@@ -241,7 +241,7 @@ class JudgeRAGAdapter:
 
         This maintains compatibility with existing Boss Portal pipeline.
         """
-        print(f"⚖️ Judge RAG Query: {query.query}")
+        print(f"Judge RAG Query: {query.query}")
 
         try:
             # Convert our RAGQuery to JB's format
@@ -266,7 +266,7 @@ class JudgeRAGAdapter:
             )
 
         except Exception as e:
-            print(f"⚠️ JB system unavailable, using fallback: {e}")
+            print(f"WARNING: JB system unavailable, using fallback: {e}")
 
             # Fallback to our local PostgresRAGAdapter
             return self.fallback_adapter.query_expert_rag(query)
@@ -282,7 +282,7 @@ class JudgeRAGAdapter:
         Returns:
             Best response from available systems
         """
-        print(f"🔄 Hybrid RAG Query (JB Primary: {use_jb_primary}): {query.query}")
+        print(f"Hybrid RAG Query (JB Primary: {use_jb_primary}): {query.query}")
 
         if use_jb_primary:
             # Try JB first, fallback to local
@@ -291,10 +291,10 @@ class JudgeRAGAdapter:
                 if jb_response.confidence > 0.6:
                     return jb_response
                 else:
-                    print("🔄 JB confidence low, trying local RAG...")
+                    print("JB confidence low, trying local RAG...")
                     return self.fallback_adapter.query_unified_rag(query)
             except:
-                print("🔄 JB unavailable, using local RAG...")
+                print("JB unavailable, using local RAG...")
                 return self.fallback_adapter.query_unified_rag(query)
         else:
             # Combine both systems for best result
@@ -317,7 +317,7 @@ class JudgeRAGAdapter:
 
     def get_system_status(self) -> Dict[str, Any]:
         """Get status of both JB's system and local fallback."""
-        print("📊 Getting JB + Local RAG system status...")
+        print("Getting JB + Local RAG system status...")
 
         # Get JB system status
         jb_status = asyncio.run(self.health_check())
@@ -343,7 +343,7 @@ class JudgeRAGAdapter:
 
 def main():
     """Test JB LLM Judge Adapter integration."""
-    print("🧪 Testing JB LLM Judge Adapter")
+    print("Testing JB LLM Judge Adapter")
     print("=" * 50)
 
     # Initialize JB adapter with fallback
@@ -352,14 +352,14 @@ def main():
     )
 
     # Test 1: System Status
-    print("\n📊 Test 1: System Status")
+    print("\nTest 1: System Status")
     status = jb_adapter.get_system_status()
     print(f"JB Available: {status['jb_llm_judge']['available']}")
     print(f"Local Collections: {status['local_postgres_rag']['collections']}")
     print(f"Primary System: {status['primary_system']}")
 
     # Test 2: JB RAG Query
-    print("\n🤖 Test 2: JB LLM Judge Query")
+    print("\nTest 2: JB LLM Judge Query")
     jb_query = RAGQuery(
         query="What are the best practices for model validation in financial services?",
         domain="model_risk",
@@ -372,7 +372,7 @@ def main():
     print(f"Sources: {len(jb_response.sources)}")
 
     # Test 3: Hybrid Query
-    print("\n🔄 Test 3: Hybrid RAG Query")
+    print("\nTest 3: Hybrid RAG Query")
     hybrid_query = RAGQuery(
         query="What architectural patterns should be used for compliance systems?",
         domain="software_architecture"
@@ -383,7 +383,7 @@ def main():
     print(f"Authority Tier: {hybrid_response.authority_tier}")
     print(f"Collection: {hybrid_response.collection_name}")
 
-    print("\n✅ JB LLM Judge Adapter testing complete!")
+    print("\nJB LLM Judge Adapter testing complete!")
 
 if __name__ == "__main__":
     main()

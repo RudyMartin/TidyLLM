@@ -289,7 +289,7 @@ def start_mcp_server(config: MCPInterfaceConfig = None):
     """Start the TidyLLM MCP server."""
     interface = TidyLLMMCPInterface(config)
     
-    logger.info(f"🚀 TidyLLM MCP Server starting on port {interface.config.port}")
+    logger.info(f"TidyLLM MCP Server starting on port {interface.config.port}")
     logger.info(f"Available gateways: {', '.join(interface.registry.get_available_services())}")
     
     # In a real implementation, this would start the actual MCP protocol server

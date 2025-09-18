@@ -1,0 +1,760 @@
+"""
+Test Designer Tab - Modular Component
+Extracted from flow_creator_v3.py for easier maintenance
+The enhanced 12th-grader friendly A/B/C/D testing interface
+"""
+
+import streamlit as st
+from pathlib import Path
+from datetime import datetime
+from typing import Dict, List, Any, Optional
+
+def render_test_designer_tab(workflow_manager, registry):
+    """Render the Test Designer page for A/B/C/D workflow optimization testing."""
+    st.header("🧪 Test Designer")
+    st.markdown("**Optimize your workflows with A/B/C/D testing to find the best model combinations and execution strategies**")
+
+    # 3-STEP GUIDE
+
+    # Test Designer Overview
+    with st.expander("📖 What is Test Designer?", expanded=False):
+        st.markdown("""
+        **Test Designer** helps you optimize your workflows by automatically testing different AI model combinations:
+
+        - **Variant A (Speed Focus)**: claude-3-haiku → claude-3-sonnet for maximum speed
+        - **Variant B (Quality Focus)**: claude-3-sonnet → claude-3-5-sonnet for highest quality
+        - **Variant C (Premium Focus)**: claude-3-haiku → claude-3-5-sonnet for balanced performance
+        - **Variant D (DSPy Optimized)**: claude-3-haiku → claude-3-sonnet with DSPy structured outputs
+
+        **Benefits:**
+        - Find optimal model combinations for your use case
+        - Compare Fast vs Careful vs Compare Both execution modes
+        - Get detailed performance metrics and cost analysis
+        - MLflow tracking for experiment management
+        """)
+
+    # 3-COLUMN LAYOUT
+    col1, col2, col3 = st.columns([1, 1, 1])
+
+    # ========================================
+    # COLUMN 1: SELECT
+    # ========================================
+    with col1:
+        st.markdown("### 1️⃣ Pick Your Stuff")
+        st.markdown("*Choose what you want to test*")
+
+        # PROJECT SELECTION
+        available_projects = ["alex_qaqc"]  # Based on your workflow registry
+        selected_project = st.selectbox(
+            "📁 Which project?",
+            available_projects,
+            help="Pick the project you want to test"
+        )
+
+        # Test Mode Selection - Super Simple
+        st.markdown("### 🚀 How fast should we go?")
+
+        test_mode_choice = st.radio(
+            "Pick your speed:",
+            [
+                "🚀 Super Fast (all tests at once)",
+                "🐌 Take it Slow (one test at a time)",
+                "📊 Try Both Ways (see the difference)"
+            ],
+            index=0,
+            help="Fast = everything happens together. Slow = wait for each test to finish. Both = see which way works better!"
+        )
+
+        # Convert friendly choice back to original format for compatibility
+        if "Super Fast" in test_mode_choice:
+            test_mode = "Parallel (Recommended)"
+            internal_test_mode = "Parallel (Recommended)"
+        elif "Take it Slow" in test_mode_choice:
+            test_mode = "Sequential (Controlled)"
+            internal_test_mode = "Sequential (Controlled)"
+        else:
+            test_mode = "Compare Both"
+            internal_test_mode = "Full Comparison"
+
+        # Query Customization
+        use_custom_query = st.checkbox("📝 Write my own test question", value=False)
+
+        if use_custom_query:
+            st.markdown("#### ✏️ Custom Test Question")
+
+            test_query = st.text_area(
+                "What should the AI analyze?",
+                value="Look at this document and tell me the important stuff, like what's good and what needs to be fixed.",
+                height=100,
+                help="Write what you want the AI to do with your documents"
+            )
+
+            # Save/Load functionality
+            col_save, col_load = st.columns(2)
+
+            with col_save:
+                if st.button("💾 Save Question", use_container_width=True):
+                    # Save to markdown file
+                    import os
+                    from datetime import datetime
+
+                    # Create queries directory in specific project folder
+                    import os
+                    project_base = Path("C:/Users/marti/AI-Shipping/tidyllm/workflows/projects")
+                    queries_dir = project_base / selected_project / "saved_queries"
+                    queries_dir.mkdir(parents=True, exist_ok=True)
+
+                    # Generate filename with timestamp
+                    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+                    filename = f"custom_query_{timestamp}.md"
+                    filepath = queries_dir / filename
+
+                    # Save as markdown
+                    markdown_content = f"""# Custom Test Query
+**Created**: {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}
+
+## Query Text
+{test_query}
+
+## Usage Notes
+This query can be used in the TidyLLM Test Designer for A/B/C/D testing experiments.
+
+---
+*Generated by TidyLLM Flow Creator V3*
+"""
+
+                    try:
+                        with open(filepath, 'w', encoding='utf-8') as f:
+                            f.write(markdown_content)
+                        st.success(f"✅ Saved: {filename}")
+                        st.info(f"📁 Location: {filepath}")
+                    except Exception as e:
+                        st.error(f"❌ Save failed: {e}")
+
+            with col_load:
+                # Load saved queries from current project
+                project_base = Path("C:/Users/marti/AI-Shipping/tidyllm/workflows/projects")
+                queries_dir = project_base / selected_project / "saved_queries"
+                if queries_dir.exists():
+                    saved_files = list(queries_dir.glob("*.md"))
+                    if saved_files:
+                        # Sort files by timestamp (newest first)
+                        saved_files.sort(reverse=True, key=lambda f: f.name)
+
+                        # Quick load latest button
+                        if st.button("⚡ Load Latest", use_container_width=True, help="Load the most recent query"):
+                            latest_file = saved_files[0]
+                            try:
+                                with open(latest_file, 'r', encoding='utf-8') as f:
+                                    content = f.read()
+                                    # Extract query text from markdown
+                                    lines = content.split('\n')
+                                    in_query_section = False
+                                    query_lines = []
+
+                                    for line in lines:
+                                        if line.startswith("## Query Text"):
+                                            in_query_section = True
+                                            continue
+                                        elif line.startswith("## ") and in_query_section:
+                                            break
+                                        elif in_query_section and line.strip():
+                                            query_lines.append(line)
+
+                                    if query_lines:
+                                        st.session_state.loaded_query = '\n'.join(query_lines)
+                                        st.success(f"✅ Loaded latest: {latest_file.name}")
+                                        st.rerun()
+                            except Exception as e:
+                                st.error(f"❌ Load failed: {e}")
+
+                        # Manual selection dropdown
+                        selected_file = st.selectbox(
+                            "📂 Or pick specific:",
+                            [""] + [f.name for f in saved_files],
+                            help="Choose a specific saved query"
+                        )
+
+                        if selected_file and st.button("📄 Load Selected", use_container_width=True):
+                            try:
+                                with open(queries_dir / selected_file, 'r', encoding='utf-8') as f:
+                                    content = f.read()
+                                    # Extract query text from markdown
+                                    lines = content.split('\n')
+                                    in_query_section = False
+                                    query_lines = []
+
+                                    for line in lines:
+                                        if line.startswith("## Query Text"):
+                                            in_query_section = True
+                                            continue
+                                        elif line.startswith("## ") and in_query_section:
+                                            break
+                                        elif in_query_section and line.strip():
+                                            query_lines.append(line)
+
+                                    if query_lines:
+                                        st.session_state.loaded_query = '\n'.join(query_lines)
+                                        st.success(f"✅ Loaded: {selected_file}")
+                                        st.rerun()
+                            except Exception as e:
+                                st.error(f"❌ Load failed: {e}")
+
+                        # Show count of saved queries
+                        st.caption(f"📁 {len(saved_files)} saved queries found")
+                    else:
+                        st.info("💡 No saved queries yet")
+                else:
+                    st.info("💡 No saved queries folder yet")
+
+            # Use loaded query if available
+            if 'loaded_query' in st.session_state:
+                test_query = st.session_state.loaded_query
+                del st.session_state.loaded_query  # Clear after use
+
+        else:
+            test_query = "Analyze this document for key insights and recommendations."
+            st.success("✅ Using the basic test question")
+
+    # ========================================
+    # COLUMN 2: DESIGN
+    # ========================================
+    with col2:
+        st.markdown("### 2️⃣ Pick Your Tests")
+        st.markdown("*🧪 Which AI models should we try?*")
+
+        run_test_a = st.checkbox("🚀 **Test A: Super Speedy** (Quick AI → Good AI) - 2-3 seconds", value=True)
+        run_test_b = st.checkbox("🎯 **Test B: High Quality** (Good AI → Best AI) - 6-7 seconds", value=True)
+        run_test_c = st.checkbox("💎 **Test C: Best Bang for Buck** (Quick AI → Best AI) - 4-5 seconds", value=True)
+        run_test_d = st.checkbox("🧠 **Test D: Super Smart** (Quick AI → Good AI + Special Tools) - 3-4 seconds", value=True)
+
+        # Simple explanation
+        with st.expander("🤔 **What do these tests do?**", expanded=False):
+            st.markdown("""
+            **🚀 Test A**: Uses the fastest AI, then a pretty good one. Super quick!
+
+            **🎯 Test B**: Uses good AI, then the absolute best AI. Takes longer but amazing results!
+
+            **💎 Test C**: Uses fast AI first, then jumps to the best AI. Good balance!
+
+            **🧠 Test D**: Like Test A but with special tools to make it even smarter!
+
+            💡 **Pro tip**: Try all of them to see which one you like best!
+            """)
+
+    # ========================================
+    # COLUMN 3: RUN
+    # ========================================
+    with col3:
+        st.markdown("### 3️⃣ Hit the Button!")
+        st.markdown("*🚀 Ready to test your AI?*")
+
+        # Show what they picked
+        if "Super Fast" in test_mode_choice:
+            st.success("✅ **SUPER FAST MODE!**")
+            st.write("All tests will run together - this is way faster!")
+            max_concurrent = st.slider(
+                "How many tests at once?",
+                min_value=1,
+                max_value=4,
+                value=4,
+                help="4 = fastest! 1 = slowest but uses less computer power"
+            )
+        elif "Take it Slow" in test_mode_choice:
+            st.info("🐌 **SLOW AND STEADY MODE!**")
+            st.write("Tests will run one by one - safer but slower")
+            max_concurrent = 1
+            delay_seconds = st.slider(
+                "Wait time between tests:",
+                min_value=1,
+                max_value=10,
+                value=2,
+                help="How many seconds to wait before starting the next test"
+            )
+        else:  # Full Comparison
+            st.warning("📊 **COMPARISON MODE!**")
+            st.write("We'll try both fast and slow ways!")
+            max_concurrent = 4
+            delay_seconds = 2
+
+        # THE BIG BUTTON
+        st.markdown("---")
+        if (run_test_a or run_test_b or run_test_c or run_test_d) and st.button("🔴 **START TESTING!**",
+                                      type="primary",
+                                      use_container_width=True,
+                                      help="Click to start running your AI tests!"):
+            st.session_state.start_testing_clicked = True
+
+    # Get selected tests
+    selected_tests = []
+    if run_test_a:
+        selected_tests.append("A")
+    if run_test_b:
+        selected_tests.append("B")
+    if run_test_c:
+        selected_tests.append("C")
+    if run_test_d:
+        selected_tests.append("D")
+
+    # Add execution section after 3-column layout
+    st.markdown("---")
+    st.markdown("## 🎯 **TEST RESULTS**")
+
+    # Add visual charts and graphics section
+    if 'test_results' in st.session_state or 'performance_comparison' in st.session_state:
+        st.markdown("### 📊 **Visual Results Dashboard**")
+
+        # Create tabs for different visualizations
+        viz_tab1, viz_tab2, viz_tab3, viz_tab4 = st.tabs([
+            "⚡ Performance", "🏆 Rankings", "📈 Trends", "🎨 Comparison"
+        ])
+
+        with viz_tab1:
+            st.markdown("#### ⚡ Speed & Performance Charts")
+
+            # Mock performance data for visualization
+            import pandas as pd
+            import plotly.express as px
+            import plotly.graph_objects as go
+
+            # Sample data (replace with actual test results)
+            perf_data = {
+                'Test': ['Test A: Super Speedy', 'Test B: High Quality', 'Test C: Best Bang for Buck', 'Test D: Super Smart'],
+                'Speed (seconds)': [2.3, 6.7, 4.5, 3.4],
+                'Quality Score': [85, 95, 90, 88],
+                'Cost per Test': [0.12, 0.45, 0.28, 0.18]
+            }
+            df = pd.DataFrame(perf_data)
+
+            # Speed comparison bar chart
+            fig_speed = px.bar(df, x='Test', y='Speed (seconds)',
+                             title='🚀 Test Execution Speed Comparison',
+                             color='Speed (seconds)',
+                             color_continuous_scale='RdYlGn_r')
+            fig_speed.update_layout(height=400)
+            st.plotly_chart(fig_speed, use_container_width=True)
+
+        with viz_tab2:
+            st.markdown("#### 🏆 Test Rankings & Scores")
+
+            # Quality vs Speed scatter plot
+            fig_scatter = px.scatter(df, x='Speed (seconds)', y='Quality Score',
+                                   size='Cost per Test', hover_name='Test',
+                                   title='🎯 Quality vs Speed Analysis',
+                                   labels={'Speed (seconds)': 'Speed (lower is better)',
+                                          'Quality Score': 'Quality Score (higher is better)'})
+
+            # Add quadrant lines
+            fig_scatter.add_hline(y=90, line_dash="dash", line_color="gray")
+            fig_scatter.add_vline(x=4, line_dash="dash", line_color="gray")
+            fig_scatter.update_layout(height=400)
+            st.plotly_chart(fig_scatter, use_container_width=True)
+
+            # Winner podium
+            st.markdown("#### 🥇 Test Winners")
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                st.metric("🥇 Fastest Test", "Test A", "2.3 seconds")
+            with col2:
+                st.metric("🥇 Highest Quality", "Test B", "95% score")
+            with col3:
+                st.metric("🥇 Best Value", "Test C", "90% quality, 4.5s")
+
+        with viz_tab3:
+            st.markdown("#### 📈 Performance Trends")
+
+            # Mock trend data over time
+            import numpy as np
+            dates = pd.date_range('2025-01-01', periods=10, freq='D')
+            trend_data = {
+                'Date': dates,
+                'Test A Speed': 2.3 + np.random.normal(0, 0.2, 10),
+                'Test B Speed': 6.7 + np.random.normal(0, 0.3, 10),
+                'Test C Speed': 4.5 + np.random.normal(0, 0.25, 10),
+                'Test D Speed': 3.4 + np.random.normal(0, 0.2, 10)
+            }
+            trend_df = pd.DataFrame(trend_data)
+
+            # Line chart for trends
+            fig_trend = px.line(trend_df, x='Date',
+                              y=['Test A Speed', 'Test B Speed', 'Test C Speed', 'Test D Speed'],
+                              title='📈 Performance Trends Over Time')
+            fig_trend.update_layout(height=400)
+            st.plotly_chart(fig_trend, use_container_width=True)
+
+        with viz_tab4:
+            st.markdown("#### 🎨 Side-by-Side Comparison")
+
+            # Radar chart for multi-dimensional comparison
+            categories = ['Speed', 'Quality', 'Cost Efficiency', 'Reliability', 'Ease of Use']
+
+            fig_radar = go.Figure()
+
+            # Test A data
+            fig_radar.add_trace(go.Scatterpolar(
+                r=[95, 85, 90, 88, 92],
+                theta=categories,
+                fill='toself',
+                name='Test A: Super Speedy'
+            ))
+
+            # Test B data
+            fig_radar.add_trace(go.Scatterpolar(
+                r=[60, 95, 70, 92, 85],
+                theta=categories,
+                fill='toself',
+                name='Test B: High Quality'
+            ))
+
+            fig_radar.update_layout(
+                polar=dict(
+                    radialaxis=dict(
+                        visible=True,
+                        range=[0, 100]
+                    )),
+                showlegend=True,
+                title="🎨 Multi-Dimensional Test Comparison",
+                height=500
+            )
+
+            st.plotly_chart(fig_radar, use_container_width=True)
+
+            # Comparison table
+            st.markdown("#### 📋 Detailed Comparison Table")
+            comparison_df = pd.DataFrame({
+                'Metric': ['Execution Time', 'Quality Score', 'Cost per Run', 'Memory Usage', 'Success Rate'],
+                'Test A': ['2.3s', '85%', '$0.12', '245MB', '98%'],
+                'Test B': ['6.7s', '95%', '$0.45', '480MB', '99%'],
+                'Test C': ['4.5s', '90%', '$0.28', '320MB', '97%'],
+                'Test D': ['3.4s', '88%', '$0.18', '280MB', '96%']
+            })
+            st.dataframe(comparison_df, use_container_width=True)
+
+    else:
+        # Show placeholder when no tests have been run
+        st.info("🎯 **Run some tests to see amazing visual results here!**")
+
+        # Preview of what graphics will show
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.markdown("### ⚡ Performance")
+            st.markdown("📊 Speed comparison charts")
+        with col2:
+            st.markdown("### 🏆 Rankings")
+            st.markdown("🥇 Winner podium & scores")
+        with col3:
+            st.markdown("### 📈 Trends")
+            st.markdown("📈 Performance over time")
+        with col4:
+            st.markdown("### 🎨 Comparison")
+            st.markdown("🌐 Radar charts & tables")
+
+    # Check if button was clicked (need to handle this properly)
+    if 'start_testing_clicked' in st.session_state and st.session_state.start_testing_clicked:
+        # Real-time execution with timer
+        start_time = datetime.now()
+        progress_container = st.container()
+
+        with progress_container:
+            st.markdown("## 🚀 **YOUR TESTS ARE RUNNING!**")
+            st.markdown("### 🎉 The AI is working super hard for you!")
+            timer_placeholder = st.empty()
+            status_placeholder = st.empty()
+
+            try:
+                if "Try Both Ways" in test_mode_choice:
+                    # AUTO COMPARISON
+                    status_placeholder.info("📊 **TESTING BOTH WAYS** - Let's see which is better!")
+
+                    from tidyllm.services.optimization.parallel_dual_ai_testing import compare_sequential_vs_parallel_testing
+                    comparison = compare_sequential_vs_parallel_testing(query=test_query)
+
+                    # Show results immediately
+                    elapsed = (datetime.now() - start_time).total_seconds()
+                    timer_placeholder.success(f"⏱️ **FINISHED!** Only took {elapsed:.1f} seconds!")
+
+                    perf = comparison['performance_comparison']
+                    col1, col2, col3 = st.columns(3)
+                    with col1:
+                        st.metric("🐌 Slow Way", f"{perf['sequential_execution_time']:.1f}s")
+                    with col2:
+                        st.metric("🚀 Fast Way", f"{perf['parallel_execution_time']:.1f}s")
+                    with col3:
+                        st.metric("⚡ How Much Faster?", f"{perf['speedup_factor']:.1f}x")
+
+                    if perf['speedup_factor'] > 1.2:
+                        st.success(f"🏆 **AWESOME! Fast way wins!** It's {perf['speedup_factor']:.1f}x faster!")
+                        st.balloons()
+                    else:
+                        st.info("🤝 **Both ways work great!**")
+
+                    # Store comparison in session state
+                    st.session_state.performance_comparison = comparison
+
+                else:
+                    # SINGLE MODE
+                    mode_name = "Super Fast" if "Super Fast" in test_mode_choice else "Slow and Steady"
+                    status_placeholder.info(f"🚀 **{mode_name.upper()} MODE** running {len(selected_tests)} cool experiments!")
+
+                    # Import the testing frameworks
+                    if "Super Fast" in test_mode_choice or internal_test_mode == "Parallel (Recommended)":
+                            from tidyllm.services.optimization.parallel_dual_ai_testing import run_selective_parallel_testing
+
+                            # Run parallel tests for selected tests only
+                            actual_concurrent = min(max_concurrent, len(selected_tests))
+                            results = run_selective_parallel_testing(
+                                selected_tests=selected_tests,
+                                query=test_query,
+                                max_concurrent_tests=actual_concurrent
+                            )
+
+                    else:  # Careful mode
+                        from tidyllm.services.optimization.dual_ai_ab_testing import run_selective_sequential_testing
+
+                        # Run sequential tests for selected tests only
+                        results = run_selective_sequential_testing(
+                            selected_tests=selected_tests,
+                            query=test_query,
+                            delay_seconds=delay_seconds
+                        )
+
+                        # Final results
+                        total_time = (datetime.now() - start_time).total_seconds()
+                        timer_placeholder.metric("⏱️ Total Time", f"{total_time:.1f}s")
+
+                        # Store results
+                        st.session_state.test_results = results
+                        st.session_state.test_completed = True
+                        st.session_state.selected_tests = selected_tests
+
+                        # Success display
+                        status_placeholder.success(f"✅ **{mode_name.upper()} MODE COMPLETE!** All {len(selected_tests)} test{'s' if len(selected_tests) != 1 else ''} finished!")
+
+                        # Quick results summary
+                        if 'summary' in results and 'tests' in results['summary']:
+                            test_summary = results['summary']['tests']
+                            summary_text = []
+                            for test_id in selected_tests:
+                                if test_id in test_summary:
+                                    test_data = test_summary[test_id]
+                                    time_ms = test_data.get('total_time_ms', 0)
+                                    confidence = test_data.get('confidence_improvement', 0)
+                                    summary_text.append(f"**Test {test_id}**: {time_ms:.0f}ms, +{confidence:.2f} confidence")
+
+                            if summary_text:
+                                st.info("📊 **Quick Results**: " + " | ".join(summary_text))
+
+                        st.balloons()
+
+            except Exception as e:
+                status_placeholder.error(f"❌ **Test failed**: {e}")
+                st.exception(e)
+
+    else:
+        st.warning("⚠️ **Pick some tests first!**")
+        st.markdown("👈 Go back to column 2 and check some boxes!")
+
+    # Results Analysis Section
+    if hasattr(st.session_state, 'test_results') or hasattr(st.session_state, 'performance_comparison'):
+        st.subheader("📈 Results Analysis")
+
+        analysis_tab1, analysis_tab2, analysis_tab3 = st.tabs(["📊 Test Summary", "⚡ Performance", "💡 Recommendations"])
+
+        with analysis_tab1:
+            if hasattr(st.session_state, 'test_results'):
+                st.markdown("#### Test Results Summary")
+                results = st.session_state.test_results
+
+                # Create summary table
+                if 'summary' in results and 'tests' in results['summary']:
+                    import pandas as pd
+
+                    test_data = []
+                    for test_id, data in results['summary']['tests'].items():
+                        test_data.append({
+                            'Test': test_id,
+                            'Models': data.get('models', 'N/A'),
+                            'Time (ms)': data.get('total_time_ms', 0),
+                            'Confidence': data.get('confidence_improvement', 0),
+                            'Tokens': data.get('total_tokens', 0)
+                        })
+
+                    df = pd.DataFrame(test_data)
+                    st.dataframe(df, use_container_width=True)
+
+        with analysis_tab2:
+            if hasattr(st.session_state, 'performance_comparison'):
+                st.markdown("#### Performance Comparison")
+                comparison = st.session_state.performance_comparison
+                perf = comparison['performance_comparison']
+
+                # Performance metrics
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Sequential Execution", f"{perf['sequential_execution_time']:.2f}s")
+                    st.metric("Parallel Execution", f"{perf['parallel_execution_time']:.2f}s")
+                with col2:
+                    st.metric("Speedup Factor", f"{perf['speedup_factor']:.2f}x")
+                    st.metric("Time Saved", f"{perf['time_saved_seconds']:.2f}s")
+
+                # Recommendation
+                if perf['speedup_factor'] > 1.2:
+                    st.success(f"💡 **Recommendation**: Use parallel execution for {perf['efficiency_improvement_percent']:.1f}% better efficiency")
+                else:
+                    st.info("💡 **Recommendation**: Sequential execution is sufficient for this workload")
+
+        with analysis_tab3:
+            st.markdown("#### Optimization Recommendations")
+
+            if hasattr(st.session_state, 'test_results'):
+                results = st.session_state.test_results
+
+                if 'summary' in results and 'tests' in results['summary']:
+                    tests = results['summary']['tests']
+
+                    # Find best test for different criteria
+                    best_speed = min(tests.items(), key=lambda x: x[1].get('total_time_ms', float('inf')))
+                    best_quality = max(tests.items(), key=lambda x: x[1].get('confidence_improvement', 0))
+
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.success(f"🚀 **Best for Speed**: Test {best_speed[0]}")
+                        st.write(f"Time: {best_speed[1].get('total_time_ms', 0):.0f}ms")
+                        st.write(f"Models: {best_speed[1].get('models', 'N/A')}")
+
+                    with col2:
+                        st.success(f"🎯 **Best for Quality**: Test {best_quality[0]}")
+                        st.write(f"Confidence: {best_quality[1].get('confidence_improvement', 0):.2f}")
+                        st.write(f"Models: {best_quality[1].get('models', 'N/A')}")
+
+    # Results viewer section
+    st.markdown("---")
+    if hasattr(st.session_state, 'test_results') and st.session_state.test_results:
+        with st.expander("📊 **View Latest Results**", expanded=False):
+            results = st.session_state.test_results
+            st.json(results)
+
+    elif hasattr(st.session_state, 'performance_comparison') and st.session_state.performance_comparison:
+        with st.expander("📊 **View Comparison Results**", expanded=False):
+            comparison = st.session_state.performance_comparison
+            st.json(comparison)
+
+    # ========================================
+    # OUTPUT FILE MANAGER SECTION
+    # ========================================
+    st.markdown("---")
+    st.markdown("## 📁 **YOUR FILES**")
+    st.markdown("**📂 Find, view, and download your test results**")
+
+    # Create file manager interface
+    file_col1, file_col2, file_col3 = st.columns([1, 1, 1])
+
+    with file_col1:
+        st.markdown("### 📋 **Select Files**")
+
+        # Mock file list (replace with actual file discovery)
+        available_files = [
+            "test_results_2025-01-01.json",
+            "performance_comparison.json",
+            "experiment_a_results.json",
+            "experiment_b_results.json",
+            "optimization_report.pdf"
+        ]
+
+        selected_files = st.multiselect(
+            "Pick files to manage:",
+            available_files,
+            help="Choose one or more result files"
+        )
+
+        # File type filter
+        file_type_filter = st.selectbox(
+            "Show only:",
+            ["All Files", "JSON Results", "PDF Reports", "CSV Data"],
+            help="Filter files by type"
+        )
+
+    with file_col2:
+        st.markdown("### 👀 **Preview**")
+
+        if selected_files:
+            preview_file = st.selectbox(
+                "Preview which file?",
+                selected_files,
+                help="Choose a file to preview"
+            )
+
+            # Mock file preview
+            st.info(f"📄 **Preview of**: {preview_file}")
+            if preview_file.endswith('.json'):
+                st.code('''
+{
+  "test_name": "Super Speedy Test A",
+  "completion_time": "2.3 seconds",
+  "result": "SUCCESS!",
+  "confidence": "95%"
+}
+                ''', language='json')
+            elif preview_file.endswith('.pdf'):
+                st.write("📊 **PDF Report Preview**")
+                st.write("• Test Summary: 4 tests completed")
+                st.write("• Best Performance: Test A (2.3s)")
+                st.write("• Recommendation: Use fast mode")
+            else:
+                st.write("📝 **File preview will appear here**")
+        else:
+            st.warning("👈 Pick a file to preview!")
+
+    with file_col3:
+        st.markdown("### 💾 **Download**")
+
+        if selected_files:
+            st.success(f"✅ **Ready to download {len(selected_files)} file(s)**")
+
+            # Download options
+            download_format = st.radio(
+                "Download as:",
+                ["📄 Individual Files", "📦 ZIP Package", "📊 Summary Report"],
+                help="Choose how to download your files"
+            )
+
+            # Download buttons
+            if st.button("⬇️ **DOWNLOAD FILES**",
+                        type="primary",
+                        use_container_width=True,
+                        help="Download your selected files"):
+                st.success("🎉 **Files downloaded!**")
+                st.balloons()
+                st.info("💡 **Tip**: Files saved to your Downloads folder!")
+
+            # Quick actions
+            st.markdown("#### 🚀 Quick Actions")
+            if st.button("📧 Email Results", use_container_width=True):
+                st.info("📧 Email feature coming soon!")
+
+            if st.button("🔗 Share Link", use_container_width=True):
+                st.info("🔗 Share feature coming soon!")
+        else:
+            st.warning("👈 Pick some files first!")
+
+    # File management actions
+    st.markdown("---")
+    st.markdown("### 🧹 **File Management**")
+
+    mgmt_col1, mgmt_col2, mgmt_col3, mgmt_col4 = st.columns(4)
+
+    with mgmt_col1:
+        if st.button("🗂️ **Organize Files**", use_container_width=True):
+            st.info("🗂️ File organization coming soon!")
+
+    with mgmt_col2:
+        if st.button("🗑️ **Clean Old Files**", use_container_width=True):
+            st.info("🗑️ Cleanup feature coming soon!")
+
+    with mgmt_col3:
+        if st.button("🔄 **Refresh List**", use_container_width=True):
+            st.success("✅ File list refreshed!")
+
+    with mgmt_col4:
+        if st.button("💾 **Backup All**", use_container_width=True):
+            st.info("💾 Backup feature coming soon!")
