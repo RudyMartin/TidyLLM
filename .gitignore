@@ -29,6 +29,63 @@ mlruns/
 *settings*
 *credentials*
 *secrets*
+*password*
+*token*
+*auth*
+aws_settings.*
+simple_config.*
+*config.yaml
+*config.yml
+*config.json
+
+# Environment setup scripts
+set_env.*
+*set_env*
+set_aws_env.*
+*set_aws_env*
+
+# Backup files that may contain credentials
+*backup*.yaml
+*backup*.yml
+*backup*.json
+*backup*.parquet
+*.backup
+*.bak
+*.old
+*.orig
+*.save
+
+# AWS and cloud credentials
+.aws/
+aws-credentials.*
+aws-config.*
+*aws_access*
+*aws_secret*
+*aws_key*
+
+# Database configuration
+*db_config*
+*database.ini
+*db_password*
+*db_credentials*
+*db_settings*
+
+# Certificate and key files
+*.pem
+*.key
+*.crt
+*.cert
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.truststore
+
+# Runtime state files
+*state*.json
+*state*.yaml
+runtime_state*
+active_state*
 
 # Active state files
 *active_state*
