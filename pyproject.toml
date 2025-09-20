@@ -1,0 +1,71 @@
+[project]
+name = "tidyllm"
+version = "2.0.0"
+description = "DSPy-optimized AI enterprise platform with transparent implementations"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "pydantic>=2.0.0",
+    "sqlalchemy>=2.0.0",
+    "asyncio-mqtt",
+    "aiofiles",
+    "httpx",
+    "pyyaml",
+    "python-dotenv",
+]
+authors = [
+    {name = "TidyLLM Team", email = "info@tidyllm.ai"}
+]
+license = {text = "MIT"}
+keywords = [
+    "dspy",
+    "enterprise ai",
+    "gateways",
+    "knowledge systems",
+    "workflows",
+    "educational",
+    "transparent ai"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0",
+    "pytest-cov",
+]
+
+[project.urls]
+Homepage = "https://github.com/marti/qa-shipping"
+"Bug Reports" = "https://github.com/marti/qa-shipping/issues"
+"Source" = "https://github.com/marti/qa-shipping"
+Repository = "https://github.com/marti/qa-shipping.git"
+Documentation = "https://github.com/marti/qa-shipping/blob/main/packages/tidyllm/README.md"
+
+[project.scripts]
+# CLI commands can be added here in the future
+
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["tidyllm"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+tidyllm = ["*.yaml", "*.json", "*.md"]
