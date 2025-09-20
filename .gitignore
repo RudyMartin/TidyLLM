@@ -16,6 +16,22 @@ data/backups/*.sql
 .env
 .env.local
 .env.production
+.env.*
+
+# MLflow files (auto-generated metadata)
+mlruns/
+**/mlruns/
+
+# Parquet files (may contain sensitive data)
+*.parquet
+
+# Settings and configuration files with credentials
+*settings*
+*credentials*
+*secrets*
+
+# Active state files
+*active_state*
 
 # Content 
 review
