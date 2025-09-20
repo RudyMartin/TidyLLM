@@ -19,8 +19,10 @@ def verify_complete_evidence():
         config = yaml.safe_load(f)
     
     mlflow_uri = config['services']['mlflow']['backend_store_uri']
+    # #future_fix: Convert to use enhanced service infrastructure
     mlflow.set_tracking_uri(mlflow_uri)
     
+    # #future_fix: Convert to use enhanced service infrastructure
     client = mlflow.tracking.MlflowClient()
     
     # Get our complete evidence experiment

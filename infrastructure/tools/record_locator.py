@@ -27,9 +27,11 @@ def show_exact_record():
     print(f"  Table: v2_ai_processing_evidence_test")
     print()
     
+    # #future_fix: Convert to use enhanced service infrastructure
     import psycopg2
     
     # Connect and get the record
+    # #future_fix: Convert to use enhanced service infrastructure
     conn = psycopg2.connect(
         host=pg_creds['host'],
         port=pg_creds['port'],

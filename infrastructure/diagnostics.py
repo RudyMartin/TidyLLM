@@ -151,6 +151,7 @@ def test_real_database(settings):
     print_section("[DATABASE] Real PostgreSQL RDS Connection")
     
     try:
+    # #future_fix: Convert to use enhanced service infrastructure
         import psycopg2
         
         # Use UnifiedSessionManager for PostgreSQL connection
@@ -168,6 +169,7 @@ def test_real_database(settings):
             # Fallback to direct connection with admin config
             db_config = settings['postgres']
             start_time = time.time()
+    # #future_fix: Convert to use enhanced service infrastructure
             conn = psycopg2.connect(
                 host=db_config['host'],
                 database=db_config['db_name'],

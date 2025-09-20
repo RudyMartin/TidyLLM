@@ -35,6 +35,7 @@ except ImportError:
     UNIFIED_SESSION_AVAILABLE = False
 
 try:
+    # #future_fix: Convert to use enhanced service infrastructure
     import psycopg2
     from psycopg2.extras import RealDictCursor
     POSTGRES_AVAILABLE = True
@@ -98,7 +99,15 @@ class VectorManager:
     def __init__(self, config: VectorConfig = None, auto_connect: bool = True):
         self.config = config or VectorConfig()
         if not self.config.password:
-            self.config.password = os.environ.get('POSTGRES_PASSWORD', 'Fujifuji500!')
+            # Try to get password from environment, fail if not available
+            self.config.password = os.environ.get('POSTGRES_PASSWORD')
+            if not self.config.password:
+                try:
+                    from config.environment_manager import get_db_config
+                    db_config = get_db_config()
+                    self.config.password = db_config.password
+                except ImportError:
+                    raise ValueError("No database password provided. Set POSTGRES_PASSWORD environment variable.")
         
         # Initialize embedding standardizer
         self.embedding_standardizer = EmbeddingStandardizer(
@@ -154,6 +163,7 @@ class VectorManager:
             }
         
         try:
+    # #future_fix: Convert to use enhanced service infrastructure
             self.connection = psycopg2.connect(
                 host=self.config.host,
                 port=self.config.port,

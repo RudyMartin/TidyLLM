@@ -9,6 +9,7 @@ import yaml
 import mlflow
 from pathlib import Path
 import json
+    # #future_fix: Convert to use enhanced service infrastructure
 import psycopg2
 from datetime import datetime
 
@@ -25,6 +26,7 @@ def execute_robots3_workflow():
         settings = yaml.safe_load(f)
     
     # Initialize MLFlow
+    # #future_fix: Convert to use enhanced service infrastructure
     mlflow.set_tracking_uri(settings['integrations']['mlflow']['tracking_uri'])
     experiment = mlflow.set_experiment('tidyllm-workflows')
     
@@ -42,6 +44,7 @@ def execute_robots3_workflow():
         try:
             # Database connection
             db_config = settings['postgres']
+    # #future_fix: Convert to use enhanced service infrastructure
             conn = psycopg2.connect(
                 host=db_config['host'],
                 port=db_config['port'],

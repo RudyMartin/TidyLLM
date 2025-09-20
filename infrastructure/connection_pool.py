@@ -26,7 +26,9 @@ Usage:
 import os
 import sys
 import yaml
+    # #future_fix: Convert to use enhanced service infrastructure
 import psycopg2
+    # #future_fix: Convert to use enhanced service infrastructure
 import psycopg2.pool
 import threading
 import time
@@ -79,6 +81,7 @@ class TidyLLMConnectionPool:
 
     def _create_pool(self):
         """Create the PostgreSQL connection pool."""
+        # #future_fix: Convert to use enhanced service infrastructure
         try:
             self.pool = psycopg2.pool.ThreadedConnectionPool(
                 self.min_connections,
@@ -105,6 +108,7 @@ class TidyLLMConnectionPool:
             client_name: Name of the component requesting the connection
 
         Yields:
+    # #future_fix: Convert to use enhanced service infrastructure
             psycopg2.connection: Database connection
         """
         connection = None
@@ -185,6 +189,7 @@ class TidyLLMConnectionPool:
                     "type": "external_connection_string"
                 }
 
+    # #future_fix: Convert to use enhanced service infrastructure
         return (f"postgresql://{self.pg_config['username']}:{self.pg_config['password']}"
                 f"@{self.pg_config['host']}:{self.pg_config['port']}"
                 f"/{self.pg_config['database']}?sslmode={self.pg_config.get('ssl_mode', 'require')}")
@@ -280,11 +285,17 @@ def load_postgresql_config() -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: PostgreSQL configuration
     """
-    # Try multiple locations for settings.yaml
+    # Use package-relative paths and environment variables instead of hardcoded external paths
+    # Try multiple locations for settings.yaml in order of preference
     possible_paths = [
-        Path("tidyllm/admin/settings.yaml"),
-        Path("../tidyllm/admin/settings.yaml"),
-        Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
+        # 1. Environment variable override
+        Path(os.environ.get("TIDYLLM_SETTINGS_PATH", "")),
+        # 2. Package-relative admin directory
+        Path(__file__).parent.parent / "admin" / "settings.yaml",
+        # 3. Local settings file
+        Path("settings.yaml"),
+        # 4. Development environment fallback (only if exists)
+        Path("../infrastructure/settings.yaml")
     ]
 
     for settings_path in possible_paths:

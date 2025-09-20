@@ -9,7 +9,7 @@ import asyncpg
 from typing import List, Dict, Any, Optional
 from dataclasses import asdict
 
-from ...domain.ports.outbound import (
+from tidyllm.domain.ports.outbound import (
     DocumentRepositoryPort,
     ComplianceRepositoryPort,
     Document,

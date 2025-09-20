@@ -11,7 +11,7 @@ from dataclasses import dataclass
 from datetime import datetime
 import logging
 
-from ...rag2dag.converter import RAGPatternType
+from tidyllm.rag2dag.converter import RAGPatternType
 
 logger = logging.getLogger(__name__)
 

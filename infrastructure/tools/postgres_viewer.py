@@ -11,6 +11,7 @@ from pathlib import Path
 
 def load_real_credentials():
     """Load REAL credentials from tidyllm/admin/settings.yaml"""
+    # #future_fix: Convert to use enhanced service infrastructure
     settings_path = Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
     
     with open(settings_path, 'r') as f:

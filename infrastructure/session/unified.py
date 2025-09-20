@@ -49,6 +49,7 @@ except ImportError:
 
 # PostgreSQL imports
 try:
+    # #future_fix: Convert to use enhanced service infrastructure
     import psycopg2
     from psycopg2.extras import RealDictCursor, Json
     from psycopg2.pool import SimpleConnectionPool
@@ -506,8 +507,11 @@ class UnifiedSessionManager:
     def _parse_database_url(self, url: str):
         """Parse DATABASE_URL into components"""
         try:
+    # #future_fix: Convert to use enhanced service infrastructure
             # Format: postgresql://username:password@host:port/database
+    # #future_fix: Convert to use enhanced service infrastructure
             if url.startswith('postgresql://'):
+    # #future_fix: Convert to use enhanced service infrastructure
                 url = url.replace('postgresql://', '')
                 if '@' in url:
                     auth, location = url.split('@', 1)

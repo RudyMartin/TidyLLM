@@ -3,6 +3,7 @@
 Verify MLflow is actually using PostgreSQL, not local files
 """
 
+    # #future_fix: Convert to use enhanced service infrastructure
 import psycopg2
 import yaml
 from pathlib import Path
@@ -25,6 +26,7 @@ def verify_mlflow_sql_connection():
     print()
     
     # Connect to PostgreSQL directly
+    # #future_fix: Convert to use enhanced service infrastructure
     conn = psycopg2.connect(
         host=pg_creds['host'],
         port=pg_creds['port'],

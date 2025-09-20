@@ -13,8 +13,8 @@ from dataclasses import dataclass
 from datetime import datetime
 import logging
 
-from ...rag2dag.converter import RAG2DAGConverter, RAGPatternType
-from ...rag2dag.config import RAG2DAGConfig
+from tidyllm.rag2dag.converter import RAG2DAGConverter, RAGPatternType
+from tidyllm.rag2dag.config import RAG2DAGConfig
 from .rag2dag_pattern_service import RAG2DAGPatternService
 from .rag2dag_execution_service import RAG2DAGExecutionService
 

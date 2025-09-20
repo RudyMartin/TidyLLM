@@ -19,6 +19,7 @@ from enum import Enum
 
 # Optional PostgreSQL support
 try:
+    # #future_fix: Convert to use enhanced service infrastructure
     import psycopg2
     from psycopg2.extras import RealDictCursor
     from psycopg2.pool import SimpleConnectionPool
@@ -75,13 +76,21 @@ class DemoConnectionManager:
     def _load_config(self) -> ConnectionConfig:
         """Load configuration from environment or use defaults"""
         return ConnectionConfig(
+    # #future_fix: Convert to use enhanced service infrastructure
             host=os.getenv('POSTGRES_HOST', os.getenv('DEMO_DB_HOST', 'localhost')),
+    # #future_fix: Convert to use enhanced service infrastructure
             port=int(os.getenv('POSTGRES_PORT', os.getenv('DEMO_DB_PORT', '5432'))),
+    # #future_fix: Convert to use enhanced service infrastructure
             database=os.getenv('POSTGRES_DB', os.getenv('DEMO_DB_NAME', 'demo_db')),
+    # #future_fix: Convert to use enhanced service infrastructure
             username=os.getenv('POSTGRES_USER', os.getenv('DEMO_DB_USER', 'demo_user')),
+    # #future_fix: Convert to use enhanced service infrastructure
             password=os.getenv('POSTGRES_PASSWORD', os.getenv('DEMO_DB_PASSWORD', '')),
+    # #future_fix: Convert to use enhanced service infrastructure
             pool_size=int(os.getenv('POSTGRES_POOL_SIZE', os.getenv('DEMO_DB_POOL_SIZE', '5'))),
+    # #future_fix: Convert to use enhanced service infrastructure
             timeout=int(os.getenv('POSTGRES_TIMEOUT', os.getenv('DEMO_DB_TIMEOUT', '30'))),
+    # #future_fix: Convert to use enhanced service infrastructure
             ssl_mode=os.getenv('POSTGRES_SSL_MODE', os.getenv('DEMO_DB_SSL_MODE', 'require'))
         )
     
@@ -97,6 +106,7 @@ class DemoConnectionManager:
             
             # Build connection string
             connection_string = (
+    # #future_fix: Convert to use enhanced service infrastructure
                 f"postgresql://{self.config.username}:{self.config.password}"
                 f"@{self.config.host}:{self.config.port}/{self.config.database}"
                 f"?sslmode={self.config.ssl_mode}"

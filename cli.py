@@ -268,30 +268,36 @@ def launch_qa_processor():
     """Launch QA processor with arguments."""
     print("[LAUNCH] Starting QA Processor...")
     
-    # Import and run qa_processor
+    # QA Processor functionality
     try:
-        # Import from parent directory using proper package import
+        # Try to import from parent directory if available (development environment)
         from .. import qa_processor
         qa_processor.main()
-        
-    except ImportError as e:
-        print(f"[ERROR] Could not launch QA processor: {e}")
-        print("Ensure qa_processor.py is available in the package directory")
-        sys.exit(1)
+
+    except ImportError:
+        print("[INFO] QA Processor functionality not available in standalone mode.")
+        print("This feature requires the full qa-shipping development environment.")
+        print("Available alternatives:")
+        print("  - Use tidyllm workflow commands instead")
+        print("  - Run QA processes through the web portal")
+        return False
 
 def launch_test_runner():
     """Launch QA test runner with arguments.""" 
     print("[LAUNCH] Starting QA Test Runner...")
     
     try:
-        # Import from parent directory using proper package import
+        # Try to import from parent directory if available (development environment)
         from .. import qa_test_runner
         qa_test_runner.main()
-        
-    except ImportError as e:
-        print(f"[ERROR] Could not launch test runner: {e}")
-        print("Ensure qa_test_runner.py is available in the package directory")
-        sys.exit(1)
+
+    except ImportError:
+        print("[INFO] Test Runner functionality not available in standalone mode.")
+        print("This feature requires the full qa-shipping development environment.")
+        print("Available alternatives:")
+        print("  - Use built-in tidyllm test commands")
+        print("  - Run tests through pytest directly")
+        return False
 
 def launch_demo():
     """Launch TidyLLM demo interface."""

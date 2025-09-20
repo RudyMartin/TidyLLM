@@ -103,8 +103,15 @@ class SMERAGSystem:
         # Database connection
         self.pg_conn_string = pg_connection_string or os.getenv('POSTGRESQL_CONNECTION_STRING')
         if not self.pg_conn_string:
-            self.pg_conn_string = "postgresql://vectorqa_user:Fujifuji500!@vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com:5432/vectorqa"
+            # Get database connection from environment manager
+            try:
+                from config.environment_manager import get_db_config
+                db_config = get_db_config()
+                self.pg_conn_string = db_config.connection_url
+            except ImportError:
+                raise ValueError("No database connection string provided and environment_manager not available")
         
+        # #future_fix: Convert to use enhanced service infrastructure
         self.engine = create_engine(self.pg_conn_string)
         
         # AWS S3 setup

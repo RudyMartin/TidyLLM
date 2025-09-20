@@ -167,6 +167,7 @@ def main():
     print('[POSTGRESQL TEST] Testing PostgreSQL access...')
     print('[INFO] UnifiedSessionManager config was overridden, using direct connection with admin config')
     try:
+    # #future_fix: Convert to use enhanced service infrastructure
         import psycopg2
         
         # Debug: Print exact connection parameters being used
@@ -178,6 +179,7 @@ def main():
         print(f'        password={"***" if config.postgres_password else "None"}')
         
         # Use the admin config we loaded
+    # #future_fix: Convert to use enhanced service infrastructure
         conn = psycopg2.connect(
             host=config.postgres_host,
             port=config.postgres_port,

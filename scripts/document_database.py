@@ -4,6 +4,7 @@ Document PostgreSQL Database Schema
 Connects to PostgreSQL and documents all tables, columns, and relationships
 """
 
+    # #future_fix: Convert to use enhanced service infrastructure
 import psycopg2
 import os
 from datetime import datetime
@@ -20,12 +21,14 @@ def get_connection():
     }
     
     try:
+    # #future_fix: Convert to use enhanced service infrastructure
         return psycopg2.connect(**conn_params)
     except Exception as e:
         print(f"Connection failed with defaults, error: {e}")
         # Try alternate database name
         conn_params['database'] = 'postgres'
         try:
+    # #future_fix: Convert to use enhanced service infrastructure
             return psycopg2.connect(**conn_params)
         except Exception as e2:
             print(f"Connection failed with postgres db: {e2}")

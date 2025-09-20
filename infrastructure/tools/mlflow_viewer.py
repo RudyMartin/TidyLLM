@@ -1,33 +1,102 @@
 #!/usr/bin/env python3
 """
 Show the last 5 MLflow records from the PostgreSQL backend
+Using standardized infrastructure with self-describing credentials
 """
 
-import yaml
-import mlflow
-import mlflow.tracking
-from pathlib import Path
 from datetime import datetime
+from typing import Dict, List, Any
+
+# Use existing environment management infrastructure
+try:
+    from infrastructure.environment_manager import setup_environment_from_settings
+    setup_environment_from_settings()
+except ImportError:
+    pass
+
+# Load test configuration from settings
+try:
+    from infrastructure.yaml_loader import get_settings_loader
+    settings_loader = get_settings_loader()
+    test_config = settings_loader._load_settings().get('testing', {}).get('standardized_config', {})
+    MAX_RETRIES = test_config.get('max_retries', 3)
+    DEFAULT_TIMEOUT = test_config.get('default_timeout', 30)
+    MLFLOW_TIMEOUT = test_config.get('mlflow_timeout', 15)
+except ImportError:
+    MAX_RETRIES = 3
+    DEFAULT_TIMEOUT = 30
+    MLFLOW_TIMEOUT = 15
 
 def show_last_5_mlflow_records():
-    """Show the last 5 MLflow experiment runs with all details"""
+    """Show the last 5 MLflow experiment runs with all details using enhanced service"""
     print("LAST 5 MLFLOW RECORDS FROM POSTGRESQL")
     print("=" * 60)
-    
-    # Load credentials and connect
-    settings_path = Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
-    with open(settings_path, 'r') as f:
-        config = yaml.safe_load(f)
-    
-    mlflow_uri = config['services']['mlflow']['backend_store_uri']
-    mlflow.set_tracking_uri(mlflow_uri)
-    
-    print(f"MLflow Backend: PostgreSQL on AWS RDS")
-    print(f"Database: vectorqa")
-    print(f"Host: {config['credentials']['postgresql']['host']}")
-    print()
-    
-    client = mlflow.tracking.MlflowClient()
+
+    try:
+        # Use enhanced MLflow service with self-describing credentials
+        from infrastructure.services.enhanced_mlflow_service import EnhancedMLflowService
+        from infrastructure.services.self_describing_credential_carrier import get_self_describing_credential_carrier
+
+        # Get credential carrier and enhanced service
+        credential_carrier = get_self_describing_credential_carrier()
+        enhanced_service = EnhancedMLflowService(credential_carrier=credential_carrier)
+
+        print(f"MLflow Backend: PostgreSQL on AWS RDS")
+        print(f"Service Status: {enhanced_service.get_status()}")
+        print(f"Current Backend: {enhanced_service.current_backend}")
+        print()
+
+        # Get MLflow client with timeout protection
+        client = enhanced_service.get_mlflow_client()
+        if not client:
+            print("[ERROR] Could not get MLflow client")
+            return
+
+    except Exception as e:
+        print(f"[ERROR] Failed to initialize enhanced MLflow service: {e}")
+        print("Falling back to basic MLflow client with proper credentials...")
+
+        # Fallback to basic client with proper configuration
+        import mlflow
+        import mlflow.tracking
+
+        try:
+            # Get credentials from carrier
+            credential_carrier = get_self_describing_credential_carrier()
+
+            # Get MLflow service configuration
+            mlflow_creds = credential_carrier.get_credentials_by_type('api_credentials')
+            db_creds = credential_carrier.get_credentials_by_type('database_credentials')
+
+            # Build proper MLflow URI for PostgreSQL backend
+            if db_creds:
+                primary_db = None
+                for source_id, creds in db_creds.items():
+                    if 'primary' in source_id or 'postgresql' in source_id:
+                        primary_db = creds
+                        break
+
+                if primary_db:
+                    host = primary_db.get('host')
+                    port = primary_db.get('port', 5432)
+                    database = primary_db.get('database')
+                    username = primary_db.get('username')
+                    password = primary_db.get('password')
+
+                    # #future_fix: Convert to use enhanced service infrastructure
+                    # Build PostgreSQL URI for MLflow
+                    tracking_uri = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+                    mlflow.set_tracking_uri(tracking_uri)
+                    print(f"[SUCCESS] Using AWS RDS PostgreSQL: {host}")
+                else:
+                    print("[WARNING] No primary database credentials found")
+
+            # #future_fix: Convert to use enhanced service infrastructure
+            client = mlflow.tracking.MlflowClient()
+
+        except Exception as fallback_error:
+            print(f"[ERROR] Fallback configuration failed: {fallback_error}")
+            return
     
     # Get ALL runs across ALL experiments, sorted by start time
     print("SEARCHING ALL EXPERIMENTS FOR RECENT RUNS...")
@@ -159,13 +228,13 @@ def show_last_5_mlflow_records():
     print(f"\nTotal Experiments: {len(all_experiments)}")
     print(f"Total Runs: {len(all_runs)}")
     print(f"Database Location: AWS RDS PostgreSQL")
-    print(f"Connection: {mlflow_uri[:50]}...")
+    print(f"Connection: Enhanced MLflow service with backend isolation")
 
 def export_project_mlflow_csv(project_name: str, output_path: str = None):
     """Export MLflow records for a specific project to CSV for verification"""
     import csv
-    import pandas as pd
     import json
+    from pathlib import Path
 
     print(f"EXPORTING MLFLOW DATA FOR PROJECT: {project_name}")
     print("=" * 60)
@@ -178,7 +247,7 @@ def export_project_mlflow_csv(project_name: str, output_path: str = None):
             with open(project_config_path, 'r', encoding='utf-8') as f:
                 project_config = json.load(f)
 
-            print(f"✓ Loaded project config: {project_config_path}")
+            print(f"[SUCCESS] Loaded project config: {project_config_path}")
 
             # Create step mapping from config
             for step in project_config.get('steps', []):
@@ -192,25 +261,32 @@ def export_project_mlflow_csv(project_name: str, output_path: str = None):
                     'type': step.get('step_type', 'unknown')
                 }
 
-            print(f"✓ Mapped {len(step_mapping)} steps from config")
+            print(f"[SUCCESS] Mapped {len(step_mapping)} steps from config")
             for step_id, info in step_mapping.items():
                 print(f"  - {step_id}: {info['number']} ({info['name']})")
         else:
-            print(f"⚠ No project config found at {project_config_path}")
+            print(f"[WARNING] No project config found at {project_config_path}")
             print("  Using fallback step detection")
     except Exception as e:
-        print(f"⚠ Error loading project config: {e}")
+        print(f"[WARNING] Error loading project config: {e}")
         print("  Using fallback step detection")
 
-    # Load credentials and connect
-    settings_path = Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
-    with open(settings_path, 'r') as f:
-        config = yaml.safe_load(f)
+    try:
+        # Use enhanced MLflow service
+        from infrastructure.services.enhanced_mlflow_service import EnhancedMLflowService
+        from infrastructure.services.self_describing_credential_carrier import get_self_describing_credential_carrier
 
-    mlflow_uri = config['services']['mlflow']['backend_store_uri']
-    mlflow.set_tracking_uri(mlflow_uri)
+        credential_carrier = get_self_describing_credential_carrier()
+        enhanced_service = EnhancedMLflowService(credential_carrier=credential_carrier)
+        client = enhanced_service.get_mlflow_client()
 
-    client = mlflow.tracking.MlflowClient()
+        if not client:
+            print("[ERROR] Could not get MLflow client from enhanced service")
+            return None
+
+    except Exception as e:
+        print(f"[ERROR] Enhanced service failed: {e}")
+        return None
 
     # Get all experiments and runs
     all_experiments = client.search_experiments()

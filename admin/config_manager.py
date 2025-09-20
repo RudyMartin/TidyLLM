@@ -33,7 +33,7 @@ class DatabaseConfig:
     postgres_port: int = 5432
     postgres_database: str = "tidyllm_db"
     postgres_username: str = "tidyllm_user"
-    postgres_password: str = "tidyllm_pass"
+    postgres_password: str = ""  # Set via environment variable DB_PASSWORD
     postgres_ssl_mode: str = "prefer"
     
     # MLFlow backend

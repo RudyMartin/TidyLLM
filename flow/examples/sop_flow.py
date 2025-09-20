@@ -5,9 +5,14 @@
 import sys
 from pathlib import Path
 
-# Add admin directory to path for credential loading
-sys.path.append(str(Path(__file__).parent.parent / 'tidyllm' / 'admin') if 'tidyllm' in str(Path(__file__)) else str(Path(__file__).parent / 'tidyllm' / 'admin'))
-from credential_loader import set_aws_environment
+# Use proper package imports instead of sys.path manipulation
+try:
+    from ...admin.credential_loader import set_aws_environment
+except ImportError:
+    # Graceful fallback for standalone package
+    def set_aws_environment():
+        print("[INFO] AWS credential setup not available in standalone mode")
+        print("Please configure AWS credentials manually via environment variables")
 
 # Load AWS credentials using centralized system
 set_aws_environment()
@@ -42,6 +47,7 @@ def upload_sop_pdfs():
     try:
         import sys
         from pathlib import Path
+        # future_fix: remove parent.parent.parent.parent sys.path manipulation and use relative imports
         sys.path.append(str(Path(__file__).parent.parent.parent.parent))
         from tidyllm.infrastructure.session.unified import UnifiedSessionManager
         
