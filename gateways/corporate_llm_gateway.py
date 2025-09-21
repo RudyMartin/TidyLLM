@@ -164,12 +164,30 @@ class CorporateLLMGateway:
             # Log request for audit
             self._log_request(request)
 
-            # Call Bedrock
-            response = bedrock_client.invoke_model(
-                modelId=bedrock_model_id,
-                body=json.dumps(body),
-                contentType="application/json"
-            )
+            # Call Bedrock using delegate or client
+            if hasattr(bedrock_client, 'invoke_model'):
+                # It's either a delegate or boto3 client
+                if hasattr(bedrock_client, 'is_available'):
+                    # It's a delegate - use its invoke_model method
+                    response_text = bedrock_client.invoke_model(
+                        prompt=request.prompt,
+                        model_id=bedrock_model_id,
+                        max_tokens=request.max_tokens,
+                        temperature=request.temperature
+                    )
+                    # Create response format to match expected structure
+                    response = {
+                        'body': type('obj', (object,), {
+                            'read': lambda: json.dumps({'content': [{'text': response_text}]}).encode()
+                        })()
+                    }
+                else:
+                    # It's a boto3 client - use original format
+                    response = bedrock_client.invoke_model(
+                        modelId=bedrock_model_id,
+                        body=json.dumps(body),
+                        contentType="application/json"
+                    )
 
             # Parse response
             response_body = json.loads(response['body'].read())
@@ -285,9 +303,14 @@ class CorporateLLMGateway:
     def _create_fallback_bedrock_client(self):
         """Create fallback Bedrock client for testing when USM unavailable."""
         try:
-            import boto3
-            # Try direct boto3 client creation
-            return boto3.client('bedrock-runtime', region_name='us-east-1')
+            # Use bedrock delegate instead of direct boto3
+            from tidyllm.infrastructure.bedrock_delegate import get_bedrock_delegate
+            delegate = get_bedrock_delegate()
+            if delegate.is_available():
+                # Return the delegate which provides bedrock operations
+                return delegate
+            else:
+                raise Exception("Bedrock delegate not available")
         except Exception as e:
             logger.warning(f"Direct boto3 client failed: {e}, using mock client")
             return self._create_mock_bedrock_client()

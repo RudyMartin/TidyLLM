@@ -599,6 +599,25 @@ out/
 dist/
 
 # =============================================================================
+# CLAUDE CODE ARTIFACTS
+# =============================================================================
+
+# Claude Code session files and artifacts
+**/.claude/
+.claude/
+*.claude
+claude-*
+*claude*.md
+claude_*.json
+claude_*.yaml
+.claude-*
+*claude*
+
+# Claude Code generated files
+**/*claude*
+**/claude_*
+
+# =============================================================================
 # JUPYTER NOTEBOOKS (optional)
 # =============================================================================
 

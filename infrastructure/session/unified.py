@@ -38,14 +38,24 @@ from enum import Enum
 import tempfile
 import time
 
-# Core AWS imports
+# Use parent infrastructure S3 service instead of direct boto3
 try:
-    import boto3
+    from tidyllm.infrastructure.s3_delegate import get_s3_delegate
+    S3_DELEGATE_AVAILABLE = True
+except ImportError:
+    S3_DELEGATE_AVAILABLE = False
+
+# Keep botocore exceptions for error handling
+try:
     from botocore.exceptions import ClientError, NoCredentialsError, ProfileNotFound
     from botocore.config import Config
-    AWS_AVAILABLE = True
+    AWS_EXCEPTIONS_AVAILABLE = True
 except ImportError:
-    AWS_AVAILABLE = False
+    AWS_EXCEPTIONS_AVAILABLE = False
+    # Mock exceptions when boto3 not available
+    class ClientError(Exception): pass
+    class NoCredentialsError(Exception): pass
+    class ProfileNotFound(Exception): pass
 
 # PostgreSQL imports
 try:
@@ -489,10 +499,10 @@ class UnifiedSessionManager:
     
     def _test_iam_role(self):
         """Test if IAM role credentials are available"""
-        if not AWS_AVAILABLE:
-            return False
-        
+        # IAM role testing needs boto3 for non-S3 services
+        # This is OK as it's for Bedrock and other AWS services
         try:
+            import boto3
             session = boto3.Session()
             credentials = session.get_credentials()
             if credentials and not credentials.access_key:
@@ -547,28 +557,32 @@ class UnifiedSessionManager:
             self._init_postgresql()
     
     def _init_s3(self):
-        """Initialize S3 connection"""
+        """Initialize S3 connection using parent infrastructure delegate"""
         try:
             start_time = time.time()
-            
-            if self.config.credential_source == CredentialSource.IAM_ROLE:
-                session = boto3.Session()
-            elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
-                # Use credentials from environment or settings file
-                session = boto3.Session(
-                    aws_access_key_id=self.config.s3_access_key_id,
-                    aws_secret_access_key=self.config.s3_secret_access_key,
-                    region_name=self.config.s3_region
-                )
+
+            # Use S3 delegate from parent infrastructure
+            if S3_DELEGATE_AVAILABLE:
+                s3_config = {}
+                if self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
+                    s3_config = {
+                        'access_key_id': self.config.s3_access_key_id,
+                        'secret_access_key': self.config.s3_secret_access_key,
+                        'region': self.config.s3_region,
+                        'bucket': self.config.s3_bucket
+                    }
+
+                self._s3_client = get_s3_delegate(s3_config)
+                self._s3_resource = self._s3_client  # Delegate handles both client and resource operations
             else:
-                # Try default profile
-                session = boto3.Session(profile_name=self.config.aws_profile)
-            
-            self._s3_client = session.client('s3', region_name=self.config.s3_region)
-            self._s3_resource = session.resource('s3', region_name=self.config.s3_region)
+                logger.warning("S3 delegate not available - S3 operations disabled")
+                self._s3_client = None
+                self._s3_resource = None
             
             # Test connection
-            self._s3_client.list_buckets()
+            if self._s3_client and self._s3_client.is_available():
+                # Test with a simple list operation
+                self._s3_client.list_objects("", self.config.s3_bucket)
             
             latency = (time.time() - start_time) * 1000
             self.health_status[ServiceType.S3] = ConnectionHealth(
@@ -592,8 +606,11 @@ class UnifiedSessionManager:
     def _init_bedrock(self):
         """Initialize Bedrock connection"""
         try:
+            # Import boto3 only when needed for Bedrock (non-S3 service)
+            import boto3
+
             start_time = time.time()
-            
+
             if self.config.credential_source == CredentialSource.IAM_ROLE:
                 session = boto3.Session()
             elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:
@@ -638,8 +655,11 @@ class UnifiedSessionManager:
     def _init_sts(self):
         """Initialize STS connection"""
         try:
+            # Import boto3 only when needed for STS (non-S3 service)
+            import boto3
+
             start_time = time.time()
-            
+
             if self.config.credential_source == CredentialSource.IAM_ROLE:
                 session = boto3.Session()
             elif self.config.credential_source in [CredentialSource.ENVIRONMENT, CredentialSource.SETTINGS_FILE]:

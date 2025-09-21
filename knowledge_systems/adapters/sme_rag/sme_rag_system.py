@@ -14,7 +14,6 @@ Advanced Subject Matter Expert Retrieval-Augmented Generation system with:
 import os
 import json
 import uuid
-import boto3
 import hashlib
 import asyncio
 from datetime import datetime
@@ -37,6 +36,14 @@ except ImportError:
     CENTRALIZED_DOC_SERVICE_AVAILABLE = False
     print("WARNING: Centralized document service not available - using fallback processing")
 import numpy as np
+
+# Use parent infrastructure S3 service instead of boto3
+try:
+    from tidyllm.infrastructure.s3_delegate import get_s3_delegate
+    S3_DELEGATE_AVAILABLE = True
+except ImportError:
+    S3_DELEGATE_AVAILABLE = False
+    print("WARNING: S3 delegate not available - S3 operations will be disabled")
 
 class EmbeddingModel(Enum):
     """Supported embedding models."""
@@ -114,20 +121,24 @@ class SMERAGSystem:
         # #future_fix: Convert to use enhanced service infrastructure
         self.engine = create_engine(self.pg_conn_string)
         
-        # AWS S3 setup
+        # AWS S3 setup using parent infrastructure
         self.aws_access_key = aws_access_key or os.getenv('AWS_ACCESS_KEY_ID')
         self.aws_secret_key = aws_secret_key or os.getenv('AWS_SECRET_ACCESS_KEY')
         self.aws_region = aws_region
-        
-        if self.aws_access_key and self.aws_secret_key:
-            self.s3_client = boto3.client(
-                's3',
-                aws_access_key_id=self.aws_access_key,
-                aws_secret_access_key=self.aws_secret_key,
-                region_name=self.aws_region
-            )
+
+        # Use S3 delegate from parent infrastructure instead of boto3
+        if S3_DELEGATE_AVAILABLE:
+            s3_config = {}
+            if self.aws_access_key and self.aws_secret_key:
+                s3_config = {
+                    'access_key_id': self.aws_access_key,
+                    'secret_access_key': self.aws_secret_key,
+                    'region': self.aws_region
+                }
+            self.s3_client = get_s3_delegate(s3_config)
         else:
-            self.s3_client = boto3.client('s3')  # Use IAM role if available
+            self.s3_client = None
+            print("WARNING: S3 operations disabled - no delegate available")
         
         # OpenAI setup
         self.openai_api_key = openai_api_key or os.getenv('OPENAI_API_KEY')
@@ -369,19 +380,17 @@ class SMERAGSystem:
         # Upload to S3
         try:
             file_size = file_path_obj.stat().st_size
-            self.s3_client.upload_file(
-                file_path, 
-                collection.s3_bucket, 
-                s3_key,
-                ExtraArgs={
-                    'Metadata': {
-                        'doc_id': doc_id,
-                        'collection_id': collection_id,
-                        'original_filename': original_filename or file_path_obj.name,
-                        'upload_date': datetime.utcnow().isoformat()
-                    }
-                }
-            )
+            # Use S3 delegate method instead of boto3
+            if self.s3_client and self.s3_client.is_available():
+                success = self.s3_client.upload_file(
+                    file_path,
+                    s3_key,
+                    collection.s3_bucket
+                )
+                if not success:
+                    raise Exception("S3 upload failed")
+            else:
+                raise Exception("S3 client not available")
         except Exception as e:
             raise Exception(f"Failed to upload to S3: {str(e)}")
         
@@ -494,7 +503,13 @@ class SMERAGSystem:
             
             # Download from S3 to temp file
             temp_file = f"/tmp/{doc.filename}"
-            self.s3_client.download_file(doc.s3_bucket, doc.s3_key, temp_file)
+            # Use S3 delegate method instead of boto3
+            if self.s3_client and self.s3_client.is_available():
+                success = self.s3_client.download_file(doc.s3_key, temp_file, doc.s3_bucket)
+                if not success:
+                    raise Exception(f"Failed to download from S3: {doc.s3_key}")
+            else:
+                raise Exception("S3 client not available")
             
             # Extract text using centralized document service (replaces all scattered imports)
             if self.document_service:

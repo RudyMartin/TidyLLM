@@ -33,7 +33,9 @@ except ImportError:
 
 # RAG2DAG Accelerator Integration
 try:
-    from tidyllm.services.rag2dag import rag2dag_service, OptimizationResult, OptimizationSuggestion
+    from tidyllm.services.rag2dag import rag2dag_service
+    OptimizationResult = Dict[str, Any]
+    OptimizationSuggestion = Dict[str, Any]
     RAG2DAG_AVAILABLE = True
 except ImportError:
     RAG2DAG_AVAILABLE = False
@@ -541,7 +543,7 @@ class UnifiedRAGManager:
     # RAG2DAG OPTIMIZATION OPERATIONS
     # ============================================================================
 
-    def analyze_query_optimization(self, query: UnifiedRAGQuery) -> Optional[OptimizationResult]:
+    def analyze_query_optimization(self, query: UnifiedRAGQuery) -> Optional[Dict[str, Any]]:
         """Analyze query for RAG2DAG optimization opportunities."""
         if not self.rag2dag_enabled or not query.enable_rag2dag_optimization:
             return None
@@ -564,7 +566,7 @@ class UnifiedRAGManager:
             logger.error(f"RAG2DAG optimization analysis failed: {e}")
             return None
 
-    def get_optimization_suggestions(self, workflow_description: str, expected_load: str = "medium") -> Optional[OptimizationSuggestion]:
+    def get_optimization_suggestions(self, workflow_description: str, expected_load: str = "medium") -> Optional[Dict[str, Any]]:
         """Get RAG2DAG optimization suggestions for workflow design."""
         if not self.rag2dag_enabled:
             return None

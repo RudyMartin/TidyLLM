@@ -8,6 +8,14 @@ Corporate-safe AWS service validation (S3, Bedrock, STS) with timeout protection
 from typing import Dict, Any
 from .base import BaseValidator
 
+# For S3 operations, use parent infrastructure
+try:
+    from tidyllm.infrastructure.s3_delegate import get_s3_delegate
+    S3_DELEGATE_AVAILABLE = True
+except ImportError:
+    S3_DELEGATE_AVAILABLE = False
+
+# Keep boto3 for non-S3 services (Bedrock, STS)
 try:
     import boto3
     from botocore.exceptions import ClientError, NoCredentialsError
