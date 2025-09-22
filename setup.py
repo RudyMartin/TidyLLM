@@ -9,7 +9,7 @@ from setuptools import setup, find_packages
 # Read version from __init__.py
 def get_version():
     try:
-        with open('tidyllm/__init__.py', 'r') as f:
+        with open('__init__.py', 'r') as f:
             for line in f:
                 if line.startswith('__version__'):
                     return line.split('=')[1].strip().strip('"\'')
@@ -34,7 +34,25 @@ setup(
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     url="https://github.com/organization/qa-shipping",
-    packages=find_packages(),
+    packages=[
+        "tidyllm",
+        "tidyllm.infrastructure",
+        "tidyllm.infrastructure.session",
+        "tidyllm.infrastructure.delegates",
+        "tidyllm.services",
+        "tidyllm.gateways",
+        "tidyllm.knowledge_systems",
+        "tidyllm.flow",
+        "tidyllm.validators",
+        "tidyllm.utils",
+        "tidyllm.domain",
+        "tidyllm.interfaces",
+        "tidyllm.presentation",
+        "tidyllm.workflows",
+        "tidyllm.rag2dag",
+        "tidyllm.web"
+    ],
+    package_dir={"tidyllm": "."},
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: Developers",
