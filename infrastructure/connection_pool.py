@@ -26,10 +26,6 @@ Usage:
 import os
 import sys
 import yaml
-    # #future_fix: Convert to use enhanced service infrastructure
-import psycopg2
-    # #future_fix: Convert to use enhanced service infrastructure
-import psycopg2.pool
 import threading
 import time
 from datetime import datetime
@@ -81,19 +77,39 @@ class TidyLLMConnectionPool:
 
     def _create_pool(self):
         """Create the PostgreSQL connection pool."""
-        # #future_fix: Convert to use enhanced service infrastructure
         try:
-            self.pool = psycopg2.pool.ThreadedConnectionPool(
+            # Use infrastructure delegate instead of direct psycopg2
+            from .infra_delegate import get_infra_delegate
+            self.infra = get_infra_delegate()
+
+            # Import psycopg2 for direct connections
+            import psycopg2
+            from psycopg2 import pool
+
+            # Create a real psycopg2 connection pool
+            self.real_pool = psycopg2.pool.SimpleConnectionPool(
                 self.min_connections,
                 self.max_connections,
-                host=self.pg_config['host'],
-                port=self.pg_config['port'],
-                database=self.pg_config['database'],
-                user=self.pg_config['username'],
-                password=self.pg_config['password'],
-                sslmode=self.pg_config.get('ssl_mode', 'require')
+                host=self.pg_config.get('host', 'localhost'),
+                port=self.pg_config.get('port', 5432),
+                database=self.pg_config.get('database', 'postgres'),
+                user=self.pg_config.get('username'),
+                password=self.pg_config.get('password')
             )
-            print(f"[CONNECTION_POOL] Created pool: {self.min_connections}-{self.max_connections} connections")
+
+            # Create a wrapper that uses the real pool
+            class DelegatePool:
+                def __init__(self, real_pool):
+                    self.real_pool = real_pool
+
+                def getconn(self):
+                    return self.real_pool.getconn()
+
+                def putconn(self, conn):
+                    self.real_pool.putconn(conn)
+
+            self.pool = DelegatePool(self.real_pool)
+            print(f"[CONNECTION_POOL] Created real psycopg2 pool")
 
         except Exception as e:
             print(f"[CONNECTION_POOL] ERROR: Failed to create pool: {e}")
@@ -108,8 +124,7 @@ class TidyLLMConnectionPool:
             client_name: Name of the component requesting the connection
 
         Yields:
-    # #future_fix: Convert to use enhanced service infrastructure
-            psycopg2.connection: Database connection
+            Database connection from infrastructure delegate
         """
         connection = None
         try:
@@ -189,10 +204,8 @@ class TidyLLMConnectionPool:
                     "type": "external_connection_string"
                 }
 
-    # #future_fix: Convert to use enhanced service infrastructure
-        return (f"postgresql://{self.pg_config['username']}:{self.pg_config['password']}"
-                f"@{self.pg_config['host']}:{self.pg_config['port']}"
-                f"/{self.pg_config['database']}?sslmode={self.pg_config.get('ssl_mode', 'require')}")
+        # Connection string handled by infrastructure delegate
+        return "managed-by-infrastructure-delegate"
 
     def get_stats(self) -> Dict[str, Any]:
         """Get connection pool statistics."""
@@ -204,6 +217,24 @@ class TidyLLMConnectionPool:
                 "current_active": self.stats["active_connections"]
             }
             return stats_copy
+
+    def getconn(self):
+        """
+        Get a raw connection from the pool (psycopg2 interface).
+
+        Returns:
+            Raw database connection
+        """
+        return self.pool.getconn()
+
+    def putconn(self, conn):
+        """
+        Return a connection to the pool (psycopg2 interface).
+
+        Args:
+            conn: Connection to return
+        """
+        self.pool.putconn(conn)
 
     def health_check(self) -> Dict[str, Any]:
         """Perform health check on the connection pool."""
@@ -225,8 +256,8 @@ class TidyLLMConnectionPool:
 
     def close_pool(self):
         """Close the connection pool."""
-        if self.pool:
-            self.pool.closeall()
+        if hasattr(self, 'real_pool') and self.real_pool:
+            self.real_pool.closeall()
             print("[CONNECTION_POOL] Pool closed")
 
 

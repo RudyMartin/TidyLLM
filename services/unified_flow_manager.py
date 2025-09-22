@@ -72,14 +72,12 @@ class UnifiedFlowManager:
         self.usm = None
         self.rag_manager = None
 
-        # Workflow storage
-        self.workflows_dir = Path("tidyllm/workflows/active")
-        self.templates_dir = Path("tidyllm/workflows/templates")
+        # Workflow storage - use project-based structure instead of hardcoded paths
+        self.workflows_dir = Path("packages/tidyllm/workflows/projects")  # Use existing project structure
+        self.templates_dir = Path("packages/tidyllm/workflows/projects")  # Templates are part of projects
         self.registry_file = Path("extracted_files/tidyllm/workflows/definitions/registry.json")
 
-        # Create directories
-        self.workflows_dir.mkdir(parents=True, exist_ok=True)
-        self.templates_dir.mkdir(parents=True, exist_ok=True)
+        # Note: Directory creation removed - use existing project structure instead of creating empty folders
 
         # State tracking
         self.workflow_cache = {}

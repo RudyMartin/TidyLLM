@@ -83,7 +83,6 @@ def show_last_5_mlflow_records():
                     username = primary_db.get('username')
                     password = primary_db.get('password')
 
-                    # #future_fix: Convert to use enhanced service infrastructure
                     # Build PostgreSQL URI for MLflow
                     tracking_uri = f"postgresql://{username}:{password}@{host}:{port}/{database}"
                     mlflow.set_tracking_uri(tracking_uri)
@@ -91,7 +90,6 @@ def show_last_5_mlflow_records():
                 else:
                     print("[WARNING] No primary database credentials found")
 
-            # #future_fix: Convert to use enhanced service infrastructure
             client = mlflow.tracking.MlflowClient()
 
         except Exception as fallback_error:

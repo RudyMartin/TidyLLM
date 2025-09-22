@@ -21,8 +21,16 @@ import json
 import uuid
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Protocol
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+import logging
+
+# Import base adapter and types
+from ..base import BaseRAGAdapter, RAGQuery, RAGResponse
+
+# Import consolidated infrastructure delegate
+from ....infrastructure.infra_delegate import get_infra_delegate
+
+logger = logging.getLogger(__name__)
 
 # Use existing SME system imports (proper V2 paths)
 try:
@@ -41,32 +49,13 @@ except ImportError:
         class EmbeddingModel:
             def __init__(self): pass
 
-@dataclass
-class RAGQuery:
-    """Unified query for all RAG types."""
-    query: str
-    domain: str
-    authority_tier: Optional[int] = None  # 1=Regulatory, 2=SOP, 3=Technical
-    collection_name: Optional[str] = None
-    confidence_threshold: float = 0.8
-
-@dataclass
-class RAGResponse:
-    """Unified response from all RAG types."""
-    response: str
-    confidence: float
-    sources: List[Dict[str, Any]]
-    authority_tier: int
-    collection_name: str
-    precedence_level: float
-
 class PostgresPort(Protocol):
     """Port interface for postgres operations."""
     async def vector_search(self, query: str, collection_id: str, **kwargs) -> List[Dict]: ...
     async def get_collections_by_authority(self, authority_tier: int) -> List[Dict]: ...
     async def store_document_with_authority(self, doc: Dict, authority_info: Dict) -> str: ...
 
-class PostgresRAGAdapter:
+class PostgresRAGAdapter(BaseRAGAdapter):
     """
     Unified Postgres RAG Adapter using EXISTING sme_* tables.
 
@@ -77,8 +66,11 @@ class PostgresRAGAdapter:
     """
 
     def __init__(self, sme_system: SMERAGSystem = None):
-        """Initialize with existing SME system."""
+        """Initialize with consolidated infrastructure delegate."""
+        # Get infrastructure delegate (uses parent when available)
+        self.infra = get_infra_delegate()
         self.sme_system = sme_system or SMERAGSystem()
+        logger.info("PostgreSQL RAG Adapter initialized with consolidated infrastructure delegate")
 
     def list_collections(self):
         """List all collections including legacy - wrapper for SME system compatibility."""
@@ -355,6 +347,47 @@ class PostgresRAGAdapter:
                 collection_name="expert_knowledge",
                 precedence_level=0.0
             )
+
+    def query(self, request: RAGQuery) -> RAGResponse:
+        """Execute RAG query.
+
+        Required by BaseRAGAdapter interface.
+        Routes to query_unified_rag for backward compatibility.
+        """
+        return self.query_unified_rag(request)
+
+    def health_check(self) -> Dict[str, Any]:
+        """Check adapter health.
+
+        Required by BaseRAGAdapter interface.
+        """
+        try:
+            # Test database connection through infra
+            conn = self.infra.get_db_connection()
+            self.infra.return_db_connection(conn)
+            return {
+                'status': 'healthy',
+                'adapter': 'postgres_rag',
+                'database': 'connected'
+            }
+        except Exception as e:
+            return {
+                'status': 'unhealthy',
+                'adapter': 'postgres_rag',
+                'error': str(e)
+            }
+
+    def get_info(self) -> Dict[str, Any]:
+        """Get adapter information.
+
+        Required by BaseRAGAdapter interface.
+        """
+        return {
+            'name': 'PostgreSQL RAG Adapter',
+            'version': '2.0',
+            'capabilities': ['compliance', 'document', 'expert', 'vector_search'],
+            'description': 'Uses existing SME tables for all RAG operations'
+        }
 
     def query_unified_rag(self, query: RAGQuery) -> RAGResponse:
         """

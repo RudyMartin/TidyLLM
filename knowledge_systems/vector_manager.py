@@ -23,24 +23,19 @@ import math
 # Import embedding standardization
 from .embedding_config import EmbeddingStandardizer, standardize_embedding, get_target_dimension
 
-# Use UnifiedSessionManager for database connections
+# Use infrastructure delegate for database connections
 try:
     import sys
     from pathlib import Path
     project_root = Path(__file__).parent.parent.parent.parent
     sys.path.insert(0, str(project_root))
-    from tidyllm.infrastructure.session.unified import UnifiedSessionManager
-    UNIFIED_SESSION_AVAILABLE = True
+    from packages.tidyllm.infrastructure.infra_delegate import get_infra_delegate
+    INFRA_DELEGATE_AVAILABLE = True
 except ImportError:
-    UNIFIED_SESSION_AVAILABLE = False
+    INFRA_DELEGATE_AVAILABLE = False
 
-try:
-    # #future_fix: Convert to use enhanced service infrastructure
-    import psycopg2
-    from psycopg2.extras import RealDictCursor
-    POSTGRES_AVAILABLE = True
-except ImportError:
-    POSTGRES_AVAILABLE = False
+# We no longer import psycopg2 directly - using infra_delegate instead
+POSTGRES_AVAILABLE = INFRA_DELEGATE_AVAILABLE
 
 try:
     import tiktoken
@@ -114,15 +109,14 @@ class VectorManager:
             target_dimension=self.config.vector_dimension
         )
         
-        # Use UnifiedSessionManager for database connections
-        if UNIFIED_SESSION_AVAILABLE:
-            self.session_mgr = UnifiedSessionManager()
-            self.connection = None  # Legacy fallback connection
+        # Use infrastructure delegate for database connections
+        if INFRA_DELEGATE_AVAILABLE:
+            self.infra_delegate = get_infra_delegate()
+            self.connection = None  # No direct connections - all through delegate
         else:
-            self.session_mgr = None
+            self.infra_delegate = None
             self.connection = None
-            if not POSTGRES_AVAILABLE:
-                logger.warning("Neither UnifiedSessionManager nor psycopg2 available")
+            logger.warning("Infrastructure delegate not available")
         
         self._embedding_cache = {}
         
@@ -131,93 +125,47 @@ class VectorManager:
     
     def connect(self) -> Dict[str, Any]:
         """Connect to vector database"""
-        # Use UnifiedSessionManager if available
-        if self.session_mgr:
+        # Use infrastructure delegate
+        if self.infra_delegate:
             try:
                 # Test connection by trying to get PostgreSQL connection
-                test_conn = self.session_mgr.get_postgres_connection()
+                test_conn = self.infra_delegate.get_db_connection()
                 if test_conn:
-                    test_conn.close()
+                    self.infra_delegate.return_db_connection(test_conn)
                     return {
                         "success": True,
-                        "message": "Connected via UnifiedSessionManager",
-                        "connection_type": "UnifiedSessionManager"
+                        "message": "Connected via Infrastructure Delegate",
+                        "connection_type": "InfrastructureDelegate"
                     }
                 else:
                     return {
                         "success": False,
-                        "error": "UnifiedSessionManager connection failed"
+                        "error": "Infrastructure delegate connection failed"
                     }
             except Exception as e:
-                logger.error(f"UnifiedSessionManager connection failed: {e}")
+                logger.error(f"Infrastructure delegate connection failed: {e}")
                 return {
                     "success": False,
                     "error": str(e)
                 }
-        
-        # Fallback to direct connection
-        if not POSTGRES_AVAILABLE:
-            return {
-                "success": False,
-                "error": "Neither UnifiedSessionManager nor PostgreSQL driver available"
-            }
-        
-        try:
-    # #future_fix: Convert to use enhanced service infrastructure
-            self.connection = psycopg2.connect(
-                host=self.config.host,
-                port=self.config.port,
-                database=self.config.database,
-                user=self.config.user,
-                password=self.config.password
-            )
-            self.connection.autocommit = True
-            
-            return {
-                "success": True,
-                "message": "Connected to vector database (fallback)",
-                "host": self.config.host,
-                "database": self.config.database,
-                "connection_type": "direct_fallback"
-            }
-        except Exception as e:
-            logger.error(f"Failed to connect to vector database: {e}")
-            return {
-                "success": False,
-                "error": str(e)
-            }
+
+        return {
+            "success": False,
+            "error": "Infrastructure delegate not available"
+        }
     
     def check_extensions(self) -> Dict[str, Any]:
         """Check if required extensions are available"""
         try:
-            # Use UnifiedSessionManager if available
-            if self.session_mgr:
-                # Check for pgvector extension
-                pgvector_result = self.session_mgr.execute_postgres_query("""
-                    SELECT EXISTS(
-                        SELECT 1 FROM pg_extension WHERE extname = 'vector'
-                    ) as pgvector_available;
-                """)
-                
-                # Check available extensions
-                extensions_result = self.session_mgr.execute_postgres_query("""
-                    SELECT name FROM pg_available_extensions 
-                    WHERE name IN ('vector', 'pgvector') 
-                    ORDER BY name;
-                """)
-                
-                if pgvector_result and extensions_result:
-                    return {
-                        "success": True,
-                        "pgvector_installed": pgvector_result[0]['pgvector_available'],
-                        "available_extensions": [row['name'] for row in extensions_result]
-                    }
-                else:
-                    return {"success": False, "error": "Query failed via UnifiedSessionManager"}
-            
-            # Fallback to direct connection
-            elif self.connection:
-                with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            # Use infrastructure delegate
+            if self.infra_delegate:
+                conn = self.infra_delegate.get_db_connection()
+                if not conn:
+                    return {"success": False, "error": "Failed to get database connection"}
+
+                try:
+                    cursor = conn.cursor()
+
                     # Check for pgvector extension
                     cursor.execute("""
                         SELECT EXISTS(
@@ -225,33 +173,42 @@ class VectorManager:
                         ) as pgvector_available;
                     """)
                     pgvector_result = cursor.fetchone()
-                    
+
                     # Check available extensions
                     cursor.execute("""
-                        SELECT name FROM pg_available_extensions 
-                        WHERE name IN ('vector', 'pgvector') 
+                        SELECT name FROM pg_available_extensions
+                        WHERE name IN ('vector', 'pgvector')
                         ORDER BY name;
                     """)
-                    available_extensions = [row['name'] for row in cursor.fetchall()]
-                    
+                    available_extensions = [row[0] for row in cursor.fetchall()]
+
+                    cursor.close()
+
                     return {
                         "success": True,
-                        "pgvector_installed": pgvector_result['pgvector_available'],
+                        "pgvector_installed": pgvector_result[0] if pgvector_result else False,
                         "available_extensions": available_extensions
                     }
+                finally:
+                    self.infra_delegate.return_db_connection(conn)
             else:
-                return {"success": False, "error": "Not connected to database"}
-                
+                return {"success": False, "error": "Infrastructure delegate not available"}
+
         except Exception as e:
             return {"success": False, "error": str(e)}
     
     def setup_database(self) -> Dict[str, Any]:
         """Setup vector database tables and schema"""
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-        
+        if not self.infra_delegate:
+            return {"success": False, "error": "Infrastructure delegate not available"}
+
         try:
-            with self.connection.cursor() as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return {"success": False, "error": "Failed to get database connection"}
+
+            try:
+                cursor = conn.cursor()
                 # Create documents table
                 cursor.execute("""
                     CREATE TABLE IF NOT EXISTS documents (
@@ -290,14 +247,19 @@ class VectorManager:
                 """)
                 
                 cursor.execute("""
-                    CREATE INDEX IF NOT EXISTS idx_chunks_embedding_cosine 
+                    CREATE INDEX IF NOT EXISTS idx_chunks_embedding_cosine
                     ON document_chunks USING ivfflat (embedding vector_cosine_ops);
                 """)
-                
+
+                conn.commit()
+                cursor.close()
+
                 return {
                     "success": True,
                     "message": "Vector database schema created successfully"
                 }
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to setup database: {e}")
@@ -305,11 +267,16 @@ class VectorManager:
     
     def add_document(self, document: Document) -> Dict[str, Any]:
         """Add document to vector database"""
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-        
+        if not self.infra_delegate:
+            return {"success": False, "error": "Infrastructure delegate not available"}
+
         try:
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return {"success": False, "error": "Failed to get database connection"}
+
+            try:
+                cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO documents (title, content, source, doc_type, metadata)
                     VALUES (%s, %s, %s, %s, %s)
@@ -323,12 +290,16 @@ class VectorManager:
                 ))
                 
                 result = cursor.fetchone()
-                
+                conn.commit()
+                cursor.close()
+
                 return {
                     "success": True,
-                    "document_id": str(result['id']),
-                    "created_at": result['created_at'].isoformat()
+                    "document_id": str(result[0]) if isinstance(result, tuple) else str(result['id']),
+                    "created_at": result[1].isoformat() if isinstance(result, tuple) else result['created_at'].isoformat()
                 }
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to add document: {e}")
@@ -391,14 +362,19 @@ class VectorManager:
     
     def add_document_chunks(self, document_id: str, content: str, chunk_size: int = 512) -> Dict[str, Any]:
         """Add document chunks with embeddings"""
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-        
+        if not self.infra_delegate:
+            return {"success": False, "error": "Infrastructure delegate not available"}
+
         try:
             chunks = self.chunk_text(content, chunk_size)
             chunk_results = []
-            
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return {"success": False, "error": "Failed to get database connection"}
+
+            try:
+                cursor = conn.cursor()
                 for i, chunk_text in enumerate(chunks):
                     # Generate embedding
                     embedding = self.generate_embedding(chunk_text)
@@ -422,18 +398,24 @@ class VectorManager:
                         json.dumps(embedding)
                     ))
                     
-                    chunk_id = cursor.fetchone()['id']
+                    result = cursor.fetchone()
+                    chunk_id = result[0] if isinstance(result, tuple) else result['id']
                     chunk_results.append({
                         "chunk_id": str(chunk_id),
                         "chunk_index": i,
                         "content_length": len(chunk_text)
                     })
-            
-            return {
-                "success": True,
-                "chunks_added": len(chunks),
-                "chunk_details": chunk_results
-            }
+
+                conn.commit()
+                cursor.close()
+
+                return {
+                    "success": True,
+                    "chunks_added": len(chunks),
+                    "chunk_details": chunk_results
+                }
+            finally:
+                self.infra_delegate.return_db_connection(conn)
             
         except Exception as e:
             logger.error(f"Failed to add document chunks: {e}")
@@ -441,14 +423,19 @@ class VectorManager:
     
     def search_similar(self, query: str, top_k: int = 5, similarity_threshold: float = 0.7) -> List[SearchResult]:
         """Search for similar document chunks"""
-        if not self.connection:
+        if not self.infra_delegate:
             return []
-        
+
         try:
             # Generate query embedding
             query_embedding = self.generate_embedding(query)
-            
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return []
+
+            try:
+                cursor = conn.cursor()
                 # Perform vector similarity search
                 cursor.execute("""
                     SELECT 
@@ -474,20 +461,37 @@ class VectorManager:
                 
                 results = []
                 for row in cursor.fetchall():
-                    result = SearchResult(
-                        document_id=str(row['document_id']),
-                        chunk_id=str(row['chunk_id']),
-                        content=row['content'],
-                        score=float(row['similarity_score']),
-                        metadata={
-                            "document_title": row['title'],
-                            "document_source": row['source'],
-                            "chunk_metadata": row['metadata']
-                        }
-                    )
+                    # Handle both tuple and dict-like cursor results
+                    if isinstance(row, tuple):
+                        result = SearchResult(
+                            document_id=str(row[1]),  # document_id
+                            chunk_id=str(row[0]),      # chunk_id
+                            content=row[2],            # content
+                            score=float(row[6]),       # similarity_score
+                            metadata={
+                                "document_title": row[3],    # title
+                                "document_source": row[4],   # source
+                                "chunk_metadata": row[5]     # metadata
+                            }
+                        )
+                    else:
+                        result = SearchResult(
+                            document_id=str(row['document_id']),
+                            chunk_id=str(row['chunk_id']),
+                            content=row['content'],
+                            score=float(row['similarity_score']),
+                            metadata={
+                                "document_title": row['title'],
+                                "document_source": row['source'],
+                                "chunk_metadata": row['metadata']
+                            }
+                        )
                     results.append(result)
-                
+
+                cursor.close()
                 return results
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to search similar chunks: {e}")
@@ -495,26 +499,47 @@ class VectorManager:
     
     def get_document(self, document_id: str) -> Optional[Document]:
         """Get document by ID"""
-        if not self.connection:
+        if not self.infra_delegate:
             return None
-        
+
         try:
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return None
+
+            try:
+                cursor = conn.cursor()
                 cursor.execute("""
                     SELECT * FROM documents WHERE id = %s;
                 """, (document_id,))
                 
                 row = cursor.fetchone()
+                cursor.close()
+
                 if row:
-                    return Document(
-                        id=str(row['id']),
-                        title=row['title'],
-                        content=row['content'],
-                        source=row['source'],
-                        doc_type=row['doc_type'],
-                        metadata=row['metadata'],
-                        created_at=row['created_at']
-                    )
+                    # Handle both tuple and dict-like cursor results
+                    if isinstance(row, tuple):
+                        return Document(
+                            id=str(row[0]),       # id
+                            title=row[1],         # title
+                            content=row[2],       # content
+                            source=row[3],        # source
+                            doc_type=row[4],      # doc_type
+                            metadata=row[5],      # metadata
+                            created_at=row[6]     # created_at
+                        )
+                    else:
+                        return Document(
+                            id=str(row['id']),
+                            title=row['title'],
+                            content=row['content'],
+                            source=row['source'],
+                            doc_type=row['doc_type'],
+                            metadata=row['metadata'],
+                            created_at=row['created_at']
+                        )
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to get document {document_id}: {e}")
@@ -523,11 +548,16 @@ class VectorManager:
     
     def list_documents(self, limit: int = 100, offset: int = 0) -> List[Dict[str, Any]]:
         """List documents in database"""
-        if not self.connection:
+        if not self.infra_delegate:
             return []
-        
+
         try:
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return []
+
+            try:
+                cursor = conn.cursor()
                 cursor.execute("""
                     SELECT 
                         id, title, source, doc_type, 
@@ -540,17 +570,32 @@ class VectorManager:
                 
                 documents = []
                 for row in cursor.fetchall():
-                    documents.append({
-                        "id": str(row['id']),
-                        "title": row['title'],
-                        "source": row['source'],
-                        "doc_type": row['doc_type'],
-                        "content_length": row['content_length'],
-                        "created_at": row['created_at'].isoformat() if row['created_at'] else None,
-                        "updated_at": row['updated_at'].isoformat() if row['updated_at'] else None
-                    })
-                
+                    # Handle both tuple and dict-like cursor results
+                    if isinstance(row, tuple):
+                        documents.append({
+                            "id": str(row[0]),
+                            "title": row[1],
+                            "source": row[2],
+                            "doc_type": row[3],
+                            "content_length": row[4],
+                            "created_at": row[5].isoformat() if row[5] else None,
+                            "updated_at": row[6].isoformat() if row[6] else None
+                        })
+                    else:
+                        documents.append({
+                            "id": str(row['id']),
+                            "title": row['title'],
+                            "source": row['source'],
+                            "doc_type": row['doc_type'],
+                            "content_length": row['content_length'],
+                            "created_at": row['created_at'].isoformat() if row['created_at'] else None,
+                            "updated_at": row['updated_at'].isoformat() if row['updated_at'] else None
+                        })
+
+                cursor.close()
                 return documents
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to list documents: {e}")
@@ -558,16 +603,27 @@ class VectorManager:
     
     def delete_document(self, document_id: str) -> bool:
         """Delete document and all its chunks"""
-        if not self.connection:
+        if not self.infra_delegate:
             return False
-        
+
         try:
-            with self.connection.cursor() as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return False
+
+            try:
+                cursor = conn.cursor()
                 cursor.execute("""
                     DELETE FROM documents WHERE id = %s;
                 """, (document_id,))
-                
-                return cursor.rowcount > 0
+
+                rowcount = cursor.rowcount
+                conn.commit()
+                cursor.close()
+
+                return rowcount > 0
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             logger.error(f"Failed to delete document {document_id}: {e}")
@@ -575,11 +631,16 @@ class VectorManager:
     
     def get_database_stats(self) -> Dict[str, Any]:
         """Get database statistics"""
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-        
+        if not self.infra_delegate:
+            return {"success": False, "error": "Infrastructure delegate not available"}
+
         try:
-            with self.connection.cursor(cursor_factory=RealDictCursor) as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return {"success": False, "error": "Failed to get database connection"}
+
+            try:
+                cursor = conn.cursor()
                 # Count documents and chunks
                 cursor.execute("""
                     SELECT 
@@ -590,35 +651,49 @@ class VectorManager:
                 """)
                 
                 stats = cursor.fetchone()
-                
-                return {
-                    "success": True,
-                    "document_count": stats['document_count'],
-                    "chunk_count": stats['chunk_count'],
-                    "avg_document_length": float(stats['avg_document_length']) if stats['avg_document_length'] else 0,
-                    "avg_chunk_length": float(stats['avg_chunk_length']) if stats['avg_chunk_length'] else 0,
-                    "vector_dimension": self.config.vector_dimension
-                }
+                cursor.close()
+
+                # Handle both tuple and dict-like cursor results
+                if isinstance(stats, tuple):
+                    return {
+                        "success": True,
+                        "document_count": stats[0],
+                        "chunk_count": stats[1],
+                        "avg_document_length": float(stats[2]) if stats[2] else 0,
+                        "avg_chunk_length": float(stats[3]) if stats[3] else 0,
+                        "vector_dimension": self.config.vector_dimension
+                    }
+                else:
+                    return {
+                        "success": True,
+                        "document_count": stats['document_count'],
+                        "chunk_count": stats['chunk_count'],
+                        "avg_document_length": float(stats['avg_document_length']) if stats['avg_document_length'] else 0,
+                        "avg_chunk_length": float(stats['avg_chunk_length']) if stats['avg_chunk_length'] else 0,
+                        "vector_dimension": self.config.vector_dimension
+                    }
+            finally:
+                self.infra_delegate.return_db_connection(conn)
                 
         except Exception as e:
             return {"success": False, "error": str(e)}
     
-    def standardize_and_store_embedding(self, embedding: List[float], model_key: str, 
+    def standardize_and_store_embedding(self, embedding: List[float], model_key: str,
                                       chunk_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Standardize embedding to target dimension and store in database
-        
+
         Args:
             embedding: Raw embedding from model
-            model_key: Key identifying the model used (e.g., "titan_v2_256") 
+            model_key: Key identifying the model used (e.g., "titan_v2_256")
             chunk_data: Data for the chunk (content, document_id, etc.)
-            
+
         Returns:
             Dict with success status and chunk_id
         """
-        if not self.connection:
-            return {"success": False, "error": "Not connected to database"}
-            
+        if not self.infra_delegate:
+            return {"success": False, "error": "Infrastructure delegate not available"}
+
         try:
             # Get model info
             model_info = self.embedding_standardizer.get_model_info(model_key)
@@ -627,12 +702,17 @@ class VectorManager:
                     "success": False,
                     "error": f"Unknown model: {model_key}"
                 }
-            
+
             # Standardize embedding to 1024 dimensions
             standardized_embedding = self.embedding_standardizer.standardize(embedding, model_key)
-            
+
             # Store in database
-            with self.connection.cursor() as cursor:
+            conn = self.infra_delegate.get_db_connection()
+            if not conn:
+                return {"success": False, "error": "Failed to get database connection"}
+
+            try:
+                cursor = conn.cursor()
                 cursor.execute("""
                     INSERT INTO document_chunks (
                         document_id, content, chunk_index, start_char, end_char,
@@ -653,13 +733,18 @@ class VectorManager:
                 
                 result = cursor.fetchone()
                 chunk_id = result[0] if isinstance(result, tuple) else result['id']
-                
-            return {
-                "success": True,
-                "chunk_id": str(chunk_id),
-                "standardized_dimension": len(standardized_embedding),
-                "model_info": model_info
-            }
+
+                conn.commit()
+                cursor.close()
+
+                return {
+                    "success": True,
+                    "chunk_id": str(chunk_id),
+                    "standardized_dimension": len(standardized_embedding),
+                    "model_info": model_info
+                }
+            finally:
+                self.infra_delegate.return_db_connection(conn)
             
         except Exception as e:
             logger.error(f"Failed to standardize and store embedding: {e}")
@@ -667,9 +752,8 @@ class VectorManager:
 
     def close(self):
         """Close database connection"""
-        if self.connection:
-            self.connection.close()
-            self.connection = None
+        # Nothing to close - infra_delegate manages connections
+        pass
 
 # Global instance for easy access
 _vector_manager_instance = None

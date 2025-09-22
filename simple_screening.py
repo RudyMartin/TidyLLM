@@ -1,14 +1,30 @@
 #!/usr/bin/env python3
 import json
 import time
+import os
 from pathlib import Path
 from datetime import datetime
+
+# PathManager import with fallback
+try:
+    from core.utilities.path_manager import get_path_manager
+except ImportError:
+    try:
+        from common.utilities.path_manager import get_path_manager
+    except ImportError:
+        def get_path_manager():
+            class MockPathManager:
+                @property
+                def root_folder(self):
+                    return os.getcwd()
+            return MockPathManager()
 
 def simple_scan():
     print("🚀 SIMPLE RISK SCREENING")
     print("=" * 40)
     
-    base_path = Path("C:/Users/marti/AI-Scoring")
+    path_manager = get_path_manager()
+    base_path = Path(path_manager.root_folder)
     results = {
         'timestamp': datetime.now().isoformat(),
         'directories': {},

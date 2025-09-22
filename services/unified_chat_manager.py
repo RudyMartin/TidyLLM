@@ -5,8 +5,13 @@ Unified Chat Manager
 Central orchestration service for all chat processing modes in TidyLLM V3.
 Provides consistent interface for direct, RAG, DSPy, and custom chat flows.
 
+UPDATED: Now uses consolidated infrastructure delegate pattern
+- Proper hexagonal architecture compliance
+- Uses parent infrastructure (ResilientPoolManager, credential_carrier)
+- No direct infrastructure imports
+
 Architecture:
-    Portal (interfaces/api.py) → Service (UnifiedChatManager) → Adapters (Bedrock, RAG, DSPy)
+    Portal (interfaces/api.py) → Service (UnifiedChatManager) → InfraDelegate → Infrastructure
 
 Features:
 - Multiple chat processing modes
@@ -32,6 +37,9 @@ from typing import Dict, List, Any, Optional, Union, Iterator
 from datetime import datetime
 from enum import Enum
 import logging
+
+# Import consolidated infrastructure delegate
+from ..infrastructure.infra_delegate import get_infra_delegate
 
 logger = logging.getLogger(__name__)
 
@@ -96,7 +104,7 @@ class UnifiedChatManager:
 
     # ==================== MAIN CHAT INTERFACE ====================
 
-    def chat(self, message: str, mode: Union[ChatMode, str] = ChatMode.RAG,
+    def chat(self, message: str, mode: Union[ChatMode, str] = ChatMode.DIRECT,
              model: str = None, temperature: float = None, reasoning: bool = False,
              history: Optional[List[Dict]] = None, **kwargs) -> Union[str, Dict]:
         """
@@ -163,52 +171,27 @@ class UnifiedChatManager:
     # ==================== CHAT MODE PROCESSORS ====================
 
     def _process_direct_chat(self, message: str, model: str, temperature: float, **kwargs) -> ChatResponse:
-        """Process direct Bedrock/LLM chat using delegate pattern."""
+        """Process direct Bedrock/LLM chat using consolidated infra delegate."""
         try:
-            # Use Bedrock delegate instead of importing infrastructure
-            try:
-                from tidyllm.infrastructure.bedrock_delegate import get_bedrock_delegate
-            except ImportError:
-                # Fallback for when running outside package context
-                import sys
-                from pathlib import Path
-                sys.path.insert(0, str(Path(__file__).parent.parent))
-                from infrastructure.bedrock_delegate import get_bedrock_delegate
+            # Use consolidated infrastructure delegate
+            infra = get_infra_delegate()
 
-            delegate = get_bedrock_delegate()
+            # Get model mapping from settings.yaml via infra delegate
+            bedrock_config = infra.get_bedrock_config()
+            model_mapping = bedrock_config.get('model_mapping', {})
 
-            # Map common model names to full model IDs
-            model_mapping = {
-                'claude-3-haiku': 'anthropic.claude-3-haiku-20240307-v1:0',
-                'claude-3-sonnet': 'anthropic.claude-3-sonnet-20240229-v1:0',
-                'claude-3-opus': 'anthropic.claude-3-opus-20240229-v1:0',
-                'claude-2': 'anthropic.claude-v2:1',
-                'claude-instant': 'anthropic.claude-instant-v1',
-                'titan': 'amazon.titan-text-express-v1'
-            }
+            # Get full model ID from mapping or use as-is
             model_id = model_mapping.get(model, model)
 
-            # Check if delegate is available
-            if delegate and delegate.is_available():
-                try:
-                    # Use delegate's invoke_model method
-                    # The delegate handles request formatting internally
-                    response_text = delegate.invoke_model(
-                        prompt=message,
-                        model_id=model_id,
-                        max_tokens=kwargs.get('max_tokens', 4000),
-                        temperature=temperature,
-                        top_p=kwargs.get('top_p', 0.9)
-                    )
+            # Use infra delegate's Bedrock invocation
+            response = infra.invoke_bedrock(
+                prompt=message,
+                model_id=model_id
+            )
 
-                except Exception as e:
-                    logger.warning(f"Bedrock delegate call failed: {e}")
-                    response_text = None
-            else:
-                logger.warning("Bedrock delegate not available")
-                response_text = None
+            if response.get('success'):
+                response_text = response.get('text', '')
 
-            if response_text:
                 reasoning_data = {
                     "reasoning": f"Direct Bedrock call: Used {model} with temperature {temperature}",
                     "method": "direct_bedrock",
@@ -219,10 +202,13 @@ class UnifiedChatManager:
 
                 return ChatResponse(response_text, reasoning_data)
             else:
-                # Fallback response
+                # Fallback response for failed invocation
+                error_msg = response.get('error', 'Unknown error')
+                logger.warning(f"Bedrock invocation failed: {error_msg}")
+
                 return ChatResponse(
                     f"I received your message: '{message}'. The {model} model is being configured.",
-                    {"reasoning": "Bedrock service not fully configured", "method": "fallback", "confidence": 0.5}
+                    {"reasoning": f"Bedrock service error: {error_msg}", "method": "fallback", "confidence": 0.5}
                 )
 
         except Exception as e:
@@ -236,7 +222,7 @@ class UnifiedChatManager:
     def _process_rag_chat(self, message: str, model: str, temperature: float, **kwargs) -> ChatResponse:
         """Process RAG-enhanced chat."""
         try:
-            from tidyllm.services.unified_rag_manager import UnifiedRAGManager, RAGSystemType
+            from .unified_rag_manager import UnifiedRAGManager, RAGSystemType
 
             rag_manager = UnifiedRAGManager()
             result = rag_manager.query(

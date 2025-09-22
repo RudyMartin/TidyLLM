@@ -249,20 +249,15 @@ class IndexingWorker(BaseWorker[Union[IndexingRequest, SearchRequest, BatchIndex
                     self.db_connection = db_session
                 logger.info("Indexing Worker: Database connection via UnifiedSessionManager")
             else:
-                # Fallback to direct connection
-                import psycopg2
-                from psycopg2.extras import RealDictCursor
-                
-                connection_params = {
-                    "host": self.vector_config.host if self.vector_config else "localhost",
-                    "port": self.vector_config.port if self.vector_config else 5432,
-                    "database": self.vector_config.database if self.vector_config else "vectorqa",
-                    "user": self.vector_config.user if self.vector_config else "vectorqa_user",
-                    "password": self.vector_config.password if self.vector_config else "password"
-                }
-                
-                self.db_connection = psycopg2.connect(**connection_params)
-                logger.info("Indexing Worker: Direct database connection established")
+                # Fallback to infra_delegate if USM not available
+                try:
+                    from ..infra_delegate import get_infra_delegate
+                    infra = get_infra_delegate()
+                    self.db_connection = infra.get_db_connection()
+                    logger.info("Indexing Worker: Database connection via Infrastructure Delegate")
+                except Exception as e:
+                    logger.error(f"Indexing Worker: Failed to get connection from infra_delegate: {e}")
+                    self.db_connection = None
                 
         except Exception as e:
             logger.warning(f"Indexing Worker: Database connection failed: {e}")

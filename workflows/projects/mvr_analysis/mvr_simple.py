@@ -18,6 +18,20 @@ import tempfile
 import time
 import json
 
+# PathManager import with fallback
+try:
+    from core.utilities.path_manager import get_path_manager
+except ImportError:
+    try:
+        from common.utilities.path_manager import get_path_manager
+    except ImportError:
+        def get_path_manager():
+            class MockPathManager:
+                @property
+                def root_folder(self):
+                    return os.getcwd()
+            return MockPathManager()
+
 # Add the paths for real processors
 sys.path.append(str(Path(__file__).parent.parent))  # Add main directory
 sys.path.append(str(Path(__file__).parent.parent / "v1_workflows" / "mvr_json"))  # Add MVR workflows
@@ -42,7 +56,8 @@ st.set_page_config(
 def load_credentials():
     """Load real credentials for backend connections"""
     try:
-        settings_path = Path("C:/Users/marti/AI-Scoring/tidyllm/admin/settings.yaml")
+        path_manager = get_path_manager()
+        settings_path = Path(path_manager.root_folder) / "tidyllm" / "admin" / "settings.yaml"
         with open(settings_path, 'r') as f:
             config = yaml.safe_load(f)
         return config

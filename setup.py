@@ -33,7 +33,7 @@ setup(
     description="Core TidyLLM business logic package",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    url="https://github.com/marti/qa-shipping",
+    url="https://github.com/organization/qa-shipping",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 4 - Beta",
@@ -76,8 +76,8 @@ setup(
     zip_safe=False,
     keywords="tidyllm, business logic, qa-shipping, architecture, clean",
     project_urls={
-        "Bug Reports": "https://github.com/marti/qa-shipping/issues",
-        "Source": "https://github.com/marti/qa-shipping",
-        "Documentation": "https://github.com/marti/qa-shipping/wiki",
+        "Bug Reports": "https://github.com/organization/qa-shipping/issues",
+        "Source": "https://github.com/organization/qa-shipping",
+        "Documentation": "https://github.com/organization/qa-shipping/wiki",
     },
 )

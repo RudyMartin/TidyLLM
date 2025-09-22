@@ -26,14 +26,14 @@ from enum import Enum
 
 # USM Integration for credential management
 try:
-    from tidyllm.admin.credential_loader import set_aws_environment
+    from ..admin.credential_loader import set_aws_environment
     USM_AVAILABLE = True
 except ImportError:
     USM_AVAILABLE = False
 
 # RAG2DAG Accelerator Integration
 try:
-    from tidyllm.services.rag2dag import rag2dag_service
+    from .rag2dag import rag2dag_service
     OptimizationResult = Dict[str, Any]
     OptimizationSuggestion = Dict[str, Any]
     RAG2DAG_AVAILABLE = True
@@ -42,31 +42,31 @@ except ImportError:
 
 # Import all 5 RAG systems
 try:
-    from tidyllm.knowledge_systems.adapters.ai_powered.ai_powered_rag_adapter import AIPoweredRAGAdapter
+    from ..knowledge_systems.adapters.ai_powered.ai_powered_rag_adapter import AIPoweredRAGAdapter
     AI_POWERED_AVAILABLE = True
 except ImportError:
     AI_POWERED_AVAILABLE = False
 
 try:
-    from tidyllm.knowledge_systems.adapters.postgres_rag.postgres_rag_adapter import PostgresRAGAdapter, RAGQuery, RAGResponse
+    from ..knowledge_systems.adapters.postgres_rag.postgres_rag_adapter import PostgresRAGAdapter, RAGQuery, RAGResponse
     POSTGRES_RAG_AVAILABLE = True
 except ImportError:
     POSTGRES_RAG_AVAILABLE = False
 
 try:
-    from tidyllm.knowledge_systems.adapters.judge_rag.judge_rag_adapter import JudgeRAGAdapter
+    from ..knowledge_systems.adapters.judge_rag.judge_rag_adapter import JudgeRAGAdapter
     JUDGE_RAG_AVAILABLE = True
 except ImportError:
     JUDGE_RAG_AVAILABLE = False
 
 try:
-    from tidyllm.knowledge_systems.adapters.intelligent.intelligent_rag_adapter import IntelligentRAGAdapter
+    from ..knowledge_systems.adapters.intelligent.intelligent_rag_adapter import IntelligentRAGAdapter
     INTELLIGENT_RAG_AVAILABLE = True
 except ImportError:
     INTELLIGENT_RAG_AVAILABLE = False
 
 try:
-    from tidyllm.knowledge_systems.adapters.sme_rag.sme_rag_system import SMERAGSystem, EmbeddingModel
+    from ..knowledge_systems.adapters.sme_rag.sme_rag_system import SMERAGSystem, EmbeddingModel
     SME_RAG_AVAILABLE = True
 except ImportError:
     SME_RAG_AVAILABLE = False

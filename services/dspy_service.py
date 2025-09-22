@@ -565,6 +565,185 @@ class DSPyService:
 
     # ==================== STATUS & HEALTH ====================
 
+    def generate_action_signature(self, action_def: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Generate DSPy signature from action definition.
+
+        Args:
+            action_def: Action definition from actions_spec.json
+
+        Returns:
+            Dict with generated signature and module code
+        """
+        if not DSPY_FRAMEWORK_AVAILABLE:
+            return {
+                "success": False,
+                "error": "DSPy framework not available"
+            }
+
+        try:
+            action_type = action_def.get('type', 'unknown')
+            title = action_def.get('title', 'Unknown Action')
+            description = action_def.get('description', '')
+            requires = action_def.get('requires', [])
+            produces = action_def.get('produces', [])
+            params = action_def.get('params', {})
+
+            # Generate signature class dynamically
+            signature_name = f"{action_type.title().replace('_', '')}Signature"
+
+            # Build input fields from requires and params
+            input_fields = []
+            for req in requires:
+                input_fields.append(f"{req}: dspy.InputField(desc='Required input: {req}')")
+
+            for param_name, param_spec in params.items():
+                if param_spec.get('required', False):
+                    input_fields.append(f"{param_name}: dspy.InputField(desc='{param_spec.get('description', param_name)}')")
+
+            # Build output fields from produces
+            output_fields = []
+            for prod in produces:
+                output_fields.append(f"{prod}: dspy.OutputField(desc='Generated output: {prod}')")
+
+            # Create signature class code
+            signature_code = f"""
+class {signature_name}(dspy.Signature):
+    \"\"\"{title}: {description}\"\"\"
+
+    # Input fields
+    {chr(10).join(input_fields) if input_fields else 'pass'}
+
+    # Output fields
+    {chr(10).join(output_fields) if output_fields else 'pass'}
+"""
+
+            # Create module code for execution
+            module_code = f"""
+class {action_type.title().replace('_', '')}Module(dspy.Module):
+    def __init__(self):
+        super().__init__()
+        self.processor = dspy.ChainOfThought({signature_name})
+
+    def forward(self, **inputs):
+        result = self.processor(**inputs)
+        return result
+"""
+
+            # Store signature in cache
+            cache_key = f"action_{action_type}"
+            self.signatures_cache[cache_key] = {
+                "signature_code": signature_code,
+                "module_code": module_code,
+                "action_def": action_def
+            }
+
+            return {
+                "success": True,
+                "action_type": action_type,
+                "signature_name": signature_name,
+                "signature_code": signature_code,
+                "module_code": module_code,
+                "cached_as": cache_key,
+                "timestamp": datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"Action signature generation failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "action_type": action_def.get('type', 'unknown')
+            }
+
+    def generate_action_chain_module(self, action_types: List[str]) -> Dict[str, Any]:
+        """
+        Generate a complete DSPy module for an action chain.
+
+        Args:
+            action_types: List of action types to chain
+
+        Returns:
+            Dict with generated module code and execution plan
+        """
+        if not DSPY_FRAMEWORK_AVAILABLE:
+            return {
+                "success": False,
+                "error": "DSPy framework not available"
+            }
+
+        try:
+            # Load actions loader to get definitions
+            from domain.services.actions_loader_service import get_actions_loader
+            loader = get_actions_loader()
+
+            # Validate action sequence
+            is_valid, errors = loader.validate_action_sequence(action_types)
+            if not is_valid:
+                return {
+                    "success": False,
+                    "errors": errors,
+                    "action_types": action_types
+                }
+
+            # Generate signatures for each action
+            signatures = []
+            for action_type in action_types:
+                action = loader.get_action(action_type)
+                if action:
+                    # Convert dataclass to dict
+                    action_dict = {
+                        'type': action.action_type,
+                        'title': action.title,
+                        'description': action.description,
+                        'requires': action.requires,
+                        'produces': action.produces,
+                        'params': action.params,
+                        'inputs': action.inputs,
+                        'output_schema': action.output_schema
+                    }
+                    sig_result = self.generate_action_signature(action_dict)
+                    if sig_result.get("success"):
+                        signatures.append(sig_result)
+
+            # Create chained module
+            chain_module_code = f"""
+class ActionChainModule(dspy.Module):
+    def __init__(self):
+        super().__init__()
+        # Initialize action processors
+        {chr(10).join([f"        self.{sig['action_type']}_processor = dspy.ChainOfThought({sig['signature_name']})" for sig in signatures])}
+
+    def forward(self, **initial_inputs):
+        artifacts = {{}}
+        artifacts.update(initial_inputs)
+
+        # Execute action chain
+        {chr(10).join([f"        # Step {i+1}: {sig['action_type']}" + chr(10) + f"        result_{sig['action_type']} = self.{sig['action_type']}_processor(**artifacts)" + chr(10) + f"        artifacts.update(result_{sig['action_type']}.to_dict())" for i, sig in enumerate(signatures)])}
+
+        return artifacts
+"""
+
+            return {
+                "success": True,
+                "action_chain": action_types,
+                "module_code": chain_module_code,
+                "signatures": [s["signature_name"] for s in signatures],
+                "execution_plan": {
+                    "steps": len(action_types),
+                    "artifact_flow": loader.export_as_dspy_config(action_types)
+                },
+                "timestamp": datetime.now().isoformat()
+            }
+
+        except Exception as e:
+            logger.error(f"Action chain module generation failed: {e}")
+            return {
+                "success": False,
+                "error": str(e),
+                "action_types": action_types
+            }
+
     def get_status(self) -> Dict[str, Any]:
         """Get DSPy Service status."""
         return {
@@ -627,9 +806,15 @@ class DSPyService:
 
 # ==================== CONVENIENCE FUNCTIONS ====================
 
+# Global service instance for singleton pattern
+_global_dspy_service = None
+
 def get_dspy_service(auto_configure: bool = True) -> DSPyService:
-    """Get DSPy service instance - convenience function."""
-    return DSPyService(auto_configure=auto_configure)
+    """Get DSPy service instance - singleton pattern for consistent state."""
+    global _global_dspy_service
+    if _global_dspy_service is None:
+        _global_dspy_service = DSPyService(auto_configure=auto_configure)
+    return _global_dspy_service
 
 
 # ==================== MAIN ====================

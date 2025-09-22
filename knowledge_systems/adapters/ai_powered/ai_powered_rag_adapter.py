@@ -16,7 +16,7 @@ import logging
 from ..base import BaseRAGAdapter, RAGQuery, RAGResponse
 
 # Import consolidated infrastructure delegate
-from ....infrastructure.infra_delegate import get_infra_delegate
+from infrastructure.infra_delegate import get_infra_delegate
 
 logger = logging.getLogger(__name__)
 
@@ -31,10 +31,10 @@ class AIPoweredRAGAdapter(BaseRAGAdapter):
     """
 
     def __init__(self):
-        """Initialize with AI capabilities using consolidated infrastructure."""
-        # Get infrastructure delegate (uses parent when available)
+        """Initialize AI-Powered RAG Adapter."""
+        # Store infrastructure delegate as instance variable
         self.infra = get_infra_delegate()
-        logger.info("AI-Powered RAG Adapter initialized with consolidated infrastructure delegate")
+        logger.info("AI-Powered RAG Adapter initialized")
 
     def _create_analysis_prompt(self, query: str, context_chunks: List[str]) -> str:
         """Create prompt for AI to analyze document content."""

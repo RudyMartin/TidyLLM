@@ -90,15 +90,23 @@ class CorporateLLMGateway:
         self.mlflow_service = None
         self.cost_tracker = CostTracker()
 
-        # Model ID mappings (friendly -> Bedrock)
-        self.model_mappings = {
-            "claude-3-sonnet": "anthropic.claude-3-sonnet-20240229-v1:0",
-            "claude-3-haiku": "anthropic.claude-3-haiku-20240307-v1:0",
-            "claude-3-5-sonnet": "anthropic.claude-3-5-sonnet-20240620-v1:0",
-            "claude-3-opus": "anthropic.claude-3-opus-20240229-v1:0",
-            "gpt-4": "anthropic.claude-3-sonnet-20240229-v1:0",  # Fallback to Claude
-            "titan-text": "amazon.titan-text-express-v1"
-        }
+        # Model ID mappings - get from settings.yaml via infra delegate
+        try:
+            from tidyllm.infrastructure.infra_delegate import get_infra_delegate
+            infra = get_infra_delegate()
+            bedrock_config = infra.get_bedrock_config()
+            self.model_mappings = bedrock_config.get('model_mapping', {})
+
+            # Add fallback for gpt-4 if not in config
+            if 'gpt-4' not in self.model_mappings:
+                self.model_mappings['gpt-4'] = self.model_mappings.get(
+                    'claude-3-sonnet',
+                    'anthropic.claude-3-sonnet-20240229-v1:0'
+                )
+        except Exception as e:
+            logger.warning(f"Failed to load model mappings from settings: {e}")
+            # Fallback to empty mappings - will use model IDs as-is
+            self.model_mappings = {}
 
         # Initialize components
         self._initialize_usm()
@@ -303,16 +311,34 @@ class CorporateLLMGateway:
     def _create_fallback_bedrock_client(self):
         """Create fallback Bedrock client for testing when USM unavailable."""
         try:
-            # Use bedrock delegate instead of direct boto3
-            from tidyllm.infrastructure.bedrock_delegate import get_bedrock_delegate
-            delegate = get_bedrock_delegate()
-            if delegate.is_available():
-                # Return the delegate which provides bedrock operations
-                return delegate
+            # Use consolidated infrastructure delegate
+            from tidyllm.infrastructure.infra_delegate import get_infra_delegate
+            infra = get_infra_delegate()
+
+            # Create a wrapper that matches the expected interface
+            class BedrockWrapper:
+                def __init__(self, infra_delegate):
+                    self.infra = infra_delegate
+
+                def is_available(self):
+                    """Check if Bedrock is available."""
+                    return hasattr(self.infra, 'invoke_bedrock')
+
+                def invoke_model(self, prompt, model_id, **kwargs):
+                    """Invoke model through infra delegate."""
+                    response = self.infra.invoke_bedrock(prompt, model_id)
+                    if response.get('success'):
+                        return response.get('text', '')
+                    else:
+                        raise Exception(response.get('error', 'Bedrock invocation failed'))
+
+            wrapper = BedrockWrapper(infra)
+            if wrapper.is_available():
+                return wrapper
             else:
-                raise Exception("Bedrock delegate not available")
+                raise Exception("Infrastructure delegate does not have Bedrock support")
         except Exception as e:
-            logger.warning(f"Direct boto3 client failed: {e}, using mock client")
+            logger.warning(f"Infrastructure delegate failed: {e}, using mock client")
             return self._create_mock_bedrock_client()
 
     def _create_mock_bedrock_client(self):

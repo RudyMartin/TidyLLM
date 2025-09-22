@@ -23,22 +23,37 @@ import json
 import asyncio
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Protocol
-from dataclasses import dataclass
 from abc import ABC, abstractmethod
+import logging
+
+# Import base adapter and types
+from ..base import BaseRAGAdapter, RAGQuery, RAGResponse
+
+# Import consolidated infrastructure delegate
+from ....infrastructure.infra_delegate import get_infra_delegate
+
+logger = logging.getLogger(__name__)
 
 # Import our existing RAG infrastructure
 try:
-    from ..postgres_rag import RAGQuery, RAGResponse, PostgresRAGAdapter
+    from ..postgres_rag import PostgresRAGAdapter
 except ImportError:
-    from rag_adapters.postgres_rag_adapter import RAGQuery, RAGResponse, PostgresRAGAdapter
+    from rag_adapters.postgres_rag_adapter import PostgresRAGAdapter
 
-# AWS integration (through adapter pattern)
+# Use infrastructure delegate for AWS operations
 try:
-    import boto3
-    import requests
-    AWS_AVAILABLE = True
+    from packages.tidyllm.infrastructure.infra_delegate import get_infra_delegate
+    INFRA_DELEGATE_AVAILABLE = True
 except ImportError:
-    AWS_AVAILABLE = False
+    INFRA_DELEGATE_AVAILABLE = False
+
+try:
+    import requests
+except ImportError:
+    pass
+
+# Keep JB-specific types for compatibility
+from dataclasses import dataclass
 
 @dataclass
 class JBRAGRequest:
@@ -66,7 +81,7 @@ class ExternalRAGPort(Protocol):
     async def health_check(self) -> Dict[str, Any]: ...
     async def get_system_info(self) -> Dict[str, Any]: ...
 
-class JudgeRAGAdapter:
+class JudgeRAGAdapter(BaseRAGAdapter):
     """
     Adapter for JB's AWS-hosted RAG implementation.
 
@@ -96,25 +111,28 @@ class JudgeRAGAdapter:
         # Fallback to our existing PostgresRAGAdapter if JB's system unavailable
         self.fallback_adapter = fallback_adapter or PostgresRAGAdapter()
 
-        # AWS session for JB's system access - MEGA USM Integration
+        # Use infrastructure delegate for AWS operations
         try:
             import streamlit as st
+            # Check if USM is available in session state first
             usm = st.session_state.get('tidyllm_session_manager')
-            if usm and hasattr(usm, 'get_aws_session'):
-                self.aws_session = usm.get_aws_session()
-                print("AWS session initialized via MEGA USM for JB's RAG system")
-            elif AWS_AVAILABLE:
-                self.aws_session = boto3.Session()
-                print("AWS session initialized via direct boto3 (fallback)")
+            if usm:
+                # USM will use infra_delegate internally now
+                self.aws_session = usm
+                print("AWS operations will use USM (which uses infra_delegate)")
+            elif INFRA_DELEGATE_AVAILABLE:
+                # Direct use of infra_delegate
+                self.infra_delegate = get_infra_delegate()
+                self.aws_session = None  # Not needed with infra_delegate
+                print("AWS operations will use infra_delegate directly")
             else:
+                self.infra_delegate = None
                 self.aws_session = None
-                print("WARNING: AWS not available - will use fallback adapter only")
+                print("WARNING: Infrastructure delegate not available - will use fallback adapter only")
         except Exception as e:
-            print(f"WARNING: USM integration failed ({e}) - using direct boto3 fallback")
-            if AWS_AVAILABLE:
-                self.aws_session = boto3.Session()
-            else:
-                self.aws_session = None
+            print(f"WARNING: Infrastructure setup failed ({e}) - using fallback")
+            self.infra_delegate = None
+            self.aws_session = None
 
         # System status tracking
         self.jb_system_available = False
@@ -125,7 +143,7 @@ class JudgeRAGAdapter:
         print("Checking JB LLM Judge system health...")
 
         try:
-            if not AWS_AVAILABLE:
+            if not INFRA_DELEGATE_AVAILABLE and not self.aws_session:
                 return {
                     "jb_system_available": False,
                     "reason": "AWS libraries not available",

@@ -10,9 +10,24 @@ Handles unavailable files gracefully (expected on active sites).
 import json
 import sys
 import time
+import os
 from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Any
+
+# PathManager import with fallback
+try:
+    from core.utilities.path_manager import get_path_manager
+except ImportError:
+    try:
+        from common.utilities.path_manager import get_path_manager
+    except ImportError:
+        def get_path_manager():
+            class MockPathManager:
+                @property
+                def root_folder(self):
+                    return os.getcwd()
+            return MockPathManager()
 
 class ProgressPulse:
     """Simple progress pulse indicator."""
@@ -343,7 +358,8 @@ class QuickRiskScreening:
 
 def main():
     """Main quick screening function."""
-    base_path = Path("C:/Users/marti/AI-Scoring")
+    path_manager = get_path_manager()
+    base_path = Path(path_manager.root_folder)
     
     if not base_path.exists():
         print(f"❌ ERROR: Base path not found: {base_path}")

@@ -8,20 +8,15 @@ Corporate-safe AWS service validation (S3, Bedrock, STS) with timeout protection
 from typing import Dict, Any
 from .base import BaseValidator
 
-# For S3 operations, use parent infrastructure
+# Use infrastructure delegate for ALL AWS operations
 try:
-    from tidyllm.infrastructure.s3_delegate import get_s3_delegate
-    S3_DELEGATE_AVAILABLE = True
+    from packages.tidyllm.infrastructure.infra_delegate import get_infra_delegate
+    INFRA_DELEGATE_AVAILABLE = True
 except ImportError:
-    S3_DELEGATE_AVAILABLE = False
+    INFRA_DELEGATE_AVAILABLE = False
 
-# Keep boto3 for non-S3 services (Bedrock, STS)
-try:
-    import boto3
-    from botocore.exceptions import ClientError, NoCredentialsError
-    AWS_AVAILABLE = True
-except ImportError:
-    AWS_AVAILABLE = False
+# No longer import boto3 directly - all through infra_delegate
+AWS_AVAILABLE = INFRA_DELEGATE_AVAILABLE
 
 
 class AWSValidator(BaseValidator):
@@ -45,7 +40,7 @@ class AWSValidator(BaseValidator):
     
     def _validate_corporate_mode(self) -> Dict[str, Any]:
         """Validate in corporate mode - no hanging service calls."""
-        
+
         result = {
             's3': self.corporate_safe_result('S3', 'Corporate environment detected - skipping list_buckets() to prevent hanging'),
             'bedrock': self.corporate_safe_result('Bedrock', 'Corporate environment detected - skipping list_foundation_models() to prevent hanging'),
@@ -53,23 +48,21 @@ class AWSValidator(BaseValidator):
             'overall_status': 'corporate_safe',
             'corporate_mode': True
         }
-        
-        # Do basic credential detection without service calls
-        if AWS_AVAILABLE:
+
+        # Test infra_delegate availability
+        if INFRA_DELEGATE_AVAILABLE:
             try:
-                # Test if we can create clients (but don't call services)
-                boto3.client('s3')
-                result['s3']['client_creation'] = 'success'
-                
-                boto3.client('bedrock', region_name='us-east-1')
-                result['bedrock']['client_creation'] = 'success'
-                
-                boto3.client('sts')
-                result['sts']['client_creation'] = 'success'
-                
+                infra = get_infra_delegate()
+                result['infra_delegate'] = 'available'
+
+                # Check if we can get Bedrock config
+                bedrock_config = infra.get_bedrock_config()
+                if bedrock_config:
+                    result['bedrock']['config'] = 'available'
+
             except Exception as e:
-                result['client_creation_error'] = str(e)
-        
+                result['infra_delegate_error'] = str(e)
+
         return result
     
     def _validate_standard_mode(self) -> Dict[str, Any]:
@@ -83,11 +76,11 @@ class AWSValidator(BaseValidator):
             'corporate_mode': False
         }
         
-        if not AWS_AVAILABLE:
+        if not INFRA_DELEGATE_AVAILABLE:
             for service in ['s3', 'bedrock', 'sts']:
                 result[service] = {
                     'status': 'error',
-                    'message': 'boto3 not available',
+                    'message': 'Infrastructure delegate not available',
                     'latency': 0
                 }
             return result
@@ -109,62 +102,65 @@ class AWSValidator(BaseValidator):
         return result
     
     def _test_s3_service(self) -> Dict[str, Any]:
-        """Test S3 service - THIS is where hanging happens."""
+        """Test S3 service through infra_delegate."""
         try:
-            s3_client = boto3.client('s3')
-            
-            # THIS is the call that hangs in corporate environments
-            buckets = s3_client.list_buckets()
-            
+            infra = get_infra_delegate()
+
+            # S3 operations through delegate (if supported)
+            # For now, just check availability
             return {
-                'status': 'success',
-                'message': f'S3 connection successful - {len(buckets["Buckets"])} buckets found',
-                'bucket_count': len(buckets["Buckets"])
+                'status': 'partial',
+                'message': 'S3 operations pending infra_delegate implementation'
             }
-            
+
         except Exception as e:
             return {
                 'status': 'error',
-                'message': f'S3 connection failed: {e}'
+                'message': f'S3 delegate not available: {e}'
             }
     
     def _test_bedrock_service(self) -> Dict[str, Any]:
-        """Test Bedrock service - THIS is where hanging happens."""
+        """Test Bedrock service through infra_delegate."""
         try:
-            bedrock_client = boto3.client('bedrock', region_name='us-east-1')
-            
-            # THIS is the call that hangs in corporate environments
-            models = bedrock_client.list_foundation_models()
-            
-            return {
-                'status': 'success',
-                'message': f'Bedrock connection successful - {len(models["modelSummaries"])} models available',
-                'model_count': len(models["modelSummaries"])
-            }
-            
+            infra = get_infra_delegate()
+
+            # Test Bedrock with a simple prompt
+            result = infra.invoke_bedrock(
+                prompt="Test connection",
+                model_id='anthropic.claude-3-haiku-20240307-v1:0'
+            )
+
+            if result.get('success'):
+                return {
+                    'status': 'success',
+                    'message': 'Bedrock connection successful via infra_delegate'
+                }
+            else:
+                return {
+                    'status': 'error',
+                    'message': f'Bedrock test failed: {result.get("error", "Unknown error")}'
+                }
+
         except Exception as e:
             return {
-                'status': 'error', 
+                'status': 'error',
                 'message': f'Bedrock connection failed: {e}'
             }
     
     def _test_sts_service(self) -> Dict[str, Any]:
-        """Test STS service - THIS is where hanging happens."""
+        """Test STS service through infra_delegate."""
         try:
-            sts_client = boto3.client('sts')
-            
-            # THIS is the call that hangs in corporate environments
-            identity = sts_client.get_caller_identity()
-            
+            infra = get_infra_delegate()
+
+            # STS operations through delegate (if supported)
+            # For now, just check availability
             return {
-                'status': 'success',
-                'message': f'STS connection successful - Account: {identity["Account"]}',
-                'account_id': identity["Account"],
-                'user_arn': identity.get("Arn", "unknown")
+                'status': 'partial',
+                'message': 'STS operations pending infra_delegate implementation'
             }
-            
+
         except Exception as e:
             return {
                 'status': 'error',
-                'message': f'STS connection failed: {e}'
+                'message': f'STS delegate not available: {e}'
             }

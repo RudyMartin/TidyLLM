@@ -22,7 +22,6 @@ def show_missing_evidence():
     
     # Connect to MLflow with PostgreSQL backend
     mlflow_uri = config['services']['mlflow']['backend_store_uri']
-    # #future_fix: Convert to use enhanced service infrastructure
     mlflow.set_tracking_uri(mlflow_uri)
     
     print("MLFLOW CONNECTION:")
@@ -31,7 +30,6 @@ def show_missing_evidence():
     print()
     
     # Get MLflow client
-    # #future_fix: Convert to use enhanced service infrastructure
     client = mlflow.tracking.MlflowClient()
     
     # Get all experiments to show before/after

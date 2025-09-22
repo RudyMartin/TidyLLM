@@ -21,7 +21,7 @@ import logging
 from ..base import BaseRAGAdapter, RAGQuery, RAGResponse
 
 # Import consolidated infrastructure delegate
-from ....infrastructure.infra_delegate import get_infra_delegate
+from infrastructure.infra_delegate import get_infra_delegate
 
 logger = logging.getLogger(__name__)
 
@@ -49,8 +49,8 @@ class IntelligentRAGAdapter(BaseRAGAdapter):
     """
 
     def __init__(self):
-        """Initialize with consolidated infrastructure delegate."""
-        # Get infrastructure delegate (uses parent when available)
+        """Initialize Intelligent RAG Adapter."""
+        # Store infrastructure delegate as instance variable
         self.infra = get_infra_delegate()
 
         # Initialize embedding components
@@ -76,7 +76,7 @@ class IntelligentRAGAdapter(BaseRAGAdapter):
         Required by BaseRAGAdapter interface.
         """
         try:
-            # Test database connection through infra
+            # Test database connection
             conn = self.infra.get_db_connection()
             self.infra.return_db_connection(conn)
             return {
