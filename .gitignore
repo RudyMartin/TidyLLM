@@ -631,3 +631,19 @@ claude_*.yaml
 
 # Uncomment the line below if you want to ignore Jupyter notebooks
 # *.ipynb
+
+# ==============================================================================
+# ADDITIONAL PATTERNS
+# ==============================================================================
+
+# Modern Python tools
+.ruff_cache/
+.benchmarks/
+
+# Docker/Kubernetes
+*.pvc
+docker-compose.override.yml
+.dockerignore
+
+# Additional package managers
+pnpm-lock.yaml
