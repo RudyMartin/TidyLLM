@@ -110,7 +110,15 @@ old-*
 _*
 # C extensions
 *.so
-*nul*
+
+# Windows special device names (accidentally created)
+nul
+con
+prn
+aux
+com[1-9]
+lpt[1-9]
+
 qaz*
 
 
