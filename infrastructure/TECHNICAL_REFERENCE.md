@@ -188,9 +188,9 @@ infra = get_infra_delegate()
 
 ### Issue: Not detecting parent infrastructure
 
-**Check:** Are you in the qa-shipping directory structure?
+**Check:** Are you in the compliance-qa directory structure?
 ```bash
-pwd  # Should show: /path/to/qa-shipping
+pwd  # Should show: /path/to/compliance-qa
 ```
 
 **Check:** Can you import parent modules?

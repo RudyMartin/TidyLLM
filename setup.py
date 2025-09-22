@@ -23,7 +23,7 @@ def get_long_description():
         with open('README.md', 'r', encoding='utf-8') as f:
             return f.read()
     except:
-        return "TidyLLM - Core business logic package for QA-Shipping 4-layer architecture"
+        return "TidyLLM - Core business logic package for Compliance-QA 4-layer architecture"
 
 setup(
     name="tidyllm",
@@ -33,7 +33,7 @@ setup(
     description="Core TidyLLM business logic package",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    url="https://github.com/organization/qa-shipping",
+    url="https://github.com/organization/compliance-qa",
     packages=[
         "tidyllm",
         "tidyllm.infrastructure",
@@ -92,10 +92,10 @@ setup(
     },
     include_package_data=True,
     zip_safe=False,
-    keywords="tidyllm, business logic, qa-shipping, architecture, clean",
+    keywords="tidyllm, business logic, compliance-qa, architecture, clean",
     project_urls={
-        "Bug Reports": "https://github.com/organization/qa-shipping/issues",
-        "Source": "https://github.com/organization/qa-shipping",
-        "Documentation": "https://github.com/organization/qa-shipping/wiki",
+        "Bug Reports": "https://github.com/organization/compliance-qa/issues",
+        "Source": "https://github.com/organization/compliance-qa",
+        "Documentation": "https://github.com/organization/compliance-qa/wiki",
     },
 )

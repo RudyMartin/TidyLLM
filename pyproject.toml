@@ -50,11 +50,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/marti/qa-shipping"
-"Bug Reports" = "https://github.com/marti/qa-shipping/issues"
-"Source" = "https://github.com/marti/qa-shipping"
-Repository = "https://github.com/marti/qa-shipping.git"
-Documentation = "https://github.com/marti/qa-shipping/blob/main/packages/tidyllm/README.md"
+Homepage = "https://github.com/marti/compliance-qa"
+"Bug Reports" = "https://github.com/marti/compliance-qa/issues"
+"Source" = "https://github.com/marti/compliance-qa"
+Repository = "https://github.com/marti/compliance-qa.git"
+Documentation = "https://github.com/marti/compliance-qa/blob/main/packages/tidyllm/README.md"
 
 [project.scripts]
 # CLI commands can be added here in the future
