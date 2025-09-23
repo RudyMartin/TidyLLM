@@ -647,3 +647,8 @@ docker-compose.override.yml
 
 # Additional package managers
 pnpm-lock.yaml
+
+# Streamlit
+.streamlit/
+**/.streamlit/
+*.streamlit
