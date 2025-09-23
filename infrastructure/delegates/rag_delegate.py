@@ -19,7 +19,7 @@ from ..infra_delegate import get_infra_delegate
 # Still import delegate types for backward compatibility
 from .llm_delegate import LLMDelegate
 from .database_delegate import DatabaseDelegate
-from .aws_delegate import AWSDelegate
+# from .aws_delegate import AWSDelegate  # Not implemented yet
 from .embedding_delegate import EmbeddingDelegate
 from .dspy_delegate import DSPyDelegate
 
@@ -37,7 +37,7 @@ class RAGDelegateProtocol(Protocol):
         """Get database delegate."""
         ...
 
-    def get_aws_delegate(self) -> Optional[AWSDelegate]:
+    def get_aws_delegate(self) -> Optional[Any]:
         """Get AWS delegate."""
         ...
 
@@ -96,7 +96,7 @@ class RAGMasterDelegate:
             return self._infra  # The infra delegate has get_db_connection() method
         return None
 
-    def get_aws_delegate(self) -> Optional[AWSDelegate]:
+    def get_aws_delegate(self) -> Optional[Any]:
         """Get AWS delegate for Bedrock/S3 operations."""
         if self._aws_delegate is None:
             try:

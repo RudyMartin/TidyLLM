@@ -406,6 +406,28 @@ class UnifiedSessionManager:
         """Get list of available services"""
         return ["bedrock", "postgresql", "s3", "sts"]
 
+    def get_mlflow_config(self) -> Dict[str, Any]:
+        """Get MLflow configuration - delegates to infra_delegate"""
+        try:
+            if hasattr(self._infra, 'get_mlflow_config'):
+                return self._infra.get_mlflow_config()
+
+            # Fallback to default configuration
+            return {
+                'tracking_uri': 'http://localhost:5000',
+                'timeout': 30,
+                'retry_count': 3,
+                'enable_caching': True
+            }
+        except Exception as e:
+            logger.warning(f"Failed to get MLflow config: {e}")
+            return {
+                'tracking_uri': 'http://localhost:5000',
+                'timeout': 30,
+                'retry_count': 3,
+                'enable_caching': True
+            }
+
 
 # =======================
 # MODULE-LEVEL FUNCTIONS
@@ -429,3 +451,16 @@ def get_session_manager() -> UnifiedSessionManager:
     if _default_manager is None:
         _default_manager = UnifiedSessionManager()
     return _default_manager
+
+
+def get_global_session_manager() -> UnifiedSessionManager:
+    """Get global session manager instance (compatibility function)."""
+    return get_session_manager()
+
+
+def reset_global_session_manager():
+    """Reset global session manager (for testing)."""
+    global _default_manager
+    if _default_manager:
+        _default_manager.cleanup()
+    _default_manager = None

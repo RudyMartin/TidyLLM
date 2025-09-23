@@ -43,20 +43,57 @@ class PathManager:
         logger.info(f"PathManager initialized with root: {self._root_folder}")
     
     def _detect_root_folder(self) -> str:
-        """Detect root folder from current working directory."""
-        current_dir = os.getcwd()
-        
-        # Look for tidyllm directory in current path
-        if "tidyllm" in current_dir:
-            # Find the parent directory that contains tidyllm
-            parts = Path(current_dir).parts
-            for i, part in enumerate(parts):
-                if part == "tidyllm":
-                    root_parts = parts[:i]
-                    return str(Path(*root_parts)) if root_parts else "."
-        
+        """Detect root folder using SettingsLoader for consistency."""
+        # Strategy 1: Use SettingsLoader's root path (most reliable)
+        try:
+            import sys
+            # Get to qa-shipping root from current location
+            qa_root = Path(__file__).parent.parent.parent.parent.resolve()
+            if str(qa_root) not in sys.path:
+                sys.path.insert(0, str(qa_root))
+
+            from infrastructure.yaml_loader import SettingsLoader
+            loader = SettingsLoader()
+
+            # Get root from settings path
+            root_path = Path(loader.settings_path).parent.parent.resolve()
+            return str(root_path)
+
+        except ImportError:
+            pass
+
+        # Strategy 2: Look for project root by walking up from current file location
+        current_file = Path(__file__).resolve()
+
+        # Walk up the directory tree looking for project root markers
+        for parent in list(current_file.parents):  # Skip current file itself
+            # Check if this is the project root (has infrastructure/settings.yaml)
+            if (parent / "infrastructure" / "settings.yaml").exists():
+                return str(parent)
+
+            # Also check for other root markers
+            if (parent / "infrastructure").exists() and (parent / "packages").exists():
+                return str(parent)
+
+            # Check for common project root files
+            if (parent / ".git").exists() and (parent / "infrastructure").exists():
+                return str(parent)
+
+        # Strategy 3: Use environment variable if set
+        if os.environ.get("PROJECT_ROOT"):
+            return os.environ.get("PROJECT_ROOT")
+
+        # Deprecated but check for backward compatibility
+        if os.environ.get("QA_SHIPPING_ROOT"):
+            return os.environ.get("QA_SHIPPING_ROOT")
+
+        # Strategy 4: Try from current working directory
+        cwd = Path.cwd()
+        if (cwd / "infrastructure" / "settings.yaml").exists():
+            return str(cwd)
+
         # Fallback to current directory
-        return current_dir
+        return os.getcwd()
     
     @property
     def root_folder(self) -> str:
@@ -89,7 +126,12 @@ class PathManager:
     def get_logs_path(self, filename: str) -> str:
         """Get full path to a log file."""
         return os.path.join(self.logs_folder, filename)
-    
+
+    def get_infrastructure_settings_path(self) -> str:
+        """Get path to infrastructure/settings.yaml in qa-shipping root."""
+        # Use the detected root folder to find infrastructure settings
+        return os.path.join(self.root_folder, "infrastructure", "settings.yaml")
+
     def ensure_folders_exist(self):
         """Ensure all required folders exist."""
         folders = [self.config_folder, self.data_folder, self.logs_folder]

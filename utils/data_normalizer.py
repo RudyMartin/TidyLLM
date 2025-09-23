@@ -202,6 +202,86 @@ class DataNormalizer:
         available = sum(1 for status in normalized.values() if status)
         return available, total
 
+    @staticmethod
+    def normalize_bedrock_response(response: Any) -> Dict[str, Any]:
+        """
+        Normalize various Bedrock response formats to a standard structure.
+
+        Handles responses from:
+        - boto3 client (AWS SDK): {'body': <StreamingBody>}
+        - infra_delegate: raw string or dict
+        - mock clients: various formats
+        - wrapper clients: custom response objects
+
+        Args:
+            response: Response in various formats
+
+        Returns:
+            Dict with standardized format: {'body': <readable_object>}
+            Where readable_object has .read() method returning JSON bytes
+        """
+        import json
+        import io
+
+        # Case 1: Already boto3-style response with readable body
+        if isinstance(response, dict) and 'body' in response:
+            body = response['body']
+            if hasattr(body, 'read'):
+                # Already correct format
+                return response
+            elif isinstance(body, (str, bytes)):
+                # String/bytes body - make it readable
+                if isinstance(body, str):
+                    body = body.encode()
+                return {'body': io.BytesIO(body)}
+            else:
+                # Other body format - convert to JSON
+                json_str = json.dumps(body)
+                return {'body': io.BytesIO(json_str.encode())}
+
+        # Case 2: Direct string response (from infra_delegate)
+        elif isinstance(response, str):
+            # Wrap in Claude response format
+            content = {'content': [{'text': response}]}
+            json_str = json.dumps(content)
+            return {'body': io.BytesIO(json_str.encode())}
+
+        # Case 3: Dict response (from some services)
+        elif isinstance(response, dict):
+            # Check if it's already in Claude format
+            if 'content' in response:
+                json_str = json.dumps(response)
+                return {'body': io.BytesIO(json_str.encode())}
+            elif 'text' in response:
+                # Single text response
+                content = {'content': [{'text': response['text']}]}
+                json_str = json.dumps(content)
+                return {'body': io.BytesIO(json_str.encode())}
+            else:
+                # Generic dict - treat as complete response
+                json_str = json.dumps(response)
+                return {'body': io.BytesIO(json_str.encode())}
+
+        # Case 4: Response object with attributes
+        elif hasattr(response, '__dict__'):
+            # Extract response content
+            if hasattr(response, 'content'):
+                content = {'content': [{'text': str(response.content)}]}
+            elif hasattr(response, 'text'):
+                content = {'content': [{'text': str(response.text)}]}
+            else:
+                # Convert entire object to dict
+                content = {'content': [{'text': str(response)}]}
+
+            json_str = json.dumps(content)
+            return {'body': io.BytesIO(json_str.encode())}
+
+        # Case 5: Fallback for unknown types
+        else:
+            content = {'content': [{'text': str(response)}]}
+            json_str = json.dumps(content)
+            return {'body': io.BytesIO(json_str.encode())}
+
 
 # Convenience functions
 def normalize_status(data: Any) -> Dict[str, bool]:

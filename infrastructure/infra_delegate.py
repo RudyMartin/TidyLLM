@@ -37,10 +37,8 @@ import yaml
 
 logger = logging.getLogger(__name__)
 
-# Add parent infrastructure to path for detection
-qa_root = Path(__file__).parent.parent.parent.parent
-if str(qa_root) not in sys.path:
-    sys.path.insert(0, str(qa_root))
+# Note: Path setup should be done by the application using PathManager,
+# not by the delegate itself (architecture principle)
 
 
 class InfrastructureDelegate:
@@ -209,8 +207,33 @@ class InfrastructureDelegate:
                 logger.info("✅ AWS: Using parent aws_service")
                 return aws
 
-        except ImportError:
-            pass
+        except ImportError as e:
+            logger.debug(f"Could not import parent aws_service: {e}")
+
+        # Try to get credentials and create a basic AWS service
+        try:
+            from infrastructure.services.credential_carrier import get_credential_carrier
+            cred_carrier = get_credential_carrier()
+
+            # Get AWS credentials from settings
+            aws_creds = cred_carrier.get_credential('aws_bedrock')
+            if not aws_creds:
+                # Try environment variables
+                import os
+                if os.getenv('AWS_ACCESS_KEY_ID'):
+                    aws_creds = {
+                        'access_key_id': os.getenv('AWS_ACCESS_KEY_ID'),
+                        'secret_access_key': os.getenv('AWS_SECRET_ACCESS_KEY'),
+                        'region': os.getenv('AWS_REGION', 'us-east-1')
+                    }
+
+            if aws_creds:
+                # Create a simple AWS service wrapper
+                logger.info("✅ AWS: Using credentials from settings/env")
+                return self._create_simple_aws_service(aws_creds)
+
+        except Exception as e:
+            logger.debug(f"Could not setup AWS with credentials: {e}")
 
         # FALLBACK - Mock AWS client
         logger.info("⚠️ AWS: Parent not available, using mock")
@@ -225,40 +248,134 @@ class InfrastructureDelegate:
             's3': MockAWSClient()
         }
 
+    def _create_simple_aws_service(self, creds):
+        """Create a simple AWS service wrapper when parent is not available."""
+        try:
+            import boto3
+
+            class SimpleAWSService:
+                def __init__(self, credentials):
+                    self.creds = credentials
+                    self._bedrock_runtime = None
+
+                def is_available(self):
+                    return True
+
+                def invoke_model(self, prompt, model_id='anthropic.claude-3-haiku-20240307-v1:0'):
+                    """Simple Bedrock invocation."""
+                    if not self._bedrock_runtime:
+                        self._bedrock_runtime = boto3.client(
+                            'bedrock-runtime',
+                            region_name=self.creds.get('region', 'us-east-1'),
+                            aws_access_key_id=self.creds.get('access_key_id'),
+                            aws_secret_access_key=self.creds.get('secret_access_key')
+                        )
+
+                    import json
+                    # Format for Claude 3
+                    request_body = {
+                        "messages": [{"role": "user", "content": prompt}],
+                        "max_tokens": 1000,
+                        "temperature": 0.7,
+                        "anthropic_version": "bedrock-2023-05-31"
+                    }
+
+                    response = self._bedrock_runtime.invoke_model(
+                        modelId=model_id,
+                        body=json.dumps(request_body),
+                        contentType='application/json'
+                    )
+
+                    response_body = json.loads(response['body'].read())
+                    # Extract text from Claude 3 response
+                    if 'content' in response_body:
+                        return {'text': response_body['content'][0]['text']}
+                    return {'text': str(response_body)}
+
+            return SimpleAWSService(creds)
+
+        except ImportError:
+            logger.debug("boto3 not available for simple AWS service")
+            return None
+
     def invoke_bedrock(self, prompt: str, model_id: str = None) -> Dict[str, Any]:
         """
-        Invoke Bedrock model.
+        Invoke Bedrock model directly - LOW LEVEL INFRASTRUCTURE CALL.
 
-        USES: Parent aws_service OR direct boto3
-        RETURNS: Consistent response format regardless of backend
+        This is the BASE LAYER that gateways call. Must NOT call back to gateways
+        to avoid circular dependencies.
         """
         model_id = model_id or 'anthropic.claude-3-haiku-20240307-v1:0'
 
-        # Lazy-initialize AWS if not done yet
-        if not self._aws_initialized:
-            self._aws = self._init_aws()
-            self._aws_initialized = True
-
-        if self._aws is None:
-            return {'success': False, 'error': 'AWS not available'}
-
         try:
-            # Check if using parent service or direct boto3
-            if hasattr(self._aws, 'invoke_model'):
-                # Parent aws_service
-                response = self._aws.invoke_model(prompt, model_id)
+            # Get AWS credentials from infrastructure
+            aws_config = self._get_aws_config()
+            if not aws_config:
                 return {
-                    'success': True,
-                    'text': response.get('text', ''),
-                    'model': model_id
+                    'success': False,
+                    'error': 'AWS credentials not available',
+                    'gateway_tracked': False
                 }
-            else:
-                # Mock AWS client - return error
-                return {'success': False, 'error': 'AWS service not available (mock mode)'}
+
+            # Make direct Bedrock call (this is the base infrastructure layer)
+            import boto3
+            import json
+
+            bedrock_runtime = boto3.client(
+                'bedrock-runtime',
+                region_name=aws_config.get('region', 'us-east-1'),
+                aws_access_key_id=aws_config.get('access_key_id'),
+                aws_secret_access_key=aws_config.get('secret_access_key')
+            )
+
+            # Format request for Claude
+            request_body = {
+                'messages': [{'role': 'user', 'content': prompt}],
+                'max_tokens': 4000,
+                'temperature': 0.7,
+                'anthropic_version': 'bedrock-2023-05-31'
+            }
+
+            response = bedrock_runtime.invoke_model(
+                modelId=model_id,
+                body=json.dumps(request_body),
+                contentType='application/json'
+            )
+
+            # Parse Bedrock response
+            response_body = json.loads(response['body'].read())
+            content = response_body['content'][0]['text']
+
+            return {
+                'success': True,
+                'text': content,
+                'model': model_id,
+                'gateway_tracked': False  # This is direct infrastructure access
+            }
 
         except Exception as e:
-            logger.error(f"Bedrock invocation failed: {e}")
-            return {'success': False, 'error': str(e)}
+            logger.error(f"Direct Bedrock call failed: {e}")
+            return {
+                'success': False,
+                'error': str(e),
+                'gateway_tracked': False
+            }
+
+    def _get_aws_config(self) -> Dict[str, Any]:
+        """Get AWS configuration from settings."""
+        try:
+            from infrastructure.yaml_loader import SettingsLoader
+            loader = SettingsLoader()
+            return loader.get_aws_config()
+        except Exception as e:
+            logger.warning(f"Could not load AWS config: {e}")
+            # Fallback to environment variables
+            import os
+            return {
+                'access_key_id': os.getenv('AWS_ACCESS_KEY_ID'),
+                'secret_access_key': os.getenv('AWS_SECRET_ACCESS_KEY'),
+                'region': os.getenv('AWS_DEFAULT_REGION', 'us-east-1')
+            }
 
     # =======================
     # LLM OPERATIONS
@@ -286,35 +403,50 @@ class InfrastructureDelegate:
 
     def generate_llm_response(self, prompt: str, config: Dict[str, Any] = None) -> Dict[str, Any]:
         """
-        Generate LLM response.
+        Generate LLM response - ONLY through CorporateLLMGateway.
 
-        USES: CorporateLLMGateway OR Bedrock directly
+        NO FALLBACKS TO DIRECT AWS - ALL CALLS MUST BE TRACKED!
         """
-        if self._llm:
-            # Use parent gateway
-            try:
-                from tidyllm.infrastructure.standards import TidyLLMStandardRequest
+        if not self._llm:
+            self._llm = self._init_llm()
 
-                request = TidyLLMStandardRequest(
-                    model_id=config.get('model', 'claude-3-sonnet'),
-                    user_id='rag_system',
-                    session_id='rag_session',
+        if self._llm:
+            # Use gateway that tracks all calls
+            try:
+                from tidyllm.gateways.corporate_llm_gateway import LLMRequest
+
+                request = LLMRequest(
                     prompt=prompt,
-                    temperature=config.get('temperature', 0.7),
-                    max_tokens=config.get('max_tokens', 1500)
+                    model_id=config.get('model', 'claude-3-sonnet') if config else 'claude-3-sonnet',
+                    temperature=config.get('temperature', 0.7) if config else 0.7,
+                    max_tokens=config.get('max_tokens', 1500) if config else 1500,
+                    user_id='rag_system',
+                    audit_reason='llm_generation'
                 )
 
-                response = self._llm.process_llm_request(request)
+                response = self._llm.process_request(request)
                 return {
-                    'success': response.status == 'SUCCESS',
-                    'text': response.data,
-                    'model': request.model_id
+                    'success': response.success,
+                    'text': response.content if response.success else '',
+                    'model': response.model_used,
+                    'gateway_tracked': True
                 }
-            except:
-                pass
-
-        # Fallback to Bedrock
-        return self.invoke_bedrock(prompt, config.get('model') if config else None)
+            except Exception as e:
+                logger.error(f"Gateway LLM generation failed: {e}")
+                return {
+                    'success': False,
+                    'text': '',
+                    'error': str(e),
+                    'gateway_tracked': False
+                }
+        else:
+            # NO DIRECT CALLS - GATEWAY REQUIRED!
+            return {
+                'success': False,
+                'text': '',
+                'error': 'CorporateLLMGateway required - no direct AWS calls allowed',
+                'gateway_tracked': False
+            }
 
     # =======================
     # EMBEDDING OPERATIONS
@@ -370,12 +502,20 @@ class InfrastructureDelegate:
         Returns bedrock settings including model mapping from the parent
         infrastructure's settings.yaml file, avoiding hardcoded values.
         """
-        config = self._load_config()
-        # Return bedrock configuration from settings
-        return config.get('bedrock', {
-            'model_mapping': {},
-            'models': {}
-        })
+        # Use the yaml_loader to get properly parsed bedrock config
+        try:
+            from infrastructure.yaml_loader import SettingsLoader
+            loader = SettingsLoader()
+            return loader.get_bedrock_config()
+        except Exception as e:
+            logger.warning(f"Could not load bedrock config via yaml_loader: {e}")
+            # Fallback to direct config loading
+            config = self._load_config()
+            # Try credentials.bedrock_llm first (current structure), then bedrock (legacy)
+            return config.get('credentials', {}).get('bedrock_llm', config.get('bedrock', {
+                'model_mapping': {},
+                'models': {}
+            }))
 
     # =======================
     # UTILITY METHODS

@@ -37,6 +37,24 @@ from typing import Dict, List, Any, Optional, Union, Iterator
 from datetime import datetime
 from enum import Enum
 import logging
+import sys
+from pathlib import Path
+
+# Set up paths using PathManager if available
+try:
+    # Try to get to qa_root and use PathManager
+    qa_root = Path(__file__).parent.parent.parent.parent
+    if str(qa_root) not in sys.path:
+        sys.path.insert(0, str(qa_root))
+
+    from common.utilities.path_manager import PathManager
+    path_mgr = PathManager()
+    for path in path_mgr.get_python_paths():
+        if path not in sys.path:
+            sys.path.insert(0, path)
+except ImportError:
+    # PathManager not available, continue without it
+    pass
 
 # Import consolidated infrastructure delegate
 from ..infrastructure.infra_delegate import get_infra_delegate
@@ -54,28 +72,51 @@ class ChatMode(Enum):
 
 
 class ChatResponse:
-    """Structured chat response with optional reasoning."""
+    """Structured chat response with optional reasoning and RL tracking."""
 
-    def __init__(self, content: str, reasoning_data: Optional[Dict] = None):
+    def __init__(self, content: str, reasoning_data: Optional[Dict] = None, rl_data: Optional[Dict] = None):
         self.content = content
         self.reasoning_data = reasoning_data or {}
+        self.rl_data = rl_data or {}  # RESTORED - MLflow is now fixed
         self.timestamp = datetime.now().isoformat()
 
     def to_dict(self) -> Dict[str, Any]:
-        """Convert to dictionary format."""
+        """Convert to dictionary format including RL tracking data."""
+        result = {
+            "response": self.content,
+            "timestamp": self.timestamp
+        }
+
+        # Add reasoning data if available
         if self.reasoning_data:
-            return {
-                "response": self.content,
+            result.update({
                 "reasoning": self.reasoning_data.get("reasoning", ""),
                 "method": self.reasoning_data.get("method", "unknown"),
                 "model": self.reasoning_data.get("model", ""),
                 "temperature": self.reasoning_data.get("temperature", 0.7),
                 "confidence": self.reasoning_data.get("confidence", 0.0),
-                "timestamp": self.timestamp,
                 **{k: v for k, v in self.reasoning_data.items()
                    if k not in ["reasoning", "method", "model", "temperature", "confidence"]}
-            }
-        return {"response": self.content, "timestamp": self.timestamp}
+            })
+
+        # Add RL tracking data if available (RESTORED - MLflow is now fixed)
+        if self.rl_data:
+            if "rl_metrics" in self.rl_data:
+                result["rl_metrics"] = self.rl_data["rl_metrics"]
+            if "rl_state" in self.rl_data:
+                result["rl_state"] = self.rl_data["rl_state"]
+            if "learning_feedback" in self.rl_data:
+                result["learning_feedback"] = self.rl_data["learning_feedback"]
+            if "policy_info" in self.rl_data:
+                result["policy_info"] = self.rl_data["policy_info"]
+            if "exploration_data" in self.rl_data:
+                result["exploration_data"] = self.rl_data["exploration_data"]
+            if "value_estimation" in self.rl_data:
+                result["value_estimation"] = self.rl_data["value_estimation"]
+            if "reward_signal" in self.rl_data:
+                result["reward_signal"] = self.rl_data["reward_signal"]
+
+        return result
 
     def __str__(self) -> str:
         """String representation returns content."""
@@ -171,52 +212,76 @@ class UnifiedChatManager:
     # ==================== CHAT MODE PROCESSORS ====================
 
     def _process_direct_chat(self, message: str, model: str, temperature: float, **kwargs) -> ChatResponse:
-        """Process direct Bedrock/LLM chat using consolidated infra delegate."""
+        """Process direct chat ONLY through CorporateLLMGateway that tracks all calls."""
         try:
-            # Use consolidated infrastructure delegate
-            infra = get_infra_delegate()
+            # ONLY USE THE CORPORATE LLM GATEWAY - NO OTHER PATHS!
+            from ..gateways.corporate_llm_gateway import CorporateLLMGateway, LLMRequest
 
-            # Get model mapping from settings.yaml via infra delegate
-            bedrock_config = infra.get_bedrock_config()
-            model_mapping = bedrock_config.get('model_mapping', {})
+            # Get or create gateway instance
+            if not hasattr(self, '_gateway'):
+                self._gateway = CorporateLLMGateway()
+                logger.info("Initialized CorporateLLMGateway for tracking all LLM calls")
 
-            # Get full model ID from mapping or use as-is
-            model_id = model_mapping.get(model, model)
-
-            # Use infra delegate's Bedrock invocation
-            response = infra.invoke_bedrock(
+            # Create request for gateway
+            llm_request = LLMRequest(
                 prompt=message,
-                model_id=model_id
+                model_id=model,
+                temperature=temperature,
+                max_tokens=kwargs.get('max_tokens', 4000),
+                user_id=kwargs.get('user_id', 'chat_user'),
+                audit_reason='unified_chat_direct'
             )
 
-            if response.get('success'):
-                response_text = response.get('text', '')
+            # Process through gateway (which tracks all calls)
+            llm_response = self._gateway.process_request(llm_request)
 
+            if llm_response.success:
                 reasoning_data = {
-                    "reasoning": f"Direct Bedrock call: Used {model} with temperature {temperature}",
-                    "method": "direct_bedrock",
-                    "model": model,
+                    "reasoning": f"Processed via CorporateLLMGateway: {model} with temperature {temperature}",
+                    "method": "corporate_gateway",
+                    "model": llm_response.model_used,
                     "temperature": temperature,
-                    "confidence": 0.95
+                    "confidence": 0.95,
+                    "processing_time_ms": llm_response.processing_time_ms,
+                    "token_usage": llm_response.token_usage,
+                    "gateway_tracked": True
                 }
 
-                return ChatResponse(response_text, reasoning_data)
+                # Extract RL data from gateway response if available (RESTORED - MLflow is now fixed)
+                rl_data = {}
+                if hasattr(llm_response, 'rl_metrics') and llm_response.rl_metrics:
+                    rl_data["rl_metrics"] = llm_response.rl_metrics
+                if hasattr(llm_response, 'rl_state') and llm_response.rl_state:
+                    rl_data["rl_state"] = llm_response.rl_state
+                if hasattr(llm_response, 'learning_feedback') and llm_response.learning_feedback:
+                    rl_data["learning_feedback"] = llm_response.learning_feedback
+                if hasattr(llm_response, 'policy_info') and llm_response.policy_info:
+                    rl_data["policy_info"] = llm_response.policy_info
+                if hasattr(llm_response, 'exploration_data') and llm_response.exploration_data:
+                    rl_data["exploration_data"] = llm_response.exploration_data
+                if hasattr(llm_response, 'value_estimation') and llm_response.value_estimation:
+                    rl_data["value_estimation"] = llm_response.value_estimation
+                if hasattr(llm_response, 'reward_signal') and llm_response.reward_signal:
+                    rl_data["reward_signal"] = llm_response.reward_signal
+
+                print(f"DEBUG: Creating ChatResponse with RL data: {list(rl_data.keys()) if rl_data else 'None'}")
+                return ChatResponse(llm_response.content, reasoning_data, rl_data)
             else:
-                # Fallback response for failed invocation
-                error_msg = response.get('error', 'Unknown error')
-                logger.warning(f"Bedrock invocation failed: {error_msg}")
+                # Gateway failed but tracked the attempt
+                error_msg = llm_response.error or 'Unknown error'
+                logger.warning(f"Gateway processing failed: {error_msg}")
 
                 return ChatResponse(
-                    f"I received your message: '{message}'. The {model} model is being configured.",
-                    {"reasoning": f"Bedrock service error: {error_msg}", "method": "fallback", "confidence": 0.5}
+                    f"I received your message but encountered an issue: {error_msg}",
+                    {"reasoning": f"Gateway error: {error_msg}", "method": "gateway_error", "confidence": 0.5, "gateway_tracked": True}
                 )
 
         except Exception as e:
-            logger.error(f"Direct chat failed: {e}")
-            # Return a fallback response instead of raising
+            logger.error(f"Direct chat via gateway failed: {e}")
+            # Even errors are tracked by the gateway audit
             return ChatResponse(
-                f"I understand you said: '{message}'. I'm having technical difficulties connecting to the AI service.",
-                {"reasoning": f"Error: {str(e)}", "method": "error_fallback", "confidence": 0.3}
+                f"I understand you said: '{message}'. I'm having technical difficulties with the gateway.",
+                {"reasoning": f"Gateway exception: {str(e)}", "method": "gateway_exception", "confidence": 0.3, "gateway_tracked": False}
             )
 
     def _process_rag_chat(self, message: str, model: str, temperature: float, **kwargs) -> ChatResponse:

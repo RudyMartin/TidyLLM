@@ -188,40 +188,21 @@ class EmbeddingWorker(BaseWorker[Union[EmbeddingRequest, BatchEmbeddingRequest],
             raise
     
     async def _initialize_providers(self) -> None:
-        """Initialize TidyLLM providers for embedding generation."""
+        """Initialize CorporateLLMGateway for compliant embedding generation."""
         try:
-            # Import TidyLLM providers
-            import tidyllm
-            from tidyllm.providers import bedrock, claude, openai
-            
-            # Initialize available providers
-            providers_to_try = {
-                "bedrock": bedrock,
-                "claude": claude, 
-                "openai": openai,
-                "default": bedrock  # Default fallback
-            }
-            
-            for name, provider_func in providers_to_try.items():
-                try:
-                    provider = provider_func()
-                    self.tidyllm_providers[name] = provider
-                    self.available_models.append(name)
-                    logger.info(f"Embedding Worker: {name} provider initialized")
-                    
-                    if name == "bedrock":
-                        self.default_provider = provider
-                        
-                except Exception as e:
-                    logger.debug(f"Embedding Worker: {name} provider failed to initialize: {e}")
-            
-            if not self.tidyllm_providers:
-                logger.warning("No TidyLLM providers available")
-            else:
-                logger.info(f"Embedding Worker: {len(self.tidyllm_providers)} providers available")
-                
+            # ONLY use CorporateLLMGateway for ALL Bedrock operations (compliance requirement)
+            from ...gateways.corporate_llm_gateway import CorporateLLMGateway
+
+            self.corporate_gateway = CorporateLLMGateway()
+            logger.info("Embedding Worker: Using CorporateLLMGateway for compliant embeddings")
+
+            # Mark available models based on gateway capabilities
+            self.available_models = ["titan-embed-v1", "titan-embed-v2", "cohere-embed"]
+            self.default_provider = "titan-embed-v2"  # Default embedding model
+
         except ImportError as e:
-            logger.warning(f"Embedding Worker: TidyLLM not available: {e}")
+            logger.error(f"Embedding Worker: CorporateLLMGateway not available: {e}")
+            self.corporate_gateway = None
     
     def validate_input(self, task_input: Any) -> bool:
         """Validate embedding request input."""
@@ -351,27 +332,28 @@ class EmbeddingWorker(BaseWorker[Union[EmbeddingRequest, BatchEmbeddingRequest],
             logger.error(f"Batch embedding generation failed for '{request.batch_id}': {e}")
             raise
     
-    async def _generate_embedding(self, 
+    async def _generate_embedding(self,
                                 text: str,
                                 provider: str = "default",
                                 target_dimension: int = None,
                                 normalize: bool = True) -> tuple[List[float], str]:
         """Generate embedding using available backends."""
         target_dimension = target_dimension or self.default_target_dimension
-        
+
         try:
-            # Try EmbeddingProcessor first if available
+            # ALWAYS use CorporateLLMGateway for Bedrock embeddings (compliance)
+            if hasattr(self, 'corporate_gateway') and self.corporate_gateway:
+                return await self._generate_with_gateway(text, provider, target_dimension, normalize)
+
+            # Try EmbeddingProcessor as fallback (for non-Bedrock embeddings)
             if self.embedding_processor:
+                logger.warning("Using EmbeddingProcessor fallback - should use CorporateLLMGateway")
                 return await self._generate_with_processor(text, provider, target_dimension, normalize)
-            
-            # Fall back to direct TidyLLM
-            if self.tidyllm_providers:
-                return await self._generate_with_tidyllm(text, provider, target_dimension, normalize)
-            
+
             # Final fallback - mock embedding for development
             logger.warning("No embedding backends available, generating mock embedding")
             return await self._generate_mock_embedding(text, target_dimension), "mock"
-            
+
         except Exception as e:
             logger.error(f"Embedding generation failed: {e}")
             raise
@@ -417,43 +399,65 @@ class EmbeddingWorker(BaseWorker[Union[EmbeddingRequest, BatchEmbeddingRequest],
             logger.error(f"EmbeddingProcessor generation failed: {e}")
             raise
     
-    async def _generate_with_tidyllm(self,
+    async def _generate_with_gateway(self,
                                    text: str,
                                    provider: str,
                                    target_dimension: int,
                                    normalize: bool) -> tuple[List[float], str]:
-        """Generate embedding using direct TidyLLM."""
+        """Generate embedding using CorporateLLMGateway (compliant)."""
         try:
-            from tidyllm.verbs import embed, llm_message
-            
-            # Get provider
-            tidyllm_provider = self.tidyllm_providers.get(provider, self.default_provider)
-            
-            if not tidyllm_provider:
-                raise ValueError(f"Provider '{provider}' not available")
-            
-            # Generate embedding using TidyLLM flow
-            embedding = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: llm_message(text) | embed(tidyllm_provider)
+            from ...gateways.corporate_llm_gateway import LLMRequest
+
+            if not self.corporate_gateway:
+                raise ValueError("CorporateLLMGateway not initialized")
+
+            # Map provider to model ID
+            model_map = {
+                "bedrock": "titan-embed-v2",
+                "titan": "titan-embed-v2",
+                "cohere": "cohere-embed",
+                "default": "titan-embed-v2"
+            }
+            model_id = model_map.get(provider, provider)
+
+            # Create embedding request with dimensions
+            request = LLMRequest(
+                prompt=text,
+                model_id=model_id,
+                is_embedding=True,
+                dimensions=target_dimension,  # IMPORTANT: Pass dimensions for Titan v2
+                user_id="embedding_worker",
+                audit_reason="vector_embedding_generation"
             )
-            
-            # Process embedding
-            if hasattr(embedding, 'tolist'):
-                embedding = embedding.tolist()
-            elif not isinstance(embedding, list):
+
+            # Process through gateway (tracked and compliant)
+            response = await asyncio.get_event_loop().run_in_executor(
+                None,
+                self.corporate_gateway.process_embedding_request,
+                request
+            )
+
+            if not response.success:
+                raise Exception(f"Gateway embedding failed: {response.error}")
+
+            # Parse embedding from response
+            import json
+            embedding = json.loads(response.content)
+
+            # Ensure it's a list
+            if not isinstance(embedding, list):
                 embedding = list(embedding)
-            
-            # Standardize dimension if needed
+
+            # Standardize dimension if needed (should already match)
             if len(embedding) != target_dimension:
                 embedding = self._standardize_dimension(embedding, target_dimension)
-            
+
             # Normalize if requested
             if normalize:
                 embedding = self._normalize_embedding(embedding)
-            
-            return embedding, f"tidyllm_{provider}"
-            
+
+            return embedding, f"gateway_{model_id}"
+
         except Exception as e:
             logger.error(f"TidyLLM embedding generation failed: {e}")
             raise

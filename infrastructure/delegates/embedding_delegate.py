@@ -29,6 +29,21 @@ class EmbeddingDelegate:
         self._vector_store = None
         self._initialized = False
         self._model_name = "sentence-transformers/all-MiniLM-L6-v2"
+        self._target_dimension = self._load_target_dimension()
+
+    def _load_target_dimension(self):
+        """Load target dimension from config or use default."""
+        try:
+            from infrastructure.yaml_loader import get_settings_loader
+            loader = get_settings_loader()
+            # Use get_config_value with explicit default - NO HARDCODING!
+            dimensions = loader.get_config_value('credentials.bedrock_llm.embeddings.dimensions', 1024)
+            logger.info(f"EmbeddingDelegate using dimensions: {dimensions}")
+            return dimensions
+        except Exception as e:
+            logger.warning(f"Could not load dimension config: {e}, using default 1024")
+            # Only used if settings loading completely fails
+            return 1024
 
     def _initialize(self):
         """Lazy initialization of embedding services."""

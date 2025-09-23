@@ -79,8 +79,13 @@ class TidyLLMConnectionPool:
         """Create the PostgreSQL connection pool."""
         try:
             # Use infrastructure delegate instead of direct psycopg2
-            from .infra_delegate import get_infra_delegate
-            self.infra = get_infra_delegate()
+            try:
+                from .infra_delegate import get_infra_delegate
+                self.infra = get_infra_delegate()
+            except ImportError:
+                # Running as script - use absolute import
+                from packages.tidyllm.infrastructure.infra_delegate import get_infra_delegate
+                self.infra = get_infra_delegate()
 
             # Import psycopg2 for direct connections
             import psycopg2
@@ -204,8 +209,25 @@ class TidyLLMConnectionPool:
                     "type": "external_connection_string"
                 }
 
-        # Connection string handled by infrastructure delegate
-        return "managed-by-infrastructure-delegate"
+        # Build actual PostgreSQL connection string from config
+        try:
+            # Use the postgresql_primary credentials for external tools like MLflow
+            host = self.pg_config.get('host', 'localhost')
+            port = self.pg_config.get('port', 5432)
+            database = self.pg_config.get('database', 'postgres')
+            username = self.pg_config.get('username', 'postgres')
+            password = self.pg_config.get('password', '')
+
+            # Build PostgreSQL connection string
+            connection_string = f"postgresql://{username}:{password}@{host}:{port}/{database}"
+
+            print(f"[CONNECTION_POOL] Built connection string for {client_name}: {connection_string[:50]}...")
+            return connection_string
+
+        except Exception as e:
+            print(f"[CONNECTION_POOL] Error building connection string: {e}")
+            # Fallback to managed delegate if building fails
+            return "managed-by-infrastructure-delegate"
 
     def get_stats(self) -> Dict[str, Any]:
         """Get connection pool statistics."""
@@ -311,37 +333,60 @@ def get_global_pool() -> TidyLLMConnectionPool:
 
 def load_postgresql_config() -> Dict[str, Any]:
     """
-    Load PostgreSQL configuration from settings.yaml.
+    Load PostgreSQL configuration from settings.yaml using SettingsLoader.
 
     Returns:
         Dict[str, Any]: PostgreSQL configuration
     """
-    # Use package-relative paths and environment variables instead of hardcoded external paths
-    # Try multiple locations for settings.yaml in order of preference
-    possible_paths = [
-        # 1. Environment variable override
-        Path(os.environ.get("TIDYLLM_SETTINGS_PATH", "")),
-        # 2. Package-relative admin directory
-        Path(__file__).parent.parent / "admin" / "settings.yaml",
-        # 3. Local settings file
-        Path("settings.yaml"),
-        # 4. Development environment fallback (only if exists)
-        Path("../infrastructure/settings.yaml")
-    ]
+    # Use SettingsLoader to get configuration - it already knows the root path!
+    try:
+        # Import SettingsLoader from infrastructure
+        import sys
+        from pathlib import Path
 
-    for settings_path in possible_paths:
+        # Get to qa-shipping root from SettingsLoader's perspective
+        # Go up from packages/tidyllm/infrastructure to root
+        qa_root = Path(__file__).parent.parent.parent.parent.resolve()
+        if str(qa_root) not in sys.path:
+            sys.path.insert(0, str(qa_root))
+
+        from infrastructure.yaml_loader import SettingsLoader
+
+        # Create loader and get database config
+        loader = SettingsLoader()
+        db_config = loader.get_database_config()
+
+        # Convert to the format expected by connection pool
+        pg_config = {
+            'host': db_config['host'],
+            'port': db_config['port'],
+            'database': db_config['database'],
+            'username': db_config['username'],
+            'password': db_config['password']
+        }
+
+        print(f"[CONNECTION_POOL] Loaded PostgreSQL config via SettingsLoader from {loader.settings_path}")
+        return pg_config
+
+    except ImportError as e:
+        print(f"[CONNECTION_POOL] Failed to import SettingsLoader: {e}")
+        # Fallback to direct YAML loading if SettingsLoader not available
+        settings_path = Path(__file__).parent.parent.parent.parent / "infrastructure" / "settings.yaml"
         if settings_path.exists():
             with open(settings_path, 'r') as f:
                 config = yaml.safe_load(f)
 
-            pg_config = config.get('credentials', {}).get('postgresql', {})
+            pg_config = config.get('credentials', {}).get('postgresql_primary', {})
+            if not pg_config:
+                pg_config = config.get('credentials', {}).get('postgresql', {})
 
             if not pg_config:
                 raise ValueError(f"No PostgreSQL configuration found in {settings_path}")
 
+            print(f"[CONNECTION_POOL] Loaded PostgreSQL config directly from {settings_path}")
             return pg_config
 
-    raise FileNotFoundError("Could not find settings.yaml with PostgreSQL configuration")
+    raise FileNotFoundError("Could not load PostgreSQL configuration")
 
 
 # Convenience functions for common operations
@@ -403,10 +448,10 @@ if __name__ == "__main__":
         for client, info in stats['clients'].items():
             print(f"  {client}: {info['queries']} queries")
 
-        print("\n✅ Connection pool test completed successfully!")
+        print("\n[SUCCESS] Connection pool test completed successfully!")
 
     except Exception as e:
-        print(f"\n❌ Connection pool test failed: {e}")
+        print(f"\n[ERROR] Connection pool test failed: {e}")
 
     finally:
         if _global_pool:
