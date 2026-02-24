@@ -1,0 +1,56 @@
+**Weekly Status Report**  
+**Senior Data Science Consultant: Rudy Alvarez Martin**  
+**Week Ending: April 4, 2025**
+
+**Billable Hours:** 40
+
+---
+
+### **Overview**
+This was a productive week of feature integration and readiness for upcoming demos. I finalized key components across both vector backends—FAISS and PgVector—and made important progress in building out the financial risk audit functionality. We’re now in a strong position to showcase a working multi-tab Streamlit app with both governance tools and deep model traceability.
+
+---
+
+### **Project Updates – Highlights from This Week**
+Efforts were aligned with our GenAI roadmap and are fully tracked in JIRA:
+
+#### **Enhancing Streamlit for GenAI Workflows**
+- Completed integration of FAISS and PgVector into the Streamlit backend.  
+- Finalized modular tab setup to support scalable demos and internal use.  
+- Continued improving usability and traceability within the application.
+
+#### **Financial Risk Management Tabs – Summary for Demo**
+Added new tabs to support model governance and documentation review:
+
+- **Plan Audit**  
+  Uses DSPy to compare Model Development Plans against structured ground truth. Flags gaps and shows side-by-side comparisons.
+
+- **Truth Synthesizer**  
+  Helps generate or refine audit-ready ground truth records from uploaded PDFs. These are stored and embedded for reuse.
+
+- **Audit Log Viewer**  
+  Semantic search over prior audit logs stored in FAISS, with timestamps and key metadata.
+
+- **Vector Diagnostics**  
+  Backend tool to check FAISS and PgVector health, embedding versions, and indexing status.
+
+These tools improve traceability, compliance, and review workflows—especially useful for regulated environments.
+
+#### **Pipeline Stabilization and Automation**
+- Improved DSPy pipeline reliability across document ingestion and audit tasks.  
+- Scoped enhancements to support embedding version control and rollback.
+
+---
+
+### **Collaboration & Support**
+Maintained consistent communication across mobile, Teams, and Outlook.  
+Provided ongoing support, including bug fixes and technical guidance.
+
+---
+
+### **Looking Ahead**
+- Finalize demo preparations and complete tab-level QA testing.  
+- Continue expanding audit use cases and integrate feedback from internal teams.  
+- Prepare summary dashboard views for project managers and risk leads.
+
+---

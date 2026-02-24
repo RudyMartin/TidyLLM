@@ -1,0 +1,14 @@
+
+
+## MVR QA-Centric Demo Scenarios (NOT READY YET)
+
+These are the five ways a reviewer might try the system, each showing off a different strength.
+
+| Scenario #                    | What the customer does                                                                             | What the system shows them                                                                                          | Why this matters                                                                                                                                 |
+| ----------------------------- | -------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **1. Quick Model Check**      | Uploads a simple config (`qa_models.json`) and a model report (`mvr.pdf`).                         | The system echoes back which model was chosen and assigns an experiment tag automatically.                          | ✅ Customers see that model resolution is automatic and tagging is consistent, with **no extra setup required**.                                  |
+| **2. Default Review Run**     | Uploads only the report (`mvr.pdf`).                                                               | The system injects the PDF content and runs a default checklist with the pre-set model (e.g., Claude Sonnet 3.5).   | ✅ Customers learn that **even with no extra files** they still get a usable review, right out-of-the-box.                                        |
+| **3. Markdown-Driven Review** | Adds their own prompts or checklists in simple Markdown files alongside the report.                | The system parses the Markdown into questions and shows a review built from their content.                          | ✅ Customers discover they can **bring their own guidance** in a lightweight, human-readable way — no spreadsheets needed.                        |
+| **4. Excel-Powered Review**   | Uploads a report and an Excel file with 3 tabs (core checklist, custom checklist, custom prompts). | The system reads the spreadsheet, runs checks, and snapshots the Excel for transparency.                            | ✅ Customers see how they can **go from their existing Excel templates directly into the system**, with nothing lost in translation.              |
+| **5. Advanced Override Run**  | Uploads report + Excel + config (`qa_models.json`).                                                | The system runs the Excel-based review but **switches to a custom model and experiment tag** defined in the config. | ✅ Customers realize they have **fine-grained control per project/revision**, proving the platform works with overrides and governance workflows. |
+

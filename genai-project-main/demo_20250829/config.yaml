@@ -1,0 +1,24 @@
+# Air-Gapped Environment Configuration
+# Update these values with your actual credentials before uploading
+
+# PostgreSQL Configuration
+postgres:
+  host: your-rds-endpoint.amazonaws.com
+  port: 5432
+  database: postgres
+  username: your_username
+  password: your_password
+  ssl_mode: require
+
+# AWS Credentials (if needed for S3/DynamoDB)
+aws:
+  access_key_id: AKIAIOSFODNN7EXAMPLE
+  secret_access_key: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+  session_token: null  # Optional, for temporary credentials
+  region: us-east-1
+
+# Application Settings
+app:
+  environment: production
+  log_level: INFO
+  connection_pool_size: 10

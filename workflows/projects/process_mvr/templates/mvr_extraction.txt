@@ -1,0 +1,42 @@
+# MVR Data Extraction Template
+
+## Overview
+Extract key information from Motor Vehicle Reports (MVR) including violations, license status, and driver history.
+
+## Processing Instructions
+
+### 1. Driver Information
+- Extract driver name and license number
+- Identify license class and endorsements
+- Check license status (valid, suspended, revoked)
+- Extract issue and expiration dates
+
+### 2. Violation History
+- Extract all traffic violations
+- Include violation dates and codes
+- Identify point values for each violation
+- Note court dispositions
+
+### 3. Accident Records
+- Extract accident dates and locations
+- Identify fault determinations
+- Note severity indicators
+- Link to violation records if applicable
+
+### 4. Administrative Actions
+- Identify suspensions or revocations
+- Extract restriction codes
+- Note reinstatement requirements
+- Track compliance status
+
+## Output Requirements
+- Structured JSON with driver profile
+- Violation timeline
+- Risk score calculation
+- Compliance status summary
+
+## Validation Criteria
+- Complete driver identification
+- All violations captured
+- Dates properly formatted
+- Status codes validated

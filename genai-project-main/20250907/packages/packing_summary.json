@@ -1,0 +1,3403 @@
+{
+  "project_root": "C:/Users/marti/github",
+  "output_dir": "C:/Users/marti/github/packages",
+  "packing_date": "2025-09-07T22:38:10.737289",
+  "total_packages": 5,
+  "total_files": 825,
+  "total_size_mb": 89.71,
+  "packages": {
+    "01_core_tidyllm": {
+      "name": "01_core_tidyllm",
+      "description": "Core TidyLLM package and essential files",
+      "created": "2025-09-07T22:38:10.156329",
+      "parts": [
+        {
+          "zip_file": "C:/Users/marti/github/packages/01_core_tidyllm_part01.zip",
+          "file_count": 10,
+          "files": [
+            {
+              "path": "tidyllm/docs/2025-09-03/umap_1802.03426v3.pdf",
+              "size_bytes": 7880321
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/gem15_2403.05530v5.pdf",
+              "size_bytes": 7184542
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/abench_2506.11440v1.pdf",
+              "size_bytes": 6108117
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/performance_metrics.html",
+              "size_bytes": 4780798
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/access_control_matrix.html",
+              "size_bytes": 4776049
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/risk_assessment_chart.html",
+              "size_bytes": 4775877
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/access_control_gauge.html",
+              "size_bytes": 4775769
+            },
+            {
+              "path": "tidyllm/workflow_configs/inputs/domain_rag/robotic_arm_6dof_asmdrw.pdf",
+              "size_bytes": 4497103
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ml-model-validation-best-practice.pdf",
+              "size_bytes": 4128794
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/board-supervisory-stress-testing-model-validation-reissue-oct2015.pdf",
+              "size_bytes": 2478172
+            }
+          ],
+          "total_size_bytes": 51385542,
+          "zip_size_mb": 34.09
+        },
+        {
+          "zip_file": "C:/Users/marti/github/packages/01_core_tidyllm_part02.zip",
+          "file_count": 430,
+          "files": [
+            {
+              "path": "tidyllm/docs/2025-09-03/252994.pdf",
+              "size_bytes": 2243920
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/pub-ch-model-risk.pdf",
+              "size_bytes": 2127485
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/2019-02-26-Model-Validation.pdf",
+              "size_bytes": 1749376
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ACAMS NJ - Model Validation  Tuning Overview_Final.pdf",
+              "size_bytes": 1738748
+            },
+            {
+              "path": "tidyllm/document.pdf",
+              "size_bytes": 1738748
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Canaries_BrynjolfssonChandarChen.pdf",
+              "size_bytes": 1678165
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/investment-model-validation.pdf",
+              "size_bytes": 1567533
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/instructions_validation_reporting_credit_risk.en.pdf",
+              "size_bytes": 1452271
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/s10479-022-04574-x.pdf",
+              "size_bytes": 1412923
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/distract_2302.00093v3.pdf",
+              "size_bytes": 1369518
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/mich_2409.12640v2.pdf",
+              "size_bytes": 1225209
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/research-2014-model-valid-ins.pdf",
+              "size_bytes": 1073033
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/pdf-model-validation-Validation-Workshop-2018.pdf",
+              "size_bytes": 1018009
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/siwinter05-article1.pdf",
+              "size_bytes": 997582
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/835920.pdf",
+              "size_bytes": 861389
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/paper114.pdf",
+              "size_bytes": 787946
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/nolima_2502.05167v3.pdf",
+              "size_bytes": 755027
+            },
+            {
+              "path": "tidyllm/admin/ldocument.pdf",
+              "size_bytes": 749169
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/longmem_2410.10813v2.pdf",
+              "size_bytes": 749169
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Gateway-System-Build-Guide---REAL-Implementation.html",
+              "size_bytes": 672512
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Gateway-System-Build-Guide---IKEA-Style-README.html",
+              "size_bytes": 652378
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/MH0026-tool-for-model-validation.pdf",
+              "size_bytes": 624655
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/finalSCORpaper.pdf",
+              "size_bytes": 510147
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/bcbs_wp14.pdf",
+              "size_bytes": 503262
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Validationofmodelswithexperimentaldataandanalysisofdiscrepancies.pdf",
+              "size_bytes": 457282
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/OASIcs.SCOR.2016.6 (1).pdf",
+              "size_bytes": 418922
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/OASIcs.SCOR.2016.6.pdf",
+              "size_bytes": 417562
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Whitepaper-Model-Validation-Best-Practices-1.pdf",
+              "size_bytes": 363192
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/016.pdf",
+              "size_bytes": 349352
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Model_Governance_PN_042017.pdf",
+              "size_bytes": 287483
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ModelRiskManagementPracticeNote_May2019.pdf",
+              "size_bytes": 266337
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/reviewing-validating-auditing-act-models.pdf",
+              "size_bytes": 238555
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/whitepaper_1994.pdf",
+              "size_bytes": 212357
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Bookshelf_NBK543636.pdf",
+              "size_bytes": 189789
+            },
+            {
+              "path": "tidyllm/workflow_configs/inputs/domain_rag/multi_functional_servo_bracket_.pdf",
+              "size_bytes": 57842
+            },
+            {
+              "path": "qa_processor.py",
+              "size_bytes": 50545
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/section_analysis_results.txt",
+              "size_bytes": 50357
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TECHNICAL_IMPLEMENTATION_GUIDE.md",
+              "size_bytes": 43896
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Gateway System Build Guide - REAL Implementation.md",
+              "size_bytes": 39561
+            },
+            {
+              "path": "qa_test_runner.py",
+              "size_bytes": 36739
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/CLI_COMMAND_CHAINING_ARCHITECTURE.md",
+              "size_bytes": 35540
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/research_papers/business_analysis_rag.py",
+              "size_bytes": 35115
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TidyLLM-HeirOS-Workflow-Guide.md",
+              "size_bytes": 33372
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/IMPORTANT-CONSTRAINTS-FOR-THIS-CODEBASE.md",
+              "size_bytes": 32312
+            },
+            {
+              "path": "tidyllm/scripts/domain_rag_workflow_builder.py",
+              "size_bytes": 31417
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/Guidance-on-Using-MCP.md",
+              "size_bytes": 30936
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/domain_rag/cross_domain_reporter.py",
+              "size_bytes": 30542
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/corporate_llm_gateway.py",
+              "size_bytes": 29180
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Gateway System Build Guide - IKEA Style README.md",
+              "size_bytes": 29154
+            },
+            {
+              "path": "tidyllm/compliance/dist/tidyllm_compliance-0.1.0-py3-none-any.whl",
+              "size_bytes": 27084
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/vector_manager.py",
+              "size_bytes": 27000
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/links_quality_results.txt",
+              "size_bytes": 26801
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/research_papers/whitepaper_processor.py",
+              "size_bytes": 26373
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/signal_noise_results.txt",
+              "size_bytes": 25724
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/database_gateway.py",
+              "size_bytes": 25421
+            },
+            {
+              "path": "tidyllm/compliance/dist/tidyllm_compliance-0.1.0.tar.gz",
+              "size_bytes": 25335
+            },
+            {
+              "path": "tidyllm/tidyllm/api.py",
+              "size_bytes": 24766
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/TIDYDSPY_ARCHITECTURE_DIAGRAMS.md",
+              "size_bytes": 24627
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/domain_rag/hierarchical_builder.py",
+              "size_bytes": 24460
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/2-TidyLLM Ecosystem Strategy & Integr.md",
+              "size_bytes": 24362
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/TRIPLE_GATEWAY_ARCHITECTURE_PROPOSAL.md",
+              "size_bytes": 23897
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/S3 Path Management - README.md",
+              "size_bytes": 23737
+            },
+            {
+              "path": "tidyllm/scripts/s3_flow_parser.py",
+              "size_bytes": 23630
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TIDYMART_ENTERPRISE_INTEGRATION_SPEC.md",
+              "size_bytes": 23267
+            },
+            {
+              "path": "tidyllm/admin/test_config.py",
+              "size_bytes": 23037
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/research_papers/research_framework.py",
+              "size_bytes": 22895
+            },
+            {
+              "path": "tidyllm/scripts/document_chains.py",
+              "size_bytes": 22879
+            },
+            {
+              "path": "tidyllm/scripts/test_stress_suite.py",
+              "size_bytes": 22631
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_golden_answers/sop_validator.py",
+              "size_bytes": 22488
+            },
+            {
+              "path": "tidyllm/scripts/error_tracker.py",
+              "size_bytes": 22475
+            },
+            {
+              "path": "tidyllm/scripts/chat_workflow_interface.py",
+              "size_bytes": 22464
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/TidyLLM System Setup Guide - Complete IKEA Style.md",
+              "size_bytes": 22456
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/workflow_optimizer_gateway.py",
+              "size_bytes": 22051
+            },
+            {
+              "path": "tidyllm/scripts/demo_protection.py",
+              "size_bytes": 21988
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/startup_model_discovery.py",
+              "size_bytes": 21708
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/create_domain_workflow.py",
+              "size_bytes": 21074
+            },
+            {
+              "path": "tidyllm/rag2dag/cli.py",
+              "size_bytes": 20921
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/ai_processing_gateway.py",
+              "size_bytes": 20469
+            },
+            {
+              "path": "tidyllm/scripts/pre_connection_manager.py",
+              "size_bytes": 20387
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/dynamic_model_discovery.py",
+              "size_bytes": 20317
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Guidance on WorkflowOptimizerGateway - README.md",
+              "size_bytes": 19492
+            },
+            {
+              "path": "tidyllm/rag2dag/converter.py",
+              "size_bytes": 18994
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/base_gateway.py",
+              "size_bytes": 18952
+            },
+            {
+              "path": "tidyllm/infrastructure/diagnostics.py",
+              "size_bytes": 18640
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/interfaces/knowledge_interface.py",
+              "size_bytes": 18613
+            },
+            {
+              "path": "tidyllm/scripts/test_demo_suite.py",
+              "size_bytes": 18530
+            },
+            {
+              "path": "tidyllm/admin/run_diagnostics_real.py",
+              "size_bytes": 18489
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Guidance on Caching - README.md",
+              "size_bytes": 18389
+            },
+            {
+              "path": "tidyllm/admin/restart_aws_session.py",
+              "size_bytes": 18328
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/RAG2DAG_INTERFACES.md",
+              "size_bytes": 17989
+            },
+            {
+              "path": "tidyllm/rag2dag/drop_zone_interface.py",
+              "size_bytes": 17964
+            },
+            {
+              "path": "tidyllm/admin/test_mlflow.py",
+              "size_bytes": 17881
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ORCHESTRATOR_DEEP_DIVE.md",
+              "size_bytes": 17516
+            },
+            {
+              "path": "tidyllm/admin/credential_loader.py",
+              "size_bytes": 17438
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/DSPY_TEAM_SYNC_ANALYSIS_AND_IMPLEMENTATION_PLAN.md",
+              "size_bytes": 17221
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/facades/vector_storage.py",
+              "size_bytes": 16937
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/gateway_registry.py",
+              "size_bytes": 16913
+            },
+            {
+              "path": "tidyllm/infrastructure/session_management.py",
+              "size_bytes": 16848
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/domain_rag.py",
+              "size_bytes": 16762
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/MLFLOW_INTEGRATION_ARCHITECTURE.md",
+              "size_bytes": 16606
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/CLEANUP_ACTION_PLAN.md",
+              "size_bytes": 16604
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/true_s3_first_domain_rag.py",
+              "size_bytes": 16309
+            },
+            {
+              "path": "tidyllm/flow/flow_agreements.py",
+              "size_bytes": 16259
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_resource_server/mcp_server.py",
+              "size_bytes": 16174
+            },
+            {
+              "path": "tidyllm/scripts/test_knowledge_workflow.py",
+              "size_bytes": 16127
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/Guidance-on-AWS-Sessions.md",
+              "size_bytes": 16012
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/DOCUMENT_COLLECTIONS_SYSTEM.md",
+              "size_bytes": 15946
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/INTEGRATION_ROADMAP.md",
+              "size_bytes": 15802
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/mvr_analysis/s3_uploader.py",
+              "size_bytes": 15770
+            },
+            {
+              "path": "tidyllm/scripts/visual_demo.py",
+              "size_bytes": 15683
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/DROP_ZONE_TRACKING_DOCUMENTATION.md",
+              "size_bytes": 15641
+            },
+            {
+              "path": "tidyllm/scripts/test_all_verbs.py",
+              "size_bytes": 15641
+            },
+            {
+              "path": "tidyllm/.pytest_cache/v/cache/nodeids",
+              "size_bytes": 15530
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/stateless_s3_domain_rag.py",
+              "size_bytes": 15335
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/admin/tidyllm_internal_domain_rag.py",
+              "size_bytes": 15236
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/INTEGRATION_WORKFLOW.md",
+              "size_bytes": 14994
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/CLI_COMMANDS_REFERENCE.md",
+              "size_bytes": 14975
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_resource_server/resource_manager.py",
+              "size_bytes": 14830
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/CODE_IMPROVEMENT_SUGGESTIONS.md",
+              "size_bytes": 14808
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/DSPY_BUG_FIX_CHECKLIST.md",
+              "size_bytes": 14782
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/mvr_analysis/s3_monitor.py",
+              "size_bytes": 14759
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_conflict_analysis/conflict_reporter.py",
+              "size_bytes": 14722
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/REPO_INITIALIZATION_GUIDE.md",
+              "size_bytes": 14706
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Guidance on AIProcessingGateway - README.md",
+              "size_bytes": 14608
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/mvr_analysis/s3_first_processor.py",
+              "size_bytes": 14555
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/test_s3_domain_rag.py",
+              "size_bytes": 14543
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/CONTRIBUTING.md",
+              "size_bytes": 14508
+            },
+            {
+              "path": "tidyllm/scripts/run_demo.py",
+              "size_bytes": 14309
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/knowledge_manager.py",
+              "size_bytes": 14231
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/PRECISE_FIX_GUIDE_FOR_BASICS_TEAM.md",
+              "size_bytes": 14183
+            },
+            {
+              "path": "tidyllm/flow/qa_control_flows.py",
+              "size_bytes": 13945
+            },
+            {
+              "path": "tidyllm/scripts/test_s3_file_upload.py",
+              "size_bytes": 13856
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_resource_server/sources.py",
+              "size_bytes": 13837
+            },
+            {
+              "path": "tidyllm/admin/template_settings.yaml",
+              "size_bytes": 13823
+            },
+            {
+              "path": "tidyllm/admin/settings.yaml",
+              "size_bytes": 13725
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/enhanced_extraction.py",
+              "size_bytes": 13522
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/facades/document_processor.py",
+              "size_bytes": 13480
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/file_storage_gateway.py",
+              "size_bytes": 13337
+            },
+            {
+              "path": "tidyllm/tidyllm/cli.py",
+              "size_bytes": 13151
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/model_discovery_scheduler.py",
+              "size_bytes": 12938
+            },
+            {
+              "path": "tidyllm/admin/api_endpoints.py",
+              "size_bytes": 12854
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/RAG2DAG_DOCUMENTATION.md",
+              "size_bytes": 12714
+            },
+            {
+              "path": "CLI_DOCUMENTATION.md",
+              "size_bytes": 12553
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TidyLLM-System-Analysis.md",
+              "size_bytes": 12334
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TIDYLLM_GATEWAY_ANALYSIS.md",
+              "size_bytes": 12332
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/s3_first_domain_rag.py",
+              "size_bytes": 12324
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/universal_bracket_flows_implementation_plan.md",
+              "size_bytes": 12215
+            },
+            {
+              "path": "tidyllm/utils/pdf_tools.py",
+              "size_bytes": 12065
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/mvr_gateway.py",
+              "size_bytes": 11942
+            },
+            {
+              "path": "tidyllm/admin/oops_restart.py",
+              "size_bytes": 11919
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TIDYLLM_ENTERPRISE_MERGER_COMPLETE.md",
+              "size_bytes": 11482
+            },
+            {
+              "path": "tidyllm/utils/file_organizer.py",
+              "size_bytes": 11442
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/CRITICAL_DESIGN_DECISIONS.md",
+              "size_bytes": 11395
+            },
+            {
+              "path": "tidyllm/rag2dag/config.py",
+              "size_bytes": 11389
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/DSPY_COMPETING_PATTERNS_ANALYSIS.md",
+              "size_bytes": 11352
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/demo_analysis_and_user_personas.md",
+              "size_bytes": 11348
+            },
+            {
+              "path": "tidyllm/scripts/mvr_analysis_s3.py",
+              "size_bytes": 11289
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/DSPY_DESIGN_QUESTIONS.md",
+              "size_bytes": 11167
+            },
+            {
+              "path": "tidyllm/scripts/tables.yaml",
+              "size_bytes": 11167
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/DD-007_third_gateway_integration_analysis.md",
+              "size_bytes": 11160
+            },
+            {
+              "path": "tidyllm/admin/gateway_control.py",
+              "size_bytes": 11132
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/README.md",
+              "size_bytes": 10854
+            },
+            {
+              "path": "tidyllm/scripts/test_existing_knowledge_workflow.py",
+              "size_bytes": 10812
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/dspy_team_approach_to_competing_patterns.md",
+              "size_bytes": 10755
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/TIDYLLM_VISITOR_EXPERIENCE_DESIGN.md",
+              "size_bytes": 10738
+            },
+            {
+              "path": "tidyllm/infrastructure/credential_setup.py",
+              "size_bytes": 10704
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/RESEARCH_REPORT_TEMPLATE.md",
+              "size_bytes": 10584
+            },
+            {
+              "path": "tidyllm/docs/2025-09-06/Guidance on CorporateLLMGateway - README.md",
+              "size_bytes": 10472
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/compliance_module_organization_plan.md",
+              "size_bytes": 10462
+            },
+            {
+              "path": "tidyllm/admin/config_manager.py",
+              "size_bytes": 10292
+            },
+            {
+              "path": "tidyllm/backend_quality_test.py",
+              "size_bytes": 10230
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_report_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.md",
+              "size_bytes": 10217
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_report_ModelRiskManagementPracticeNote_May2019_1757051461.md",
+              "size_bytes": 10188
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_report_2019-02-26-Model-Validation_1757051451.md",
+              "size_bytes": 10178
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_report_real_test_016_1757051464.md",
+              "size_bytes": 10162
+            },
+            {
+              "path": "tidyllm/scripts/startup_model_sync.py",
+              "size_bytes": 10159
+            },
+            {
+              "path": "tidyllm/scripts/launch_demo.py",
+              "size_bytes": 10120
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/test_real_s3_domain_rag.py",
+              "size_bytes": 10115
+            },
+            {
+              "path": "tidyllm/flow/agreements/mvr_analysis.py",
+              "size_bytes": 10010
+            },
+            {
+              "path": "tidyllm/scripts/test_configuration_override.py",
+              "size_bytes": 10002
+            },
+            {
+              "path": "tidyllm/scripts/document_database.py",
+              "size_bytes": 9939
+            },
+            {
+              "path": "tidyllm/scripts/test_dynamic_model_discovery.py",
+              "size_bytes": 9855
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/uncertain_investigation_report_20250905_065531.txt",
+              "size_bytes": 9753
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/GUIDANCE_ON_MODEL_SELECTION.md",
+              "size_bytes": 9647
+            },
+            {
+              "path": "README.md",
+              "size_bytes": 9495
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/chain_integration_strategy.md",
+              "size_bytes": 9446
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/DROP_ZONES_ARCHITECTURE.md",
+              "size_bytes": 9437
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/CLEANUP_COMPLETED.md",
+              "size_bytes": 9379
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/streamlit_demo_consolidation.md",
+              "size_bytes": 9340
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/Session-Management-Migration-Map.md",
+              "size_bytes": 9289
+            },
+            {
+              "path": "tidyllm/scripts/execute_robots3_workflow.py",
+              "size_bytes": 9222
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/FINAL_CLEANUP_ACTION_PLAN.md",
+              "size_bytes": 9172
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/UNIFIED_GATEWAY_ARCHITECTURE.md",
+              "size_bytes": 9166
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/test_enhanced_extraction.py",
+              "size_bytes": 9072
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/mathematical_formulations_extracted.md",
+              "size_bytes": 8934
+            },
+            {
+              "path": "tidyllm/README.md",
+              "size_bytes": 8786
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.3.tar.gz",
+              "size_bytes": 8776
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_generic_template.yaml",
+              "size_bytes": 8765
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/model_risk/standards.py",
+              "size_bytes": 8761
+            },
+            {
+              "path": "tidyllm/workflow_configs/mvr_analysis_flow.yaml",
+              "size_bytes": 8759
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/README_HEIROS_STREAMLIT.md",
+              "size_bytes": 8651
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.2.tar.gz",
+              "size_bytes": 8620
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_conflict_analysis/fallback_strategy.py",
+              "size_bytes": 8613
+            },
+            {
+              "path": "tidyllm/scripts/test_chat_mlflow_integration.py",
+              "size_bytes": 8587
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/GATEWAY_ARCHITECTURE_OVERVIEW.md",
+              "size_bytes": 8579
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/CRITICAL-ARCHITECTURAL-ISSUES.md",
+              "size_bytes": 8505
+            },
+            {
+              "path": "tidyllm/scripts/test_enhanced_vectorqa_integration.py",
+              "size_bytes": 8358
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/s3_first_architecture.json",
+              "size_bytes": 8354
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_create_modeling.yaml",
+              "size_bytes": 8334
+            },
+            {
+              "path": "tidyllm/compliance/examples/sop_mvr_demo.py",
+              "size_bytes": 8330
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/MASTER_AUDIT_SUMMARY.md",
+              "size_bytes": 8280
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/consistency/analysis.py",
+              "size_bytes": 8260
+            },
+            {
+              "path": "tidyllm/flow/agreements/workflow.py",
+              "size_bytes": 8260
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_domain_rag.yaml",
+              "size_bytes": 8176
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/REPOSITORY_ANALYSIS_20250901.md",
+              "size_bytes": 8068
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/MASTER_DEMOS_LIST.md",
+              "size_bytes": 8039
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_robot_4.yaml",
+              "size_bytes": 8034
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_robots.yaml",
+              "size_bytes": 8029
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_robots3.yaml",
+              "size_bytes": 8012
+            },
+            {
+              "path": "tidyllm/workflow_configs/domainrag_robos.yaml",
+              "size_bytes": 7993
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/Architecture Pattern.txt",
+              "size_bytes": 7850
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/workflow_config.py",
+              "size_bytes": 7732
+            },
+            {
+              "path": "tidyllm/.gitignore",
+              "size_bytes": 7666
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/mvr_analysis_core_purpose.md",
+              "size_bytes": 7657
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/PHASE_3_EVIDENCE_SUMMARY.md",
+              "size_bytes": 7593
+            },
+            {
+              "path": "tidyllm/flow/agreements/corporate.py",
+              "size_bytes": 7566
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/build_model_validation_rag.py",
+              "size_bytes": 7546
+            },
+            {
+              "path": "tidyllm/flow/agreements/developer.py",
+              "size_bytes": 7528
+            },
+            {
+              "path": "tidyllm/admin/backups/embeddings_settings_20250904_092919.yaml",
+              "size_bytes": 7406
+            },
+            {
+              "path": "tidyllm/admin/embeddings_settings.yaml.backup",
+              "size_bytes": 7406
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/embedding_config.py",
+              "size_bytes": 7370
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/s3_manager.py",
+              "size_bytes": 7353
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TIDYLLM_ECOSYSTEM_ARCHITECTURE.md",
+              "size_bytes": 7297
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/sop_chat_integration_requirements.md",
+              "size_bytes": 7175
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/Current_Issues.md",
+              "size_bytes": 7165
+            },
+            {
+              "path": "tidyllm/scripts/test_multi_model_vector_workflow.py",
+              "size_bytes": 7127
+            },
+            {
+              "path": "tidyllm/executive_api_demo.py",
+              "size_bytes": 7105
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ARCHITECTURE_INDEX.md",
+              "size_bytes": 6895
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/TIDYDSPY_ARCHITECTURE_CLEAN.md",
+              "size_bytes": 6886
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/DEMO_STATUS_FINAL.md",
+              "size_bytes": 6822
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/toc_analysis_results.txt",
+              "size_bytes": 6568
+            },
+            {
+              "path": "tidyllm/flow/agreements/base.py",
+              "size_bytes": 6487
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/evidence/validation.py",
+              "size_bytes": 6457
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/testing-assumptions.md",
+              "size_bytes": 6384
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/README_HEIROS_SQL_QUERIES.md",
+              "size_bytes": 6329
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/S3_DOMAIN_RAG_SUCCESS_SUMMARY.md",
+              "size_bytes": 6192
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/GATEWAY_DEPENDENCIES_COMPLETE.md",
+              "size_bytes": 6173
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/dspy_team_Current_Issues.md",
+              "size_bytes": 6138
+            },
+            {
+              "path": "tidyllm/simple_quality_test.py",
+              "size_bytes": 6093
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/TEST-CONSISTENCY-ANALYSIS.md",
+              "size_bytes": 5982
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/mvr_integration_update.py",
+              "size_bytes": 5982
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/doc_organization_report.txt",
+              "size_bytes": 5894
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/TESTS_ADDED_TO_STANDARD_FOLDER.md",
+              "size_bytes": 5873
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.3-py3-none-any.whl",
+              "size_bytes": 5831
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.0-py3-none-any.whl",
+              "size_bytes": 5765
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.2-py3-none-any.whl",
+              "size_bytes": 5763
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.1-py3-none-any.whl",
+              "size_bytes": 5762
+            },
+            {
+              "path": "pyproject.toml",
+              "size_bytes": 5738
+            },
+            {
+              "path": "tidyllm/4-api_.txt",
+              "size_bytes": 5720
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_conflict_analysis/yrsn_analyzer.py",
+              "size_bytes": 5690
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/GATEWAY_REORGANIZATION_COMPLETE.md",
+              "size_bytes": 5662
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/COMPLETE_ARCHITECTURE_DIAGRAMS.md",
+              "size_bytes": 5568
+            },
+            {
+              "path": "INSTALLATION.md",
+              "size_bytes": 5552
+            },
+            {
+              "path": "setup.py",
+              "size_bytes": 5545
+            },
+            {
+              "path": "tidyllm/tidyllm/gateways/__init__.py",
+              "size_bytes": 5544
+            },
+            {
+              "path": "tidyllm/scripts/test_embedding_standardization.py",
+              "size_bytes": 5535
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/VPF_FRAMEWORK_ANALYSIS_20250901.md",
+              "size_bytes": 5411
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/README.md",
+              "size_bytes": 5282
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.1.tar.gz",
+              "size_bytes": 5182
+            },
+            {
+              "path": "tidyllm/dist/tidyllm-1.0.0.tar.gz",
+              "size_bytes": 5173
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/DIRECTORY_INDEX.md",
+              "size_bytes": 5135
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_conflict_analysis/temporal_resolver.py",
+              "size_bytes": 5103
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/SIMPLE_ARCHITECTURE_DIAGRAMS.md",
+              "size_bytes": 5059
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/TIDYMART_IMPLEMENTATION_STATUS.md",
+              "size_bytes": 4897
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/api-patterns.md",
+              "size_bytes": 4856
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/COMPREHENSIVE_TEST_STATUS.md",
+              "size_bytes": 4841
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/facades/embedding_processor.py",
+              "size_bytes": 4755
+            },
+            {
+              "path": "tidyllm/scripts/infrastructure/start_unified_sessions.py",
+              "size_bytes": 4749
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/flow_agreements/model_validation_rag_flow.yaml",
+              "size_bytes": 4686
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/VALIDATION_SUMMARY.md",
+              "size_bytes": 4665
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/F9-Scripts.txt",
+              "size_bytes": 4579
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/PARSING_CAPABILITIES_ANALYSIS.md",
+              "size_bytes": 4474
+            },
+            {
+              "path": "tidyllm/final_real_demo.py",
+              "size_bytes": 4280
+            },
+            {
+              "path": "tidyllm/tidyllm/__init__.py",
+              "size_bytes": 4090
+            },
+            {
+              "path": "tidyllm/executive_demo.py",
+              "size_bytes": 4038
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/submodule_report_20250905_065401.txt",
+              "size_bytes": 3875
+            },
+            {
+              "path": "tidyllm/real_demo_bypass.py",
+              "size_bytes": 3825
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/README.md",
+              "size_bytes": 3745
+            },
+            {
+              "path": "tidyllm/api_demo.py",
+              "size_bytes": 3732
+            },
+            {
+              "path": "tidyllm/real_api_demo.py",
+              "size_bytes": 3679
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/admin/demo.py",
+              "size_bytes": 3645
+            },
+            {
+              "path": "tidyllm/real_demo_alternative.py",
+              "size_bytes": 3591
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/Heiros Learns.txt",
+              "size_bytes": 3520
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/model-providers.md",
+              "size_bytes": 3515
+            },
+            {
+              "path": "tidyllm/compliance/examples/consistency_analysis_demo.py",
+              "size_bytes": 3425
+            },
+            {
+              "path": "tidyllm/admin/mlflow_test_results_20250905_010008.json",
+              "size_bytes": 3391
+            },
+            {
+              "path": "tidyllm/compliance/examples/evidence_validation_demo.py",
+              "size_bytes": 3274
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/RUDY_EMBEDDING_USAGE.md",
+              "size_bytes": 3244
+            },
+            {
+              "path": "tidyllm/compliance/examples/model_risk_demo.py",
+              "size_bytes": 3159
+            },
+            {
+              "path": "tidyllm/admin/test_cross_platform.py",
+              "size_bytes": 3135
+            },
+            {
+              "path": "tidyllm/compliance/README.md",
+              "size_bytes": 3050
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/INDEX.md",
+              "size_bytes": 2983
+            },
+            {
+              "path": "tidyllm/compliance/CLAUDE.md",
+              "size_bytes": 2917
+            },
+            {
+              "path": "tidyllm/admin/__init__.py",
+              "size_bytes": 2855
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_resource_server/interfaces.py",
+              "size_bytes": 2805
+            },
+            {
+              "path": "tidyllm/domain_rag_system/demo.py",
+              "size_bytes": 2796
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/python_audit_report_20250905_020153.txt",
+              "size_bytes": 2774
+            },
+            {
+              "path": "tidyllm/flow/examples/checklist_flow.py",
+              "size_bytes": 2669
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/mvr_integration_summary.json",
+              "size_bytes": 2668
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_resource_server/__init__.py",
+              "size_bytes": 2664
+            },
+            {
+              "path": "tidyllm/flow/examples/modeling_flow.py",
+              "size_bytes": 2653
+            },
+            {
+              "path": "tidyllm/admin/mlflow_test_results_20250907_210958.json",
+              "size_bytes": 2647
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/admin/manifest.json",
+              "size_bytes": 2635
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/AWS_CREDENTIALS_SETUP.md",
+              "size_bytes": 2626
+            },
+            {
+              "path": "tidyllm/flow/examples/sop_flow.py",
+              "size_bytes": 2573
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/README.md",
+              "size_bytes": 2552
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/Friday - S3-CONNECTED DOMAIN RAG COMPLETE!.txt",
+              "size_bytes": 2480
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/simple_build_test.py",
+              "size_bytes": 2401
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/S3_FIRST_ARCHITECTURE_GUIDANCE.md",
+              "size_bytes": 2397
+            },
+            {
+              "path": "tidyllm/admin/defaults/embeddings_settings_default.yaml",
+              "size_bytes": 2331
+            },
+            {
+              "path": "tidyllm/simple_api_test.py",
+              "size_bytes": 2304
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/BOSS_STATUS_REPORT.txt",
+              "size_bytes": 2160
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/test_research_paper.txt",
+              "size_bytes": 2147
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/domain_rag/authoritative_rag.py",
+              "size_bytes": 2122
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/__init__.py",
+              "size_bytes": 2115
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/pull_request_template.md",
+              "size_bytes": 2065
+            },
+            {
+              "path": "tidyllm/admin/set_aws_credentials.py",
+              "size_bytes": 2044
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/F8-tidyllm-documents Function & Role.txt",
+              "size_bytes": 2025
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/F3-CHECKLIST vs SOP CROSS-DOMAIN COMPA.txt",
+              "size_bytes": 1999
+            },
+            {
+              "path": "MANIFEST.in",
+              "size_bytes": 1995
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/ONE-CLICK HIERARCHICAL DOMAIN RAG S.txt",
+              "size_bytes": 1942
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/LAUNCHER_SPEC.md",
+              "size_bytes": 1919
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/doc analysis paln.txt",
+              "size_bytes": 1917
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/feature_request.md",
+              "size_bytes": 1879
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/GATEWAY_DEPENDENCIES_ANALYSIS.md",
+              "size_bytes": 1768
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/f4 PROBLEM SOLVED! We now have TWO.txt",
+              "size_bytes": 1674
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/f5-The YRSN algorithm is located in.txt",
+              "size_bytes": 1649
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/team_coordination.md",
+              "size_bytes": 1641
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/bug_report.md",
+              "size_bytes": 1595
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/f6-tidyllm-compliance.txt",
+              "size_bytes": 1582
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/fri pm2 -COMPREHENSIVE REPORTING SYSTEM COMP.txt",
+              "size_bytes": 1580
+            },
+            {
+              "path": "tidyllm/flow/agreements/__init__.py",
+              "size_bytes": 1573
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/research_papers/__init__.py",
+              "size_bytes": 1527
+            },
+            {
+              "path": "tidyllm/pyproject.toml",
+              "size_bytes": 1286
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/Local Drop Structure.txt",
+              "size_bytes": 1263
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/F7-sentence.txt",
+              "size_bytes": 1254
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/data_governance.txt",
+              "size_bytes": 1253
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/gateway_architecture_diagram.md",
+              "size_bytes": 1238
+            },
+            {
+              "path": "tidyllm/test_api_fixed.py",
+              "size_bytes": 1215
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/TEMPLATE.md",
+              "size_bytes": 1116
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/risk_management.txt",
+              "size_bytes": 1093
+            },
+            {
+              "path": "tidyllm/scripts/LICENSE",
+              "size_bytes": 1089
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/admin/README.md",
+              "size_bytes": 1063
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/domain_rag/__init__.py",
+              "size_bytes": 1032
+            },
+            {
+              "path": "requirements.txt",
+              "size_bytes": 1014
+            },
+            {
+              "path": "tidyllm/.pytest_cache/v/cache/lastfailed",
+              "size_bytes": 986
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/model_validation.txt",
+              "size_bytes": 945
+            },
+            {
+              "path": "tidyllm/admin/sample_document.txt",
+              "size_bytes": 935
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_summary_board-supervisory-stress-testing-model-validation-reissue-oct2015_1757051454.txt",
+              "size_bytes": 920
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/BOSS_DEMO_README.txt",
+              "size_bytes": 915
+            },
+            {
+              "path": "tidyllm/admin/set_aws_env.sh",
+              "size_bytes": 875
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_summary_ModelRiskManagementPracticeNote_May2019_1757051461.txt",
+              "size_bytes": 867
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_summary_2019-02-26-Model-Validation_1757051451.txt",
+              "size_bytes": 843
+            },
+            {
+              "path": "tidyllm/admin/set_aws_env.bat",
+              "size_bytes": 836
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_detailed_analysis_20250905_085602.json",
+              "size_bytes": 817
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_detailed_analysis_20250905_085727.json",
+              "size_bytes": 817
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/boss_demo_summary_real_test_016_1757051464.txt",
+              "size_bytes": 815
+            },
+            {
+              "path": "tidyllm/admin/real_diagnostic_report_20250906_074932.json",
+              "size_bytes": 781
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_recommendations_20250905_085602.json",
+              "size_bytes": 780
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_recommendations_20250905_085727.json",
+              "size_bytes": 780
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/F-10 The Complete Picture.txt",
+              "size_bytes": 776
+            },
+            {
+              "path": "tidyllm/real_diagnostic_report_20250907_214634.json",
+              "size_bytes": 771
+            },
+            {
+              "path": "tidyllm/real_diagnostic_report_20250907_222336.json",
+              "size_bytes": 770
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/mvr_analysis/__init__.py",
+              "size_bytes": 705
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/Workflow Node Types Available.txt",
+              "size_bytes": 698
+            },
+            {
+              "path": "tidyllm/flow/__init__.py",
+              "size_bytes": 694
+            },
+            {
+              "path": "tidyllm/scripts/infrastructure.py",
+              "size_bytes": 654
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_conflict_analysis/__init__.py",
+              "size_bytes": 627
+            },
+            {
+              "path": "tidyllm/domain_rag_system/README.md",
+              "size_bytes": 624
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/facades/__init__.py",
+              "size_bytes": 623
+            },
+            {
+              "path": "tidyllm/api_examples_3.py",
+              "size_bytes": 596
+            },
+            {
+              "path": "tidyllm/rag2dag/executor.py",
+              "size_bytes": 581
+            },
+            {
+              "path": "tidyllm/rag2dag/__init__.py",
+              "size_bytes": 577
+            },
+            {
+              "path": "tidyllm/api_examples_2.py",
+              "size_bytes": 572
+            },
+            {
+              "path": "tidyllm/api_examples.py",
+              "size_bytes": 571
+            },
+            {
+              "path": "tidyllm/domain_rag_system/manifest.json",
+              "size_bytes": 567
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_yrsn_validation_20250905_085602.json",
+              "size_bytes": 528
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_yrsn_validation_20250905_085727.json",
+              "size_bytes": 528
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/REV12345_Peer_Review.txt",
+              "size_bytes": 511
+            },
+            {
+              "path": "tidyllm/q4_report.txt",
+              "size_bytes": 503
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/REV12345_MVR_Analysis.txt",
+              "size_bytes": 486
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/sop_golden_answers/__init__.py",
+              "size_bytes": 462
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_dashboard_20250905_085602.md",
+              "size_bytes": 432
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_dashboard_20250905_085727.md",
+              "size_bytes": 432
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/__init__.py",
+              "size_bytes": 429
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/REV12345_VST_Template.txt",
+              "size_bytes": 427
+            },
+            {
+              "path": "tidyllm/docs/2025-09-04/REV12346_VST_Template.txt",
+              "size_bytes": 427
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/admin/__init__.py",
+              "size_bytes": 418
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_compliance_summary_20250905_085602.json",
+              "size_bytes": 373
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_compliance_summary_20250905_085727.json",
+              "size_bytes": 373
+            },
+            {
+              "path": "tidyllm/docs/2025-09-07/User Call tidyllm.chat(message).txt",
+              "size_bytes": 361
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/model_risk/__init__.py",
+              "size_bytes": 350
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/README.txt",
+              "size_bytes": 333
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/consistency/__init__.py",
+              "size_bytes": 314
+            },
+            {
+              "path": "tidyllm/.pytest_cache/README.md",
+              "size_bytes": 310
+            },
+            {
+              "path": "tidyllm/compliance/tidyllm_compliance/evidence/__init__.py",
+              "size_bytes": 300
+            },
+            {
+              "path": "tidyllm/docs/2025-09-01/heiros_requirements.txt",
+              "size_bytes": 289
+            },
+            {
+              "path": "tidyllm/admin/set_aws_credentials.bat",
+              "size_bytes": 283
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ai_research_paper.pdf",
+              "size_bytes": 260
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/quarterly_report.docx",
+              "size_bytes": 258
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/core/__init__.py",
+              "size_bytes": 237
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_analysis_20250905_085602.csv",
+              "size_bytes": 205
+            },
+            {
+              "path": "tidyllm/compliance/sop_conflict_reports/compliance_analysis_20250905_085727.csv",
+              "size_bytes": 205
+            },
+            {
+              "path": "tidyllm/.pytest_cache/CACHEDIR.TAG",
+              "size_bytes": 191
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/flow_agreements/__init__.py",
+              "size_bytes": 165
+            },
+            {
+              "path": "tidyllm/test_report.txt",
+              "size_bytes": 92
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/tidyllm_methodology.txt",
+              "size_bytes": 91
+            },
+            {
+              "path": "tidyllm/tidyllm/knowledge_systems/interfaces/__init__.py",
+              "size_bytes": 87
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/sample_whitepaper.txt",
+              "size_bytes": 85
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/ml_research_paper.txt",
+              "size_bytes": 77
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/requirements.txt",
+              "size_bytes": 49
+            },
+            {
+              "path": "tidyllm/infrastructure/__init__.py",
+              "size_bytes": 45
+            },
+            {
+              "path": "tidyllm/.gitattributes",
+              "size_bytes": 39
+            },
+            {
+              "path": "tidyllm/.pytest_cache/.gitignore",
+              "size_bytes": 39
+            },
+            {
+              "path": "tidyllm/flow/examples/__init__.py",
+              "size_bytes": 36
+            },
+            {
+              "path": "tidyllm/utils/__init__.py",
+              "size_bytes": 36
+            },
+            {
+              "path": "tidyllm/scripts/infrastructure/__init__.py",
+              "size_bytes": 32
+            },
+            {
+              "path": "tidyllm/scripts/__init__.py",
+              "size_bytes": 25
+            },
+            {
+              "path": "tidyllm/docs/2025-09-05/temp_test_artifact.txt",
+              "size_bytes": 20
+            },
+            {
+              "path": "tidyllm/docs/2025-09-03/test.txt",
+              "size_bytes": 0
+            }
+          ],
+          "total_size_bytes": 35090096,
+          "zip_size_mb": 24.85
+        }
+      ],
+      "file_count": 440,
+      "total_size_mb": 82.47
+    },
+    "03_scripts_demos": {
+      "name": "03_scripts_demos",
+      "description": "Scripts, demos, and automation tools",
+      "created": "2025-09-07T22:38:10.528026",
+      "parts": [
+        {
+          "zip_file": "C:/Users/marti/github/packages/03_scripts_demos.zip",
+          "file_count": 120,
+          "files": [
+            {
+              "path": "scripts/streamlit_mvr_workspace/documents/robotic_arm_6dof_asmdrw.pdf",
+              "size_bytes": 4497103
+            },
+            {
+              "path": "drop_zones/qa_control/incoming/README.html",
+              "size_bytes": 625129
+            },
+            {
+              "path": "scripts/demos/start_drop_zones_demo.py",
+              "size_bytes": 61786
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/documents/multi_functional_servo_bracket_.pdf",
+              "size_bytes": 57842
+            },
+            {
+              "path": "scripts/workflows/production_tracking_drop_zones.py",
+              "size_bytes": 54534
+            },
+            {
+              "path": "scripts/mvr/human_loop_mvr_interface.py",
+              "size_bytes": 50754
+            },
+            {
+              "path": "scripts/mvr/s3_first_mvr_processor.py",
+              "size_bytes": 36953
+            },
+            {
+              "path": "scripts/demos/heiros_streamlit_demo.py",
+              "size_bytes": 32694
+            },
+            {
+              "path": "scripts/infrastructure/tidyllm_unified_services.py",
+              "size_bytes": 26185
+            },
+            {
+              "path": "scripts/system_healthcheck.py",
+              "size_bytes": 24478
+            },
+            {
+              "path": "scripts/apis/ui_bracket_flows.py",
+              "size_bytes": 24466
+            },
+            {
+              "path": "scripts/infrastructure/start_unified_sessions.py",
+              "size_bytes": 23747
+            },
+            {
+              "path": "scripts/testing/test_drop_zones_watchdog.py",
+              "size_bytes": 22922
+            },
+            {
+              "path": "scripts/workflows/unified_drop_zones.py",
+              "size_bytes": 21725
+            },
+            {
+              "path": "scripts/demos/start_streamlit_universal.py",
+              "size_bytes": 21111
+            },
+            {
+              "path": "scripts/apis/api_bracket_flows.py",
+              "size_bytes": 20381
+            },
+            {
+              "path": "scripts/apis/improved_usage_examples.py",
+              "size_bytes": 19574
+            },
+            {
+              "path": "scripts/demos/welcome_workflow_demo.py",
+              "size_bytes": 17594
+            },
+            {
+              "path": "scripts/apis/universal_bracket_flow_examples.py",
+              "size_bytes": 15914
+            },
+            {
+              "path": "scripts/mvr/s3_mvr_monitor.py",
+              "size_bytes": 15309
+            },
+            {
+              "path": "scripts/demos/start_heiros.py",
+              "size_bytes": 15260
+            },
+            {
+              "path": "scripts/infrastructure/run_diagnostics.py",
+              "size_bytes": 14180
+            },
+            {
+              "path": "scripts/apis/cli_bracket_flows.py",
+              "size_bytes": 14081
+            },
+            {
+              "path": "scripts/demos/final_demo_status_report.py",
+              "size_bytes": 13824
+            },
+            {
+              "path": "scripts/mvr/aws_terminal_mvr_workflow.py",
+              "size_bytes": 13415
+            },
+            {
+              "path": "scripts/apis/smart_file_upload_app.py",
+              "size_bytes": 13253
+            },
+            {
+              "path": "scripts/infrastructure/unified_credential_setup.py",
+              "size_bytes": 12778
+            },
+            {
+              "path": "scripts/mvr/show_mvr_processing_flow.py",
+              "size_bytes": 12451
+            },
+            {
+              "path": "scripts/workflows/boss_demo_drop_zones.py",
+              "size_bytes": 12408
+            },
+            {
+              "path": "scripts/infrastructure/tidyllm_services.py",
+              "size_bytes": 11973
+            },
+            {
+              "path": "scripts/workflows/working_drop_zones.py",
+              "size_bytes": 11851
+            },
+            {
+              "path": "scripts/demos/demo_file_upload_app.py",
+              "size_bytes": 11796
+            },
+            {
+              "path": "scripts/utilities/submodule_analyzer.py",
+              "size_bytes": 11472
+            },
+            {
+              "path": "scripts/rag/start_rag_dspy.py",
+              "size_bytes": 11289
+            },
+            {
+              "path": "scripts/rag/start_rag_vectorqa.py",
+              "size_bytes": 11022
+            },
+            {
+              "path": "scripts/rag/start_rag_tidymart.py",
+              "size_bytes": 11004
+            },
+            {
+              "path": "scripts/utilities/simple_domain_rag_builder.py",
+              "size_bytes": 10878
+            },
+            {
+              "path": "scripts/rag/start_rag_polars.py",
+              "size_bytes": 10870
+            },
+            {
+              "path": "scripts/infrastructure/enhanced_drop_zones_with_cleanup.py",
+              "size_bytes": 10584
+            },
+            {
+              "path": "scripts/maintenance/embedding_verification.py",
+              "size_bytes": 9666
+            },
+            {
+              "path": "scripts/infrastructure/create_workflow_tables.py",
+              "size_bytes": 9540
+            },
+            {
+              "path": "scripts/infrastructure/setup_mlflow_postgres.py",
+              "size_bytes": 9339
+            },
+            {
+              "path": "scripts/mvr/s3_mvr_uploader.py",
+              "size_bytes": 8633
+            },
+            {
+              "path": "scripts/testing/check_mlflow_history.py",
+              "size_bytes": 8392
+            },
+            {
+              "path": "scripts/maintenance/check_current_setup.py",
+              "size_bytes": 8258
+            },
+            {
+              "path": "drop_zones/queries/mvr_compliance_review.md",
+              "size_bytes": 8156
+            },
+            {
+              "path": "scripts/testing/check_dspy_usage.py",
+              "size_bytes": 8135
+            },
+            {
+              "path": "scripts/infrastructure/check_workflow_tables.py",
+              "size_bytes": 8098
+            },
+            {
+              "path": "drop_zones/config/workflows/qa_control.yaml",
+              "size_bytes": 8052
+            },
+            {
+              "path": "scripts/maintenance/fix_hardcoded_s3_paths.py",
+              "size_bytes": 8029
+            },
+            {
+              "path": "scripts/mvr/check_s3_mvr_setup.py",
+              "size_bytes": 7884
+            },
+            {
+              "path": "scripts/infrastructure/verify_aws_access.py",
+              "size_bytes": 6779
+            },
+            {
+              "path": "scripts/demos/heiros_demo.py",
+              "size_bytes": 6696
+            },
+            {
+              "path": "drop_zones/qa_control/audit/master_audit.jsonl",
+              "size_bytes": 6380
+            },
+            {
+              "path": "scripts/maintenance/fix_hardcoded_credentials.py",
+              "size_bytes": 6114
+            },
+            {
+              "path": "scripts/testing/check_papers_database.py",
+              "size_bytes": 5923
+            },
+            {
+              "path": "drop_zones/config/AGENTI_FLOWS_MAGIC_INTEGRATION.md",
+              "size_bytes": 5485
+            },
+            {
+              "path": "drop_zones/config/README.md",
+              "size_bytes": 5320
+            },
+            {
+              "path": "scripts/workflows/query_research_chat.py",
+              "size_bytes": 5175
+            },
+            {
+              "path": "scripts/testing/simple_dspy_check.py",
+              "size_bytes": 5119
+            },
+            {
+              "path": "scripts/workflows/simple_research_peer_review.py",
+              "size_bytes": 4900
+            },
+            {
+              "path": "scripts/maintenance/final_credential_cleanup.py",
+              "size_bytes": 4784
+            },
+            {
+              "path": "scripts/testing/test_jb_prompt_dropzone.py",
+              "size_bytes": 4771
+            },
+            {
+              "path": "scripts/demos/solution_examples.py",
+              "size_bytes": 4638
+            },
+            {
+              "path": "scripts/infrastructure/check_s3_papers.py",
+              "size_bytes": 4604
+            },
+            {
+              "path": "scripts/demos/settings_demo.py",
+              "size_bytes": 4441
+            },
+            {
+              "path": "scripts/demos/simple_demo.py",
+              "size_bytes": 4384
+            },
+            {
+              "path": "scripts/infrastructure/count_mlflow_tables.py",
+              "size_bytes": 4192
+            },
+            {
+              "path": "scripts/mvr/test_s3_mvr_setup.py",
+              "size_bytes": 4134
+            },
+            {
+              "path": "scripts/infrastructure/README.md",
+              "size_bytes": 3950
+            },
+            {
+              "path": "drop_zones/config/templates/standard_pipeline.yaml",
+              "size_bytes": 3860
+            },
+            {
+              "path": "scripts/workflows/launch_workflow_chat.py",
+              "size_bytes": 3804
+            },
+            {
+              "path": "scripts/workflows/simple_rag2dag_demo.py",
+              "size_bytes": 3762
+            },
+            {
+              "path": "scripts/infrastructure/restart_aws_session.py",
+              "size_bytes": 3726
+            },
+            {
+              "path": "scripts/demos/demo_status_check.py",
+              "size_bytes": 3309
+            },
+            {
+              "path": "drop_zones/input/test_mvr_report.txt",
+              "size_bytes": 3129
+            },
+            {
+              "path": "drop_zones/README.md",
+              "size_bytes": 3078
+            },
+            {
+              "path": "scripts/utilities/simple_pdf_sorter.py",
+              "size_bytes": 2890
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/state/REV12345.json",
+              "size_bytes": 2321
+            },
+            {
+              "path": "prompts/section_view_prompts.md",
+              "size_bytes": 2285
+            },
+            {
+              "path": "scripts/testing/check_papers_columns.py",
+              "size_bytes": 2136
+            },
+            {
+              "path": "scripts/README.md",
+              "size_bytes": 2125
+            },
+            {
+              "path": "scripts/apis/README.md",
+              "size_bytes": 2116
+            },
+            {
+              "path": "prompts/analyst_report_prompts.md",
+              "size_bytes": 1954
+            },
+            {
+              "path": "scripts/infrastructure/list_available_buckets.py",
+              "size_bytes": 1929
+            },
+            {
+              "path": "drop_zones/config/environments/production.yaml",
+              "size_bytes": 1826
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/reports/REV12345_mvr_report_report_20250904_223459.json",
+              "size_bytes": 1703
+            },
+            {
+              "path": "scripts/demos/README.md",
+              "size_bytes": 1594
+            },
+            {
+              "path": "scripts/maintenance/README.md",
+              "size_bytes": 1556
+            },
+            {
+              "path": "scripts/demos/start_whitepapers_demo.py",
+              "size_bytes": 1518
+            },
+            {
+              "path": "scripts/scripts/start_whitepapers_demo.py",
+              "size_bytes": 1518
+            },
+            {
+              "path": "scripts/demos/start_heiros_demo.py",
+              "size_bytes": 1508
+            },
+            {
+              "path": "scripts/scripts/start_heiros_demo.py",
+              "size_bytes": 1508
+            },
+            {
+              "path": "scripts/demos/start_settings_demo.py",
+              "size_bytes": 1504
+            },
+            {
+              "path": "scripts/scripts/start_settings_demo.py",
+              "size_bytes": 1504
+            },
+            {
+              "path": "drop_zones/qa_control/audit/19a43aec-4649-4d4b-b419-fb3a8c5a238e/audit.json",
+              "size_bytes": 1503
+            },
+            {
+              "path": "drop_zones/qa_control/audit/469edcff-6221-466b-8974-c6bf2c4b4a6f/audit.json",
+              "size_bytes": 1503
+            },
+            {
+              "path": "drop_zones/qa_control/audit/4b313206-6597-47df-bd66-207334a7f8ba/audit.json",
+              "size_bytes": 1503
+            },
+            {
+              "path": "drop_zones/qa_control/audit/86ecb41f-a86b-4bf6-a448-fecc15f249f8/audit.json",
+              "size_bytes": 1503
+            },
+            {
+              "path": "drop_zones/qa_control/audit/87a7212a-f186-4987-9244-2a3b3fd98263/audit.json",
+              "size_bytes": 1503
+            },
+            {
+              "path": "scripts/demos/start_vectorqa_demo.py",
+              "size_bytes": 1500
+            },
+            {
+              "path": "scripts/scripts/start_vectorqa_demo.py",
+              "size_bytes": 1500
+            },
+            {
+              "path": "scripts/demos/start_gateway_demo.py",
+              "size_bytes": 1495
+            },
+            {
+              "path": "scripts/scripts/start_gateway_demo.py",
+              "size_bytes": 1495
+            },
+            {
+              "path": "scripts/demos/start_ticker_demo.py",
+              "size_bytes": 1488
+            },
+            {
+              "path": "scripts/scripts/start_ticker_demo.py",
+              "size_bytes": 1488
+            },
+            {
+              "path": "scripts/demos/start_rag_demo.py",
+              "size_bytes": 1486
+            },
+            {
+              "path": "scripts/scripts/start_rag_demo.py",
+              "size_bytes": 1486
+            },
+            {
+              "path": "scripts/infrastructure/start_production_with_aws.py",
+              "size_bytes": 1428
+            },
+            {
+              "path": "drop_zones/start.py",
+              "size_bytes": 1405
+            },
+            {
+              "path": "drop_zones/config.yaml",
+              "size_bytes": 1390
+            },
+            {
+              "path": "scripts/utilities/README.md",
+              "size_bytes": 1383
+            },
+            {
+              "path": "drop_zones/qa_control/incoming/README.md",
+              "size_bytes": 1018
+            },
+            {
+              "path": "drop_zones/qa_control/reports/REV00001_report.md",
+              "size_bytes": 901
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/collections/COLLECTION_20250904_223334.json",
+              "size_bytes": 738
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/state/multi_functional_servo_bracket_.json",
+              "size_bytes": 646
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/state/robotic_arm_6dof_asmdrw.json",
+              "size_bytes": 624
+            },
+            {
+              "path": "scripts/streamlit_mvr_workspace/state/REV12346.json",
+              "size_bytes": 579
+            },
+            {
+              "path": "scripts/workflows/tidydspy_cli.py",
+              "size_bytes": 332
+            },
+            {
+              "path": "drop_zones/qa_control/incoming/REV00001_qa_control.xlsx",
+              "size_bytes": 18
+            }
+          ],
+          "total_size_bytes": 6192639,
+          "zip_size_mb": 4.82
+        }
+      ],
+      "file_count": 120,
+      "total_size_mb": 5.91
+    },
+    "04_educational_libs": {
+      "name": "04_educational_libs",
+      "description": "Educational ML libraries (tidyllm-sentence, tlm)",
+      "created": "2025-09-07T22:38:10.612925",
+      "parts": [
+        {
+          "zip_file": "C:/Users/marti/github/packages/04_educational_libs.zip",
+          "file_count": 105,
+          "files": [
+            {
+              "path": "tidyllm-sentence/dist/tidyllm_sentence-0.1.0-py3-none-any.whl",
+              "size_bytes": 27145
+            },
+            {
+              "path": "tlm/dist/tlm-1.0.1-py3-none-any.whl",
+              "size_bytes": 26818
+            },
+            {
+              "path": "tlm/dist/tlm-1.0.0-py3-none-any.whl",
+              "size_bytes": 26816
+            },
+            {
+              "path": "tidyllm-sentence/dist/tidyllm_sentence-0.1.0.tar.gz",
+              "size_bytes": 25872
+            },
+            {
+              "path": "tlm/dist/tlm-0.2.0-py3-none-any.whl",
+              "size_bytes": 25306
+            },
+            {
+              "path": "tlm/dist/tlm-1.0.1.tar.gz",
+              "size_bytes": 23472
+            },
+            {
+              "path": "tlm/dist/tlm-1.0.0.tar.gz",
+              "size_bytes": 23397
+            },
+            {
+              "path": "tidyllm-sentence/academic_benchmark.py",
+              "size_bytes": 21487
+            },
+            {
+              "path": "tlm/dist/tlm-0.2.0.tar.gz",
+              "size_bytes": 20214
+            },
+            {
+              "path": "tidyllm-sentence/professor_demo_ascii.py",
+              "size_bytes": 17074
+            },
+            {
+              "path": "tidyllm-sentence/professor_demo.py",
+              "size_bytes": 16870
+            },
+            {
+              "path": "tidyllm-sentence/tlm_team_advantage.py",
+              "size_bytes": 15494
+            },
+            {
+              "path": "tidyllm-sentence/constitutional_analysis.py",
+              "size_bytes": 14446
+            },
+            {
+              "path": "tidyllm-sentence/benchmark_comparison_ascii.py",
+              "size_bytes": 14261
+            },
+            {
+              "path": "tidyllm-sentence/benchmark_comparison.py",
+              "size_bytes": 13949
+            },
+            {
+              "path": "tlm/tlm/pure/ops.py",
+              "size_bytes": 11703
+            },
+            {
+              "path": "tidyllm-sentence/transformer_benchmark.py",
+              "size_bytes": 10823
+            },
+            {
+              "path": "tlm/CODEBREAKERS_COMPLIANCE.md",
+              "size_bytes": 10595
+            },
+            {
+              "path": "tidyllm-sentence/EXHIBIT_1_ACADEMIC_BENCHMARK.md",
+              "size_bytes": 9938
+            },
+            {
+              "path": "tidyllm-sentence/paranoid_validation_ascii.py",
+              "size_bytes": 8756
+            },
+            {
+              "path": "tidyllm-sentence/paranoid_validation.py",
+              "size_bytes": 8572
+            },
+            {
+              "path": "tidyllm-sentence/TLM_TEAM_STRATEGY.md",
+              "size_bytes": 7877
+            },
+            {
+              "path": "tidyllm-sentence/.gitignore",
+              "size_bytes": 7640
+            },
+            {
+              "path": "tidyllm-sentence/FINAL_RABBIT_SUMMARY.md",
+              "size_bytes": 7608
+            },
+            {
+              "path": "tidyllm-sentence/README.md",
+              "size_bytes": 7529
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/transformer/embeddings.py",
+              "size_bytes": 7368
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/corpus.py",
+              "size_bytes": 7256
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/stemmer.py",
+              "size_bytes": 7097
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/lsa/embeddings.py",
+              "size_bytes": 6930
+            },
+            {
+              "path": "tlm/tlm/attention/scaled_dot_product.py",
+              "size_bytes": 5785
+            },
+            {
+              "path": "tidyllm-sentence/quick_team_benchmark.py",
+              "size_bytes": 5666
+            },
+            {
+              "path": "tidyllm-sentence/PROFESSOR_QUICKSTART.md",
+              "size_bytes": 5659
+            },
+            {
+              "path": "tlm/README.md",
+              "size_bytes": 5514
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/preprocessing.py",
+              "size_bytes": 5069
+            },
+            {
+              "path": "tlm/tlm/mixture/gmm_pure.py",
+              "size_bytes": 4597
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/ngram/embeddings.py",
+              "size_bytes": 4484
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/word_avg/embeddings.py",
+              "size_bytes": 4470
+            },
+            {
+              "path": "tlm/CLAUDE.md",
+              "size_bytes": 4415
+            },
+            {
+              "path": "tlm/.gitignore",
+              "size_bytes": 4345
+            },
+            {
+              "path": "tidyllm-sentence/transformer_exploration.py",
+              "size_bytes": 4287
+            },
+            {
+              "path": "tidyllm-sentence/test_preprocessing.py",
+              "size_bytes": 4057
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/tfidf/embeddings.py",
+              "size_bytes": 3712
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/stopwords.py",
+              "size_bytes": 3648
+            },
+            {
+              "path": "tlm/tlm/decomp/pca_power.py",
+              "size_bytes": 3629
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/tests/test_embeddings.py",
+              "size_bytes": 3302
+            },
+            {
+              "path": "tlm/tlm/__init__.py",
+              "size_bytes": 3171
+            },
+            {
+              "path": "tidyllm-sentence/setup.py",
+              "size_bytes": 2929
+            },
+            {
+              "path": "tidyllm-sentence/benchmark_analysis.py",
+              "size_bytes": 2896
+            },
+            {
+              "path": "tidyllm-sentence/test_transformer_embeddings.py",
+              "size_bytes": 2819
+            },
+            {
+              "path": "tlm/setup.py",
+              "size_bytes": 2618
+            },
+            {
+              "path": "tlm/tlm/linear_models/softmax_regression.py",
+              "size_bytes": 2434
+            },
+            {
+              "path": "tidyllm-sentence/similarity_investigation.py",
+              "size_bytes": 2432
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/__init__.py",
+              "size_bytes": 2281
+            },
+            {
+              "path": "tidyllm-sentence/test_demo.py",
+              "size_bytes": 2161
+            },
+            {
+              "path": "tlm/tlm/cluster/kmeans.py",
+              "size_bytes": 2142
+            },
+            {
+              "path": "tlm/tlm/model_selection/split.py",
+              "size_bytes": 1862
+            },
+            {
+              "path": "tlm/tlm/mf/matrix_factorization.py",
+              "size_bytes": 1849
+            },
+            {
+              "path": "tlm/tlm/linear_models/logistic_regression.py",
+              "size_bytes": 1831
+            },
+            {
+              "path": "tlm/tlm/svm/linear.py",
+              "size_bytes": 1790
+            },
+            {
+              "path": "tidyllm-sentence/debug_transformer.py",
+              "size_bytes": 1744
+            },
+            {
+              "path": "tlm/tlm/naive_bayes/multinomial.py",
+              "size_bytes": 1719
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/similarity.py",
+              "size_bytes": 1704
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/tokenize.py",
+              "size_bytes": 1669
+            },
+            {
+              "path": "tlm/test_attention.py",
+              "size_bytes": 1503
+            },
+            {
+              "path": "tlm/tlm/anomaly/gaussian.py",
+              "size_bytes": 1468
+            },
+            {
+              "path": "tlm/tlm/core/activations.py",
+              "size_bytes": 1437
+            },
+            {
+              "path": "tlm/tlm/core/losses.py",
+              "size_bytes": 1348
+            },
+            {
+              "path": "tlm/tlm/tests/test_gmm_pca_whiten.py",
+              "size_bytes": 1266
+            },
+            {
+              "path": "tlm/tlm/tests/test_nb_anom_mf.py",
+              "size_bytes": 825
+            },
+            {
+              "path": "tidyllm-sentence/LICENSE",
+              "size_bytes": 753
+            },
+            {
+              "path": "tlm/LICENSE",
+              "size_bytes": 753
+            },
+            {
+              "path": "tlm/.claude/settings.local.json",
+              "size_bytes": 734
+            },
+            {
+              "path": "tlm/tlm/core/metrics.py",
+              "size_bytes": 733
+            },
+            {
+              "path": "tidyllm-sentence/test_integration.py",
+              "size_bytes": 705
+            },
+            {
+              "path": "tlm/tlm/tests/test_algos.py",
+              "size_bytes": 676
+            },
+            {
+              "path": "tlm/.pytest_cache/v/cache/nodeids",
+              "size_bytes": 533
+            },
+            {
+              "path": "tidyllm-sentence/.pytest_cache/v/cache/nodeids",
+              "size_bytes": 474
+            },
+            {
+              "path": "tlm/tlm/decomp/whiten.py",
+              "size_bytes": 399
+            },
+            {
+              "path": "tidyllm-sentence/.pytest_cache/README.md",
+              "size_bytes": 310
+            },
+            {
+              "path": "tlm/.pytest_cache/README.md",
+              "size_bytes": 310
+            },
+            {
+              "path": "tidyllm-sentence/.pytest_cache/CACHEDIR.TAG",
+              "size_bytes": 191
+            },
+            {
+              "path": "tlm/.pytest_cache/CACHEDIR.TAG",
+              "size_bytes": 191
+            },
+            {
+              "path": "tidyllm-sentence/MANIFEST.in",
+              "size_bytes": 181
+            },
+            {
+              "path": "tlm/MANIFEST.in",
+              "size_bytes": 144
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/transformer/__init__.py",
+              "size_bytes": 78
+            },
+            {
+              "path": "tlm/tlm/attention/__init__.py",
+              "size_bytes": 67
+            },
+            {
+              "path": "tidyllm-sentence/.pytest_cache/.gitignore",
+              "size_bytes": 39
+            },
+            {
+              "path": "tlm/.pytest_cache/.gitignore",
+              "size_bytes": 39
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/utils/__init__.py",
+              "size_bytes": 35
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/word_avg/__init__.py",
+              "size_bytes": 34
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/ngram/__init__.py",
+              "size_bytes": 26
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/tfidf/__init__.py",
+              "size_bytes": 26
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/lsa/__init__.py",
+              "size_bytes": 23
+            },
+            {
+              "path": "tidyllm-sentence/tidyllm_sentence/tests/__init__.py",
+              "size_bytes": 14
+            },
+            {
+              "path": "tlm/tlm/anomaly/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/cluster/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/core/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/decomp/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/linear_models/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/mf/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/mixture/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/model_selection/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/naive_bayes/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/pure/__init__.py",
+              "size_bytes": 0
+            },
+            {
+              "path": "tlm/tlm/svm/__init__.py",
+              "size_bytes": 0
+            }
+          ],
+          "total_size_bytes": 560318,
+          "zip_size_mb": 0.31
+        }
+      ],
+      "file_count": 105,
+      "total_size_mb": 0.53
+    },
+    "05_tests_docs": {
+      "name": "05_tests_docs",
+      "description": "Tests and ecosystem documentation",
+      "created": "2025-09-07T22:38:10.723686",
+      "parts": [
+        {
+          "zip_file": "C:/Users/marti/github/packages/05_tests_docs.zip",
+          "file_count": 155,
+          "files": [
+            {
+              "path": "tests/tmpu6gyid8l.png",
+              "size_bytes": 97417
+            },
+            {
+              "path": "tests/standard_tests_report_20250903_061958.json",
+              "size_bytes": 31631
+            },
+            {
+              "path": "tests/standard_tests_report_20250903_060458.json",
+              "size_bytes": 31306
+            },
+            {
+              "path": "tests/standard_tests_report_20250903_055429.json",
+              "size_bytes": 25894
+            },
+            {
+              "path": "tests/standard_tests_report_20250903_054632.json",
+              "size_bytes": 24704
+            },
+            {
+              "path": "ECOSYSTEM_DEVELOPMENT_GUIDE.md",
+              "size_bytes": 20752
+            },
+            {
+              "path": "tests/standard_tests_report_20250903_054233.json",
+              "size_bytes": 20485
+            },
+            {
+              "path": "tests/rudy_test_embeddings.py",
+              "size_bytes": 17983
+            },
+            {
+              "path": "ECOSYSTEM_USAGE_GUIDE.md",
+              "size_bytes": 16876
+            },
+            {
+              "path": "ECOSYSTEM_TECHNICAL_REFERENCE.md",
+              "size_bytes": 16316
+            },
+            {
+              "path": "tests/8_test_security.py",
+              "size_bytes": 15646
+            },
+            {
+              "path": "tests/test_sop_docs_processing.py",
+              "size_bytes": 14724
+            },
+            {
+              "path": "tests/5_test_knowledge_server.py",
+              "size_bytes": 14265
+            },
+            {
+              "path": "tests/2_test_s3_aws.py",
+              "size_bytes": 13848
+            },
+            {
+              "path": "tests/3_test_config.py",
+              "size_bytes": 12975
+            },
+            {
+              "path": "tests/7_test_performance.py",
+              "size_bytes": 12233
+            },
+            {
+              "path": "tests/run_all_tests.py",
+              "size_bytes": 11004
+            },
+            {
+              "path": "Under-the-hood-with-flow.md",
+              "size_bytes": 10741
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_document_processing_pipeline_20250903_072832.json",
+              "size_bytes": 10607
+            },
+            {
+              "path": "tests/0_test_install.py",
+              "size_bytes": 10175
+            },
+            {
+              "path": "tests/1_test_smoke.py",
+              "size_bytes": 9440
+            },
+            {
+              "path": "ECOSYSTEM_INTEGRATION_COMPLETE.md",
+              "size_bytes": 8921
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_comprehensive_20250903_130216.json",
+              "size_bytes": 8877
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_comprehensive_20250903_130240.json",
+              "size_bytes": 8869
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_comprehensive_20250903_134003.json",
+              "size_bytes": 8869
+            },
+            {
+              "path": "tests/4_test_gateways.py",
+              "size_bytes": 8842
+            },
+            {
+              "path": "tests/6_test_integrations.py",
+              "size_bytes": 8709
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_advanced_mlflow_ab_testing_20250903_073500.json",
+              "size_bytes": 8643
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_concurrent_chat_load_20250903_131547.json",
+              "size_bytes": 8628
+            },
+            {
+              "path": "PACKAGE_SUCCESS_SUMMARY.md",
+              "size_bytes": 7552
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_integration_20250903_125252.json",
+              "size_bytes": 7407
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_integration_20250903_133906.json",
+              "size_bytes": 7407
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_integration_20250903_125228.json",
+              "size_bytes": 7391
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_cli_chaining_20250903_124912.json",
+              "size_bytes": 6005
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_cli_chaining_20250903_133841.json",
+              "size_bytes": 6005
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_config_system_20250903_125125.json",
+              "size_bytes": 5441
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_config_system_20250903_133850.json",
+              "size_bytes": 5441
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_config_system_20250903_125102.json",
+              "size_bytes": 5414
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_security_20250903_125834.json",
+              "size_bytes": 5002
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_security_20250903_133932.json",
+              "size_bytes": 5002
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_security_20250903_125807.json",
+              "size_bytes": 4979
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_s3_document_upload_integration_20250903_072833.json",
+              "size_bytes": 4366
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_reliability_20250903_130027.json",
+              "size_bytes": 4292
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_reliability_20250903_133951.json",
+              "size_bytes": 4292
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_performance_20250903_125416.json",
+              "size_bytes": 4218
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_performance_20250903_133915.json",
+              "size_bytes": 4218
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_performance_20250903_125357.json",
+              "size_bytes": 4213
+            },
+            {
+              "path": "tests/test_s3_upload.py",
+              "size_bytes": 4181
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_reliability_20250903_125955.json",
+              "size_bytes": 4078
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_070136.json",
+              "size_bytes": 3850
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_061958.json",
+              "size_bytes": 3822
+            },
+            {
+              "path": "tests/test_aws_connection.py",
+              "size_bytes": 3698
+            },
+            {
+              "path": "tests/migrated_zones_test.yaml",
+              "size_bytes": 3480
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_backends_20250903_124649.json",
+              "size_bytes": 3265
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_backends_20250903_133520.json",
+              "size_bytes": 3265
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_131406.json",
+              "size_bytes": 3137
+            },
+            {
+              "path": "tests/test_cross_platform.py",
+              "size_bytes": 3135
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_063949.json",
+              "size_bytes": 3109
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_060453.json",
+              "size_bytes": 3092
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_055424.json",
+              "size_bytes": 3089
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_054622.json",
+              "size_bytes": 3087
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_061953.json",
+              "size_bytes": 3081
+            },
+            {
+              "path": "tests/mlflow_postgres_test_results_20250903_054222.json",
+              "size_bytes": 3073
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_060458.json",
+              "size_bytes": 2847
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_055429.json",
+              "size_bytes": 2845
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_055342.json",
+              "size_bytes": 2842
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_db_connection_pool_20250903_131554.json",
+              "size_bytes": 2829
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_drop_zones_20250903_133832.json",
+              "size_bytes": 2749
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidyllm_drop_zones_20250904_062834.json",
+              "size_bytes": 2749
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_drop_zones_20250903_124734.json",
+              "size_bytes": 2748
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidyllm_drop_zones_20250904_062551.json",
+              "size_bytes": 2678
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidyllm_drop_zones_20250904_062654.json",
+              "size_bytes": 2644
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidyllm_drop_zones_20250904_062802.json",
+              "size_bytes": 2644
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_base_gateway_interface_compliance_20250904_062457.json",
+              "size_bytes": 2360
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_base_gateway_interface_compliance_20250904_062533.json",
+              "size_bytes": 2360
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_base_gateway_interface_compliance_20250904_062846.json",
+              "size_bytes": 2360
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_base_gateway_interface_compliance_20250904_063220.json",
+              "size_bytes": 2360
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_base_gateway_interface_compliance_20250904_063255.json",
+              "size_bytes": 2360
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_s3_mlflow_artifact_upload_20250903_070202.json",
+              "size_bytes": 2216
+            },
+            {
+              "path": "tests/drop_zones_test.yaml",
+              "size_bytes": 1903
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_s3_upload_20250903_070135.json",
+              "size_bytes": 1862
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_054232.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_054632.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_055429.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_060458.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_061958.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/kb_upload_test_results_20250903_063959.json",
+              "size_bytes": 1860
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_s3_upload_20250903_061957.json",
+              "size_bytes": 1837
+            },
+            {
+              "path": "tests/advanced_mlflow_features_results_20250903_073541.json",
+              "size_bytes": 1825
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_end_to_end_integration_20250903_070214.json",
+              "size_bytes": 1502
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_requirements_install_20250903_061924.json",
+              "size_bytes": 1299
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_requirements_install_20250903_063922.json",
+              "size_bytes": 1295
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_mlflow_s3_pipeline_20250903_070202.json",
+              "size_bytes": 1142
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_imports_20250903_132720.json",
+              "size_bytes": 1103
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_chat_mlflow_pipeline_20250903_070154.json",
+              "size_bytes": 1041
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_chat_mlflow_pipeline_20250903_063802.json",
+              "size_bytes": 1032
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_imports_20250903_124614.json",
+              "size_bytes": 1005
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_tidydspy_imports_20250903_132739.json",
+              "size_bytes": 1005
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_registry_functionality_20250904_062457.json",
+              "size_bytes": 1003
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_registry_functionality_20250904_062533.json",
+              "size_bytes": 1003
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_registry_functionality_20250904_062846.json",
+              "size_bytes": 1003
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_registry_functionality_20250904_063220.json",
+              "size_bytes": 985
+            },
+            {
+              "path": "tests/document_processing_pipeline_results_20250903_072833.json",
+              "size_bytes": 982
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_054232.json",
+              "size_bytes": 947
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_054632.json",
+              "size_bytes": 947
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_055253.json",
+              "size_bytes": 947
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_061858.json",
+              "size_bytes": 947
+            },
+            {
+              "path": "tests/s3_connection_test_results_20250903_063959.json",
+              "size_bytes": 947
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_054210.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_054611.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_055414.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_060442.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_061940.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_063938.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_124538.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/baseball_mlflow_test_results_20250903_131348.json",
+              "size_bytes": 872
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_registry_functionality_20250904_063255.json",
+              "size_bytes": 797
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_consolidated_gateway_structure_20250904_062533.json",
+              "size_bytes": 784
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_consolidated_gateway_structure_20250904_062846.json",
+              "size_bytes": 784
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_safety_placeholders_20250904_061917.json",
+              "size_bytes": 784
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_safety_placeholders_20250904_062450.json",
+              "size_bytes": 784
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_safety_placeholders_20250904_062844.json",
+              "size_bytes": 784
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_heiros_gateway_dependencies_20250904_061917.json",
+              "size_bytes": 779
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_heiros_gateway_dependencies_20250904_062450.json",
+              "size_bytes": 779
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_heiros_gateway_dependencies_20250904_062844.json",
+              "size_bytes": 779
+            },
+            {
+              "path": "tests/advanced_mlflow_features_results_20250903_073255.json",
+              "size_bytes": 734
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_consolidated_gateway_structure_20250904_063220.json",
+              "size_bytes": 709
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_consolidated_gateway_structure_20250904_063255.json",
+              "size_bytes": 709
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_processing_capabilities_20250904_062533.json",
+              "size_bytes": 613
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_processing_capabilities_20250904_062846.json",
+              "size_bytes": 613
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_processing_capabilities_20250904_063220.json",
+              "size_bytes": 613
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_processing_capabilities_20250904_063255.json",
+              "size_bytes": 613
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dspy_gateway_dependencies_20250904_061917.json",
+              "size_bytes": 603
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dspy_gateway_dependencies_20250904_062450.json",
+              "size_bytes": 603
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dspy_gateway_dependencies_20250904_062844.json",
+              "size_bytes": 603
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_consolidated_gateway_structure_20250904_062457.json",
+              "size_bytes": 556
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dependency_chain_logic_20250904_061917.json",
+              "size_bytes": 517
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dependency_chain_logic_20250904_062450.json",
+              "size_bytes": 517
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_dependency_chain_logic_20250904_062844.json",
+              "size_bytes": 517
+            },
+            {
+              "path": "tests/multi_model_chat_comparison_results_20250903_072726.json",
+              "size_bytes": 462
+            },
+            {
+              "path": "tests/multi_model_chat_comparison_results_20250903_084257.json",
+              "size_bytes": 462
+            },
+            {
+              "path": "tests/multi_model_chat_comparison_results_20250903_084406.json",
+              "size_bytes": 462
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_backward_compatibility_20250904_062457.json",
+              "size_bytes": 416
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_backward_compatibility_20250904_062533.json",
+              "size_bytes": 416
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_backward_compatibility_20250904_062846.json",
+              "size_bytes": 409
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_imports_20250904_061917.json",
+              "size_bytes": 377
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_imports_20250904_062450.json",
+              "size_bytes": 377
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_imports_20250904_062844.json",
+              "size_bytes": 377
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_llm_gateway_dependencies_20250904_061917.json",
+              "size_bytes": 348
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_llm_gateway_dependencies_20250904_062450.json",
+              "size_bytes": 348
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_llm_gateway_dependencies_20250904_062844.json",
+              "size_bytes": 348
+            },
+            {
+              "path": "tests/multi_model_chat_comparison_results_20250903_073137.json",
+              "size_bytes": 343
+            },
+            {
+              "path": "tests/EVIDENCE/evidence_gateway_processing_capabilities_20250904_062457.json",
+              "size_bytes": 332
+            },
+            {
+              "path": "tests/mlruns/24/30b8e72ef42d4471be5adb8326e19261/artifacts/model_results.json",
+              "size_bytes": 260
+            },
+            {
+              "path": "tests/.tidydspy_cache/tidydspy_87eb6c5e64dbbb33.json",
+              "size_bytes": 105
+            }
+          ],
+          "total_size_bytes": 771172,
+          "zip_size_mb": 0.28
+        }
+      ],
+      "file_count": 155,
+      "total_size_mb": 0.74
+    },
+    "06_demo_files": {
+      "name": "06_demo_files",
+      "description": "Demo scripts and flow documentation",
+      "created": "2025-09-07T22:38:10.737141",
+      "parts": [
+        {
+          "zip_file": "C:/Users/marti/github/packages/06_demo_files.zip",
+          "file_count": 5,
+          "files": [
+            {
+              "path": "1-enterprise.py",
+              "size_bytes": 20627
+            },
+            {
+              "path": "3-demo.py",
+              "size_bytes": 19135
+            },
+            {
+              "path": "2-developer.py",
+              "size_bytes": 16657
+            },
+            {
+              "path": "FLOW_README.md",
+              "size_bytes": 5000
+            },
+            {
+              "path": "flow_demo.py",
+              "size_bytes": 2523
+            }
+          ],
+          "total_size_bytes": 63942,
+          "zip_size_mb": 0.02
+        }
+      ],
+      "file_count": 5,
+      "total_size_mb": 0.06
+    }
+  }
+}

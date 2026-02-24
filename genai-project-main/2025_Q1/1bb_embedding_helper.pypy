@@ -1,0 +1,22 @@
+import boto3
+import json
+import numpy as np
+
+class EmbeddingVectorizer:
+    """Handles text embedding retrieval using Amazon Titan, Cohere, or Anthropic models."""
+
+    def __init__(self, model_choice="titan_v1"):
+        self.model_id = MODEL_OPTIONS[model_choice]["id"]
+        self.client = boto3.client("bedrock-runtime")
+
+    def get_embedding(self, text: str) -> np.ndarray:
+        """Retrieves text embeddings using the selected model."""
+        payload = {"input": text}
+        response = self.client.invoke_model(
+            modelId=self.model_id,
+            contentType="application/json",
+            accept="application/json",
+            body=json.dumps(payload)
+        )
+        embedding = json.loads(response["body"].read())["embedding"]
+        return np.array(embedding, dtype=np.float32)

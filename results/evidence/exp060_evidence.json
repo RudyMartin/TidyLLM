@@ -1,0 +1,213 @@
+{
+  "experiment": "exp060_signal_not_control",
+  "timestamp": "2026-01-01T06:01:46.768088",
+  "differentiator": "#5: Signal, Not Control Architecture",
+  "proof_same_signal_different_actions": {
+    "num_consumers": 4,
+    "consumer_types": [
+      "LLM",
+      "Robot",
+      "Industrial",
+      "Dashboard"
+    ],
+    "avg_unique_actions_per_scenario": 4.0
+  },
+  "proof_no_enforcement": {
+    "yrsn_methods": [],
+    "has_control_methods": false
+  },
+  "scenarios": [
+    {
+      "scenario": "High Quality",
+      "signal": {
+        "r": 0.7999999999999999,
+        "s": 0.08333333333333333,
+        "n": 0.11666666666666674,
+        "alpha": 0.8727263206621956,
+        "tau_alpha": 0.2781831510729262,
+        "collapse": "none"
+      },
+      "consumer_actions": [
+        {
+          "consumer": "LLM",
+          "action": "generate",
+          "temperature": 0.2781831510729262,
+          "interpretation": "Use \u03c4_\u03b1=0.28, action=generate"
+        },
+        {
+          "consumer": "Robot",
+          "action": "execute_full_speed",
+          "speed_factor": 1.0,
+          "interpretation": "\u03b1=0.87 \u2192 execute_full_speed"
+        },
+        {
+          "consumer": "Industrial",
+          "action": "continue_operation",
+          "alert_level": "green",
+          "interpretation": "none \u2192 green alert"
+        },
+        {
+          "consumer": "Dashboard",
+          "action": "display",
+          "display_data": {
+            "R": "80.0%",
+            "S": "8.3%",
+            "N": "11.7%",
+            "Quality": "87.3%",
+            "Status": "none"
+          },
+          "interpretation": "Show quality metrics to human operator"
+        }
+      ]
+    },
+    {
+      "scenario": "Medium Quality",
+      "signal": {
+        "r": 0.5,
+        "s": 0.19999999999999998,
+        "n": 0.30000000000000004,
+        "alpha": 0.6249992187509765,
+        "tau_alpha": 0.6250010937486328,
+        "collapse": "none"
+      },
+      "consumer_actions": [
+        {
+          "consumer": "LLM",
+          "action": "generate",
+          "temperature": 0.6250010937486328,
+          "interpretation": "Use \u03c4_\u03b1=0.63, action=generate"
+        },
+        {
+          "consumer": "Robot",
+          "action": "execute_cautiously",
+          "speed_factor": 0.5,
+          "interpretation": "\u03b1=0.62 \u2192 execute_cautiously"
+        },
+        {
+          "consumer": "Industrial",
+          "action": "continue_operation",
+          "alert_level": "green",
+          "interpretation": "none \u2192 green alert"
+        },
+        {
+          "consumer": "Dashboard",
+          "action": "display",
+          "display_data": {
+            "R": "50.0%",
+            "S": "20.0%",
+            "N": "30.0%",
+            "Quality": "62.5%",
+            "Status": "none"
+          },
+          "interpretation": "Show quality metrics to human operator"
+        }
+      ]
+    },
+    {
+      "scenario": "Low Quality (Noisy)",
+      "signal": {
+        "r": 0.25,
+        "s": 0.15,
+        "n": 0.6,
+        "alpha": 0.2941173010384694,
+        "tau_alpha": 1.0882357785461427,
+        "collapse": "poisoning"
+      },
+      "consumer_actions": [
+        {
+          "consumer": "LLM",
+          "action": "refine_context",
+          "temperature": 1.0882357785461427,
+          "interpretation": "Use \u03c4_\u03b1=1.09, action=refine_context"
+        },
+        {
+          "consumer": "Robot",
+          "action": "request_confirmation",
+          "speed_factor": 0.0,
+          "interpretation": "\u03b1=0.29 \u2192 request_confirmation"
+        },
+        {
+          "consumer": "Industrial",
+          "action": "alert_operator",
+          "alert_level": "red",
+          "interpretation": "poisoning \u2192 red alert"
+        },
+        {
+          "consumer": "Dashboard",
+          "action": "display",
+          "display_data": {
+            "R": "25.0%",
+            "S": "15.0%",
+            "N": "60.0%",
+            "Quality": "29.4%",
+            "Status": "poisoning"
+          },
+          "interpretation": "Show quality metrics to human operator"
+        }
+      ]
+    },
+    {
+      "scenario": "Distraction",
+      "signal": {
+        "r": 0.3,
+        "s": 0.4,
+        "n": 0.29999999999999993,
+        "alpha": 0.4999991666680556,
+        "tau_alpha": 0.800001166664722,
+        "collapse": "none"
+      },
+      "consumer_actions": [
+        {
+          "consumer": "LLM",
+          "action": "generate",
+          "temperature": 0.800001166664722,
+          "interpretation": "Use \u03c4_\u03b1=0.80, action=generate"
+        },
+        {
+          "consumer": "Robot",
+          "action": "request_confirmation",
+          "speed_factor": 0.0,
+          "interpretation": "\u03b1=0.50 \u2192 request_confirmation"
+        },
+        {
+          "consumer": "Industrial",
+          "action": "continue_operation",
+          "alert_level": "green",
+          "interpretation": "none \u2192 green alert"
+        },
+        {
+          "consumer": "Dashboard",
+          "action": "display",
+          "display_data": {
+            "R": "30.0%",
+            "S": "40.0%",
+            "N": "30.0%",
+            "Quality": "50.0%",
+            "Status": "none"
+          },
+          "interpretation": "Show quality metrics to human operator"
+        }
+      ]
+    }
+  ],
+  "quality_checks": {
+    "Multiple consumers defined": {
+      "passed": true,
+      "details": "4 consumers"
+    },
+    "Same signal, different actions": {
+      "passed": true,
+      "details": "avg 4.0 unique actions/scenario"
+    },
+    "No control/blocking methods in YRSN": {
+      "passed": true,
+      "details": "has_control=False"
+    },
+    "Composability (simultaneous consumption)": {
+      "passed": true,
+      "details": "all consumers receive same signal"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "YRSN is a SIGNALING system, not a control system. 4 different consumers receive the same signal and interpret it differently. YRSN has NO blocking/enforcement methods - consumers decide independently. This enables flexibility, composability, and domain-agnostic deployment."
+}

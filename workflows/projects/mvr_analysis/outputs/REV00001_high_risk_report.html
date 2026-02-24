@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Model Validation QA Report - High Risk</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .header h1 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin: 0 0 5px 0;
+        }
+        
+        .header .meta {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #2c3e50;
+            font-size: 16px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            vertical-align: top;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .score-excellent { background-color: #d4edda; }
+        .score-good { background-color: #fff3cd; }
+        .score-poor { background-color: #f8d7da; }
+        
+        .finding-high { border-left: 4px solid #dc3545; padding-left: 10px; }
+        .finding-medium { border-left: 4px solid #ffc107; padding-left: 10px; }
+        .finding-low { border-left: 4px solid #28a745; padding-left: 10px; }
+        
+        .risk-current { background-color: #e8f5e8; font-weight: bold; }
+        
+        .pending-list {
+            list-style-type: decimal;
+            padding-left: 20px;
+        }
+        
+        .pending-list li {
+            margin-bottom: 5px;
+        }
+        
+        .insight-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #17a2b8;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .page-break {
+            page-break-before: always;
+        }
+        
+        @media print {
+            body { font-size: 10px; }
+            .section { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Model Validation QA Report - High Risk</h1>
+        <div class="meta">
+            <strong>Model ID:</strong> REV00001_high_risk | 
+            <strong>Generated:</strong> 2025-09-12 09:49:32 | 
+            <strong>Risk Tier:</strong> High
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Executive Summary</h2>
+        <table>
+            <tr><th>Metric</th><th>Value</th></tr>
+            <tr><td><strong>Overall Score</strong></td><td><strong>67.0/100</strong></td></tr>
+            <tr><td><strong>Verdict</strong></td><td><strong>WARNING</strong></td></tr>
+            <tr><td>Expected Sections</td><td>9</td></tr>
+            <tr><td>Actual Sections</td><td>9</td></tr>
+            <tr><td>Missing Sections</td><td>0</td></tr>
+            <tr><td>Incomplete Sections</td><td>2</td></tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Model Characteristics</h2>
+        <table>
+            <tr><th>Attribute</th><th>Value</th></tr>
+            <tr><td>Model Type</td><td>Traditional</td></tr>
+            <tr><td>Risk Tier</td><td><strong>High</strong></td></tr>
+            <tr><td>Review Activity</td><td>Full Scope Validation</td></tr>
+            <tr><td>Required Sections</td><td>9</td></tr>
+            <tr><td>VST-Scoped Sections</td><td>9</td></tr>
+            <tr><td>Section List</td><td>A, B, C, D, E, F, I, J, L</td></tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Criterion Scores</h2>
+        <table>
+            <tr><th>Criterion</th><th>Score</th><th>Weight</th><th>Contribution</th><th>Justification</th></tr>
+            <tr class="score-excellent">
+                <td><strong>Compliance</strong></td>
+                <td>4/5</td>
+                <td>35%</td>
+                <td>28.0</td>
+                <td>Model validation shows 0 missing required sections and 2 incomplete sections. Compliance score refle...</td>
+            </tr>
+            <tr class="score-good">
+                <td><strong>Coverage</strong></td>
+                <td>3/5</td>
+                <td>25%</td>
+                <td>15.0</td>
+                <td>Validation coverage: 7/9 required sections completed (77.8%). Coverage score reflects completeness o...</td>
+            </tr>
+            <tr class="score-good">
+                <td><strong>Clarity</strong></td>
+                <td>3/5</td>
+                <td>20%</td>
+                <td>12.0</td>
+                <td>Review clarity affected by 2 incomplete sections with TODO items or insufficient detail. Structure i...</td>
+            </tr>
+            <tr class="score-good">
+                <td><strong>Challenge</strong></td>
+                <td>3/5</td>
+                <td>20%</td>
+                <td>12.0</td>
+                <td>Independent challenge limited by 0 missing sections and 2 incomplete validations. Depth of analysis ...</td>
+            </tr>
+        </table>
+    </div>
+    <div class="section">
+        <h2>Key Findings</h2>
+        <div class="finding-high">
+            <h3>1. [HIGH] Incomplete Validation in 2 Sections</h3>
+            <p><strong>Detail:</strong> Found 2 sections with incomplete work for High risk model.</p>
+            <p><strong>Remediation:</strong> Resolve TODO items and obtain proper sign-offs.</p>
+        </div>
+    </div>
+    <div class="section">
+        <h2>Pending Items</h2>
+        <ol class="pending-list"><li>Complete A: Planning & Scoping</li><li>Complete B: Stakeholders & Governance Setup</li>
+        </ol>
+    </div>
+    <div class="section page-break">
+        <h2>Risk Tier Requirements Comparison</h2>
+        <table>
+            <tr><th>Risk Tier</th><th>Total Sections</th><th>VST Sections</th><th>Section Numbers</th></tr>
+            <tr class="risk-current">
+                <td><strong>High</strong></td>
+                <td>9</td>
+                <td>9</td>
+                <td>A, B, C, D, E, F, I, J, L</td>
+            </tr>
+            <tr class="">
+                <td><strong>Medium</strong></td>
+                <td>8</td>
+                <td>8</td>
+                <td>A, B, C, D, E, F, I, J</td>
+            </tr>
+            <tr class="">
+                <td><strong>Low</strong></td>
+                <td>5</td>
+                <td>5</td>
+                <td>A, B, C, F, J</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="section">
+        <h2>Key Requirements Insights</h2><div class="insight-box">Risk tier scaling: High (9) vs Low (5) = 4 fewer sections for lower risk</div><div class="insight-box">All required sections are VST-scoped (high regulatory scrutiny)</div>
+    </div>
+    
+    <div class="section page-break">
+        <h2>Sensitivity Analysis - Risk Tier Impact</h2>
+        <h3>Score Comparison Across All Risk Tiers</h3>
+        <table>
+            <tr><th>Risk Tier</th><th>Score</th><th>Verdict</th><th>Sections</th><th>Complete</th><th>Completion Rate</th></tr>
+            <tr class="">
+                <td><strong>Low</strong></td>
+                <td>76/100</td>
+                <td>WARNING</td>
+                <td>5</td>
+                <td>4</td>
+                <td>80.0%</td>
+            </tr>
+            <tr class="">
+                <td><strong>Medium</strong></td>
+                <td>56/100</td>
+                <td>FAIL</td>
+                <td>8</td>
+                <td>5</td>
+                <td>62.5%</td>
+            </tr>
+            <tr class="risk-current">
+                <td><strong>High</strong></td>
+                <td>67/100</td>
+                <td>WARNING</td>
+                <td>9</td>
+                <td>7</td>
+                <td>77.8%</td>
+            </tr>
+        </table>
+        
+        <h3>Section Impact Analysis</h3>
+        <table>
+            <tr><th>Transition</th><th>Additional Sections</th><th>Score Impact</th><th>Impact per Section</th><th>New Sections Added</th></tr>
+            <tr>
+                <td><strong>Low → Medium</strong></td>
+                <td>+3</td>
+                <td>-20 points</td>
+                <td>-6.7 per section</td>
+                <td>D, E, I</td>
+            </tr>
+            <tr>
+                <td><strong>Medium → High</strong></td>
+                <td>+1</td>
+                <td>+11 points</td>
+                <td>+11.0 per section</td>
+                <td>L</td>
+            </tr>
+            <tr>
+                <td><strong>Low → High</strong></td>
+                <td>+4</td>
+                <td>-9 points</td>
+                <td>-2.2 per section</td>
+                <td></td>
+            </tr>
+        </table>
+        
+        <h3>Complexity Drivers by Risk Tier</h3>
+        <div class="insight-box">
+            <strong>Low Risk:</strong> Essential validation only - Planning, Governance, Data, Implementation, Documentation<br>
+            <strong>Regulatory Burden:</strong> Minimal - core compliance requirements
+        </div>
+        <div class="insight-box">
+            <strong>Medium Risk:</strong> Adds methodology validation - Development (D), Performance (E), Monitoring (I)<br>
+            <strong>Regulatory Burden:</strong> Moderate - expanded scope for model development validation
+        </div>
+        <div class="insight-box">
+            <strong>High Risk:</strong> Adds stress testing - Stress Testing & Scenario Analysis (L)<br>
+            <strong>Regulatory Burden:</strong> Maximum - full validation including stress scenarios
+        </div>
+        
+        <h3>Performance Efficiency Analysis</h3>
+        <table>
+            <tr><th>Risk Tier</th><th>Score Efficiency</th><th>Completion vs Score</th></tr>
+            <tr class="">
+                <td><strong>Low</strong></td>
+                <td>15.2 points/section</td>
+                <td>80.0% completion = 76 score</td>
+            </tr>
+            <tr class="">
+                <td><strong>Medium</strong></td>
+                <td>7.0 points/section</td>
+                <td>62.5% completion = 56 score</td>
+            </tr>
+            <tr class="risk-current">
+                <td><strong>High</strong></td>
+                <td>7.4 points/section</td>
+                <td>77.8% completion = 67 score</td>
+            </tr>
+        </table>
+        
+        <div class="insight-box">
+            <strong>Key Insight:</strong> High risk tier shows 7.4 points per section efficiency. 
+            The sensitivity analysis reveals that score performance is driven by both section requirements and completion quality.
+        </div>
+    </div>
+    
+    <div class="section">
+        <h2>Report Metadata</h2>
+        <p><strong>Generated by:</strong> MVR QA Gap Analyzer v1.0</p>
+        <p><strong>Processing:</strong> Sub-millisecond Polars-based analysis with sensitivity analysis</p>
+        <p><strong>Model Type:</strong> Traditional</p>
+        <p><strong>Analysis Date:</strong> 2025-09-12 09:49:32</p>
+    </div>
+    
+</body>
+</html>

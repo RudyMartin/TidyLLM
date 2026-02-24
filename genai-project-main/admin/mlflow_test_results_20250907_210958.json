@@ -1,0 +1,99 @@
+{
+  "timestamp": "2025-09-07T21:09:58.778929",
+  "overall_status": "WORKING",
+  "test_results": [
+    {
+      "timestamp": "2025-09-07T21:09:57.089969",
+      "test_name": "MLflow Config Load",
+      "status": "PASS",
+      "details": {
+        "message": "MLflow configuration loaded successfully"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.409523",
+      "test_name": "MLflow Import",
+      "status": "PASS",
+      "details": {
+        "message": "MLflow imported successfully",
+        "version": "3.3.2"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.409581",
+      "test_name": "MLflow Tracking URI",
+      "status": "PASS",
+      "details": {
+        "message": "Tracking URI configured",
+        "uri": "${MLFLOW_TRACKING_URI}"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.409588",
+      "test_name": "MLflow Database",
+      "status": "WARN",
+      "details": {
+        "message": "Not using PostgreSQL backend",
+        "uri_type": "other"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.422805",
+      "test_name": "MLflow Experiment Creation",
+      "status": "PASS",
+      "details": {
+        "message": "Test experiment created",
+        "experiment_id": "589548447131827942",
+        "name": "tidyllm_test_20250907_210958"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.771503",
+      "test_name": "MLflow Logging",
+      "status": "PASS",
+      "details": {
+        "message": "Successfully logged params, metrics, and artifacts",
+        "run_id": "2cc23a8e4b7d49b58e42a6998a392f0f"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.777033",
+      "test_name": "MLflow Existing Experiments",
+      "status": "PASS",
+      "details": {
+        "message": "Found 1 experiments",
+        "details": [
+          {
+            "name": "Default",
+            "id": "0",
+            "run_count": 0
+          }
+        ]
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.778872",
+      "test_name": "TidyLLM Experiment",
+      "status": "WARN",
+      "details": {
+        "message": "TidyLLM experiment 'tidyllm-workflows' not found - will be created on first use"
+      }
+    },
+    {
+      "timestamp": "2025-09-07T21:09:58.778886",
+      "test_name": "MLflow UI Access",
+      "status": "WARN",
+      "details": {
+        "message": "MLflow UI access depends on tracking URI type",
+        "uri_type": "unknown"
+      }
+    }
+  ],
+  "summary": {
+    "total_tests": 9,
+    "passed": 6,
+    "failed": 0,
+    "warnings": 3,
+    "info": 0
+  }
+}

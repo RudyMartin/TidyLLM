@@ -1,0 +1,33 @@
+{
+  "experiment": "exp061_memristor_quality",
+  "timestamp": "2026-01-01T10:05:04.893290",
+  "differentiator": "#7: Quality-Modulated Memristor Plasticity",
+  "results": {
+    "final_error_quality": 0.06549687814040907,
+    "final_error_fixed": 0.14471452832710488,
+    "improvement_pct": 54.74063392421563,
+    "lr_high_quality": 0.09999999999999998,
+    "lr_low_quality": 0.03945474999412517,
+    "lr_variance": 0.0009880949974613773
+  },
+  "quality_checks": {
+    "LR varies by quality": {
+      "passed": true,
+      "details": "high=0.1000, low=0.0395"
+    },
+    "LR adapts (variance > 0)": {
+      "passed": true,
+      "details": "var=0.000988"
+    },
+    "Quality achieves lower error": {
+      "passed": true,
+      "details": "q=0.065497, f=0.144715"
+    },
+    "Quality-derived signal": {
+      "passed": true,
+      "details": "LR=f(alpha)"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "Quality-modulated memristor plasticity achieves 54.7% lower error."
+}

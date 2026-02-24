@@ -1,0 +1,9 @@
+
+
+| Test # | prompt_source      | file_collection                               | response_type  | expected experiment_tag             | Notes / Comments |
+|--------|--------------------|-----------------------------------------------|----------------|-------------------------------------|------------------|
+| **1**  | *Config only*      | `qa_models.json` + `mvr.pdf`                  | stub echo of model + experiment_tag | `smoke_chat_haiku-3` (if qa_models.json sets process_name=smoke_chat and model_id=anthropic.claude-3-haiku-20240307-v1:0) | 🔹 Proves model resolution + experiment tag generation. No prompts/questions required. |
+| **2**  | *Default core only*| `mvr.pdf`                                     | stub echo + PDF text injection      | `pdf_mvr_review_sonnet-3-5` (if admin default is Claude Sonnet 3.5) | 🔹 Uses admin/default Excel. Verifies PDF extraction and injection into responses. |
+| **3**  | *Markdown (MD)*    | `mvr.pdf`, `custom_prompts.md`, `custom_checklist.md` | stub echo + parsed MD prompts/questions | `pdf_mvr_review_sonnet-3-5` (unless overridden) | 🔹 Parses Markdown → prompts.json & questions.json. Report shows MD-driven items. |
+| **4**  | *Excel (3 tabs)*   | `mvr.pdf`, `checklist.xlsx`                   | stub echo + Excel-driven questions/prompts | `pdf_mvr_review_sonnet-3-5` (unless overridden) | 🔹 Reads from Excel: core_checklist, custom_checklist, custom_prompts. Snapshots Excel in extract folder. |
+| **5**  | *Excel + Override* | `mvr.pdf`, `checklist.xlsx`, `qa_models.json` | stub echo with non-default model + experiment_tag | `pilot_excel_prompts_llama3-70b` (if qa_models.json sets process_name=pilot_excel_prompts and model_id=meta.llama3-70b-instruct-v1:0) | 🔹 Same as Test 4, but proves per-REV model override + custom experiment tag logging. |

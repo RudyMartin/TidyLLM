@@ -1,0 +1,61 @@
+Sense Bus implementation:
+
+  Summary: Enhanced ω Computation via Hexagonal Architecture
+
+  New Files Created
+
+  1. src/yrsn/ports/reliability.py - Port interface defining:
+    - IReliabilityMonitor protocol (Sense Bus interface)
+    - ReliabilitySignals dataclass (bundles signals 4-7)
+    - ReliabilitySignalComputer utility class (signal computation)
+  2. src/yrsn/adapters/outbound/reliability.py - Adapter implementations:
+    - ReliabilityMonitorAdapter - aggregates existing monitors
+    - StandaloneReliabilityMonitor - self-contained history tracking
+  3. tests/test_reliability_monitor.py - 24 tests covering all components
+
+  Modified Files
+
+  1. src/yrsn/core/memory/base_learner.py:
+    - Added reliability_monitor parameter to __init__
+    - Enhanced compute_omega() to use 7 signals (was 3)
+    - Added compute_omega_detailed() for observability
+  2. src/yrsn/ports/__init__.py - exports new port classes
+  3. src/yrsn/adapters/outbound/__init__.py - exports new adapters
+
+  Signal Architecture (Sense Bus)
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │                  compute_omega() - 7 Signals                 │
+  ├─────────────────────────────────────────────────────────────┤
+  │ CORE SIGNALS (local)         │ SENSE BUS SIGNALS (port)     │
+  │ ────────────────────         │ ──────────────────────       │
+  │ 1. SDM read confidence       │ 4. Consistency (α variance)  │
+  │ 2. Hopfield retrieval conf   │ 5. Trend (α direction)       │
+  │ 3. Replay buffer similarity  │ 6. Decision stability        │
+  │                              │ 7. Hidden coherence          │
+  └─────────────────────────────────────────────────────────────┘
+                                          ▲
+                                          │
+                      ┌───────────────────┴───────────────────┐
+                      │        IReliabilityMonitor            │
+                      │   (StochasticStability + Collapse)    │
+                      └───────────────────────────────────────┘
+
+  Usage Example
+
+  from yrsn.adapters.outbound import ReliabilityMonitorAdapter
+  from yrsn.core.control import StochasticStabilityMonitor, EarlyCollapseMonitor
+
+  # Connect existing monitors to Sense Bus
+  stability = StochasticStabilityMonitor()
+  collapse = EarlyCollapseMonitor()
+  reliability = ReliabilityMonitorAdapter(stability, collapse)
+
+  # Use with BaseLearner
+  config = BaseLearnerConfig(compute_omega=True)
+  learner = MyLearner(config, reliability_monitor=reliability)
+
+  # Now compute_omega() uses all 7 signals
+  omega = learner.compute_omega(**context)
+
+  This keeps functionality trackable within the hex architecture as requested, with no new storage added - all data comes from existing monitors.

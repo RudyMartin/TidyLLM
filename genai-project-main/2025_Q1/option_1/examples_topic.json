@@ -1,0 +1,20 @@
+[
+  {
+    "topic": "budget",
+    "report_chunk": "Project A received $500K.",
+    "retrieved_context": "Project A expected $1M and required funding source disclosure.",
+    "validation_result": "Missing Info"
+  },
+  {
+    "topic": "sustainability",
+    "report_chunk": "Project B will reduce CO2 emissions by 30%.",
+    "retrieved_context": "Project B is required to reduce CO2 by 30% and submit a sustainability report.",
+    "validation_result": "Correct"
+  },
+  {
+    "topic": "risk",
+    "report_chunk": "Project C has no reported risks.",
+    "retrieved_context": "Project C has risk due to supplier delays and missing mitigation plan.",
+    "validation_result": "Inconsistent"
+  }
+]

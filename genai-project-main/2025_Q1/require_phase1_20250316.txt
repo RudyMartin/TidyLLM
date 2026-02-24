@@ -1,0 +1,12 @@
+dill==0.3.9
+multiprocess==0.70.17
+sqlparse==0.5.0
+
+dspy
+ipywidgets
+boto3
+PyPDF2
+faiss
+numpy
+nltk
+sentence_transformers

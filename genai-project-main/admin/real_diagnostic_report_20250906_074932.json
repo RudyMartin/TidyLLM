@@ -1,0 +1,28 @@
+{
+  "status": "READY FOR DEMO (with noted limitations)",
+  "success_rate": 60.0,
+  "tests_passed": 3,
+  "tests_failed": 2,
+  "timestamp": "2025-09-06T07:49:32.962330",
+  "configuration_source": "tidyllm/admin/settings.yaml",
+  "components": {
+    "database": {
+      "host": "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com",
+      "response_time_ms": 403.9926528930664
+    },
+    "s3_config": {
+      "bucket": "nsc-mvp1",
+      "region": "us-east-1"
+    },
+    "aws_credentials": {
+      "account": "188494237500",
+      "user": "arn:aws:iam::188494237500:user/tidyllm-vectorqa-user"
+    },
+    "flow_agreements": {
+      "error": "No module named 'flow_agreements'"
+    },
+    "gateways": {
+      "gateway_files_found": 0
+    }
+  }
+}
