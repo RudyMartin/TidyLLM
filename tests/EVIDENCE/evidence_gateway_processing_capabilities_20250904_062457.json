@@ -1,9 +1,0 @@
-{
-  "test_name": "gateway_processing_capabilities",
-  "timestamp": "2025-09-04T06:24:57.588362",
-  "test_input": "Test processing request",
-  "results": {
-    "processing_test": "FAIL",
-    "error": "cannot import name 'GatewayStatus' from 'tidyllm.gateways' (C:\\Users\\marti\\github\\tidyllm\\gateways\\__init__.py)"
-  }
-}

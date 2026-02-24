@@ -1,0 +1,103 @@
+{
+    "message": "Welcome to the Key Drivers Report Processing App!",
+    "sections": [
+        {
+            "title": "Getting Started",
+            "content": "Upload your PDF file in the 'Upload & Process' tab. The system will extract and analyze the document. It processes text page-by-page, applies smart chunking, and stores structured embeddings."
+        },
+        {
+            "title": "Searching Queries with DSPy",
+            "content": [
+                "Enter a query in the 'Query Search' tab to retrieve relevant documents using AI embeddings.",
+                "The app uses FAISS indexing and DSPy’s **BootstrapFewShot retrieval** to improve query matching.",
+                "DSPy dynamically adjusts retrieval context using learned few-shot examples.",
+                "Hybrid Search combines **FAISS vector retrieval** with **keyword-based matching** for better accuracy."
+            ]
+        },
+        {
+            "title": "DSPy-Based Report Refinements",
+            "content": [
+                "The system applies DSPy-powered **context optimization** to improve document retrieval.",
+                "Using **BootstrapFewShot**, DSPy refines query matches based on previous results.",
+                "DSPy dynamically enhances the quality of search results and report corrections.",
+                "Reinforcement Learning techniques adjust retrieval optimization based on user feedback."
+            ]
+        },
+        {
+            "title": "DSPy Signature Types",
+            "content": [
+                "DSPy signatures define how the system processes input queries and generates refined outputs.",
+                "The following DSPy signatures are currently used:",
+                "- **Query Expansion Signature**: Expands user queries for better FAISS matching.",
+                "- **Retrieval Signature**: Ensures best document context retrieval before response generation.",
+                "- **Correction Signature**: Modifies retrieved data to improve accuracy in structured reports.",
+                "- **Refinement Signature**: Uses iterative DSPy models to enhance final output quality."
+            ]
+        },
+        {
+            "title": "DSPy Optimizers & Compilers",
+            "content": [
+                "DSPy optimizers fine-tune query expansion, retrieval, and report generation.",
+                "Currently, the system uses the following DSPy optimizers:",
+                "- **BootstrapFewShot**: Selects optimal few-shot examples for retrieval enhancement.",
+                "- **KNN Few-Shot**: Dynamically picks context-relevant samples before retrieval.",
+                "- **MIPRO (Multi-Iteration Prompt Optimization)**: Enhances multi-step report refinement.",
+                "- **COPRO (Contrastive Prompt Optimization)**: Improves output by comparing variations.",
+                "- **DSPy Compiler**: Compiles optimized retrieval strategies into a pipeline."
+            ]
+        },
+        {
+            "title": "Embedding Model Selection & Versioning",
+            "content": [
+                "You can select your preferred embedding model (Titan, Cohere, Claude) from the sidebar.",
+                "Model versioning allows you to revert to previously trained versions.",
+                "Every model update triggers FAISS reindexing to ensure accurate search results."
+            ]
+        },
+        {
+            "title": "Tracking Analytics & Performance",
+            "content": [
+                "The system tracks latency, error rates, and query success metrics.",
+                "View **real-time analytics in the sidebar charts**, including active queries and retrieval success rates.",
+                "DSPy feedback loops improve retrieval accuracy over time."
+            ]
+        },
+        {
+            "title": "FAISS Indexing & Hybrid Search",
+            "content": [
+                "Each embedding model and dimension has its own FAISS index stored on S3.",
+                "Hybrid Search combines **FAISS vector retrieval** with **keyword-based matching**.",
+                "Automatic FAISS reindexing ensures that updated embeddings are always indexed correctly."
+            ]
+        },
+        {
+            "title": "Key Enhancements",
+            "content": [
+                "✅ **Separate FAISS Index for Each Embedding Model & Dimension** – Stored and retrieved independently.",
+                "✅ **Automatic FAISS Reindexing** – Ensures FAISS stays updated for every model.",
+                "✅ **DSPy Optimized Query Expansion** – Enhances FAISS search accuracy.",
+                "✅ **FAISS Persistence to S3** – Ensures data isn't lost across sessions.",
+                "✅ **Multi-Agent DSPy (Future Phase)** – Plans for using **DSPy retrieval + rewriter agents**.",
+                "✅ **DSPy-Enhanced Report Correction** – Dynamically refines extracted insights before report generation."
+            ]
+        },
+        {
+            "title": "Deployment Instructions",
+            "content": [
+                "1. Clone the repository: `git clone https://github.com/yourrepo.git`",
+                "2. Install dependencies: `pip install -r requirements.txt`",
+                "3. Run the Streamlit app: `streamlit run st_app_keydrivers.py`",
+                "4. Ensure AWS credentials are set up correctly for Bedrock access."
+            ]
+        },
+        {
+            "title": "Troubleshooting S3 Access",
+            "content": "Ensure your AWS credentials and permissions are correctly configured. If you face access issues, update your credentials and restart the application."
+        },
+        {
+            "title": "Contact Support",
+            "content": "For questions or assistance, reach out to: Rudy Alvarez Martin | 📞 617-869-4992 | 🌐 linkedin.com/in/RudyMartin | Next Shift Consulting"
+        }
+    ]
+}
+

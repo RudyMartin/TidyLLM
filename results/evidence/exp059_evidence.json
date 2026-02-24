@@ -1,0 +1,39 @@
+{
+  "experiment": "exp059_two_stage_drift_detection",
+  "timestamp": "2026-01-01T10:05:31.167994",
+  "differentiator": "#6: Two-Stage Drift Detection",
+  "normal_data": {
+    "early_exit_rate": 0.988421052631579,
+    "two_stage_avg_time_us": 33.51289473684211,
+    "single_stage_avg_time_us": 336.8401052631579,
+    "speedup": 10.051059686373666
+  },
+  "drift_data": {
+    "early_exit_rate": 0.8468421052631578,
+    "two_stage_avg_time_us": 78.1891052631579,
+    "single_stage_avg_time_us": 337.0348421052631,
+    "speedup": 4.310509002129116,
+    "two_stage_detected": true,
+    "single_stage_detected": true
+  },
+  "quality_checks": {
+    "Early exit rate > 50% on normal data": {
+      "passed": true,
+      "details": "98.8%"
+    },
+    "Speedup > 2x on normal data": {
+      "passed": true,
+      "details": "10.1x"
+    },
+    "Two-stage detects drift": {
+      "passed": true,
+      "details": "True"
+    },
+    "Detection accuracy maintained": {
+      "passed": true,
+      "details": "two=True, single=True"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "Two-stage drift detection achieves 10.1x speedup on normal data via 99% early exit rate. Stage 1 O(1) heuristics filter most samples, avoiding expensive O(W log W) Stage 2. Drift detection accuracy is maintained."
+}

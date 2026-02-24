@@ -1,0 +1,40 @@
+{
+  "experiment": "exp048_alpha_omega_conjunction",
+  "timestamp": "2026-01-01T02:24:22.194082",
+  "ablation": {
+    "alpha_only_types": 2,
+    "omega_only_types": 2,
+    "conjunction_types": 3,
+    "conjunction_improves_diversity": true
+  },
+  "conjunction_necessity": {
+    "low_omega_range": "[0.3, 0.5]",
+    "types_in_range": [
+      "POISONING",
+      "O_POISONING"
+    ],
+    "proves_conjunction_needed": true
+  },
+  "quality_checks": {
+    "rsn_variance_ok": true,
+    "r_std": 0.07247709714181724,
+    "s_std": 0.05696811931459687,
+    "n_std": 0.0481913868902808,
+    "r_mean": 0.29226020396946506,
+    "s_mean": 0.11901291053979529,
+    "n_mean": 0.5887268854907397
+  },
+  "omega_analysis": {
+    "id_omega_mean": 0.6632375562369212,
+    "ood_omega_mean": 0.4165999262325643,
+    "omega_separates_id_ood": true,
+    "real_omega_not_fake": true
+  },
+  "summary": {
+    "id_samples": 150,
+    "ood_samples": 150,
+    "mean_alpha_id": 0.29226020396946506,
+    "mean_alpha_ood": 0.14567726043073884
+  },
+  "is_valid_evidence": true
+}

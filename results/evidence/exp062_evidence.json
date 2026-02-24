@@ -1,0 +1,69 @@
+{
+  "experiment": "exp062_text_rag_pre_inference",
+  "timestamp": "2026-01-01T10:40:54.862926",
+  "differentiator": "#2: Pre-Inference Quality Measurement (TEXT/RAG)",
+  "comparison_to_exp049": {
+    "exp049_domain": "images (MNIST/CIFAR)",
+    "exp049_problem": "pixel features don't predict semantic quality",
+    "exp062_domain": "text/RAG",
+    "exp062_solution": "text features DO predict generation quality"
+  },
+  "metrics": {
+    "timing": {
+      "pre_inference_mean_us": 214.26500170491636,
+      "pre_inference_std_us": 44.47564483361312,
+      "pre_inference_max_us": 372.5000424310565,
+      "generation_mean_ms": 123.860445393398,
+      "speedup_factor": 578.0712874610169
+    },
+    "quality_prediction": {
+      "pre_post_correlation": 0.5256241922023209,
+      "alpha_mean": 0.08005197776240994,
+      "alpha_std": 0.07976858917089541,
+      "alpha_by_expected": {
+        "high": 0.11826530664784426,
+        "medium": 0.10279760010528528,
+        "low": 0.059732327352973374
+      }
+    },
+    "early_exit": {
+      "rate": 0.55,
+      "accuracy": 0.75,
+      "total_exits": 11,
+      "total_processed": 9
+    },
+    "compute_savings": {
+      "baseline_total_ms": 2481.4942079020584,
+      "actual_total_ms": 1119.02930857468,
+      "savings_pct": 54.905020329636535
+    }
+  },
+  "quality_checks": {
+    "Pre-inference < 1ms": {
+      "passed": true,
+      "details": "0.214ms"
+    },
+    "Speedup > 100x vs generation": {
+      "passed": true,
+      "details": "578x"
+    },
+    "Pre-post correlation > 0.5": {
+      "passed": true,
+      "details": "r=0.526"
+    },
+    "Alpha discriminates quality": {
+      "passed": true,
+      "details": "high=0.118, low=0.060"
+    },
+    "Early exit > 30%": {
+      "passed": true,
+      "details": "55.0%"
+    },
+    "Compute savings > 20%": {
+      "passed": true,
+      "details": "54.9%"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "Text pre-inference achieves 578x speedup over generation. Pre-inference alpha correlates with generation quality (r=0.53). Early exit on 55% of low-quality contexts saves 55% compute. This validates Claim #2 for the ACTUAL use case (text/RAG)."
+}

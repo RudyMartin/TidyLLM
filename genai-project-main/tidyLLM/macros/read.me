@@ -1,0 +1,62 @@
+ The Complete Flow: From User Input to Execution
+
+  1. User Types Macro Delimiter:
+
+  "Please analyze this MVR using [MVR Peer Review]"
+
+  2. System Detects Macro:
+
+  # Regex pattern finds: [MVR Peer Review]  
+  # Extracts: "MVR Peer Review"
+  # Checks registry: ✅ Found
+
+  3. Macro Triggers Progressive Complexity:
+
+  🔧 Detected macro: MVR Peer Review
+  📊 Select complexity level:
+     🟢 Simple (2-5 min): Basic compliance check
+     🟡 Enhanced (10-20 min): Evidence-focused review
+     🔴 Advanced (20-45 min): AI-powered comprehensive
+
+  4. Behind-the-Scenes: TidyLLM Pipeline Executes:
+
+  # User never sees this - it's the implementation
+  result = (mvr_document
+      |> filter(document_type="mvr")
+      |> select("filename", "content", "sections")
+      |> mutate(section_analysis=analyze_sections_sequentially)
+      |> invoke_persona("MVR Validation Expert")
+      |> reshape("compliance_matrix")
+  )
+
+  5. User Sees Human-Readable Progress:
+
+  🔄 Parsing Table of Contents to section level 1.1.1.1
+  ✅ Found 89 sections in MVR document
+  🔄 Extracting model context (Credit Risk Model, Tier 1)
+  ✅ Model context extracted successfully
+  🔄 Performing section-by-section analysis with evidence tracing
+  ✅ Analyzed all sections, mapped conclusions to evidence
+  🔄 Generating peer review challenges and confidence scores
+  ✅ Generated 12 peer challenges, confidence scores calculated
+  🔄 Creating detailed compliance matrix
+  ✅ Compliance matrix generated with 89 rows
+
+  📊 Results: 85% compliance, 3 areas need attention
+
+  🎯 The Key Point You Made
+
+  The macro delimiters [MVR Peer Review] are what the user types - they're not pipe syntax. The
+   pipes (|>) are the internal implementation that users never see.
+
+  User Experience:
+  - Types: [MVR Peer Review]
+  - Gets: Human-readable progress and results
+
+  System Implementation:
+  - Detects: [MVR Peer Review] bracket pattern
+  - Executes: |> filter |> select |> mutate pipeline internally
+  - Shows: Progress messages and final results
+
+  The users get powerful workflows through simple [bracket 
+  syntax] without needing to know the complex tidyverse implementation underneath.

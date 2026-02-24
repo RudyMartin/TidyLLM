@@ -1,0 +1,404 @@
+
+
+# S3 → Lambda (Hexagonal) JSON → Text — CLI Playbook
+
+**Goal:** On `s3://nsc-mvp1/incoming/*.json` put, Lambda extracts strings → writes `text/<name>.txt`, then moves original JSON → `processed/<name>.json`.
+**Region:** `us-east-1` (change if needed)
+**Function:** `hex-arch-s3-processor`
+**Bucket:** `nsc-mvp1`
+
+---
+
+## 0) Prereqs & variables (CloudShell)
+
+```bash
+aws sts get-caller-identity
+aws configure list
+
+export REGION=us-east-1
+export BUCKET_NAME=nsc-mvp1
+export FUNCTION_NAME=hex-arch-s3-processor
+export ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+```
+
+---
+
+## 1) Prepare S3 prefixes (“folders”)
+
+```bash
+aws s3api put-object --bucket $BUCKET_NAME --key incoming/
+aws s3api put-object --bucket $BUCKET_NAME --key text/
+aws s3api put-object --bucket $BUCKET_NAME --key processed/
+aws s3api put-object --bucket $BUCKET_NAME --key error/
+```
+
+---
+
+## 2) IAM role for Lambda (trust + permissions)
+
+```bash
+# Create role (or fix trust policy) so Lambda can assume it
+if ! aws iam get-role --role-name LambdaS3ExecutionRole >/dev/null 2>&1; then
+  aws iam create-role \
+    --role-name LambdaS3ExecutionRole \
+    --assume-role-policy-document '{
+      "Version":"2012-10-17",
+      "Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]
+    }'
+else
+  aws iam update-assume-role-policy \
+    --role-name LambdaS3ExecutionRole \
+    --policy-document '{
+      "Version":"2012-10-17",
+      "Statement":[{"Effect":"Allow","Principal":{"Service":"lambda.amazonaws.com"},"Action":"sts:AssumeRole"}]
+    }'
+fi
+
+# Basic CloudWatch logging
+aws iam attach-role-policy \
+  --role-name LambdaS3ExecutionRole \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+
+# S3 access (scoped to your bucket)
+aws iam put-role-policy \
+  --role-name LambdaS3ExecutionRole \
+  --policy-name LambdaS3BucketAccess \
+  --policy-document "{
+    \"Version\":\"2012-10-17\",
+    \"Statement\":[
+      {\"Effect\":\"Allow\",\"Action\":[\"s3:GetObject\",\"s3:PutObject\",\"s3:DeleteObject\",\"s3:ListBucket\",\"s3:CopyObject\"],
+       \"Resource\":[\"arn:aws:s3:::$BUCKET_NAME\",\"arn:aws:s3:::$BUCKET_NAME/*\"]}
+    ]
+  }"
+
+# If your bucket uses a CMK, also grant KMS (edit key ARN):
+# aws iam put-role-policy --role-name LambdaS3ExecutionRole --policy-name LambdaKMSAccess --policy-document '{
+#   "Version":"2012-10-17",
+#   "Statement":[{"Effect":"Allow","Action":["kms:Decrypt","kms:Encrypt","kms:GenerateDataKey","kms:DescribeKey"],"Resource":"arn:aws:kms:us-east-1:<ACCOUNT_ID>:key/<YOUR_KEY_ID>"}]
+# }'
+
+sleep 10
+```
+
+---
+
+## 3) Build the **working** Lambda code package
+
+```bash
+# Clean & scaffold
+rm -rf app hex_arch_s3_lambda.zip
+mkdir -p app/domain app/adapters
+: > app/__init__.py
+: > app/domain/__init__.py
+: > app/adapters/__init__.py
+
+# app/domain/ports.py
+cat > app/domain/ports.py <<'PY'
+from typing import Protocol
+
+class StoragePort(Protocol):
+    def read_object(self, key: str) -> bytes: ...
+    def write_object(self, key: str, data: bytes) -> None: ...
+    def move_object(self, src_key: str, dst_key: str) -> None: ...
+    def exists(self, key: str) -> bool: ...
+
+class QueuePort(Protocol):
+    def enqueue(self, payload: dict) -> None: ...
+
+class LoggerPort(Protocol):
+    def info(self, msg: str) -> None: ...
+    def error(self, msg: str) -> None: ...
+PY
+
+# app/domain/content_extractor.py
+cat > app/domain/content_extractor.py <<'PY'
+import json
+
+def json_to_text(raw: bytes) -> str:
+    """
+    Loads JSON if possible and concatenates string values line-by-line.
+    If invalid JSON, returns best-effort UTF-8 text.
+    """
+    try:
+        obj = json.loads(raw.decode("utf-8"))
+    except Exception:
+        try:
+            return raw.decode("utf-8", errors="ignore")
+        except Exception:
+            return ""
+
+    parts = []
+    def walk(x):
+        if isinstance(x, dict):
+            for v in x.values(): walk(v)
+        elif isinstance(x, list):
+            for v in x: walk(v)
+        elif isinstance(x, str):
+            s = x.strip()
+            if s: parts.append(s)
+    walk(obj)
+    return "\n".join(parts)
+PY
+
+# app/domain/use_cases.py
+cat > app/domain/use_cases.py <<'PY'
+from app.domain.ports import StoragePort, QueuePort, LoggerPort
+from app.domain.content_extractor import json_to_text
+from typing import Optional
+
+def process_new_json(
+    *, storage: StoragePort, queue: Optional[QueuePort], logger: LoggerPort,
+    bucket: str, key: str, text_prefix: str, processed_prefix: str, error_prefix: str
+) -> None:
+    logger.info(f"Start processing s3://{bucket}/{key}")
+    try:
+        raw = storage.read_object(key)
+        text = json_to_text(raw)
+        base = key.split("/")[-1].removesuffix(".json")
+        text_key = f"{text_prefix}{base}.txt"
+        storage.write_object(text_key, text.encode("utf-8"))
+        processed_key = f"{processed_prefix}{base}.json"
+        storage.move_object(key, processed_key)
+        if queue:
+            queue.enqueue({"type": "document_processed", "json_key": processed_key, "text_key": text_key})
+        logger.info(f"Done: text->{text_key}, moved->{processed_key}")
+    except Exception as e:
+        import traceback
+        logger.error(f"Failed on {key}: {e}\n{traceback.format_exc()}")
+        error_key = f"{error_prefix}{key.split('/')[-1]}"
+        try:
+            storage.move_object(key, error_key)
+        except Exception:
+            logger.error("Also failed to move to error/; leaving original in place.")
+        raise
+PY
+
+# app/adapters/s3_storage.py
+cat > app/adapters/s3_storage.py <<'PY'
+import boto3
+
+class S3StorageAdapter:
+    def __init__(self, bucket: str):
+        self.s3 = boto3.client("s3")
+        self.bucket = bucket
+
+    def read_object(self, key: str) -> bytes:
+        resp = self.s3.get_object(Bucket=self.bucket, Key=key)
+        return resp["Body"].read()
+
+    def write_object(self, key: str, data: bytes) -> None:
+        self.s3.put_object(Bucket=self.bucket, Key=key, Body=data)
+
+    def move_object(self, src_key: str, dst_key: str) -> None:
+        self.s3.copy({"Bucket": self.bucket, "Key": src_key}, self.bucket, dst_key)
+        self.s3.delete_object(Bucket=self.bucket, Key=src_key)
+
+    def exists(self, key: str) -> bool:
+        try:
+            self.s3.head_object(Bucket=self.bucket, Key=key)
+            return True
+        except Exception:
+            return False
+PY
+
+# app/adapters/sqs_queue.py (optional)
+cat > app/adapters/sqs_queue.py <<'PY'
+import boto3, json
+class SQSAdapter:
+    def __init__(self, queue_url: str):
+        self.sqs = boto3.client("sqs")
+        self.queue_url = queue_url
+    def enqueue(self, payload: dict) -> None:
+        self.sqs.send_message(QueueUrl=self.queue_url, MessageBody=json.dumps(payload))
+PY
+
+# app/adapters/logger.py
+cat > app/adapters/logger.py <<'PY'
+class CWLoggerAdapter:
+    def info(self, msg: str) -> None:
+        print(f"[INFO] {msg}")
+    def error(self, msg: str) -> None:
+        print(f"[ERROR] {msg}")
+PY
+
+# app/lambda_handler.py  (absolute imports + URL-decoded S3 keys)
+cat > app/lambda_handler.py <<'PY'
+import os, json, traceback
+from urllib.parse import unquote_plus
+
+from app.adapters.s3_storage import S3StorageAdapter
+from app.adapters.sqs_queue import SQSAdapter
+from app.adapters.logger import CWLoggerAdapter
+from app.domain.use_cases import process_new_json
+
+BUCKET = os.environ["BUCKET_NAME"]
+TEXT_PREFIX = os.environ.get("TEXT_PREFIX", "text/")
+PROCESSED_PREFIX = os.environ.get("PROCESSED_PREFIX", "processed/")
+ERROR_PREFIX = os.environ.get("ERROR_PREFIX", "error/")
+SQS_URL = os.environ.get("SQS_URL")
+
+storage = S3StorageAdapter(bucket=BUCKET)
+queue = SQSAdapter(SQS_URL) if SQS_URL else None
+logger = CWLoggerAdapter()
+
+def handler(event, context):
+    try:
+        logger.info("EVENT: " + json.dumps(event)[:2000])
+    except Exception:
+        logger.info("EVENT: <unserializable>")
+
+    for record in event.get("Records", []):
+        s3 = record.get("s3", {})
+        bucket = s3.get("bucket", {}).get("name")
+        key_raw = s3.get("object", {}).get("key")
+        if not bucket or not key_raw:
+            logger.error("Missing bucket/key in event record")
+            continue
+
+        key = unquote_plus(key_raw)  # Decode URL-encoded keys
+        logger.info(f"Decoded key: {key}")
+
+        if bucket != BUCKET or not key.endswith(".json"):
+            logger.info(f"Skipping {bucket}/{key}")
+            continue
+
+        if not storage.exists(key):
+            logger.error(f"Object not found on HEAD: s3://{bucket}/{key}")
+            continue
+
+        try:
+            process_new_json(
+                storage=storage, queue=queue, logger=logger,
+                bucket=bucket, key=key,
+                text_prefix=TEXT_PREFIX,
+                processed_prefix=PROCESSED_PREFIX,
+                error_prefix=ERROR_PREFIX
+            )
+        except Exception as e:
+            logger.error(f"Unhandled error: {e}\n{traceback.format_exc()}")
+            raise
+
+    return {"status": "ok"}
+PY
+
+# Package
+zip -r hex_arch_s3_lambda.zip app
+unzip -l hex_arch_s3_lambda.zip | sed -n '1,80p'
+```
+
+---
+
+## 4) Create (or update) the Lambda
+
+```bash
+aws lambda create-function \
+  --function-name "$FUNCTION_NAME" \
+  --runtime python3.11 \
+  --role arn:aws:iam::$ACCOUNT_ID:role/LambdaS3ExecutionRole \
+  --handler app.lambda_handler.handler \
+  --zip-file fileb://hex_arch_s3_lambda.zip \
+  --memory-size 256 \
+  --timeout 30 \
+  --region $REGION \
+|| aws lambda update-function-code \
+  --function-name "$FUNCTION_NAME" \
+  --zip-file fileb://hex_arch_s3_lambda.zip \
+  --region $REGION
+```
+
+---
+
+## 5) Set environment variables
+
+```bash
+aws lambda update-function-configuration \
+  --function-name "$FUNCTION_NAME" \
+  --environment "Variables={BUCKET_NAME=$BUCKET_NAME,TEXT_PREFIX=text/,PROCESSED_PREFIX=processed/,ERROR_PREFIX=error/}" \
+  --region $REGION
+
+# Verify
+aws lambda get-function --function-name "$FUNCTION_NAME" --region "$REGION" \
+  --query 'Configuration.[Handler,Runtime,Environment]'
+```
+
+---
+
+## 6) Wire S3 → Lambda
+
+> Note: `put-bucket-notification-configuration` **overwrites** any existing notifications on that bucket.
+
+```bash
+# Allow S3 to invoke Lambda (safe to re-run)
+aws lambda add-permission \
+  --function-name "$FUNCTION_NAME" \
+  --principal s3.amazonaws.com \
+  --statement-id s3invoke-allow \
+  --action "lambda:InvokeFunction" \
+  --source-arn arn:aws:s3:::$BUCKET_NAME \
+  --region $REGION 2>/dev/null || true
+
+# Notify on incoming/*.json PUT
+aws s3api put-bucket-notification-configuration \
+  --bucket $BUCKET_NAME \
+  --notification-configuration "{
+    \"LambdaFunctionConfigurations\": [
+      {
+        \"LambdaFunctionArn\": \"arn:aws:lambda:$REGION:$ACCOUNT_ID:function:$FUNCTION_NAME\",
+        \"Events\": [\"s3:ObjectCreated:Put\"],
+        \"Filter\": {\"Key\": {\"FilterRules\": [
+          {\"Name\": \"prefix\", \"Value\": \"incoming/\"},
+          {\"Name\": \"suffix\", \"Value\": \".json\"}
+        ]}}
+      }
+    ]
+  }" \
+  --region $REGION
+
+# Sanity check
+aws s3api get-bucket-notification-configuration --bucket $BUCKET_NAME --region $REGION
+```
+
+---
+
+## 7) Test
+
+```bash
+echo '{"hello":"world","nested":{"foo":"bar baz"}}' > test.json
+aws s3 cp test.json s3://$BUCKET_NAME/incoming/test%20file.json --region $REGION  # tests URL-decoding too
+
+# First run creates the log group; then:
+aws logs tail /aws/lambda/$FUNCTION_NAME --since 5m --follow --region $REGION
+# (Ctrl+C to stop)
+```
+
+**Verify outputs:**
+
+```bash
+aws s3 ls s3://$BUCKET_NAME/text/ --region $REGION
+aws s3 ls s3://$BUCKET_NAME/processed/ --region $REGION
+aws s3 ls s3://$BUCKET_NAME/error/ --region $REGION
+```
+
+**Expected:**
+
+* `text/test file.txt` contains:
+
+  ```
+  world
+  bar baz
+  ```
+* Original moved to `processed/test file.json`.
+
+---
+
+## Troubleshooting (quick)
+
+* **ImportModuleError** → Handler must be `app.lambda_handler.handler`; ZIP must contain `app/**` plus `__init__.py` files; imports use `from app...`.
+* **No logs** → The put didn’t match `incoming/*.json`, or S3 invoke permission/notification missing. Re-run Step 6; ensure region aligns.
+* **NoSuchKey** → Handler now URL-decodes keys; still confirm exact key with `aws s3 ls s3://$BUCKET_NAME/incoming/ --recursive`.
+* **Environment = null** → Re-run Step 5 (the code reads `BUCKET_NAME` at import time).
+* **KMS** → If bucket uses a CMK, add KMS perms to the role and ensure key policy allows that role.
+
+---
+
+Also see a single `main.tf` that reproduces everything.

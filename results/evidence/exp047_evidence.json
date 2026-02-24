@@ -1,0 +1,43 @@
+{
+  "experiment": "exp047_typed_vs_scalar_outputs",
+  "timestamp": "2026-01-01T02:21:16.727956",
+  "device": "cpu",
+  "quality_checks": {
+    "rsn_variance_ok": true,
+    "r_std": 0.07908096217333822,
+    "s_std": 0.07007008323038824,
+    "n_std": 0.0497926519861937,
+    "alpha_equals_r": true,
+    "rsn_sum_equals_1": true
+  },
+  "ground_truth": {
+    "overall_accuracy": 0.26571428571428574,
+    "per_scenario_accuracy": {
+      "blur": 0.0,
+      "clean": 0.0,
+      "gaussian_noise": 0.5,
+      "random_uniform": 0.86
+    },
+    "num_scenarios": 350
+  },
+  "type_distribution": {
+    "POISONING": 224,
+    "CONFUSION": 82,
+    "DRIFT": 44
+  },
+  "num_unique_types": 3,
+  "summary": {
+    "mean_R": 0.17437424842497723,
+    "mean_S": 0.20591509116296736,
+    "mean_N": 0.6197106604120555,
+    "mean_alpha": 0.17437424842497723,
+    "mean_omega": 0.5234538098886915,
+    "mean_tau": 3.056016737849479
+  },
+  "typed_vs_scalar": {
+    "scalar_collapse_detected": 125,
+    "typed_collapse_detected": 350,
+    "typed_provides_type_info": true
+  },
+  "is_valid_evidence": true
+}

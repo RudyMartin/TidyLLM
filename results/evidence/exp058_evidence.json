@@ -1,0 +1,56 @@
+{
+  "experiment": "exp058_tau_alpha_derived_from_quality",
+  "timestamp": "2026-01-01T05:55:21.754066",
+  "differentiator": "#3: Quality-Derived Adaptive Signal",
+  "proofs": {
+    "proof_1_varies_per_input": {
+      "tau_std": 0.12849762027096717,
+      "tau_range": [
+        0.612330396936557,
+        1.3503180889586
+      ],
+      "passed": true
+    },
+    "proof_2_derived_from_alpha": {
+      "correlation": -0.9999999999999993,
+      "passed": true
+    },
+    "proof_3_improves_calibration": {
+      "best_fixed_ece": 0.009351487994149326,
+      "best_adaptive_ece": 0.005945044038087214,
+      "passed": true
+    }
+  },
+  "alpha_stats": {
+    "mean": 0.3739170543242685,
+    "std": 0.09178401447926224,
+    "min": 0.10691565074385721,
+    "max": 0.6340497164738879
+  },
+  "tau_alpha_stats": {
+    "linear": {
+      "mean": 0.9765161239460239,
+      "std": 0.12849762027096717
+    },
+    "power": {
+      "mean": 0.6605658242519025,
+      "std": 0.15772515288534927
+    },
+    "log": {
+      "mean": 0.37630259331381544,
+      "std": 0.06902238599243017
+    },
+    "sigmoid": {
+      "mean": 1.1459243875786351,
+      "std": 0.23019428841003595
+    }
+  },
+  "correlations": {
+    "linear": -0.9999999999999993,
+    "power": -0.994919033071829,
+    "log": -0.9851819182461111,
+    "sigmoid": -0.9732902488050031
+  },
+  "all_checks_passed": true,
+  "conclusion": "\u03c4_\u03b1 is DERIVED from quality (\u03b1), not a fixed hyperparameter. Strong negative correlation (r=-1.00) proves \u03c4_\u03b1 = f(\u03b1). Variance (std=0.13) proves it varies per-input. This differentiates YRSN from prior art using fixed temperatures."
+}

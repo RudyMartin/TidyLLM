@@ -1,0 +1,5 @@
+  Team Dell Can Now
+
+  1. Pull latest: git pull origin main
+  2. Verify: python -m apps.stress_mast.test_mast --mode full
+  3. Extend: See results/yrsn_16/README.md for adding new collapse types

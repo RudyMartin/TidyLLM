@@ -1,0 +1,101 @@
+{
+  "timestamp": "2026-01-01T02:18:50.396779",
+  "experiment": "exp050_rsn_decomposition_vs_output",
+  "model_type": "trained_simplecnn",
+  "model_accuracy": 0.558,
+  "comparison": {
+    "Method": [
+      "YRSN",
+      "Patent 1 (NLG)",
+      "Patent 3 (MACE)",
+      "Patent 4 (Anomaly)",
+      "Patent 5 (Meta-model)"
+    ],
+    "What Measured": [
+      "Features (R/S/N)",
+      "Output (text quality)",
+      "Output (confidence)",
+      "Output (token match)",
+      "Output (performance)"
+    ],
+    "When": [
+      "From features",
+      "Post-generation",
+      "Post-prediction",
+      "Post-generation",
+      "Post-prediction"
+    ],
+    "Decomposition": [
+      "Yes (3-way R/S/N)",
+      "No (scalar)",
+      "No (scalar)",
+      "No (binary)",
+      "No (interval)"
+    ],
+    "Output Type": [
+      "Structured (R,S,N,alpha,omega,type)",
+      "Scalar",
+      "Scalar",
+      "Binary",
+      "Interval"
+    ]
+  },
+  "yrsn_decomposition": {
+    "mean_r": 0.28598756013012916,
+    "std_r": 0.07607274862233987,
+    "mean_s": 0.15214016951388304,
+    "std_s": 0.07400333226809476,
+    "mean_n": 0.5618722703559877,
+    "std_n": 0.058026504189058664,
+    "mean_r_plus_s_plus_n": 1.0,
+    "mean_omega": 0.6844790109005574,
+    "std_omega": 0.12901393096187813
+  },
+  "correlations": {
+    "r_vs_output_quality": -0.5610140264305225,
+    "alpha_vs_output_quality": -0.5610140264305225,
+    "omega_vs_output_quality": 0.2659700027799493,
+    "n_vs_output_quality": 0.5218263864597937
+  },
+  "collapse_types": {
+    "num_types_detected": 4,
+    "distribution": {
+      "POISONING": 445,
+      "CONFUSION": 48,
+      "DRIFT": 5,
+      "RSN_COLLAPSE": 2
+    }
+  },
+  "quality_checks": {
+    "R/S/N is NOT uniform 0.333": {
+      "passed": true,
+      "details": "R:0.286\u00b10.076, S:0.152\u00b10.074, N:0.562\u00b10.058"
+    },
+    "R+S+N = 1 (simplex constraint)": {
+      "passed": true,
+      "details": "mean=1.000000"
+    },
+    "Math consistent (alpha = R)": {
+      "passed": true,
+      "details": "diff=0.000000"
+    },
+    "Model features have variance": {
+      "passed": true,
+      "details": "var=0.2027"
+    },
+    "Multiple collapse types detected": {
+      "passed": true,
+      "details": "4 types"
+    },
+    "Omega has variance": {
+      "passed": true,
+      "details": "std=0.129"
+    },
+    "Model accuracy > 50% (trained)": {
+      "passed": true,
+      "details": "acc=55.8%"
+    }
+  },
+  "all_checks_passed": true,
+  "key_insight": "YRSN decomposes features into R/S/N with meaningful variance (not uniform 0.333), enabling structured quality analysis. Omega captures distributional alignment."
+}

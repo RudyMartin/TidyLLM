@@ -1,0 +1,122 @@
+{
+  "timestamp": "2025-09-05T01:00:08.412109",
+  "overall_status": "WORKING",
+  "test_results": [
+    {
+      "timestamp": "2025-09-05T00:59:58.609189",
+      "test_name": "MLflow Config Load",
+      "status": "PASS",
+      "details": {
+        "message": "MLflow configuration loaded successfully"
+      }
+    },
+    {
+      "timestamp": "2025-09-05T00:59:59.941875",
+      "test_name": "MLflow Import",
+      "status": "PASS",
+      "details": {
+        "message": "MLflow imported successfully",
+        "version": "3.3.2"
+      }
+    },
+    {
+      "timestamp": "2025-09-05T00:59:59.941961",
+      "test_name": "MLflow Tracking URI",
+      "status": "PASS",
+      "details": {
+        "message": "Tracking URI configured",
+        "uri": "postgresql://vectorqa_user:REMOVED_PASSWORD@vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com:5432/vectorqa"
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:03.636922",
+      "test_name": "MLflow Database",
+      "status": "PASS",
+      "details": {
+        "message": "Database backend accessible",
+        "experiments_found": 1
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:04.012687",
+      "test_name": "MLflow Experiment Creation",
+      "status": "PASS",
+      "details": {
+        "message": "Test experiment created",
+        "experiment_id": "34",
+        "name": "tidyllm_test_20250905_010003"
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:06.285381",
+      "test_name": "MLflow Logging",
+      "status": "PASS",
+      "details": {
+        "message": "Successfully logged params, metrics, and artifacts",
+        "run_id": "1b0042555ed64ed086d7f6dbff48bf15"
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:08.008308",
+      "test_name": "MLflow Existing Experiments",
+      "status": "PASS",
+      "details": {
+        "message": "Found 34 experiments",
+        "details": [
+          {
+            "name": "tidyllm-workflows",
+            "id": "33",
+            "run_count": 1
+          },
+          {
+            "name": "Load_Test_Session_5_20250903_131528",
+            "id": "32",
+            "run_count": 1
+          },
+          {
+            "name": "Load_Test_Session_2_20250903_131528",
+            "id": "31",
+            "run_count": 1
+          },
+          {
+            "name": "Load_Test_Session_3_20250903_131528",
+            "id": "30",
+            "run_count": 1
+          },
+          {
+            "name": "Load_Test_Session_4_20250903_131528",
+            "id": "29",
+            "run_count": 1
+          }
+        ]
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:08.412009",
+      "test_name": "TidyLLM Experiment",
+      "status": "PASS",
+      "details": {
+        "message": "TidyLLM experiment found",
+        "name": "tidyllm-workflows",
+        "runs": 2
+      }
+    },
+    {
+      "timestamp": "2025-09-05T01:00:08.412061",
+      "test_name": "MLflow UI Access",
+      "status": "INFO",
+      "details": {
+        "message": "MLflow UI available via 'mlflow ui' command",
+        "backend": "PostgreSQL",
+        "host": "vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com"
+      }
+    }
+  ],
+  "summary": {
+    "total_tests": 9,
+    "passed": 8,
+    "failed": 0,
+    "warnings": 0,
+    "info": 1
+  }
+}

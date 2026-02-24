@@ -1,0 +1,52 @@
+{
+  "experiment": "exp057_curriculum_moe_mnist",
+  "timestamp": "2026-01-01T05:47:41.313301",
+  "dataset": "MNIST (28x28 grayscale, 10 classes)",
+  "train_size": 20000,
+  "test_size": 5000,
+  "results": {
+    "baseline_acc": 97.72,
+    "curriculum_acc": 98.46,
+    "delta": 0.7399999999999949,
+    "baseline_time_s": 292.1430456638336,
+    "curriculum_time_s": 284.72556376457214
+  },
+  "curriculum_info": {
+    "stages_used": [
+      "Foundation",
+      "Mastery"
+    ],
+    "transitions": [
+      [
+        0,
+        "Mastery"
+      ]
+    ]
+  },
+  "moe_analysis": {
+    "baseline_cnn_weight": 1.2780606994056143e-05,
+    "baseline_mlp_weight": 0.9999871850013733,
+    "curriculum_cnn_weight": 0.49579674005508423,
+    "curriculum_mlp_weight": 0.5042032599449158
+  },
+  "quality_checks": {
+    "Accuracy > 90% (not random)": {
+      "passed": true,
+      "details": "baseline=97.7%, curriculum=98.5%"
+    },
+    "Multiple stages used": {
+      "passed": true,
+      "details": "{'Foundation', 'Mastery'}"
+    },
+    "MOE learns expert selection": {
+      "passed": true,
+      "details": "CNN=49.6%, MLP=50.4% (both used)"
+    },
+    "Curriculum doesn't hurt": {
+      "passed": true,
+      "details": "delta=+0.74%"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "Curriculum learning + MOE validated on THIRD dataset (MNIST). Baseline: 97.7%, Curriculum: 98.5% (delta=+0.7%). MOE uses both experts (50/50 split)."
+}

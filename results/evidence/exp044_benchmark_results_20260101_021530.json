@@ -1,0 +1,42 @@
+[
+  {
+    "method": "YRSN (single-pass)",
+    "dataset": "CIFAR-10",
+    "num_samples": 256,
+    "total_time_ms": 134.14340000599623,
+    "time_per_sample_ms": 33.53585000149906,
+    "num_forward_passes": 1,
+    "accuracy": 62.109375,
+    "uncertainty_quality": 0.06545385183368622
+  },
+  {
+    "method": "MC-Dropout (N=10)",
+    "dataset": "CIFAR-10",
+    "num_samples": 200,
+    "total_time_ms": 287.80669992556795,
+    "time_per_sample_ms": 71.95167498139199,
+    "num_forward_passes": 10,
+    "accuracy": 64.0,
+    "uncertainty_quality": 0.0025891435288303796
+  },
+  {
+    "method": "MC-Dropout (N=30)",
+    "dataset": "CIFAR-10",
+    "num_samples": 200,
+    "total_time_ms": 914.0008999966085,
+    "time_per_sample_ms": 228.50022499915212,
+    "num_forward_passes": 30,
+    "accuracy": 65.0,
+    "uncertainty_quality": 0.002295459390017041
+  },
+  {
+    "method": "MC-Dropout (N=50)",
+    "dataset": "CIFAR-10",
+    "num_samples": 200,
+    "total_time_ms": 1777.0693999482319,
+    "time_per_sample_ms": 444.26734998705797,
+    "num_forward_passes": 50,
+    "accuracy": 64.0,
+    "uncertainty_quality": 0.002047078708164264
+  }
+]

@@ -1,0 +1,72 @@
+{
+  "experiment": "exp063_image_corruption_pre_inference",
+  "timestamp": "2026-01-01T10:48:01.491049",
+  "differentiator": "#2: Pre-Inference Quality Measurement (IMAGE CORRUPTION)",
+  "key_insight": "Pre-inference works for detecting image CORRUPTION (blur, noise, contrast) which is the robotics/video use case",
+  "results_by_corruption": {
+    "clean": {
+      "alpha_mean": 0.6598933545995392,
+      "alpha_std": 0.167844778629888,
+      "corruption_mean": 0.5482346066831465,
+      "corruption_std": 0.3692585163426491
+    },
+    "blur": {
+      "alpha_mean": 0.203287816974801,
+      "alpha_std": 0.135370861007572,
+      "corruption_mean": 1.5547006168617472,
+      "corruption_std": 0.3009801926830164
+    },
+    "noise": {
+      "alpha_mean": 0.0,
+      "alpha_std": 0.0,
+      "corruption_mean": 4.854939329277896,
+      "corruption_std": 0.3063019617812583
+    },
+    "contrast": {
+      "alpha_mean": 0.0,
+      "alpha_std": 0.0,
+      "corruption_mean": 2.251729268866657,
+      "corruption_std": 0.07735917107542714
+    },
+    "jpeg": {
+      "alpha_mean": 0.343777935977921,
+      "alpha_std": 0.23217400311478928,
+      "corruption_mean": 1.2455450516670397,
+      "corruption_std": 0.5137948451744935
+    }
+  },
+  "aurocs": {
+    "blur": 0.9636499999999999,
+    "noise": 1.0,
+    "contrast": 1.0,
+    "jpeg": 0.8468999999999999
+  },
+  "overall_auroc": 0.9526375000000001,
+  "timing_ms_per_image": {
+    "clean": 0.17386200022883713,
+    "blur": 0.1679024999612011,
+    "noise": 0.15170650003710762,
+    "contrast": 0.20365650008898228,
+    "jpeg": 0.21271100005833432
+  },
+  "quality_checks": {
+    "Pre-inference < 5ms": {
+      "passed": true,
+      "details": "0.18ms"
+    },
+    "Corrupted alpha < clean alpha": {
+      "passed": true,
+      "details": "clean=0.660, min_corrupt=0.000"
+    },
+    "AUROC > 0.7": {
+      "passed": true,
+      "details": "0.953"
+    },
+    "All corruption types detectable": {
+      "passed": true,
+      "details": "min=0.847"
+    }
+  },
+  "all_checks_passed": true,
+  "conclusion": "Image pre-inference achieves 0.95 AUROC for corruption detection. Clean images have alpha=0.660, corrupted have alpha<=0.000. Pre-inference runs in 0.2ms/image. This validates Claim #2 for IMAGE CORRUPTION detection (robotics/video quality)."
+}

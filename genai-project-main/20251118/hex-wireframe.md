@@ -1,0 +1,238 @@
+Here's the updated wireframe reflecting the hex structure with MCP tools:
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                    YRSN - 25 TOOLS (HEX STRUCTURE)                  │
+  └─────────────────────────────────────────────────────────────────────┘
+
+  SCORING (domain/services/scoring/)           Signal quality analysis
+  ─────────────────────────────────────────────────────────────────────
+   1. yrsn_score               Score content for Y/R/S/N quality
+   2. yrsn_filter              Filter by signal threshold
+   3. yrsn_explain             Show score breakdown
+   4. yrsn_standards           Analyze against domain standards
+
+  COMPLIANCE (domain/services/compliance/)     Regulatory checking
+  ─────────────────────────────────────────────────────────────────────
+   5. yrsn_check               Check compliance (SR-11-7, HIPAA, etc.)
+   6. yrsn_validate            Validate evidence/authenticity
+   7. yrsn_audit               Get audit trail/history
+   8. yrsn_benchmark           Prove accuracy with test suites
+   9. yrsn_sop                 SOP conflict detection
+
+  MEMORY (domain/services/memory/)             Storage & retrieval
+  ─────────────────────────────────────────────────────────────────────
+  10. yrsn_store               Save fact to memory
+  11. yrsn_query               Query facts/knowledge base
+  12. yrsn_entity              Extract/link entities
+  13. yrsn_context             Build semantic context
+
+  REASONING (domain/services/reasoning/)       Multi-step logic
+  ─────────────────────────────────────────────────────────────────────
+  14. yrsn_consistency         Check for contradictions
+  15. yrsn_temporal            Resolve time-based conflicts
+  16. yrsn_trm                 Multi-step reasoning (TRM)
+  17. yrsn_tensor              Tensor logic reasoning
+
+  SOURCES (domain/services/sources/)           Data retrieval
+  ─────────────────────────────────────────────────────────────────────
+  18. yrsn_source              Fetch from domain source (EDGAR, PubMed)
+  19. yrsn_rag                 RAG query (uses routing)
+  20. yrsn_extract             Extract from documents
+
+  ORCHESTRATION (application/services/)        Workflow & optimization
+  ─────────────────────────────────────────────────────────────────────
+  21. yrsn_route               Risk/latency routing
+  22. yrsn_workflow            Run workflow (DAG)
+  23. yrsn_experiment          A/B testing
+  24. yrsn_optimize            GEPA optimization
+  25. yrsn_report              Generate reports
+
+  ─────────────────────────────────────────────────────────────────────
+  ENTRY POINTS (adapters/primary/)
+  ─────────────────────────────────────────────────────────────────────
+      CLI  │  API  │  MCP Server  │  Portals (Streamlit)
+
+  ─────────────────────────────────────────────────────────────────────
+  DOMAIN ADAPTERS (adapters/secondary/domains/)
+  ─────────────────────────────────────────────────────────────────────
+      finance/     │  healthcare/     │  legal/     │  custom/
+      SR-11-7      │  HIPAA, FDA      │  Court      │  User-defined
+      EDGAR        │  PubMed          │  PACER      │
+
+  ---
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                    HEXAGONAL ARCHITECTURE                           │
+  └─────────────────────────────────────────────────────────────────────┘
+
+      PRIMARY ADAPTERS              PORTS                 SECONDARY ADAPTERS
+      (How users access)            (Interfaces)          (Domain knowledge)
+      ─────────────────             ───────────           ──────────────────
+
+      ┌─────────┐                                         ┌─────────────┐
+      │   CLI   │ ─────┐                          ┌────── │   Finance   │
+      └─────────┘      │                          │       │  Indicators │
+                       │                          │       └─────────────┘
+      ┌─────────┐      │      ┌──────────────┐    │
+      │   API   │ ─────┼─────►│IndicatorPort │◄───┼────── ┌─────────────┐
+      └─────────┘      │      └──────────────┘    │       │ Healthcare  │
+                       │                          │       │  Indicators │
+      ┌─────────┐      │      ┌──────────────┐    │       └─────────────┘
+      │   MCP   │ ─────┼─────►│CompliancePort│◄───┤
+      └─────────┘      │      └──────────────┘    │       ┌─────────────┐
+                       │                          ├────── │  SR 11-7    │
+      ┌─────────┐      │      ┌──────────────┐    │       │  Compliance │
+      │ Portals │ ─────┘─────►│  SourcePort  │◄───┤       └─────────────┘
+      └─────────┘             └──────────────┘    │
+                                                  │       ┌─────────────┐
+                              ┌──────────────┐    ├────── │   HIPAA     │
+                              │BenchmarkPort │◄───┤       │  Compliance │
+                              └──────────────┘    │       └─────────────┘
+                                                  │
+                              ┌──────────────┐    │       ┌─────────────┐
+                              │ StoragePort  │◄───┼────── │   EDGAR     │
+                              └──────────────┘    │       └─────────────┘
+                                                  │
+                                                  │       ┌─────────────┐
+                                                  └────── │   PubMed    │
+                                                          └─────────────┘
+
+  ---
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                    ORCHESTRATION FLOW                               │
+  └─────────────────────────────────────────────────────────────────────┘
+
+      Query: "SR 11-7 validation requirements"
+      Risk Tier: HIGH
+      Latency Budget: 1500ms
+                  │
+                  ▼
+          ┌───────────────┐
+          │  yrsn_route   │
+          │               │
+          │ Evaluate:     │
+          │ - risk tier   │
+          │ - latency     │
+          │ - signal hist │
+          └───────┬───────┘
+                  │
+         ┌────────┼────────┐
+         │        │        │
+         ▼        ▼        ▼
+      ┌──────┐ ┌──────┐ ┌──────┐
+      │ intl │ │ pg   │ │ dspy │
+      │      │ │      │ │      │
+      │ 800ms│ │ 200ms│ │1500ms│
+      │ 0.78 │ │ 0.72 │ │ 0.81 │
+      └──┬───┘ └──────┘ └──────┘
+         │        ✗        ✗
+         │   (low signal) (at limit)
+         │
+         ▼
+      SELECTED: intelligent
+                  │
+                  ▼
+          ┌───────────────┐
+          │  yrsn_score   │
+          │               │
+          │ Signal: 0.78  │
+          │ Quality: GOOD │
+          └───────────────┘
+                  │
+                  ▼
+             Return result
+
+  ---
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │              YRSN: SAME ENGINE, DIFFERENT SOURCES                   │
+  └─────────────────────────────────────────────────────────────────────┘
+
+           EDGAR PATH                          LLM PATH
+           ──────────                          ────────
+
+      ┌─────────────┐                    ┌─────────────┐
+      │    SEC      │                    │    LLM      │
+      │   EDGAR     │                    │  Provider   │
+      └──────┬──────┘                    └──────┬──────┘
+             │                                  │
+             │ 10-K Filing                      │ Generated Response
+             │                                  │
+             ▼                                  ▼
+      ┌─────────────┐                    ┌─────────────┐
+      │   "may be   │                    │  "must be   │
+      │   impacted, │                    │  validated, │
+      │   could     │                    │  requires,  │
+      │   possibly" │                    │  required"  │
+      └──────┬──────┘                    └──────┬──────┘
+             │                                  │
+             └──────────────┬───────────────────┘
+                            │
+                            ▼
+                ┌───────────────────────┐
+                │                       │
+                │     YRSN ENGINE       │
+                │   (domain/services/   │
+                │    scoring/)          │
+                │                       │
+                │   Uses IndicatorPort  │
+                │   for domain words    │
+                │                       │
+                └───────────┬───────────┘
+                            │
+             ┌──────────────┴───────────────┐
+             │                              │
+             ▼                              ▼
+      ┌─────────────┐                ┌─────────────┐
+      │             │                │             │
+      │ Signal: 0.39│                │ Signal: 0.82│
+      │ Quality:    │                │ Quality:    │
+      │ MODERATE    │                │ EXCELLENT   │
+      │             │                │             │
+      └─────────────┘                └─────────────┘
+
+      Typical 10-K                   Good LLM response
+      boilerplate                    (actionable content)
+
+  ---
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │                    DOMAIN PORTABILITY                               │
+  └─────────────────────────────────────────────────────────────────────┘
+
+                      ┌─────────────────┐
+                      │  YRSN Engine    │
+                      │  (25 tools)     │
+                      └────────┬────────┘
+                               │
+                ┌──────────────┼──────────────┐
+                │              │              │
+                ▼              ▼              ▼
+         ┌───────────┐  ┌───────────┐  ┌───────────┐
+         │  Finance  │  │ Healthcare│  │   Legal   │
+         │  Domain   │  │  Domain   │  │  Domain   │
+         ├───────────┤  ├───────────┤  ├───────────┤
+         │           │  │           │  │           │
+         │Indicators │  │Indicators │  │Indicators │
+         │ SR 11-7   │  │ HIPAA     │  │ Court     │
+         │ EDGAR     │  │ PubMed    │  │ PACER     │
+         │           │  │           │  │           │
+         └───────────┘  └───────────┘  └───────────┘
+
+
+      USAGE:
+      ──────
+
+      $ yrsn score "content" --domain finance
+      $ yrsn score "content" --domain healthcare
+      $ yrsn score "content" --domain legal
+      $ yrsn score "content" --domain custom --config my_domain.yaml
+
+
+      | Port           | Finance        | Healthcare      | Legal        |
+      |----------------|----------------|-----------------|--------------|
+      | IndicatorPort  | must, requires | indicated, stat | shall, ruled |
+      | CompliancePort | SR 11-7, OCC   | HIPAA, FDA      | Court rules  |
+      | SourcePort     | EDGAR          | PubMed          | PACER        |
+      | BenchmarkPort  | 10-K tests     | Clinical tests  | Case law     |
+
+  ---
+  Summary: 25 tools, hex structure, domain-portable via ports
+

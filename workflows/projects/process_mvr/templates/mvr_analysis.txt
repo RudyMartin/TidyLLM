@@ -1,0 +1,43 @@
+# MVR Risk Analysis Template
+
+## Overview
+Analyze Motor Vehicle Report data to assess driver risk levels and compliance status.
+
+## Analysis Steps
+
+### 1. Risk Scoring
+- Calculate violation frequency score
+- Assess violation severity weights
+- Evaluate recency of violations
+- Generate composite risk score
+
+### 2. Pattern Detection
+- Identify repeat violation patterns
+- Detect escalating severity trends
+- Flag high-risk behaviors
+- Note improvement patterns
+
+### 3. Compliance Assessment
+- Verify license validity
+- Check restriction compliance
+- Validate required documentation
+- Assess reinstatement progress
+
+### 4. Recommendation Generation
+- Suggest risk mitigation measures
+- Recommend monitoring frequency
+- Identify training needs
+- Propose policy actions
+
+## Output Format
+- Risk score (0-100)
+- Risk category (Low/Medium/High/Severe)
+- Key findings summary
+- Actionable recommendations
+- Compliance checklist
+
+## Quality Metrics
+- Analysis completeness
+- Score calculation accuracy
+- Pattern identification rate
+- Recommendation relevance

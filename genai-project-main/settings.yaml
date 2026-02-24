@@ -1,0 +1,395 @@
+configuration:
+  architecture_version: v2_hexagonal
+  credential_patterns:
+  - '*password*'
+  - '*secret*'
+  - '*key*'
+  - api_keys.*
+  - credentials.*
+  - postgres.db_password
+  - aws.access_key_id
+  - aws.secret_access_key
+  environment: staging
+  environment_overrides:
+    development:
+      adapter_debug: true
+      log_level: DEBUG
+      s3_prefix: dev/
+    local:
+      adapter_development: true
+      log_level: INFO
+      s3_prefix: local/
+    production:
+      adapter_optimization: true
+      log_level: WARNING
+      s3_prefix: prod/
+    staging:
+      adapter_monitoring: true
+      log_level: INFO
+      s3_prefix: staging/
+  generated_from: v2_hexagonal_template
+  last_updated: '2025-09-15'
+  loaded_by: v2_config_loader
+  official:
+    contains_credentials: true
+    is_template_source: true
+    location: tidyllm/admin/settings.yaml
+    v2_compliant: true
+  security:
+    adapter_validation: true
+    audit_changes: true
+    connection_pool_validation: true
+    encrypt_at_rest: false
+    file_permissions: '0600'
+    validate_on_load: true
+  template_generation:
+    add_placeholders: true
+    mask_sensitive: true
+    output_template: onboarding/template.settings.yaml
+    strip_credentials: true
+    v2_annotations: true
+  version: 2.0.0
+credentials:
+  aws:
+    access_key_id: REMOVED_AWS_KEY
+    default_region: us-east-1
+    profile: null
+    secret_access_key: REMOVED_AWS_SECRET
+  backup_db:
+    database: ./data/backup.db
+    engine: sqlite
+    host: ./data/backup.db
+    password: YOUR_BACKUP_PASSWORD_HERE
+    security:
+      encryption: false
+      file_permissions: '0600'
+    username: backup_user
+  postgresql:
+    connection_pool:
+      enabled: true
+      max_connections: 20
+      min_connections: 2
+      pool_recycle: 3600
+      pool_timeout: 30
+    database: vectorqa
+    host: vectorqa-cluster.cluster-cu562e4m02nq.us-east-1.rds.amazonaws.com
+    password: REMOVED_PASSWORD
+    port: 5432
+    ssl_mode: require
+    username: vectorqa_user
+databases:
+  backup:
+    auto_create: true
+    backup_rotation:
+      enabled: true
+      location: ./data/backups/
+      retention_days: 7
+    connection_pool_size: 1
+    db_path: ./data/backup.db
+    engine: sqlite
+    max_retries: 3
+    retry_delay: 2
+    security:
+      encryption: false
+      file_permissions: '0600'
+      secure_delete: true
+      wal_mode: true
+    type: v2_sqlite_adapter
+  primary:
+    connection_pool_size: 5
+    engine: postgresql
+    features:
+      connection_validation: true
+      health_monitoring: true
+      performance_metrics: true
+      query_logging: true
+    max_retries: 3
+    pool_client_name: primary_adapter
+    retry_delay: 2
+    ssl_mode: require
+    type: v2_postgres_adapter
+    use_connection_pool: true
+  secondary:
+    connection_pool_size: 3
+    database: backup_db
+    engine: postgresql
+    host: localhost
+    max_retries: 3
+    password: ''
+    port: 5432
+    retry_delay: 2
+    ssl_mode: prefer
+    type: v2_postgres_adapter
+    username: backup_user
+deployment:
+  adapter_registry:
+    auto_discovery: true
+    enabled: true
+    health_monitoring: true
+    validation: true
+  architecture: v2_hexagonal
+  backup:
+    enabled: true
+    format: settings_backup_{timestamp}.yaml
+    location: ./admin/backups/
+    retention_days: 30
+    v2_metadata: true
+  connection_pool:
+    enabled: true
+    global_pool: true
+    health_checks: true
+    monitoring: true
+    statistics: true
+  mode: staging
+  search_paths:
+  - description: V2 Official admin config with credentials
+    path: tidyllm/admin/settings.yaml
+    permissions: '0600'
+    v2_compliant: true
+  - description: V2 Local development config
+    path: ./settings.yaml
+    permissions: '0600'
+    v2_fallback: true
+  - description: V2 Repository-level config
+    path: ../settings.yaml
+    permissions: '0600'
+    v2_template: true
+  - description: V2 User profile config
+    path: ~/.tidyllm/settings.yaml
+    permissions: '0600'
+    v2_personal: true
+features:
+  gateways:
+    ai_processing:
+      adapter_type: AIProcessingAdapter
+      batch_processing: true
+      enabled: true  # ENABLED FOR DUAL AI PIPELINE
+      retry_attempts: 2
+      timeout: 45
+    corporate_llm:
+      adapter_type: CorporateLLMAdapter
+      circuit_breaker: true
+      enabled: true  # ENABLED FOR DUAL AI PIPELINE
+      retry_attempts: 3
+      timeout: 30
+    knowledge_mcp:
+      adapter_type: KnowledgeMCPAdapter
+      enabled: false  # DISABLED FOR DEMO - RAG features not needed
+      retry_attempts: 3
+      timeout: 30
+      vector_search: false
+    workflow_optimizer:
+      adapter_type: WorkflowOptimizerAdapter
+      dag_support: true
+      enabled: true  # KEEP ENABLED - Core flow functionality
+      retry_attempts: 2
+      timeout: 60
+  security:
+    access:
+      auth_adapter: V2AuthAdapter
+      rate_limit:
+        adapter_type: RateLimitAdapter
+        enabled: true
+        requests_per_hour: 1000
+        requests_per_minute: 100
+      require_auth: false
+    audit:
+      audit_adapter: V2AuditAdapter
+      audit_all_requests: false
+      audit_retention_days: 7
+      enabled: true
+    data:
+      cache_retention_days: 1
+      encrypt_cache: false
+      encrypt_logs: false
+      encryption_adapter: V2EncryptionAdapter
+      log_retention_days: 7
+      mask_sensitive_data: true
+  workflow_optimizer:
+    adapter_config:
+      circuit_breaker: true
+      enable_metrics: false  # DISABLED FOR DEMO - Reduce complexity
+      use_hexagonal_ports: true
+    audit_trail: false  # DISABLED FOR DEMO - Focus on core functionality
+    compliance_mode: false  # DISABLED FOR DEMO
+    enable_auto_optimization: false
+    enable_dag_manager: false  # DISABLED FOR DEMO - Keep it simple
+    enable_flow_agreements: true  # KEEP ENABLED - Core flow functionality
+    max_workflow_depth: 10
+    optimization_level: 0  # MINIMAL FOR DEMO
+    performance_threshold: 0.8
+    timeout: 60
+integrations:
+  ldap:
+    adapter_type: V2LDAPAdapter
+    connection_pool: true
+    enabled: false
+  mlflow:
+    adapter_type: V2MLflowAdapter
+    artifact_store: s3://nsc-mvp1/onboarding-test/mlflow/
+    backend_store_uri: <<MANAGED_BY_CONNECTION_POOL>>
+    enabled: true  # ENABLED FOR DSPY - AI Advisor requires MLflow for tracking
+    integration_config:
+      circuit_breaker: true
+      health_monitoring: false
+      metrics_collection: false
+      pool_client_name: mlflow_integration
+      use_shared_pool: true
+    mlflow_gateway_uri: http://localhost:5000
+    server:
+      host: 0.0.0.0
+      port: 5000
+    tracking_uri: http://localhost:5000
+  observability:
+    datadog:
+      adapter_type: V2DatadogAdapter
+      enabled: false
+    newrelic:
+      adapter_type: V2NewRelicAdapter
+      enabled: false
+  sso:
+    adapter_type: V2SSOAdapter
+    enabled: false
+    token_validation: true
+onboarding:
+  allow_updates: true
+  architecture_version: v2
+  auto_detect_root_path: true
+  backup_before_update: true
+  enable_health_checks: true
+  health_checks:
+    connection_pool: false  # DISABLED FOR DEMO
+    database_adapters: false  # DISABLED FOR DEMO
+    external_adapters: false  # DISABLED FOR DEMO
+    integration_adapters: false  # DISABLED FOR DEMO
+    service_adapters: false  # DISABLED FOR DEMO
+  max_retry_attempts: 3
+  refresh_interval: 5
+  show_debug_info: false
+  template_source: true
+  v2_features:
+    adapter_validation: true
+    architecture_compliance: true
+    connection_pool_init: true
+    hexagonal_verification: true
+    port_binding_check: true
+operations:
+  logging:
+    adapter_type: V2LoggingAdapter
+    backup_count: 5
+    file_rotation: true
+    format: '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    handlers:
+      file:
+        backup_count: 3
+        enabled: true
+        max_size_mb: 50
+        path: ./logs/tidyllm.log
+    include_request_id: true
+    include_session_id: true
+    include_user_id: false
+    level: INFO
+    log_correlation: true
+    max_file_size: 10MB
+    structured_logging: true
+  monitoring:
+    adapter_type: V2MonitoringAdapter
+    alerts:
+      alert_adapter: V2AlertAdapter
+      enabled: false
+    enabled: true
+    health_check:
+      adapter_validation: true
+      enabled: true
+      endpoint: /health
+      interval_seconds: 120
+    metrics:
+      adapter_metrics: true
+      connection_pool_metrics: true
+      enabled: true
+      export_to_prometheus: false
+  network:
+    adapter_type: V2NetworkAdapter
+    proxy:
+      enabled: false
+      proxy_adapter: V2ProxyAdapter
+    ssl:
+      cert_validation: true
+      verify: true
+    timeouts:
+      adapter_timeout: 30
+      connect_timeout: 15
+      read_timeout: 60
+      total_timeout: 120
+search_paths:
+- description: V2 Official admin config with credentials
+  path: tidyllm/admin/settings.yaml
+  permissions: '0600'
+  v2_compliant: true
+services:
+  aws:
+    bedrock:
+      adapter_config:
+        circuit_breaker: true
+        retry_attempts: 3
+        timeout: 60
+      default_model: anthropic.claude-3-sonnet-20240229-v1:0
+      model_mapping:
+        claude-3-haiku: anthropic.claude-3-haiku-20240307-v1:0
+        claude-3-sonnet: anthropic.claude-3-sonnet-20240229-v1:0
+        claude-3-5-sonnet: anthropic.claude-3-5-sonnet-20240620-v1:0
+        claude-3-opus: anthropic.claude-3-opus-20240229-v1:0
+      region: us-east-1
+    region: us-east-1
+  mlflow:
+    adapter_config:
+      health_check: true
+      pool_client_name: mlflow_service
+      use_connection_pool: true
+    artifact_store: s3://nsc-mvp1/onboarding-test/mlflow/
+    backend_store_uri: <<MANAGED_BY_CONNECTION_POOL>>
+    enabled: true  # REQUIRED FOR DSPY AI ADVISOR
+    mlflow_gateway_uri: http://localhost:5000
+    server:
+      host: 0.0.0.0
+      port: 5000
+    tracking_uri: http://localhost:5000
+  postgresql:
+    adapter_type: V2PostgresAdapter
+    health_check_interval: 60
+    query_timeout: 30
+    use_shared_pool: true
+  s3:
+    adapter_config:
+      chunk_size: 8388608
+      max_concurrency: 10
+      multipart_threshold: 67108864
+    bucket: nsc-mvp1
+    connection_timeout: 30
+    max_retries: 3
+    prefix: staging/
+    region: us-east-1
+    test_marker: test_marker_v2
+system:
+  architecture:
+    enable_adapters: true
+    enable_ports: true
+    pattern: hexagonal
+    strict_boundaries: true
+    version: v2
+  auto_detect_root_path: true
+  cache_folder: tidyllm/cache
+  config_folder: tidyllm/admin
+  corporate_mode: false
+  data_folder: tidyllm/data
+  deep_folder_support: true
+  deployment_type: development
+  environment: staging
+  logs_folder: tidyllm/logs
+  onboarding_folder: tidyllm/core/onboarding
+  organization: TidyLLM V2
+  path_separator: \
+  portals_folder: tidyllm/portals
+  root_path: C:\Users\marti\AI-Shipping
+  temp_folder: tidyllm/temp
+  test_deployment: true

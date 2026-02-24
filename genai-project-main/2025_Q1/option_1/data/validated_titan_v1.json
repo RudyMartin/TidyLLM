@@ -1,0 +1,20 @@
+[
+  {
+    "topic": "budget",
+    "report_section": "Project A received $500K.",
+    "project_detail": "Project A expected $1M and required funding source disclosure.",
+    "validation_result": "Correct"
+  },
+  {
+    "topic": "sustainability",
+    "report_section": "Project B will reduce CO2 emissions by 30%.",
+    "project_detail": "Project B is required to reduce CO2 by 30% and submit a sustainability report.",
+    "validation_result": "Missing Info"
+  },
+  {
+    "topic": "risk",
+    "report_section": "Project C has no reported risks.",
+    "project_detail": "Project C has risk due to supplier delays and missing mitigation plan.",
+    "validation_result": "Missing Info"
+  }
+]

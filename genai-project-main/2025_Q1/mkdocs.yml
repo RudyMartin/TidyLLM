@@ -1,0 +1,27 @@
+site_name: VectorQA Documentation
+theme:
+  name: material
+nav:
+  - Home: index.md
+  - App Overview:
+      - About This App: ../materials/about_this_app.md
+      - About the Demo: ../materials/about_the_demo.md
+  - Setup: ../setup_guide.md
+  - Developer Guide: ../development.md
+  - System Overview: ../system_overview.md
+  - How-To Guides:
+      - Add PDF: ../materials/howto_add_pdf.md
+      - Tune Index: ../materials/howto_tune_index.md
+      - Run Evaluation: ../materials/howto_run_eval.md
+  - DSPy Workflows:
+      - Workflow Options: ../materials/dspy_workflow_options.md
+      - Evaluation Metrics: ../materials/dspy_evaluation_metrics.md
+      - Multi-Agent Notes: ../materials/dspy_multi_agent_resources.md
+  - FAISS Tuning:
+      - Log Adjusted: ../materials/faiss_tuning_log_adjusted.md
+      - Sigmoid: ../materials/faiss_tuning_sigmoid.md
+      - Sigmoid Cost: ../materials/faiss_tuning_sigmoid_cost.md
+  - Corpus & Citations:
+      - Governance: ../materials/corpus_governance_sources.md
+      - Sparse Embeddings: ../materials/sparse_embeddings_research.md
+      - Model Drivers: ../materials/model_drivers_corpus.md  - 📘 Editing Instructions: instructions.md

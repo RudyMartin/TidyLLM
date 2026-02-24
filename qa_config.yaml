@@ -1,0 +1,62 @@
+# QA Control Configuration
+# Converted from JSON to YAML format - 2025-09-09
+
+# File naming pattern for QA revisions
+revision_pattern: "^REV\\d{5,}$"
+
+# Processing configuration
+processing:
+  poll_seconds: 3
+  max_batch: 5
+
+# Excel workbook structure (for reference - now archived)
+excel_tabs:
+  - core_checklist
+  - custom_checklist  
+  - custom_prompts
+
+# QA pipeline processing stages
+pipeline_stages:
+  - qa_drop        # Initial file drop zone
+  - qa_ingest      # File ingestion and validation
+  - qa_extract     # Content extraction from documents
+  - qa_embed       # Text embedding generation
+  - qa_index       # Search index creation
+  - qa_analysis    # Quality analysis processing
+  - qa_reports     # Report generation
+  - qa_logs        # Logging and audit trail
+
+# QA Checklists (migrated from Excel tabs)
+checklists:
+  core_checklist:
+    description: "Standard QA validation items"
+    items:
+      - document_structure_valid
+      - content_extraction_complete
+      - embeddings_generated
+      - index_created_successfully
+      - analysis_completed
+      
+  custom_checklist:
+    description: "Project-specific QA validation items"
+    items:
+      - domain_specific_validation
+      - custom_business_rules
+      - specialized_content_checks
+      
+# QA Prompts (migrated from Excel)
+prompts:
+  custom_prompts:
+    description: "Custom prompts for QA analysis"
+    templates:
+      quality_check: |
+        Please review this document for quality and completeness.
+        Check for: accuracy, completeness, formatting, compliance.
+      
+      content_validation: |
+        Validate the content extraction results.
+        Ensure all key information has been captured correctly.
+        
+      final_review: |
+        Perform final QA review before marking complete.
+        Verify all checklist items have been addressed.

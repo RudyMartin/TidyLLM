@@ -1,0 +1,65 @@
+# QA-Scoring Environment Requirements
+# Comprehensive package list for TidyLLM QA environment
+
+# =============================================================================
+# CORE DEPENDENCIES (Always Required)
+# =============================================================================
+requests>=2.25.0
+pyyaml>=5.4.0
+
+# Database & Cloud
+boto3>=1.20.0
+botocore>=1.23.0
+psycopg2-binary>=2.8.6
+sqlalchemy>=1.4.0
+
+# Data Processing (Pandas → Polars Migration Complete)
+polars>=0.18.0
+# numpy  # Replaced with TLM
+# pandas # Replaced with Polars
+
+# AI/ML Core
+mlflow>=2.0.0
+dspy-ai>=2.4.0
+
+# =============================================================================
+# WEB & VISUALIZATION (Optional)
+# =============================================================================
+streamlit>=1.28.0
+flask>=2.0.0
+fastapi>=0.100.0
+uvicorn>=0.20.0
+plotly>=5.0.0
+
+# =============================================================================
+# DOCUMENT PROCESSING (Optional)
+# =============================================================================
+PyMuPDF>=1.20.0  # fitz
+sentence-transformers>=2.2.0
+langchain>=0.1.0
+reportlab>=3.6.0
+
+# =============================================================================
+# AI SERVICES (Optional)
+# =============================================================================
+openai>=1.0.0
+
+# =============================================================================
+# SYSTEM & PERFORMANCE (Optional)
+# =============================================================================
+psutil>=5.8.0
+schedule>=1.1.0
+
+# =============================================================================
+# DEVELOPMENT TOOLS (Optional)
+# =============================================================================
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
+
+# =============================================================================
+# LOCAL PACKAGES (Installed via setup script)
+# =============================================================================
+# tlm  # Local development install
+# tidyllm-sentence  # Local development install
+# tidyllm  # Local development install

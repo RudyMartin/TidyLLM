@@ -1,0 +1,1 @@
+The files in this folder are development, design and debugging characteristics of this project. Please note the actula may changes therefore PLEASE ASK FOR CLARITY if you see conflicts or variances or incomplete TODOS.
