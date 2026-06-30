@@ -4,9 +4,9 @@
 
 echo "Setting TidyLLM AWS credentials..."
 
-export AWS_ACCESS_KEY_ID=REMOVED_AWS_KEY
-export AWS_SECRET_ACCESS_KEY=REMOVED_AWS_SECRET
-export AWS_DEFAULT_REGION=us-east-1
+# REMOVED: Hardcoded credentials cleaned (key rotated 2026-06-30)
+echo "ERROR: This script had hardcoded credentials that have been removed."
+exit 1
 
 echo "AWS credentials set for current session"
 echo "Access Key: ${AWS_ACCESS_KEY_ID:0:10}..."

@@ -14,9 +14,10 @@ def set_aws_credentials():
     print("Setting TidyLLM AWS credentials...")
     
     # Set AWS environment variables
-    os.environ['AWS_ACCESS_KEY_ID'] = 'REMOVED_AWS_KEY'
-    os.environ['AWS_SECRET_ACCESS_KEY'] = 'REMOVED_AWS_SECRET'
-    os.environ['AWS_DEFAULT_REGION'] = 'us-east-1'
+    # REMOVED: Hardcoded credentials cleaned (key rotated 2026-06-30)
+    print("ERROR: Hardcoded credentials have been removed from this script.")
+    print("Source credentials externally before running.")
+    sys.exit(1)
     
     print("AWS credentials set for current Python session:")
     print(f"  Access Key: {os.environ['AWS_ACCESS_KEY_ID'][:10]}...")

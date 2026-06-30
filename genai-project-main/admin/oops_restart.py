@@ -24,10 +24,11 @@ class AWSSessionManager:
     """Manages AWS session restart and verification"""
     
     def __init__(self):
+        # REMOVED: Hardcoded credentials cleaned (key rotated 2026-06-30)
         self.credentials = {
-            'AWS_ACCESS_KEY_ID': 'REMOVED_AWS_KEY',
-            'AWS_SECRET_ACCESS_KEY': 'REMOVED_AWS_SECRET',
-            'AWS_DEFAULT_REGION': 'us-east-1'
+            'AWS_ACCESS_KEY_ID': os.environ.get('AWS_ACCESS_KEY_ID', ''),
+            'AWS_SECRET_ACCESS_KEY': os.environ.get('AWS_SECRET_ACCESS_KEY', ''),
+            'AWS_DEFAULT_REGION': os.environ.get('AWS_DEFAULT_REGION', 'us-east-1')
         }
         
     def restart_session(self, clear_cache=True, verify=True):
