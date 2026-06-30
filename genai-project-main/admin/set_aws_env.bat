@@ -4,9 +4,9 @@ REM Sets AWS credentials for current session
 
 echo Setting TidyLLM AWS credentials...
 
-set AWS_ACCESS_KEY_ID=REMOVED_AWS_KEY
-set AWS_SECRET_ACCESS_KEY=REMOVED_AWS_SECRET
-set AWS_DEFAULT_REGION=us-east-1
+REM REMOVED: Hardcoded credentials cleaned (key rotated 2026-06-30)
+echo ERROR: This script had hardcoded credentials that have been removed.
+exit /b 1
 
 echo AWS credentials set for current session
 echo Access Key: %AWS_ACCESS_KEY_ID:~0,10%...

@@ -1,7 +1,4 @@
 @echo off
-set AWS_ACCESS_KEY_ID=REMOVED_AWS_KEY
-set AWS_SECRET_ACCESS_KEY=REMOVED_AWS_SECRET
-set AWS_DEFAULT_REGION=us-east-1
-set POSTGRES_PASSWORD=REMOVED_PASSWORD
-echo AWS_DEFAULT_REGION %AWS_DEFAULT_REGION%
-echo AWS credentials set for current session
+REM REMOVED: Hardcoded credentials cleaned (key rotated 2026-06-30)
+echo ERROR: This script had hardcoded credentials that have been removed.
+exit /b 1
